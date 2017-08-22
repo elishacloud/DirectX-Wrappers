@@ -6,12 +6,12 @@ Wraps the main DirectX and Direct3D DLLs.  It allows you to intercept calls to D
 
 Currently this can wrap the following DLLs:
 - ddraw.dll
+- d3d8.dll
 - d3d9.dll
 
 However I plan to add these DLLs soon:
 - d3dim.dll
 - d3dim700.dll
-- d3d8.dll
 - d3d10.dll
 - d3d11.dll
 - d3d12.dll

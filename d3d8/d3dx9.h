@@ -1,6 +1,6 @@
 #pragma once
 
-#include "d3d9.h"
+#include "d3d8.h"
 
 #define D3DX_FILTER_NONE 1
 
@@ -12,6 +12,7 @@ struct D3DXMACRO
 
 typedef interface ID3DXBuffer *LPD3DXBUFFER;
 typedef interface ID3DXInclude *LPD3DXINCLUDE;
+typedef struct IDirect3DSurface9 *LPDIRECT3DSURFACE9, *PDIRECT3DSURFACE9;
 
 DECLARE_INTERFACE_(ID3DXBuffer, IUnknown)
 {
