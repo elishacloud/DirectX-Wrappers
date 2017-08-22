@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{64C7BD54-5672-490E-9A88-BF0BB6C81FD9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ddraw</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath);C:\Program Files (x86)\Windows Kits\dx8sdk\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(IncludePath);C:\Program Files (x86)\Windows Kits\dx8sdk\include</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>ddraw.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>ddraw.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="InterfaceQuery.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="IDirect3D.cpp" />
+    <ClCompile Include="IDirect3D2.cpp" />
+    <ClCompile Include="IDirect3D3.cpp" />
+    <ClCompile Include="IDirect3D7.cpp" />
+    <ClCompile Include="IDirect3DDevice.cpp" />
+    <ClCompile Include="IDirect3DDevice2.cpp" />
+    <ClCompile Include="IDirect3DDevice3.cpp" />
+    <ClCompile Include="IDirect3DDevice7.cpp" />
+    <ClCompile Include="IDirect3DExecuteBuffer.cpp" />
+    <ClCompile Include="IDirect3DLight.cpp" />
+    <ClCompile Include="IDirect3DMaterial.cpp" />
+    <ClCompile Include="IDirect3DMaterial2.cpp" />
+    <ClCompile Include="IDirect3DMaterial3.cpp" />
+    <ClCompile Include="IDirect3DTexture.cpp" />
+    <ClCompile Include="IDirect3DTexture2.cpp" />
+    <ClCompile Include="IDirect3DVertexBuffer.cpp" />
+    <ClCompile Include="IDirect3DVertexBuffer7.cpp" />
+    <ClCompile Include="IDirect3DViewport.cpp" />
+    <ClCompile Include="IDirect3DViewport2.cpp" />
+    <ClCompile Include="IDirect3DViewport3.cpp" />
+    <ClCompile Include="IDirectDraw.cpp" />
+    <ClCompile Include="IDirectDraw2.cpp" />
+    <ClCompile Include="IDirectDraw3.cpp" />
+    <ClCompile Include="IDirectDraw4.cpp" />
+    <ClCompile Include="IDirectDraw7.cpp" />
+    <ClCompile Include="IDirectDrawClipper.cpp" />
+    <ClCompile Include="IDirectDrawColorControl.cpp" />
+    <ClCompile Include="IDirectDrawFactory.cpp" />
+    <ClCompile Include="IDirectDrawGammaControl.cpp" />
+    <ClCompile Include="IDirectDrawPalette.cpp" />
+    <ClCompile Include="IDirectDrawSurface.cpp" />
+    <ClCompile Include="IDirectDrawSurface2.cpp" />
+    <ClCompile Include="IDirectDrawSurface3.cpp" />
+    <ClCompile Include="IDirectDrawSurface4.cpp" />
+    <ClCompile Include="IDirectDrawSurface7.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IDirect3D.h" />
+    <ClInclude Include="IDirect3D2.h" />
+    <ClInclude Include="IDirect3D3.h" />
+    <ClInclude Include="IDirect3D7.h" />
+    <ClInclude Include="IDirect3DDevice.h" />
+    <ClInclude Include="IDirect3DDevice2.h" />
+    <ClInclude Include="IDirect3DDevice3.h" />
+    <ClInclude Include="IDirect3DDevice7.h" />
+    <ClInclude Include="IDirect3DExecuteBuffer.h" />
+    <ClInclude Include="IDirect3DLight.h" />
+    <ClInclude Include="IDirect3DMaterial.h" />
+    <ClInclude Include="IDirect3DMaterial2.h" />
+    <ClInclude Include="IDirect3DMaterial3.h" />
+    <ClInclude Include="IDirect3DTexture.h" />
+    <ClInclude Include="IDirect3DTexture2.h" />
+    <ClInclude Include="IDirect3DVertexBuffer.h" />
+    <ClInclude Include="IDirect3DVertexBuffer7.h" />
+    <ClInclude Include="IDirect3DViewport.h" />
+    <ClInclude Include="IDirect3DViewport2.h" />
+    <ClInclude Include="IDirect3DViewport3.h" />
+    <ClInclude Include="IDirectDraw.h" />
+    <ClInclude Include="IDirectDraw2.h" />
+    <ClInclude Include="IDirectDraw3.h" />
+    <ClInclude Include="IDirectDraw4.h" />
+    <ClInclude Include="IDirectDraw7.h" />
+    <ClInclude Include="IDirectDrawClipper.h" />
+    <ClInclude Include="IDirectDrawColorControl.h" />
+    <ClInclude Include="IDirectDrawFactory.h" />
+    <ClInclude Include="IDirectDrawGammaControl.h" />
+    <ClInclude Include="IDirectDrawPalette.h" />
+    <ClInclude Include="IDirectDrawSurface.h" />
+    <ClInclude Include="IDirectDrawSurface2.h" />
+    <ClInclude Include="IDirectDrawSurface3.h" />
+    <ClInclude Include="IDirectDrawSurface4.h" />
+    <ClInclude Include="IDirectDrawSurface7.h" />
+    <ClInclude Include="ddraw.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ddraw.def" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
