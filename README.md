@@ -2,7 +2,7 @@
 
 ### Introduction
 
-This is code to wrap most of the main DirectX DLLs.  It allows you to intercept virtually all calls to DirectX and Direct3D interface functions so that you can log API calls or you can add your own code into the game, such as enabling Anti-Aliasing or drawing your own objects to create overlays in the game. Once you have compiled this you can simply copy the DLL into the same folder as the game's executable, and it should load it as if it were the real DLL file. It still forwards all calls to the real one in System32, just allows stuff to happen in between. 
+Wraps the main DirectX and Direct3D DLLs.  It allows you to intercept calls to DirectX and Direct3D interface functions so that you can log API calls or you can add your own code into the game, such as enabling Anti-Aliasing or creating overlays in the game. Once you have compiled this you can simply copy the DLL into the same folder as the game's executable and it should load it as if it were the real DLL file. It still forwards all calls to the real one in System32, it just allows stuff to happen in between. 
 
 Currently this can wrap the following DLLs:
 - ddraw.dll
@@ -16,8 +16,8 @@ However I plan to add these DLLs soon:
 - d3d11.dll
 - d3d12.dll
 - dinput.dll
+- dinput8.dll
 - dsound.dll
-- dsound8.dll
 
 Note: It currently only works with 32bit games, but I may add 64bit support later.
 
