@@ -28,10 +28,10 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	{
 	case DLL_PROCESS_ATTACH:
 		LOG.open("d3d8.log", std::ios::trunc);
-		LOG << "Loading d3d8.dll\n";
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\d3d8.dll");
+		LOG << "Loading " << path << "\n";
 		d3d8dll = LoadLibraryA(path);
 		orig_Direct3DCreate8 = (D3DC8)GetProcAddress(d3d8dll, "Direct3DCreate8");
 		break;

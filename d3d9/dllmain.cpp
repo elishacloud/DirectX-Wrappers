@@ -12,8 +12,6 @@
 *   2. Altered source versions must  be plainly  marked as such, and  must not be  misrepresented  as
 *      being the original software.
 *   3. This notice may not be removed or altered from any source distribution.
-*
-* Code taken from code found here: https://gist.github.com/shaunlebron/3854bf4eec5bec297907
 */
 
 #include "d3d9.h"
@@ -30,10 +28,10 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	{
 	case DLL_PROCESS_ATTACH:
 		LOG.open("d3d9.log", std::ios::trunc);
-		LOG << "Loading d3d9.dll\n";
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\d3d9.dll");
+		LOG << "Loading " << path << "\n";
 		d3d9dll = LoadLibraryA(path);
 		orig_Direct3DCreate9 = (D3DC9)GetProcAddress(d3d9dll, "Direct3DCreate9");
 		break;

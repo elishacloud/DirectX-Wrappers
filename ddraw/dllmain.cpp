@@ -54,10 +54,10 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 	{
 	case DLL_PROCESS_ATTACH:
 		LOG.open("ddraw.log", std::ios::trunc);
-		LOG << "Loading ddraw.dll\n";
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\ddraw.dll");
+		LOG << "Loading " << path << "\n";
 		ddrawdll = LoadLibraryA(path);
 		DDrawCreate = (DDrawCreateProc)GetProcAddress(ddrawdll, "DirectDrawCreate");
 		DDrawEnumerate = (DDrawEnumerateProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateA");
@@ -68,6 +68,7 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 		InternalUnlock = (DDrawMiscProc)GetProcAddress(ddrawdll, "DDInternalUnlock");
 		ReleaseLock = (DDrawMiscProc)GetProcAddress(ddrawdll, "ReleaseDDThreadLock");
 		break;
+
 	case DLL_PROCESS_DETACH:
 		FreeLibrary(ddrawdll);
 		LOG.flush();
@@ -91,9 +92,11 @@ struct WrapPair
 	void * mOriginal;
 	void * mWrapper;
 };
+
 #define MAX_PAIRS 65536
 WrapPair gWrapPair[MAX_PAIRS];
 int gWrapPairs = 0;
+
 void * do_wrapfetch(void * aOriginal)
 {
 	int i;
