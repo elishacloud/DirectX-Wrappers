@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirectDrawColorControl.h"
 
-myIDirectDrawColorControl::myIDirectDrawColorControl(IDirectDrawColorControl * aOriginal)
+m_IDirectDrawColorControl::m_IDirectDrawColorControl(IDirectDrawColorControl * aOriginal)
 {
 	logf("IDirectDrawColorControl ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirectDrawColorControl::~myIDirectDrawColorControl()
+m_IDirectDrawColorControl::~m_IDirectDrawColorControl()
 {
 	logf("IDirectDrawColorControl dtor\n");
 }
 
-HRESULT __stdcall myIDirectDrawColorControl::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
+HRESULT __stdcall m_IDirectDrawColorControl::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
 	logf("IDirectDrawColorControl::QueryInterface(REFIID, LPVOID FAR * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirectDrawColorControl::QueryInterface(REFIID riid, LPVOID 
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawColorControl::AddRef()
+ULONG __stdcall m_IDirectDrawColorControl::AddRef()
 {
 	logf("IDirectDrawColorControl::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirectDrawColorControl::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawColorControl::Release()
+ULONG __stdcall m_IDirectDrawColorControl::Release()
 {
 	logf("IDirectDrawColorControl::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,7 +70,7 @@ ULONG __stdcall myIDirectDrawColorControl::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawColorControl::GetColorControls(LPDDCOLORCONTROL a)
+HRESULT __stdcall m_IDirectDrawColorControl::GetColorControls(LPDDCOLORCONTROL a)
 {
 	logf("IDirectDrawColorControl::GetColorControls(LPDDCOLORCONTROL 0x%x);", a);
 	HRESULT x = mOriginal->GetColorControls(a);
@@ -78,7 +78,7 @@ HRESULT __stdcall myIDirectDrawColorControl::GetColorControls(LPDDCOLORCONTROL a
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawColorControl::SetColorControls(LPDDCOLORCONTROL a)
+HRESULT __stdcall m_IDirectDrawColorControl::SetColorControls(LPDDCOLORCONTROL a)
 {
 	logf("IDirectDrawColorControl::SetColorControls(LPDDCOLORCONTROL 0x%x);", a);
 	HRESULT x = mOriginal->SetColorControls(a);

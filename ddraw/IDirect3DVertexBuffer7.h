@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirect3DVertexBuffer7 : public IDirect3DVertexBuffer7
+class m_IDirect3DVertexBuffer7 : public IDirect3DVertexBuffer7
 {
 public:
-	myIDirect3DVertexBuffer7(IDirect3DVertexBuffer7 * aOriginal);
-	~myIDirect3DVertexBuffer7();
+	m_IDirect3DVertexBuffer7(IDirect3DVertexBuffer7 * aOriginal);
+	~m_IDirect3DVertexBuffer7();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

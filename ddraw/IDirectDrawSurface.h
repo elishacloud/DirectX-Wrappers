@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirectDrawSurface : public IDirectDrawSurface
+class m_IDirectDrawSurface : public IDirectDrawSurface
 {
 public:
-	myIDirectDrawSurface(IDirectDrawSurface * aOriginal);
-	~myIDirectDrawSurface();
+	m_IDirectDrawSurface(IDirectDrawSurface * aOriginal);
+	~m_IDirectDrawSurface();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

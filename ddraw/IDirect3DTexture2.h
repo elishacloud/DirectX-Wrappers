@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirect3DTexture2 : public IDirect3DTexture2
+class m_IDirect3DTexture2 : public IDirect3DTexture2
 {
 public:
-	myIDirect3DTexture2(IDirect3DTexture2 * aOriginal);
-	~myIDirect3DTexture2();
+	m_IDirect3DTexture2(IDirect3DTexture2 * aOriginal);
+	~m_IDirect3DTexture2();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

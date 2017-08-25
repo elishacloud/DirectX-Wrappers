@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirect3DExecuteBuffer.h"
 
-myIDirect3DExecuteBuffer::myIDirect3DExecuteBuffer(IDirect3DExecuteBuffer * aOriginal)
+m_IDirect3DExecuteBuffer::m_IDirect3DExecuteBuffer(IDirect3DExecuteBuffer * aOriginal)
 {
 	logf("IDirect3DExecuteBuffer ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirect3DExecuteBuffer::~myIDirect3DExecuteBuffer()
+m_IDirect3DExecuteBuffer::~m_IDirect3DExecuteBuffer()
 {
 	logf("IDirect3DExecuteBuffer dtor\n");
 }
 
-HRESULT __stdcall myIDirect3DExecuteBuffer::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT __stdcall m_IDirect3DExecuteBuffer::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	logf("IDirect3DExecuteBuffer::QueryInterface(REFIID, LPVOID * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirect3DExecuteBuffer::QueryInterface(REFIID riid, LPVOID *
 	return x;
 }
 
-ULONG __stdcall myIDirect3DExecuteBuffer::AddRef()
+ULONG __stdcall m_IDirect3DExecuteBuffer::AddRef()
 {
 	logf("IDirect3DExecuteBuffer::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirect3DExecuteBuffer::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirect3DExecuteBuffer::Release()
+ULONG __stdcall m_IDirect3DExecuteBuffer::Release()
 {
 	logf("IDirect3DExecuteBuffer::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,15 +70,15 @@ ULONG __stdcall myIDirect3DExecuteBuffer::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DExecuteBuffer::Initialize(LPDIRECT3DDEVICE a, LPD3DEXECUTEBUFFERDESC b)
+HRESULT __stdcall m_IDirect3DExecuteBuffer::Initialize(LPDIRECT3DDEVICE a, LPD3DEXECUTEBUFFERDESC b)
 {
 	logf("IDirect3DExecuteBuffer::Initialize(LPDIRECT3DDEVICE 0x%x, LPD3DEXECUTEBUFFERDESC 0x%x);", a, b);
-	HRESULT x = mOriginal->Initialize((a) ? ((myIDirect3DDevice *)a)->mOriginal : 0, b);
+	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirect3DDevice *)a)->mOriginal : 0, b);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DExecuteBuffer::Lock(LPD3DEXECUTEBUFFERDESC a)
+HRESULT __stdcall m_IDirect3DExecuteBuffer::Lock(LPD3DEXECUTEBUFFERDESC a)
 {
 	logf("IDirect3DExecuteBuffer::Lock(LPD3DEXECUTEBUFFERDESC 0x%x);", a);
 	HRESULT x = mOriginal->Lock(a);
@@ -86,7 +86,7 @@ HRESULT __stdcall myIDirect3DExecuteBuffer::Lock(LPD3DEXECUTEBUFFERDESC a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DExecuteBuffer::Unlock()
+HRESULT __stdcall m_IDirect3DExecuteBuffer::Unlock()
 {
 	logf("IDirect3DExecuteBuffer::Unlock();");
 	HRESULT x = mOriginal->Unlock();
@@ -94,7 +94,7 @@ HRESULT __stdcall myIDirect3DExecuteBuffer::Unlock()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DExecuteBuffer::SetExecuteData(LPD3DEXECUTEDATA a)
+HRESULT __stdcall m_IDirect3DExecuteBuffer::SetExecuteData(LPD3DEXECUTEDATA a)
 {
 	logf("IDirect3DExecuteBuffer::SetExecuteData(LPD3DEXECUTEDATA 0x%x);", a);
 	HRESULT x = mOriginal->SetExecuteData(a);
@@ -102,7 +102,7 @@ HRESULT __stdcall myIDirect3DExecuteBuffer::SetExecuteData(LPD3DEXECUTEDATA a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DExecuteBuffer::GetExecuteData(LPD3DEXECUTEDATA a)
+HRESULT __stdcall m_IDirect3DExecuteBuffer::GetExecuteData(LPD3DEXECUTEDATA a)
 {
 	logf("IDirect3DExecuteBuffer::GetExecuteData(LPD3DEXECUTEDATA 0x%x);", a);
 	HRESULT x = mOriginal->GetExecuteData(a);
@@ -110,7 +110,7 @@ HRESULT __stdcall myIDirect3DExecuteBuffer::GetExecuteData(LPD3DEXECUTEDATA a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DExecuteBuffer::Validate(LPDWORD a, LPD3DVALIDATECALLBACK b, LPVOID c, DWORD d)
+HRESULT __stdcall m_IDirect3DExecuteBuffer::Validate(LPDWORD a, LPD3DVALIDATECALLBACK b, LPVOID c, DWORD d)
 {
 	logf("IDirect3DExecuteBuffer::Validate(LPDWORD 0x%x, LPD3DVALIDATECALLBACK 0x%x, LPVOID 0x%x, DWORD %d);", a, b, c, d);
 	HRESULT x = mOriginal->Validate(a, b, c, d);
@@ -118,7 +118,7 @@ HRESULT __stdcall myIDirect3DExecuteBuffer::Validate(LPDWORD a, LPD3DVALIDATECAL
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DExecuteBuffer::Optimize(DWORD a)
+HRESULT __stdcall m_IDirect3DExecuteBuffer::Optimize(DWORD a)
 {
 	logf("IDirect3DExecuteBuffer::Optimize(DWORD %d);", a);
 	HRESULT x = mOriginal->Optimize(a);

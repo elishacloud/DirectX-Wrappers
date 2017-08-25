@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirect3DLight.h"
 
-myIDirect3DLight::myIDirect3DLight(IDirect3DLight * aOriginal)
+m_IDirect3DLight::m_IDirect3DLight(IDirect3DLight * aOriginal)
 {
 	logf("IDirect3DLight ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirect3DLight::~myIDirect3DLight()
+m_IDirect3DLight::~m_IDirect3DLight()
 {
 	logf("IDirect3DLight dtor\n");
 }
 
-HRESULT __stdcall myIDirect3DLight::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT __stdcall m_IDirect3DLight::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	logf("IDirect3DLight::QueryInterface(REFIID, LPVOID * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirect3DLight::QueryInterface(REFIID riid, LPVOID * ppvObj)
 	return x;
 }
 
-ULONG __stdcall myIDirect3DLight::AddRef()
+ULONG __stdcall m_IDirect3DLight::AddRef()
 {
 	logf("IDirect3DLight::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirect3DLight::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirect3DLight::Release()
+ULONG __stdcall m_IDirect3DLight::Release()
 {
 	logf("IDirect3DLight::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,15 +70,15 @@ ULONG __stdcall myIDirect3DLight::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DLight::Initialize(LPDIRECT3D a)
+HRESULT __stdcall m_IDirect3DLight::Initialize(LPDIRECT3D a)
 {
 	logf("IDirect3DLight::Initialize(LPDIRECT3D 0x%x);", a);
-	HRESULT x = mOriginal->Initialize((a) ? ((myIDirect3D *)a)->mOriginal : 0);
+	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirect3D *)a)->mOriginal : 0);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DLight::SetLight(LPD3DLIGHT a)
+HRESULT __stdcall m_IDirect3DLight::SetLight(LPD3DLIGHT a)
 {
 	logf("IDirect3DLight::SetLight(LPD3DLIGHT 0x%x);", a);
 	HRESULT x = mOriginal->SetLight(a);
@@ -86,7 +86,7 @@ HRESULT __stdcall myIDirect3DLight::SetLight(LPD3DLIGHT a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DLight::GetLight(LPD3DLIGHT a)
+HRESULT __stdcall m_IDirect3DLight::GetLight(LPD3DLIGHT a)
 {
 	logf("IDirect3DLight::GetLight(LPD3DLIGHT 0x%x);", a);
 	HRESULT x = mOriginal->GetLight(a);

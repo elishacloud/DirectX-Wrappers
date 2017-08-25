@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirectDrawPalette : public IDirectDrawPalette
+class m_IDirectDrawPalette : public IDirectDrawPalette
 {
 public:
-	myIDirectDrawPalette(IDirectDrawPalette * aOriginal);
-	~myIDirectDrawPalette();
+	m_IDirectDrawPalette(IDirectDrawPalette * aOriginal);
+	~m_IDirectDrawPalette();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

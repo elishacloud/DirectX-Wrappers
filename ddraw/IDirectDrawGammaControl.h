@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirectDrawGammaControl : public IDirectDrawGammaControl
+class m_IDirectDrawGammaControl : public IDirectDrawGammaControl
 {
 public:
-	myIDirectDrawGammaControl(IDirectDrawGammaControl * aOriginal);
-	~myIDirectDrawGammaControl();
+	m_IDirectDrawGammaControl(IDirectDrawGammaControl * aOriginal);
+	~m_IDirectDrawGammaControl();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

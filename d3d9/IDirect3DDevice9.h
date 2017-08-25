@@ -1,13 +1,13 @@
 #pragma once
 
-class myIDirect3DDevice9 : public IDirect3DDevice9
+class m_IDirect3DDevice9 : public IDirect3DDevice9
 {
 private:
-	LPDIRECT3DDEVICE9 mypD3DDevice;
+	LPDIRECT3DDEVICE9 m_pD3DDevice;
 
 public:
-	myIDirect3DDevice9(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DDEVICE9 **ppDevice);
-	myIDirect3DDevice9() { mypD3DDevice = NULL; }
+	m_IDirect3DDevice9(LPDIRECT3DDEVICE9 pDevice, LPDIRECT3DDEVICE9 **ppDevice);
+	m_IDirect3DDevice9() { m_pD3DDevice = NULL; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);

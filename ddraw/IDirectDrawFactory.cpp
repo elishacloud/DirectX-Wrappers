@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirectDrawFactory.h"
 
-myIDirectDrawFactory::myIDirectDrawFactory(IDirectDrawFactory * aOriginal)
+m_IDirectDrawFactory::m_IDirectDrawFactory(IDirectDrawFactory * aOriginal)
 {
 	logf("IDirectDrawFactory ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirectDrawFactory::~myIDirectDrawFactory()
+m_IDirectDrawFactory::~m_IDirectDrawFactory()
 {
 	logf("IDirectDrawFactory dtor\n");
 }
 
-HRESULT __stdcall myIDirectDrawFactory::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
+HRESULT __stdcall m_IDirectDrawFactory::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
 	logf("IDirectDrawFactory::QueryInterface(REFIID, LPVOID FAR * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirectDrawFactory::QueryInterface(REFIID riid, LPVOID FAR *
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawFactory::AddRef()
+ULONG __stdcall m_IDirectDrawFactory::AddRef()
 {
 	logf("IDirectDrawFactory::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirectDrawFactory::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawFactory::Release()
+ULONG __stdcall m_IDirectDrawFactory::Release()
 {
 	logf("IDirectDrawFactory::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,15 +70,15 @@ ULONG __stdcall myIDirectDrawFactory::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawFactory::CreateDirectDraw(GUID * pGUID, HWND hWnd, DWORD dwCoopLevelFlags, DWORD dwReserved, IUnknown * pUnkOuter, IDirectDraw * * ppDirectDraw)
+HRESULT __stdcall m_IDirectDrawFactory::CreateDirectDraw(GUID * pGUID, HWND hWnd, DWORD dwCoopLevelFlags, DWORD dwReserved, IUnknown * pUnkOuter, IDirectDraw * * ppDirectDraw)
 {
 	logf("IDirectDrawFactory::CreateDirectDraw(GUID *, HWND 0x%x, DWORD %d, DWORD %d, IUnknown *, IDirectDraw * *);", hWnd, dwCoopLevelFlags, dwReserved);
 	HRESULT x = mOriginal->CreateDirectDraw(pGUID, hWnd, dwCoopLevelFlags, dwReserved, pUnkOuter, ppDirectDraw);
 	logf(" -> return %d\n", x);
-	myIDirectDraw * n = (myIDirectDraw *)wrapfetch(*ppDirectDraw);
+	m_IDirectDraw * n = (m_IDirectDraw *)wrapfetch(*ppDirectDraw);
 	if (n == NULL && *ppDirectDraw != NULL)
 	{
-		n = (myIDirectDraw *)new myIDirectDraw(*ppDirectDraw);
+		n = (m_IDirectDraw *)new m_IDirectDraw(*ppDirectDraw);
 		wrapstore(n, *ppDirectDraw);
 		logf("Wrapped.\n");
 	}
@@ -86,7 +86,7 @@ HRESULT __stdcall myIDirectDrawFactory::CreateDirectDraw(GUID * pGUID, HWND hWnd
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawFactory::DirectDrawEnumerate(LPDDENUMCALLBACK lpCallback, LPVOID lpContext)
+HRESULT __stdcall m_IDirectDrawFactory::DirectDrawEnumerate(LPDDENUMCALLBACK lpCallback, LPVOID lpContext)
 {
 	logf("IDirectDrawFactory::DirectDrawEnumerate(LPDDENUMCALLBACK 0x%x, LPVOID 0x%x);", lpCallback, lpContext);
 	HRESULT x = mOriginal->DirectDrawEnumerate(lpCallback, lpContext);

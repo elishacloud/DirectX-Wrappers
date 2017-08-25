@@ -8,7 +8,7 @@
 // Very simple logging for the purpose of debugging only.
 extern std::ofstream LOG;
 
-typedef IDirect3D8 *(WINAPI *D3DC8)(UINT);
-extern D3DC8 orig_Direct3DCreate8;
+typedef IDirect3D8 *(WINAPI *Direct3DCreate8Proc)(UINT);
+extern Direct3DCreate8Proc m_pDirect3DCreate8;
 
 void logf(char * format, ...);

@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirectDrawClipper.h"
 
-myIDirectDrawClipper::myIDirectDrawClipper(IDirectDrawClipper * aOriginal)
+m_IDirectDrawClipper::m_IDirectDrawClipper(IDirectDrawClipper * aOriginal)
 {
 	logf("IDirectDrawClipper ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirectDrawClipper::~myIDirectDrawClipper()
+m_IDirectDrawClipper::~m_IDirectDrawClipper()
 {
 	logf("IDirectDrawClipper dtor\n");
 }
 
-HRESULT __stdcall myIDirectDrawClipper::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
+HRESULT __stdcall m_IDirectDrawClipper::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
 	logf("IDirectDrawClipper::QueryInterface(REFIID, LPVOID FAR * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirectDrawClipper::QueryInterface(REFIID riid, LPVOID FAR *
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawClipper::AddRef()
+ULONG __stdcall m_IDirectDrawClipper::AddRef()
 {
 	logf("IDirectDrawClipper::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirectDrawClipper::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawClipper::Release()
+ULONG __stdcall m_IDirectDrawClipper::Release()
 {
 	logf("IDirectDrawClipper::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,7 +70,7 @@ ULONG __stdcall myIDirectDrawClipper::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawClipper::GetClipList(LPRECT a, LPRGNDATA b, LPDWORD c)
+HRESULT __stdcall m_IDirectDrawClipper::GetClipList(LPRECT a, LPRGNDATA b, LPDWORD c)
 {
 	logf("IDirectDrawClipper::GetClipList(LPRECT 0x%x, LPRGNDATA 0x%x, LPDWORD 0x%x);", a, b, c);
 	HRESULT x = mOriginal->GetClipList(a, b, c);
@@ -78,7 +78,7 @@ HRESULT __stdcall myIDirectDrawClipper::GetClipList(LPRECT a, LPRGNDATA b, LPDWO
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawClipper::GetHWnd(HWND FAR * a)
+HRESULT __stdcall m_IDirectDrawClipper::GetHWnd(HWND FAR * a)
 {
 	logf("IDirectDrawClipper::GetHWnd(HWND FAR *);");
 	HRESULT x = mOriginal->GetHWnd(a);
@@ -86,15 +86,15 @@ HRESULT __stdcall myIDirectDrawClipper::GetHWnd(HWND FAR * a)
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawClipper::Initialize(LPDIRECTDRAW a, DWORD b)
+HRESULT __stdcall m_IDirectDrawClipper::Initialize(LPDIRECTDRAW a, DWORD b)
 {
 	logf("IDirectDrawClipper::Initialize(LPDIRECTDRAW 0x%x, DWORD %d);", a, b);
-	HRESULT x = mOriginal->Initialize((a) ? ((myIDirectDraw *)a)->mOriginal : 0, b);
+	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirectDraw *)a)->mOriginal : 0, b);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawClipper::IsClipListChanged(BOOL FAR * a)
+HRESULT __stdcall m_IDirectDrawClipper::IsClipListChanged(BOOL FAR * a)
 {
 	logf("IDirectDrawClipper::IsClipListChanged(BOOL FAR *);");
 	HRESULT x = mOriginal->IsClipListChanged(a);
@@ -102,7 +102,7 @@ HRESULT __stdcall myIDirectDrawClipper::IsClipListChanged(BOOL FAR * a)
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawClipper::SetClipList(LPRGNDATA a, DWORD b)
+HRESULT __stdcall m_IDirectDrawClipper::SetClipList(LPRGNDATA a, DWORD b)
 {
 	logf("IDirectDrawClipper::SetClipList(LPRGNDATA 0x%x, DWORD %d);", a, b);
 	HRESULT x = mOriginal->SetClipList(a, b);
@@ -110,7 +110,7 @@ HRESULT __stdcall myIDirectDrawClipper::SetClipList(LPRGNDATA a, DWORD b)
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawClipper::SetHWnd(DWORD a, HWND b)
+HRESULT __stdcall m_IDirectDrawClipper::SetHWnd(DWORD a, HWND b)
 {
 	logf("IDirectDrawClipper::SetHWnd(DWORD %d, HWND 0x%x);", a, b);
 	HRESULT x = mOriginal->SetHWnd(a, b);

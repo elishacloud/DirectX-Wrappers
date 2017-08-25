@@ -147,42 +147,42 @@ void * wrapfetch(void * aOriginal)
 	return ret;
 }
 
-extern "C" void __declspec(naked) myAcquireLock()
+extern "C" void __declspec(naked) m_AcquireLock()
 {
 	logf(__FUNCTION__ "\n");
 	_asm jmp AcquireLock;
 }
-extern "C" void __declspec(naked) myParseUnknown()
+extern "C" void __declspec(naked) m_ParseUnknown()
 {
 	logf(__FUNCTION__ "\n");
 	_asm jmp ParseUnknown;
 }
-extern "C" void __declspec(naked) myInternalLock()
+extern "C" void __declspec(naked) m_InternalLock()
 {
 	logf(__FUNCTION__ "\n");
 	_asm jmp InternalLock;
 }
-extern "C" void __declspec(naked) myInternalUnlock()
+extern "C" void __declspec(naked) m_InternalUnlock()
 {
 	logf(__FUNCTION__ "\n");
 	_asm jmp InternalUnlock;
 }
-extern "C" void __declspec(naked) myReleaseLock()
+extern "C" void __declspec(naked) m_ReleaseLock()
 {
 	logf(__FUNCTION__ "\n");
 	_asm jmp ReleaseLock;
 }
 
-extern "C" HRESULT _stdcall myDirectDrawCreate(GUID* a, IDirectDraw** b, IUnknown* c)
+extern "C" HRESULT _stdcall m_DirectDrawCreate(GUID* a, IDirectDraw** b, IUnknown* c)
 {
 	logf(__FUNCTION__ "\n");
 	HRESULT hr = DDrawCreate(a, b, c);
 	if (FAILED(hr)) return hr;
-	*b = (IDirectDraw*)new myIDirectDraw(*b);
+	*b = (IDirectDraw*)new m_IDirectDraw(*b);
 	return 0;
 }
 
-extern "C" HRESULT _stdcall myDirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID iid, IUnknown FAR *pUnkOuter)
+extern "C" HRESULT _stdcall m_DirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID iid, IUnknown FAR *pUnkOuter)
 {
 	logf(__FUNCTION__ "\n");
 	HRESULT hr = DDrawCreateEx(lpGUID, lplpDD, iid, pUnkOuter);
@@ -190,7 +190,7 @@ extern "C" HRESULT _stdcall myDirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpD
 	return hr;
 }
 
-extern "C" HRESULT _stdcall myDirectDrawEnumerate(void* lpCallback, void* lpContext)
+extern "C" HRESULT _stdcall m_DirectDrawEnumerate(void* lpCallback, void* lpContext)
 {
 	logf(__FUNCTION__ "\n");
 	return DDrawEnumerate(lpCallback, lpContext);

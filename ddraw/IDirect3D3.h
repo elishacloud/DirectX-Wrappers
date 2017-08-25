@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirect3D3 : public IDirect3D3
+class m_IDirect3D3 : public IDirect3D3
 {
 public:
-	myIDirect3D3(IDirect3D3 * aOriginal);
-	~myIDirect3D3();
+	m_IDirect3D3(IDirect3D3 * aOriginal);
+	~m_IDirect3D3();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

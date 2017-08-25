@@ -18,7 +18,7 @@
 
 std::ofstream LOG;
 
-D3DC9 orig_Direct3DCreate9;
+Direct3DCreate9Proc m_pDirect3DCreate9;
 
 bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
@@ -33,7 +33,7 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 		strcat_s(path, "\\d3d9.dll");
 		LOG << "Loading " << path << "\n";
 		d3d9dll = LoadLibraryA(path);
-		orig_Direct3DCreate9 = (D3DC9)GetProcAddress(d3d9dll, "Direct3DCreate9");
+		m_pDirect3DCreate9 = (Direct3DCreate9Proc)GetProcAddress(d3d9dll, "Direct3DCreate9");
 		break;
 
 	case DLL_PROCESS_DETACH:
@@ -55,7 +55,7 @@ void logf(char * fmt, ...)
 	LOG << buffer;
 }
 
-IDirect3D9 *WINAPI myDirect3DCreate9(UINT SDKVersion)
+IDirect3D9 *WINAPI m_Direct3DCreate9(UINT SDKVersion)
 {
-	return new myIDirect3D9(orig_Direct3DCreate9(SDKVersion));
+	return new m_IDirect3D9(m_pDirect3DCreate9(SDKVersion));
 }

@@ -8,6 +8,7 @@ Currently this can wrap the following DLLs:
 - ddraw.dll
 - d3d8.dll
 - d3d9.dll
+- dsound.dll
 
 However I plan to add these DLLs soon:
 - d3dim.dll
@@ -17,7 +18,6 @@ However I plan to add these DLLs soon:
 - d3d12.dll
 - dinput.dll
 - dinput8.dll
-- dsound.dll
 
 Note: It currently only works with 32bit games, but I may add 64bit support later.
 
@@ -40,6 +40,7 @@ applications, and to alter it and redistribute it freely, subject to the followi
 Code in this project is taken from:
 - [Jari Komppa's dxwrapper](https://github.com/jarikomppa/dxwrapper)
 - [Direct3D9 Wrapper DLL](https://gist.github.com/shaunlebron/3854bf4eec5bec297907)
+- [DirectSoundControl](https://github.com/nRaecheR/DirectSoundControl)
 
 ### Development
 

@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirectDrawPalette.h"
 
-myIDirectDrawPalette::myIDirectDrawPalette(IDirectDrawPalette * aOriginal)
+m_IDirectDrawPalette::m_IDirectDrawPalette(IDirectDrawPalette * aOriginal)
 {
 	logf("IDirectDrawPalette ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirectDrawPalette::~myIDirectDrawPalette()
+m_IDirectDrawPalette::~m_IDirectDrawPalette()
 {
 	logf("IDirectDrawPalette dtor\n");
 }
 
-HRESULT __stdcall myIDirectDrawPalette::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
+HRESULT __stdcall m_IDirectDrawPalette::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
 	logf("IDirectDrawPalette::QueryInterface(REFIID, LPVOID FAR * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirectDrawPalette::QueryInterface(REFIID riid, LPVOID FAR *
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawPalette::AddRef()
+ULONG __stdcall m_IDirectDrawPalette::AddRef()
 {
 	logf("IDirectDrawPalette::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirectDrawPalette::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawPalette::Release()
+ULONG __stdcall m_IDirectDrawPalette::Release()
 {
 	logf("IDirectDrawPalette::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,7 +70,7 @@ ULONG __stdcall myIDirectDrawPalette::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawPalette::GetCaps(LPDWORD a)
+HRESULT __stdcall m_IDirectDrawPalette::GetCaps(LPDWORD a)
 {
 	logf("IDirectDrawPalette::GetCaps(LPDWORD 0x%x);", a);
 	HRESULT x = mOriginal->GetCaps(a);
@@ -78,7 +78,7 @@ HRESULT __stdcall myIDirectDrawPalette::GetCaps(LPDWORD a)
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawPalette::GetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENTRY d)
+HRESULT __stdcall m_IDirectDrawPalette::GetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENTRY d)
 {
 	logf("IDirectDrawPalette::GetEntries(DWORD %d, DWORD %d, DWORD %d, LPPALETTEENTRY 0x%x);", a, b, c, d);
 	HRESULT x = mOriginal->GetEntries(a, b, c, d);
@@ -86,15 +86,15 @@ HRESULT __stdcall myIDirectDrawPalette::GetEntries(DWORD a, DWORD b, DWORD c, LP
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawPalette::Initialize(LPDIRECTDRAW a, DWORD b, LPPALETTEENTRY c)
+HRESULT __stdcall m_IDirectDrawPalette::Initialize(LPDIRECTDRAW a, DWORD b, LPPALETTEENTRY c)
 {
 	logf("IDirectDrawPalette::Initialize(LPDIRECTDRAW 0x%x, DWORD %d, LPPALETTEENTRY 0x%x);", a, b, c);
-	HRESULT x = mOriginal->Initialize((a) ? ((myIDirectDraw *)a)->mOriginal : 0, b, c);
+	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirectDraw *)a)->mOriginal : 0, b, c);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawPalette::SetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENTRY d)
+HRESULT __stdcall m_IDirectDrawPalette::SetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENTRY d)
 {
 	logf("IDirectDrawPalette::SetEntries(DWORD %d, DWORD %d, DWORD %d, LPPALETTEENTRY 0x%x);", a, b, c, d);
 	HRESULT x = mOriginal->SetEntries(a, b, c, d);

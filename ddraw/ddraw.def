@@ -1,11 +1,11 @@
 LIBRARY ddraw
 EXPORTS
 
-DirectDrawCreate = myDirectDrawCreate @1
-DirectDrawCreateEx = myDirectDrawCreateEx @2
-DirectDrawEnumerateA = myDirectDrawEnumerate @3
-AcquireDDThreadLock = myAcquireLock 
-D3DParseUnknownCommand = myParseUnknown 
-DDInternalLock = myInternalLock 
-DDInternalUnlock = myInternalUnlock 
-ReleaseDDThreadLock = myReleaseLock 
+DirectDrawCreate = m_DirectDrawCreate @1
+DirectDrawCreateEx = m_DirectDrawCreateEx @2
+DirectDrawEnumerateA = m_DirectDrawEnumerate @3
+AcquireDDThreadLock = m_AcquireLock 
+D3DParseUnknownCommand = m_ParseUnknown 
+DDInternalLock = m_InternalLock 
+DDInternalUnlock = m_InternalUnlock 
+ReleaseDDThreadLock = m_ReleaseLock 

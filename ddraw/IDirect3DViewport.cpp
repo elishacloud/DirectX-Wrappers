@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirect3DViewport.h"
 
-myIDirect3DViewport::myIDirect3DViewport(IDirect3DViewport * aOriginal)
+m_IDirect3DViewport::m_IDirect3DViewport(IDirect3DViewport * aOriginal)
 {
 	logf("IDirect3DViewport ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirect3DViewport::~myIDirect3DViewport()
+m_IDirect3DViewport::~m_IDirect3DViewport()
 {
 	logf("IDirect3DViewport dtor\n");
 }
 
-HRESULT __stdcall myIDirect3DViewport::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT __stdcall m_IDirect3DViewport::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	logf("IDirect3DViewport::QueryInterface(REFIID, LPVOID * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirect3DViewport::QueryInterface(REFIID riid, LPVOID * ppvO
 	return x;
 }
 
-ULONG __stdcall myIDirect3DViewport::AddRef()
+ULONG __stdcall m_IDirect3DViewport::AddRef()
 {
 	logf("IDirect3DViewport::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirect3DViewport::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirect3DViewport::Release()
+ULONG __stdcall m_IDirect3DViewport::Release()
 {
 	logf("IDirect3DViewport::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,15 +70,15 @@ ULONG __stdcall myIDirect3DViewport::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::Initialize(LPDIRECT3D a)
+HRESULT __stdcall m_IDirect3DViewport::Initialize(LPDIRECT3D a)
 {
 	logf("IDirect3DViewport::Initialize(LPDIRECT3D 0x%x);", a);
-	HRESULT x = mOriginal->Initialize((a) ? ((myIDirect3D *)a)->mOriginal : 0);
+	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirect3D *)a)->mOriginal : 0);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::GetViewport(LPD3DVIEWPORT a)
+HRESULT __stdcall m_IDirect3DViewport::GetViewport(LPD3DVIEWPORT a)
 {
 	logf("IDirect3DViewport::GetViewport(LPD3DVIEWPORT 0x%x);", a);
 	HRESULT x = mOriginal->GetViewport(a);
@@ -86,7 +86,7 @@ HRESULT __stdcall myIDirect3DViewport::GetViewport(LPD3DVIEWPORT a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::SetViewport(LPD3DVIEWPORT a)
+HRESULT __stdcall m_IDirect3DViewport::SetViewport(LPD3DVIEWPORT a)
 {
 	logf("IDirect3DViewport::SetViewport(LPD3DVIEWPORT 0x%x);", a);
 	HRESULT x = mOriginal->SetViewport(a);
@@ -94,7 +94,7 @@ HRESULT __stdcall myIDirect3DViewport::SetViewport(LPD3DVIEWPORT a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::TransformVertices(DWORD a, LPD3DTRANSFORMDATA b, DWORD c, LPDWORD d)
+HRESULT __stdcall m_IDirect3DViewport::TransformVertices(DWORD a, LPD3DTRANSFORMDATA b, DWORD c, LPDWORD d)
 {
 	logf("IDirect3DViewport::TransformVertices(DWORD %d, LPD3DTRANSFORMDATA 0x%x, DWORD %d, LPDWORD 0x%x);", a, b, c, d);
 	HRESULT x = mOriginal->TransformVertices(a, b, c, d);
@@ -102,7 +102,7 @@ HRESULT __stdcall myIDirect3DViewport::TransformVertices(DWORD a, LPD3DTRANSFORM
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::LightElements(DWORD a, LPD3DLIGHTDATA b)
+HRESULT __stdcall m_IDirect3DViewport::LightElements(DWORD a, LPD3DLIGHTDATA b)
 {
 	logf("IDirect3DViewport::LightElements(DWORD %d, LPD3DLIGHTDATA 0x%x);", a, b);
 	HRESULT x = mOriginal->LightElements(a, b);
@@ -110,7 +110,7 @@ HRESULT __stdcall myIDirect3DViewport::LightElements(DWORD a, LPD3DLIGHTDATA b)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::SetBackground(D3DMATERIALHANDLE a)
+HRESULT __stdcall m_IDirect3DViewport::SetBackground(D3DMATERIALHANDLE a)
 {
 	logf("IDirect3DViewport::SetBackground(D3DMATERIALHANDLE);");
 	HRESULT x = mOriginal->SetBackground(a);
@@ -118,7 +118,7 @@ HRESULT __stdcall myIDirect3DViewport::SetBackground(D3DMATERIALHANDLE a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::GetBackground(LPD3DMATERIALHANDLE a, LPBOOL b)
+HRESULT __stdcall m_IDirect3DViewport::GetBackground(LPD3DMATERIALHANDLE a, LPBOOL b)
 {
 	logf("IDirect3DViewport::GetBackground(LPD3DMATERIALHANDLE 0x%x, LPBOOL 0x%x);", a, b);
 	HRESULT x = mOriginal->GetBackground(a, b);
@@ -126,23 +126,23 @@ HRESULT __stdcall myIDirect3DViewport::GetBackground(LPD3DMATERIALHANDLE a, LPBO
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::SetBackgroundDepth(LPDIRECTDRAWSURFACE a)
+HRESULT __stdcall m_IDirect3DViewport::SetBackgroundDepth(LPDIRECTDRAWSURFACE a)
 {
 	logf("IDirect3DViewport::SetBackgroundDepth(LPDIRECTDRAWSURFACE 0x%x);", a);
-	HRESULT x = mOriginal->SetBackgroundDepth((a) ? ((myIDirectDrawSurface *)a)->mOriginal : 0);
+	HRESULT x = mOriginal->SetBackgroundDepth((a) ? ((m_IDirectDrawSurface *)a)->mOriginal : 0);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::GetBackgroundDepth(LPDIRECTDRAWSURFACE * a, LPBOOL b)
+HRESULT __stdcall m_IDirect3DViewport::GetBackgroundDepth(LPDIRECTDRAWSURFACE * a, LPBOOL b)
 {
 	logf("IDirect3DViewport::GetBackgroundDepth(LPDIRECTDRAWSURFACE * 0x%x, LPBOOL 0x%x);", a, b);
 	HRESULT x = mOriginal->GetBackgroundDepth(a, b);
 	logf(" -> return %d\n", x);
-	myIDirectDrawSurface * n = (myIDirectDrawSurface *)wrapfetch(*a);
+	m_IDirectDrawSurface * n = (m_IDirectDrawSurface *)wrapfetch(*a);
 	if (n == NULL && *a != NULL)
 	{
-		n = (myIDirectDrawSurface *)new myIDirectDrawSurface(*a);
+		n = (m_IDirectDrawSurface *)new m_IDirectDrawSurface(*a);
 		wrapstore(n, *a);
 		logf("Wrapped.\n");
 	}
@@ -150,7 +150,7 @@ HRESULT __stdcall myIDirect3DViewport::GetBackgroundDepth(LPDIRECTDRAWSURFACE * 
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::Clear(DWORD a, LPD3DRECT b, DWORD c)
+HRESULT __stdcall m_IDirect3DViewport::Clear(DWORD a, LPD3DRECT b, DWORD c)
 {
 	logf("IDirect3DViewport::Clear(DWORD %d, LPD3DRECT 0x%x, DWORD %d);", a, b, c);
 	HRESULT x = mOriginal->Clear(a, b, c);
@@ -158,31 +158,31 @@ HRESULT __stdcall myIDirect3DViewport::Clear(DWORD a, LPD3DRECT b, DWORD c)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::AddLight(LPDIRECT3DLIGHT a)
+HRESULT __stdcall m_IDirect3DViewport::AddLight(LPDIRECT3DLIGHT a)
 {
 	logf("IDirect3DViewport::AddLight(LPDIRECT3DLIGHT 0x%x);", a);
-	HRESULT x = mOriginal->AddLight((a) ? ((myIDirect3DLight *)a)->mOriginal : 0);
+	HRESULT x = mOriginal->AddLight((a) ? ((m_IDirect3DLight *)a)->mOriginal : 0);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::DeleteLight(LPDIRECT3DLIGHT a)
+HRESULT __stdcall m_IDirect3DViewport::DeleteLight(LPDIRECT3DLIGHT a)
 {
 	logf("IDirect3DViewport::DeleteLight(LPDIRECT3DLIGHT 0x%x);", a);
-	HRESULT x = mOriginal->DeleteLight((a) ? ((myIDirect3DLight *)a)->mOriginal : 0);
+	HRESULT x = mOriginal->DeleteLight((a) ? ((m_IDirect3DLight *)a)->mOriginal : 0);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DViewport::NextLight(LPDIRECT3DLIGHT a, LPDIRECT3DLIGHT * b, DWORD c)
+HRESULT __stdcall m_IDirect3DViewport::NextLight(LPDIRECT3DLIGHT a, LPDIRECT3DLIGHT * b, DWORD c)
 {
 	logf("IDirect3DViewport::NextLight(LPDIRECT3DLIGHT 0x%x, LPDIRECT3DLIGHT * 0x%x, DWORD %d);", a, b, c);
-	HRESULT x = mOriginal->NextLight((a) ? ((myIDirect3DLight *)a)->mOriginal : 0, b, c);
+	HRESULT x = mOriginal->NextLight((a) ? ((m_IDirect3DLight *)a)->mOriginal : 0, b, c);
 	logf(" -> return %d\n", x);
-	myIDirect3DLight * n = (myIDirect3DLight *)wrapfetch(*b);
+	m_IDirect3DLight * n = (m_IDirect3DLight *)wrapfetch(*b);
 	if (n == NULL && *b != NULL)
 	{
-		n = (myIDirect3DLight *)new myIDirect3DLight(*b);
+		n = (m_IDirect3DLight *)new m_IDirect3DLight(*b);
 		wrapstore(n, *b);
 		logf("Wrapped.\n");
 	}

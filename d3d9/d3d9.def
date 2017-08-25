@@ -1,4 +1,4 @@
 LIBRARY d3d9
 EXPORTS
 
-Direct3DCreate9 = myDirect3DCreate9 @1
+Direct3DCreate9 = m_Direct3DCreate9 @1

@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirect3D3.h"
 
-myIDirect3D3::myIDirect3D3(IDirect3D3 * aOriginal)
+m_IDirect3D3::m_IDirect3D3(IDirect3D3 * aOriginal)
 {
 	logf("IDirect3D3 ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirect3D3::~myIDirect3D3()
+m_IDirect3D3::~m_IDirect3D3()
 {
 	logf("IDirect3D3 dtor\n");
 }
 
-HRESULT __stdcall myIDirect3D3::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT __stdcall m_IDirect3D3::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	logf("IDirect3D3::QueryInterface(REFIID, LPVOID * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirect3D3::QueryInterface(REFIID riid, LPVOID * ppvObj)
 	return x;
 }
 
-ULONG __stdcall myIDirect3D3::AddRef()
+ULONG __stdcall m_IDirect3D3::AddRef()
 {
 	logf("IDirect3D3::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirect3D3::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirect3D3::Release()
+ULONG __stdcall m_IDirect3D3::Release()
 {
 	logf("IDirect3D3::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,7 +70,7 @@ ULONG __stdcall myIDirect3D3::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::EnumDevices(LPD3DENUMDEVICESCALLBACK a, LPVOID b)
+HRESULT __stdcall m_IDirect3D3::EnumDevices(LPD3DENUMDEVICESCALLBACK a, LPVOID b)
 {
 	logf("IDirect3D3::EnumDevices(LPD3DENUMDEVICESCALLBACK 0x%x, LPVOID 0x%x);", a, b);
 	HRESULT x = mOriginal->EnumDevices(a, b);
@@ -78,15 +78,15 @@ HRESULT __stdcall myIDirect3D3::EnumDevices(LPD3DENUMDEVICESCALLBACK a, LPVOID b
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::CreateLight(LPDIRECT3DLIGHT * a, LPUNKNOWN b)
+HRESULT __stdcall m_IDirect3D3::CreateLight(LPDIRECT3DLIGHT * a, LPUNKNOWN b)
 {
 	logf("IDirect3D3::CreateLight(LPDIRECT3DLIGHT * 0x%x, LPUNKNOWN 0x%x);", a, b);
 	HRESULT x = mOriginal->CreateLight(a, b);
 	logf(" -> return %d\n", x);
-	myIDirect3DLight * n = (myIDirect3DLight *)wrapfetch(*a);
+	m_IDirect3DLight * n = (m_IDirect3DLight *)wrapfetch(*a);
 	if (n == NULL && *a != NULL)
 	{
-		n = (myIDirect3DLight *)new myIDirect3DLight(*a);
+		n = (m_IDirect3DLight *)new m_IDirect3DLight(*a);
 		wrapstore(n, *a);
 		logf("Wrapped.\n");
 	}
@@ -94,15 +94,15 @@ HRESULT __stdcall myIDirect3D3::CreateLight(LPDIRECT3DLIGHT * a, LPUNKNOWN b)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::CreateMaterial(LPDIRECT3DMATERIAL3 * a, LPUNKNOWN b)
+HRESULT __stdcall m_IDirect3D3::CreateMaterial(LPDIRECT3DMATERIAL3 * a, LPUNKNOWN b)
 {
 	logf("IDirect3D3::CreateMaterial(LPDIRECT3DMATERIAL3 * 0x%x, LPUNKNOWN 0x%x);", a, b);
 	HRESULT x = mOriginal->CreateMaterial(a, b);
 	logf(" -> return %d\n", x);
-	myIDirect3DMaterial3 * n = (myIDirect3DMaterial3 *)wrapfetch(*a);
+	m_IDirect3DMaterial3 * n = (m_IDirect3DMaterial3 *)wrapfetch(*a);
 	if (n == NULL && *a != NULL)
 	{
-		n = (myIDirect3DMaterial3 *)new myIDirect3DMaterial3(*a);
+		n = (m_IDirect3DMaterial3 *)new m_IDirect3DMaterial3(*a);
 		wrapstore(n, *a);
 		logf("Wrapped.\n");
 	}
@@ -110,15 +110,15 @@ HRESULT __stdcall myIDirect3D3::CreateMaterial(LPDIRECT3DMATERIAL3 * a, LPUNKNOW
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::CreateViewport(LPDIRECT3DVIEWPORT3 * a, LPUNKNOWN b)
+HRESULT __stdcall m_IDirect3D3::CreateViewport(LPDIRECT3DVIEWPORT3 * a, LPUNKNOWN b)
 {
 	logf("IDirect3D3::CreateViewport(LPDIRECT3DVIEWPORT3 * 0x%x, LPUNKNOWN 0x%x);", a, b);
 	HRESULT x = mOriginal->CreateViewport(a, b);
 	logf(" -> return %d\n", x);
-	myIDirect3DViewport3 * n = (myIDirect3DViewport3 *)wrapfetch(*a);
+	m_IDirect3DViewport3 * n = (m_IDirect3DViewport3 *)wrapfetch(*a);
 	if (n == NULL && *a != NULL)
 	{
-		n = (myIDirect3DViewport3 *)new myIDirect3DViewport3(*a);
+		n = (m_IDirect3DViewport3 *)new m_IDirect3DViewport3(*a);
 		wrapstore(n, *a);
 		logf("Wrapped.\n");
 	}
@@ -126,7 +126,7 @@ HRESULT __stdcall myIDirect3D3::CreateViewport(LPDIRECT3DVIEWPORT3 * a, LPUNKNOW
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::FindDevice(LPD3DFINDDEVICESEARCH a, LPD3DFINDDEVICERESULT b)
+HRESULT __stdcall m_IDirect3D3::FindDevice(LPD3DFINDDEVICESEARCH a, LPD3DFINDDEVICERESULT b)
 {
 	logf("IDirect3D3::FindDevice(LPD3DFINDDEVICESEARCH 0x%x, LPD3DFINDDEVICERESULT 0x%x);", a, b);
 	HRESULT x = mOriginal->FindDevice(a, b);
@@ -134,15 +134,15 @@ HRESULT __stdcall myIDirect3D3::FindDevice(LPD3DFINDDEVICESEARCH a, LPD3DFINDDEV
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::CreateDevice(REFCLSID a, LPDIRECTDRAWSURFACE4 b, LPDIRECT3DDEVICE3 * c, LPUNKNOWN d)
+HRESULT __stdcall m_IDirect3D3::CreateDevice(REFCLSID a, LPDIRECTDRAWSURFACE4 b, LPDIRECT3DDEVICE3 * c, LPUNKNOWN d)
 {
 	logf("IDirect3D3::CreateDevice(REFCLSID, LPDIRECTDRAWSURFACE4 0x%x, LPDIRECT3DDEVICE3 * 0x%x, LPUNKNOWN 0x%x);", b, c, d);
-	HRESULT x = mOriginal->CreateDevice(a, (b) ? ((myIDirectDrawSurface4 *)b)->mOriginal : 0, c, d);
+	HRESULT x = mOriginal->CreateDevice(a, (b) ? ((m_IDirectDrawSurface4 *)b)->mOriginal : 0, c, d);
 	logf(" -> return %d\n", x);
-	myIDirect3DDevice3 * n = (myIDirect3DDevice3 *)wrapfetch(*c);
+	m_IDirect3DDevice3 * n = (m_IDirect3DDevice3 *)wrapfetch(*c);
 	if (n == NULL && *c != NULL)
 	{
-		n = (myIDirect3DDevice3 *)new myIDirect3DDevice3(*c);
+		n = (m_IDirect3DDevice3 *)new m_IDirect3DDevice3(*c);
 		wrapstore(n, *c);
 		logf("Wrapped.\n");
 	}
@@ -150,15 +150,15 @@ HRESULT __stdcall myIDirect3D3::CreateDevice(REFCLSID a, LPDIRECTDRAWSURFACE4 b,
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::CreateVertexBuffer(LPD3DVERTEXBUFFERDESC a, LPDIRECT3DVERTEXBUFFER * b, DWORD c, LPUNKNOWN d)
+HRESULT __stdcall m_IDirect3D3::CreateVertexBuffer(LPD3DVERTEXBUFFERDESC a, LPDIRECT3DVERTEXBUFFER * b, DWORD c, LPUNKNOWN d)
 {
 	logf("IDirect3D3::CreateVertexBuffer(LPD3DVERTEXBUFFERDESC 0x%x, LPDIRECT3DVERTEXBUFFER * 0x%x, DWORD %d, LPUNKNOWN 0x%x);", a, b, c, d);
 	HRESULT x = mOriginal->CreateVertexBuffer(a, b, c, d);
 	logf(" -> return %d\n", x);
-	myIDirect3DVertexBuffer * n = (myIDirect3DVertexBuffer *)wrapfetch(*b);
+	m_IDirect3DVertexBuffer * n = (m_IDirect3DVertexBuffer *)wrapfetch(*b);
 	if (n == NULL && *b != NULL)
 	{
-		n = (myIDirect3DVertexBuffer *)new myIDirect3DVertexBuffer(*b);
+		n = (m_IDirect3DVertexBuffer *)new m_IDirect3DVertexBuffer(*b);
 		wrapstore(n, *b);
 		logf("Wrapped.\n");
 	}
@@ -166,7 +166,7 @@ HRESULT __stdcall myIDirect3D3::CreateVertexBuffer(LPD3DVERTEXBUFFERDESC a, LPDI
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::EnumZBufferFormats(REFCLSID a, LPD3DENUMPIXELFORMATSCALLBACK b, LPVOID c)
+HRESULT __stdcall m_IDirect3D3::EnumZBufferFormats(REFCLSID a, LPD3DENUMPIXELFORMATSCALLBACK b, LPVOID c)
 {
 	logf("IDirect3D3::EnumZBufferFormats(REFCLSID, LPD3DENUMPIXELFORMATSCALLBACK 0x%x, LPVOID 0x%x);", b, c);
 	HRESULT x = mOriginal->EnumZBufferFormats(a, b, c);
@@ -174,7 +174,7 @@ HRESULT __stdcall myIDirect3D3::EnumZBufferFormats(REFCLSID a, LPD3DENUMPIXELFOR
 	return x;
 }
 
-HRESULT __stdcall myIDirect3D3::EvictManagedTextures()
+HRESULT __stdcall m_IDirect3D3::EvictManagedTextures()
 {
 	logf("IDirect3D3::EvictManagedTextures();");
 	HRESULT x = mOriginal->EvictManagedTextures();

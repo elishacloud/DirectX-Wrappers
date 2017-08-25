@@ -5,7 +5,7 @@ void genericQueryInterface(REFIID a, LPVOID * ptr)
 #define QUERYINTERFACE(x) \
 	if(a==IID_##x) \
 		{ \
-			*ptr = (void*)new my##x(*(x **)ptr); \
+			*ptr = (void*)new m_##x(*(x **)ptr); \
 			logf("Wrapped: " #x "\n");\
 			wrapstore(orig, *ptr);\
 		}

@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirect3DMaterial.h"
 
-myIDirect3DMaterial::myIDirect3DMaterial(IDirect3DMaterial * aOriginal)
+m_IDirect3DMaterial::m_IDirect3DMaterial(IDirect3DMaterial * aOriginal)
 {
 	logf("IDirect3DMaterial ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirect3DMaterial::~myIDirect3DMaterial()
+m_IDirect3DMaterial::~m_IDirect3DMaterial()
 {
 	logf("IDirect3DMaterial dtor\n");
 }
 
-HRESULT __stdcall myIDirect3DMaterial::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT __stdcall m_IDirect3DMaterial::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	logf("IDirect3DMaterial::QueryInterface(REFIID, LPVOID * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirect3DMaterial::QueryInterface(REFIID riid, LPVOID * ppvO
 	return x;
 }
 
-ULONG __stdcall myIDirect3DMaterial::AddRef()
+ULONG __stdcall m_IDirect3DMaterial::AddRef()
 {
 	logf("IDirect3DMaterial::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirect3DMaterial::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirect3DMaterial::Release()
+ULONG __stdcall m_IDirect3DMaterial::Release()
 {
 	logf("IDirect3DMaterial::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,15 +70,15 @@ ULONG __stdcall myIDirect3DMaterial::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial::Initialize(LPDIRECT3D a)
+HRESULT __stdcall m_IDirect3DMaterial::Initialize(LPDIRECT3D a)
 {
 	logf("IDirect3DMaterial::Initialize(LPDIRECT3D 0x%x);", a);
-	HRESULT x = mOriginal->Initialize((a) ? ((myIDirect3D *)a)->mOriginal : 0);
+	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirect3D *)a)->mOriginal : 0);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial::SetMaterial(LPD3DMATERIAL a)
+HRESULT __stdcall m_IDirect3DMaterial::SetMaterial(LPD3DMATERIAL a)
 {
 	logf("IDirect3DMaterial::SetMaterial(LPD3DMATERIAL 0x%x);", a);
 	HRESULT x = mOriginal->SetMaterial(a);
@@ -86,7 +86,7 @@ HRESULT __stdcall myIDirect3DMaterial::SetMaterial(LPD3DMATERIAL a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial::GetMaterial(LPD3DMATERIAL a)
+HRESULT __stdcall m_IDirect3DMaterial::GetMaterial(LPD3DMATERIAL a)
 {
 	logf("IDirect3DMaterial::GetMaterial(LPD3DMATERIAL 0x%x);", a);
 	HRESULT x = mOriginal->GetMaterial(a);
@@ -94,15 +94,15 @@ HRESULT __stdcall myIDirect3DMaterial::GetMaterial(LPD3DMATERIAL a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial::GetHandle(LPDIRECT3DDEVICE a, LPD3DMATERIALHANDLE b)
+HRESULT __stdcall m_IDirect3DMaterial::GetHandle(LPDIRECT3DDEVICE a, LPD3DMATERIALHANDLE b)
 {
 	logf("IDirect3DMaterial::GetHandle(LPDIRECT3DDEVICE 0x%x, LPD3DMATERIALHANDLE 0x%x);", a, b);
-	HRESULT x = mOriginal->GetHandle((a) ? ((myIDirect3DDevice *)a)->mOriginal : 0, b);
+	HRESULT x = mOriginal->GetHandle((a) ? ((m_IDirect3DDevice *)a)->mOriginal : 0, b);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial::Reserve()
+HRESULT __stdcall m_IDirect3DMaterial::Reserve()
 {
 	logf("IDirect3DMaterial::Reserve();");
 	HRESULT x = mOriginal->Reserve();
@@ -110,7 +110,7 @@ HRESULT __stdcall myIDirect3DMaterial::Reserve()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial::Unreserve()
+HRESULT __stdcall m_IDirect3DMaterial::Unreserve()
 {
 	logf("IDirect3DMaterial::Unreserve();");
 	HRESULT x = mOriginal->Unreserve();

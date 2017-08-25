@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirectDrawClipper : public IDirectDrawClipper
+class m_IDirectDrawClipper : public IDirectDrawClipper
 {
 public:
-	myIDirectDrawClipper(IDirectDrawClipper * aOriginal);
-	~myIDirectDrawClipper();
+	m_IDirectDrawClipper(IDirectDrawClipper * aOriginal);
+	~m_IDirectDrawClipper();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirect3DExecuteBuffer : public IDirect3DExecuteBuffer
+class m_IDirect3DExecuteBuffer : public IDirect3DExecuteBuffer
 {
 public:
-	myIDirect3DExecuteBuffer(IDirect3DExecuteBuffer * aOriginal);
-	~myIDirect3DExecuteBuffer();
+	m_IDirect3DExecuteBuffer(IDirect3DExecuteBuffer * aOriginal);
+	~m_IDirect3DExecuteBuffer();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

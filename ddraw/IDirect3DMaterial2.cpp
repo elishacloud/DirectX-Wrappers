@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirect3DMaterial2.h"
 
-myIDirect3DMaterial2::myIDirect3DMaterial2(IDirect3DMaterial2 * aOriginal)
+m_IDirect3DMaterial2::m_IDirect3DMaterial2(IDirect3DMaterial2 * aOriginal)
 {
 	logf("IDirect3DMaterial2 ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirect3DMaterial2::~myIDirect3DMaterial2()
+m_IDirect3DMaterial2::~m_IDirect3DMaterial2()
 {
 	logf("IDirect3DMaterial2 dtor\n");
 }
 
-HRESULT __stdcall myIDirect3DMaterial2::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT __stdcall m_IDirect3DMaterial2::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	logf("IDirect3DMaterial2::QueryInterface(REFIID, LPVOID * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirect3DMaterial2::QueryInterface(REFIID riid, LPVOID * ppv
 	return x;
 }
 
-ULONG __stdcall myIDirect3DMaterial2::AddRef()
+ULONG __stdcall m_IDirect3DMaterial2::AddRef()
 {
 	logf("IDirect3DMaterial2::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirect3DMaterial2::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirect3DMaterial2::Release()
+ULONG __stdcall m_IDirect3DMaterial2::Release()
 {
 	logf("IDirect3DMaterial2::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,7 +70,7 @@ ULONG __stdcall myIDirect3DMaterial2::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial2::SetMaterial(LPD3DMATERIAL a)
+HRESULT __stdcall m_IDirect3DMaterial2::SetMaterial(LPD3DMATERIAL a)
 {
 	logf("IDirect3DMaterial2::SetMaterial(LPD3DMATERIAL 0x%x);", a);
 	HRESULT x = mOriginal->SetMaterial(a);
@@ -78,7 +78,7 @@ HRESULT __stdcall myIDirect3DMaterial2::SetMaterial(LPD3DMATERIAL a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial2::GetMaterial(LPD3DMATERIAL a)
+HRESULT __stdcall m_IDirect3DMaterial2::GetMaterial(LPD3DMATERIAL a)
 {
 	logf("IDirect3DMaterial2::GetMaterial(LPD3DMATERIAL 0x%x);", a);
 	HRESULT x = mOriginal->GetMaterial(a);
@@ -86,10 +86,10 @@ HRESULT __stdcall myIDirect3DMaterial2::GetMaterial(LPD3DMATERIAL a)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DMaterial2::GetHandle(LPDIRECT3DDEVICE2 a, LPD3DMATERIALHANDLE b)
+HRESULT __stdcall m_IDirect3DMaterial2::GetHandle(LPDIRECT3DDEVICE2 a, LPD3DMATERIALHANDLE b)
 {
 	logf("IDirect3DMaterial2::GetHandle(LPDIRECT3DDEVICE2 0x%x, LPD3DMATERIALHANDLE 0x%x);", a, b);
-	HRESULT x = mOriginal->GetHandle((a) ? ((myIDirect3DDevice2 *)a)->mOriginal : 0, b);
+	HRESULT x = mOriginal->GetHandle((a) ? ((m_IDirect3DDevice2 *)a)->mOriginal : 0, b);
 	logf(" -> return %d\n", x);
 	return x;
 }

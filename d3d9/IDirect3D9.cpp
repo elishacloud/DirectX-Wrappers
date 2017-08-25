@@ -18,104 +18,104 @@
 
 #include "d3d9.h"
 
-HRESULT myIDirect3D9::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
+HRESULT m_IDirect3D9::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
 	HWND hFocusWindow, DWORD BehaviorFlags,
 	D3DPRESENT_PARAMETERS *pPresentationParameters,
 	IDirect3DDevice9 **ppReturnedDeviceInterface)
 {
 	LPDIRECT3DDEVICE9 *temp = ppReturnedDeviceInterface;
 
-	*temp = new myIDirect3DDevice9(*ppReturnedDeviceInterface, &ppReturnedDeviceInterface);
+	*temp = new m_IDirect3DDevice9(*ppReturnedDeviceInterface, &ppReturnedDeviceInterface);
 	*ppReturnedDeviceInterface = *temp;
 	delete temp;
 
-	HRESULT hr = mypD3D->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, ppReturnedDeviceInterface);
+	HRESULT hr = m_pD3D->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, ppReturnedDeviceInterface);
 
 	return hr;
 }
 
-ULONG myIDirect3D9::AddRef()
+ULONG m_IDirect3D9::AddRef()
 {
-	return mypD3D->AddRef();
+	return m_pD3D->AddRef();
 }
 
-HRESULT myIDirect3D9::QueryInterface(REFIID riid, LPVOID *ppvObj)
+HRESULT m_IDirect3D9::QueryInterface(REFIID riid, LPVOID *ppvObj)
 {
-	return mypD3D->QueryInterface(riid, ppvObj);
+	return m_pD3D->QueryInterface(riid, ppvObj);
 }
 
-ULONG myIDirect3D9::Release()
+ULONG m_IDirect3D9::Release()
 {
-	return mypD3D->Release();
+	return m_pD3D->Release();
 }
 
-HRESULT myIDirect3D9::EnumAdapterModes(THIS_ UINT Adapter, D3DFORMAT Format, UINT Mode, D3DDISPLAYMODE* pMode)
+HRESULT m_IDirect3D9::EnumAdapterModes(THIS_ UINT Adapter, D3DFORMAT Format, UINT Mode, D3DDISPLAYMODE* pMode)
 {
-	return mypD3D->EnumAdapterModes(Adapter, Format, Mode, pMode);
+	return m_pD3D->EnumAdapterModes(Adapter, Format, Mode, pMode);
 }
 
-UINT myIDirect3D9::GetAdapterCount()
+UINT m_IDirect3D9::GetAdapterCount()
 {
-	UINT Count = mypD3D->GetAdapterCount();
+	UINT Count = m_pD3D->GetAdapterCount();
 	LOG << "GetAdapterCount " << Count << "\n";
 	return  Count;
 }
 
-HRESULT myIDirect3D9::GetAdapterDisplayMode(UINT Adapter, D3DDISPLAYMODE *pMode)
+HRESULT m_IDirect3D9::GetAdapterDisplayMode(UINT Adapter, D3DDISPLAYMODE *pMode)
 {
-	return mypD3D->GetAdapterDisplayMode(Adapter, pMode);
+	return m_pD3D->GetAdapterDisplayMode(Adapter, pMode);
 }
 
-HRESULT myIDirect3D9::GetAdapterIdentifier(UINT Adapter, DWORD Flags, D3DADAPTER_IDENTIFIER9 *pIdentifier)
+HRESULT m_IDirect3D9::GetAdapterIdentifier(UINT Adapter, DWORD Flags, D3DADAPTER_IDENTIFIER9 *pIdentifier)
 {
-	return mypD3D->GetAdapterIdentifier(Adapter, Flags, pIdentifier);
+	return m_pD3D->GetAdapterIdentifier(Adapter, Flags, pIdentifier);
 }
 
-UINT myIDirect3D9::GetAdapterModeCount(THIS_ UINT Adapter, D3DFORMAT Format)
+UINT m_IDirect3D9::GetAdapterModeCount(THIS_ UINT Adapter, D3DFORMAT Format)
 {
-	UINT Count = mypD3D->GetAdapterModeCount(Adapter, Format);
+	UINT Count = m_pD3D->GetAdapterModeCount(Adapter, Format);
 	LOG << "GetAdapterModeCount Adapter " << Adapter << " Format " << Format << " Count " << Count << "\n";
 	return Count;
 }
 
-HMONITOR myIDirect3D9::GetAdapterMonitor(UINT Adapter)
+HMONITOR m_IDirect3D9::GetAdapterMonitor(UINT Adapter)
 {
-	return mypD3D->GetAdapterMonitor(Adapter);
+	return m_pD3D->GetAdapterMonitor(Adapter);
 }
 
-HRESULT myIDirect3D9::GetDeviceCaps(UINT Adapter, D3DDEVTYPE DeviceType, D3DCAPS9 *pCaps)
+HRESULT m_IDirect3D9::GetDeviceCaps(UINT Adapter, D3DDEVTYPE DeviceType, D3DCAPS9 *pCaps)
 {
-	return mypD3D->GetDeviceCaps(Adapter, DeviceType, pCaps);
+	return m_pD3D->GetDeviceCaps(Adapter, DeviceType, pCaps);
 }
 
-HRESULT myIDirect3D9::RegisterSoftwareDevice(void *pInitializeFunction)
+HRESULT m_IDirect3D9::RegisterSoftwareDevice(void *pInitializeFunction)
 {
-	return mypD3D->RegisterSoftwareDevice(pInitializeFunction);
+	return m_pD3D->RegisterSoftwareDevice(pInitializeFunction);
 }
 
-HRESULT myIDirect3D9::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, D3DFORMAT RenderTargetFormat, D3DFORMAT DepthStencilFormat)
+HRESULT m_IDirect3D9::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, D3DFORMAT RenderTargetFormat, D3DFORMAT DepthStencilFormat)
 {
 	LOG << "CheckDepthStencilMatch " << Adapter << " " << DeviceType << " " << AdapterFormat << " " << RenderTargetFormat << " " << DepthStencilFormat << "\n";
-	return mypD3D->CheckDepthStencilMatch(Adapter, DeviceType, AdapterFormat, RenderTargetFormat, DepthStencilFormat);
+	return m_pD3D->CheckDepthStencilMatch(Adapter, DeviceType, AdapterFormat, RenderTargetFormat, DepthStencilFormat);
 }
 
-HRESULT myIDirect3D9::CheckDeviceFormat(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, DWORD Usage, D3DRESOURCETYPE RType, D3DFORMAT CheckFormat)
+HRESULT m_IDirect3D9::CheckDeviceFormat(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, DWORD Usage, D3DRESOURCETYPE RType, D3DFORMAT CheckFormat)
 {
-	return mypD3D->CheckDeviceFormat(Adapter, DeviceType, AdapterFormat, Usage, RType, CheckFormat);
+	return m_pD3D->CheckDeviceFormat(Adapter, DeviceType, AdapterFormat, Usage, RType, CheckFormat);
 }
 
-HRESULT myIDirect3D9::CheckDeviceMultiSampleType(THIS_ UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SurfaceFormat, BOOL Windowed, D3DMULTISAMPLE_TYPE MultiSampleType, DWORD* pQualityLevels)
+HRESULT m_IDirect3D9::CheckDeviceMultiSampleType(THIS_ UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SurfaceFormat, BOOL Windowed, D3DMULTISAMPLE_TYPE MultiSampleType, DWORD* pQualityLevels)
 {
-	return mypD3D->CheckDeviceMultiSampleType(Adapter, DeviceType, SurfaceFormat, Windowed, MultiSampleType, pQualityLevels);
+	return m_pD3D->CheckDeviceMultiSampleType(Adapter, DeviceType, SurfaceFormat, Windowed, MultiSampleType, pQualityLevels);
 }
 
-HRESULT myIDirect3D9::CheckDeviceType(UINT Adapter, D3DDEVTYPE CheckType, D3DFORMAT DisplayFormat, D3DFORMAT BackBufferFormat, BOOL Windowed)
+HRESULT m_IDirect3D9::CheckDeviceType(UINT Adapter, D3DDEVTYPE CheckType, D3DFORMAT DisplayFormat, D3DFORMAT BackBufferFormat, BOOL Windowed)
 {
-	return mypD3D->CheckDeviceType(Adapter, CheckType, DisplayFormat, BackBufferFormat, Windowed);
+	return m_pD3D->CheckDeviceType(Adapter, CheckType, DisplayFormat, BackBufferFormat, Windowed);
 }
 
 
-HRESULT myIDirect3D9::CheckDeviceFormatConversion(THIS_ UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SourceFormat, D3DFORMAT TargetFormat)
+HRESULT m_IDirect3D9::CheckDeviceFormatConversion(THIS_ UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SourceFormat, D3DFORMAT TargetFormat)
 {
-	return mypD3D->CheckDeviceFormatConversion(Adapter, DeviceType, SourceFormat, TargetFormat);
+	return m_pD3D->CheckDeviceFormatConversion(Adapter, DeviceType, SourceFormat, TargetFormat);
 }

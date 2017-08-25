@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirectDrawGammaControl.h"
 
-myIDirectDrawGammaControl::myIDirectDrawGammaControl(IDirectDrawGammaControl * aOriginal)
+m_IDirectDrawGammaControl::m_IDirectDrawGammaControl(IDirectDrawGammaControl * aOriginal)
 {
 	logf("IDirectDrawGammaControl ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirectDrawGammaControl::~myIDirectDrawGammaControl()
+m_IDirectDrawGammaControl::~m_IDirectDrawGammaControl()
 {
 	logf("IDirectDrawGammaControl dtor\n");
 }
 
-HRESULT __stdcall myIDirectDrawGammaControl::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
+HRESULT __stdcall m_IDirectDrawGammaControl::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
 	logf("IDirectDrawGammaControl::QueryInterface(REFIID, LPVOID FAR * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirectDrawGammaControl::QueryInterface(REFIID riid, LPVOID 
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawGammaControl::AddRef()
+ULONG __stdcall m_IDirectDrawGammaControl::AddRef()
 {
 	logf("IDirectDrawGammaControl::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirectDrawGammaControl::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirectDrawGammaControl::Release()
+ULONG __stdcall m_IDirectDrawGammaControl::Release()
 {
 	logf("IDirectDrawGammaControl::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,7 +70,7 @@ ULONG __stdcall myIDirectDrawGammaControl::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawGammaControl::GetGammaRamp(DWORD a, LPDDGAMMARAMP b)
+HRESULT __stdcall m_IDirectDrawGammaControl::GetGammaRamp(DWORD a, LPDDGAMMARAMP b)
 {
 	logf("IDirectDrawGammaControl::GetGammaRamp(DWORD %d, LPDDGAMMARAMP 0x%x);", a, b);
 	HRESULT x = mOriginal->GetGammaRamp(a, b);
@@ -78,7 +78,7 @@ HRESULT __stdcall myIDirectDrawGammaControl::GetGammaRamp(DWORD a, LPDDGAMMARAMP
 	return x;
 }
 
-HRESULT __stdcall myIDirectDrawGammaControl::SetGammaRamp(DWORD a, LPDDGAMMARAMP b)
+HRESULT __stdcall m_IDirectDrawGammaControl::SetGammaRamp(DWORD a, LPDDGAMMARAMP b)
 {
 	logf("IDirectDrawGammaControl::SetGammaRamp(DWORD %d, LPDDGAMMARAMP 0x%x);", a, b);
 	HRESULT x = mOriginal->SetGammaRamp(a, b);

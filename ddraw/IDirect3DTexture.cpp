@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirect3DTexture.h"
 
-myIDirect3DTexture::myIDirect3DTexture(IDirect3DTexture * aOriginal)
+m_IDirect3DTexture::m_IDirect3DTexture(IDirect3DTexture * aOriginal)
 {
 	logf("IDirect3DTexture ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirect3DTexture::~myIDirect3DTexture()
+m_IDirect3DTexture::~m_IDirect3DTexture()
 {
 	logf("IDirect3DTexture dtor\n");
 }
 
-HRESULT __stdcall myIDirect3DTexture::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT __stdcall m_IDirect3DTexture::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	logf("IDirect3DTexture::QueryInterface(REFIID, LPVOID * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirect3DTexture::QueryInterface(REFIID riid, LPVOID * ppvOb
 	return x;
 }
 
-ULONG __stdcall myIDirect3DTexture::AddRef()
+ULONG __stdcall m_IDirect3DTexture::AddRef()
 {
 	logf("IDirect3DTexture::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirect3DTexture::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirect3DTexture::Release()
+ULONG __stdcall m_IDirect3DTexture::Release()
 {
 	logf("IDirect3DTexture::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,23 +70,23 @@ ULONG __stdcall myIDirect3DTexture::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DTexture::Initialize(LPDIRECT3DDEVICE a, LPDIRECTDRAWSURFACE b)
+HRESULT __stdcall m_IDirect3DTexture::Initialize(LPDIRECT3DDEVICE a, LPDIRECTDRAWSURFACE b)
 {
 	logf("IDirect3DTexture::Initialize(LPDIRECT3DDEVICE 0x%x, LPDIRECTDRAWSURFACE 0x%x);", a, b);
-	HRESULT x = mOriginal->Initialize((a) ? ((myIDirect3DDevice *)a)->mOriginal : 0, (b) ? ((myIDirectDrawSurface *)b)->mOriginal : 0);
+	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirect3DDevice *)a)->mOriginal : 0, (b) ? ((m_IDirectDrawSurface *)b)->mOriginal : 0);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DTexture::GetHandle(LPDIRECT3DDEVICE a, LPD3DTEXTUREHANDLE b)
+HRESULT __stdcall m_IDirect3DTexture::GetHandle(LPDIRECT3DDEVICE a, LPD3DTEXTUREHANDLE b)
 {
 	logf("IDirect3DTexture::GetHandle(LPDIRECT3DDEVICE 0x%x, LPD3DTEXTUREHANDLE 0x%x);", a, b);
-	HRESULT x = mOriginal->GetHandle((a) ? ((myIDirect3DDevice *)a)->mOriginal : 0, b);
+	HRESULT x = mOriginal->GetHandle((a) ? ((m_IDirect3DDevice *)a)->mOriginal : 0, b);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DTexture::PaletteChanged(DWORD a, DWORD b)
+HRESULT __stdcall m_IDirect3DTexture::PaletteChanged(DWORD a, DWORD b)
 {
 	logf("IDirect3DTexture::PaletteChanged(DWORD %d, DWORD %d);", a, b);
 	HRESULT x = mOriginal->PaletteChanged(a, b);
@@ -94,15 +94,15 @@ HRESULT __stdcall myIDirect3DTexture::PaletteChanged(DWORD a, DWORD b)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DTexture::Load(LPDIRECT3DTEXTURE a)
+HRESULT __stdcall m_IDirect3DTexture::Load(LPDIRECT3DTEXTURE a)
 {
 	logf("IDirect3DTexture::Load(LPDIRECT3DTEXTURE 0x%x);", a);
-	HRESULT x = mOriginal->Load((a) ? ((myIDirect3DTexture *)a)->mOriginal : 0);
+	HRESULT x = mOriginal->Load((a) ? ((m_IDirect3DTexture *)a)->mOriginal : 0);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DTexture::Unload()
+HRESULT __stdcall m_IDirect3DTexture::Unload()
 {
 	logf("IDirect3DTexture::Unload();");
 	HRESULT x = mOriginal->Unload();

@@ -1,0 +1,13 @@
+LIBRARY dsound
+EXPORTS
+
+DirectSoundCreate				= m_DirectSoundCreate					@1
+DirectSoundEnumerateA			= m_DirectSoundEnumerateA				@2
+DirectSoundEnumerateW			= m_DirectSoundEnumerateW				@3
+DirectSoundCaptureCreate		= m_DirectSoundCaptureCreate			@6
+DirectSoundCaptureEnumerateA	= m_DirectSoundCaptureEnumerateA		@7
+DirectSoundCaptureEnumerateW	= m_DirectSoundCaptureEnumerateW		@8
+GetDeviceID						= m_GetDeviceID							@9
+DirectSoundFullDuplexCreate		= m_DirectSoundFullDuplexCreate			@10
+DirectSoundCreate8				= m_DirectSoundCreate8					@11
+DirectSoundCaptureCreate8		= m_DirectSoundCaptureCreate8			@12

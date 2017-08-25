@@ -28,18 +28,18 @@
 #include "ddraw.h"
 #include "IDirect3DVertexBuffer.h"
 
-myIDirect3DVertexBuffer::myIDirect3DVertexBuffer(IDirect3DVertexBuffer * aOriginal)
+m_IDirect3DVertexBuffer::m_IDirect3DVertexBuffer(IDirect3DVertexBuffer * aOriginal)
 {
 	logf("IDirect3DVertexBuffer ctor\n");
 	mOriginal = aOriginal;
 }
 
-myIDirect3DVertexBuffer::~myIDirect3DVertexBuffer()
+m_IDirect3DVertexBuffer::~m_IDirect3DVertexBuffer()
 {
 	logf("IDirect3DVertexBuffer dtor\n");
 }
 
-HRESULT __stdcall myIDirect3DVertexBuffer::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT __stdcall m_IDirect3DVertexBuffer::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	logf("IDirect3DVertexBuffer::QueryInterface(REFIID, LPVOID * 0x%x);", ppvObj);
 	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
@@ -48,7 +48,7 @@ HRESULT __stdcall myIDirect3DVertexBuffer::QueryInterface(REFIID riid, LPVOID * 
 	return x;
 }
 
-ULONG __stdcall myIDirect3DVertexBuffer::AddRef()
+ULONG __stdcall m_IDirect3DVertexBuffer::AddRef()
 {
 	logf("IDirect3DVertexBuffer::AddRef();");
 	ULONG x = mOriginal->AddRef();
@@ -56,7 +56,7 @@ ULONG __stdcall myIDirect3DVertexBuffer::AddRef()
 	return x;
 }
 
-ULONG __stdcall myIDirect3DVertexBuffer::Release()
+ULONG __stdcall m_IDirect3DVertexBuffer::Release()
 {
 	logf("IDirect3DVertexBuffer::Release();");
 	ULONG x = mOriginal->Release();
@@ -70,7 +70,7 @@ ULONG __stdcall myIDirect3DVertexBuffer::Release()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DVertexBuffer::Lock(DWORD a, LPVOID * b, LPDWORD c)
+HRESULT __stdcall m_IDirect3DVertexBuffer::Lock(DWORD a, LPVOID * b, LPDWORD c)
 {
 	logf("IDirect3DVertexBuffer::Lock(DWORD %d, LPVOID * 0x%x, LPDWORD 0x%x);", a, b, c);
 	HRESULT x = mOriginal->Lock(a, b, c);
@@ -78,7 +78,7 @@ HRESULT __stdcall myIDirect3DVertexBuffer::Lock(DWORD a, LPVOID * b, LPDWORD c)
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DVertexBuffer::Unlock()
+HRESULT __stdcall m_IDirect3DVertexBuffer::Unlock()
 {
 	logf("IDirect3DVertexBuffer::Unlock();");
 	HRESULT x = mOriginal->Unlock();
@@ -86,15 +86,15 @@ HRESULT __stdcall myIDirect3DVertexBuffer::Unlock()
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DVertexBuffer::ProcessVertices(DWORD a, DWORD b, DWORD c, LPDIRECT3DVERTEXBUFFER d, DWORD e, LPDIRECT3DDEVICE3 f, DWORD g)
+HRESULT __stdcall m_IDirect3DVertexBuffer::ProcessVertices(DWORD a, DWORD b, DWORD c, LPDIRECT3DVERTEXBUFFER d, DWORD e, LPDIRECT3DDEVICE3 f, DWORD g)
 {
 	logf("IDirect3DVertexBuffer::ProcessVertices(DWORD %d, DWORD %d, DWORD %d, LPDIRECT3DVERTEXBUFFER 0x%x, DWORD %d, LPDIRECT3DDEVICE3 0x%x, DWORD %d);", a, b, c, d, e, f, g);
-	HRESULT x = mOriginal->ProcessVertices(a, b, c, (d) ? ((myIDirect3DVertexBuffer *)d)->mOriginal : 0, e, (f) ? ((myIDirect3DDevice3 *)f)->mOriginal : 0, g);
+	HRESULT x = mOriginal->ProcessVertices(a, b, c, (d) ? ((m_IDirect3DVertexBuffer *)d)->mOriginal : 0, e, (f) ? ((m_IDirect3DDevice3 *)f)->mOriginal : 0, g);
 	logf(" -> return %d\n", x);
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DVertexBuffer::GetVertexBufferDesc(LPD3DVERTEXBUFFERDESC a)
+HRESULT __stdcall m_IDirect3DVertexBuffer::GetVertexBufferDesc(LPD3DVERTEXBUFFERDESC a)
 {
 	logf("IDirect3DVertexBuffer::GetVertexBufferDesc(LPD3DVERTEXBUFFERDESC 0x%x);", a);
 	HRESULT x = mOriginal->GetVertexBufferDesc(a);
@@ -102,10 +102,10 @@ HRESULT __stdcall myIDirect3DVertexBuffer::GetVertexBufferDesc(LPD3DVERTEXBUFFER
 	return x;
 }
 
-HRESULT __stdcall myIDirect3DVertexBuffer::Optimize(LPDIRECT3DDEVICE3 a, DWORD b)
+HRESULT __stdcall m_IDirect3DVertexBuffer::Optimize(LPDIRECT3DDEVICE3 a, DWORD b)
 {
 	logf("IDirect3DVertexBuffer::Optimize(LPDIRECT3DDEVICE3 0x%x, DWORD %d);", a, b);
-	HRESULT x = mOriginal->Optimize((a) ? ((myIDirect3DDevice3 *)a)->mOriginal : 0, b);
+	HRESULT x = mOriginal->Optimize((a) ? ((m_IDirect3DDevice3 *)a)->mOriginal : 0, b);
 	logf(" -> return %d\n", x);
 	return x;
 }

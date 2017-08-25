@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirect3DViewport2 : public IDirect3DViewport2
+class m_IDirect3DViewport2 : public IDirect3DViewport2
 {
 public:
-	myIDirect3DViewport2(IDirect3DViewport2 * aOriginal);
-	~myIDirect3DViewport2();
+	m_IDirect3DViewport2(IDirect3DViewport2 * aOriginal);
+	~m_IDirect3DViewport2();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

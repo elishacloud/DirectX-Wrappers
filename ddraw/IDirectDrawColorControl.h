@@ -1,10 +1,10 @@
 #pragma once
 
-class myIDirectDrawColorControl : public IDirectDrawColorControl
+class m_IDirectDrawColorControl : public IDirectDrawColorControl
 {
 public:
-	myIDirectDrawColorControl(IDirectDrawColorControl * aOriginal);
-	~myIDirectDrawColorControl();
+	m_IDirectDrawColorControl(IDirectDrawColorControl * aOriginal);
+	~m_IDirectDrawColorControl();
 	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
 	ULONG __stdcall AddRef();
 	ULONG __stdcall Release();

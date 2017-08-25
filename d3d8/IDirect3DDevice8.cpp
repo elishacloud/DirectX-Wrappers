@@ -17,296 +17,296 @@
 #include "d3d8.h"
 #include "d3dx9.h"
 
-myIDirect3DDevice8::myIDirect3DDevice8(LPDIRECT3DDEVICE8 pDevice, LPDIRECT3DDEVICE8 **ppDevice)
+m_IDirect3DDevice8::m_IDirect3DDevice8(LPDIRECT3DDEVICE8 pDevice, LPDIRECT3DDEVICE8 **ppDevice)
 {
-	mypD3DDevice = pDevice;
-	*ppDevice = &mypD3DDevice;
+	m_pD3DDevice = pDevice;
+	*ppDevice = &m_pD3DDevice;
 }
 
-ULONG myIDirect3DDevice8::AddRef()
+ULONG m_IDirect3DDevice8::AddRef()
 {
-	return mypD3DDevice->AddRef();
+	return m_pD3DDevice->AddRef();
 }
 
-HRESULT myIDirect3DDevice8::QueryInterface(REFIID riid, LPVOID *ppvObj)
+HRESULT m_IDirect3DDevice8::QueryInterface(REFIID riid, LPVOID *ppvObj)
 {
-	return mypD3DDevice->QueryInterface(riid, ppvObj);
+	return m_pD3DDevice->QueryInterface(riid, ppvObj);
 }
 
-ULONG myIDirect3DDevice8::Release()
+ULONG m_IDirect3DDevice8::Release()
 {
-	return mypD3DDevice->Release();
+	return m_pD3DDevice->Release();
 }
 
-HRESULT myIDirect3DDevice8::Reset(D3DPRESENT_PARAMETERS *pPresentationParameters)
+HRESULT m_IDirect3DDevice8::Reset(D3DPRESENT_PARAMETERS *pPresentationParameters)
 {
-	HRESULT hr = mypD3DDevice->Reset(pPresentationParameters);
+	HRESULT hr = m_pD3DDevice->Reset(pPresentationParameters);
 	return hr;
 }
 
-HRESULT myIDirect3DDevice8::EndScene()
+HRESULT m_IDirect3DDevice8::EndScene()
 {
-	return mypD3DDevice->EndScene();
+	return m_pD3DDevice->EndScene();
 }
 
-void myIDirect3DDevice8::SetCursorPosition(THIS_ UINT XScreenSpace, UINT YScreenSpace, DWORD Flags)
+void m_IDirect3DDevice8::SetCursorPosition(THIS_ UINT XScreenSpace, UINT YScreenSpace, DWORD Flags)
 {
-	mypD3DDevice->SetCursorPosition(XScreenSpace, YScreenSpace, Flags);
+	m_pD3DDevice->SetCursorPosition(XScreenSpace, YScreenSpace, Flags);
 }
 
-HRESULT myIDirect3DDevice8::SetCursorProperties(UINT XHotSpot, UINT YHotSpot, IDirect3DSurface8 *pCursorBitmap)
+HRESULT m_IDirect3DDevice8::SetCursorProperties(UINT XHotSpot, UINT YHotSpot, IDirect3DSurface8 *pCursorBitmap)
 {
-	return mypD3DDevice->SetCursorProperties(XHotSpot, YHotSpot, pCursorBitmap);
+	return m_pD3DDevice->SetCursorProperties(XHotSpot, YHotSpot, pCursorBitmap);
 }
 
-BOOL myIDirect3DDevice8::ShowCursor(BOOL bShow)
+BOOL m_IDirect3DDevice8::ShowCursor(BOOL bShow)
 {
-	return mypD3DDevice->ShowCursor(bShow);
+	return m_pD3DDevice->ShowCursor(bShow);
 }
 
-HRESULT myIDirect3DDevice8::CreateAdditionalSwapChain(D3DPRESENT_PARAMETERS *pPresentationParameters, IDirect3DSwapChain8 **ppSwapChain)
+HRESULT m_IDirect3DDevice8::CreateAdditionalSwapChain(D3DPRESENT_PARAMETERS *pPresentationParameters, IDirect3DSwapChain8 **ppSwapChain)
 {
-	return mypD3DDevice->CreateAdditionalSwapChain(pPresentationParameters, ppSwapChain);
+	return m_pD3DDevice->CreateAdditionalSwapChain(pPresentationParameters, ppSwapChain);
 }
 
-HRESULT myIDirect3DDevice8::CreateCubeTexture(THIS_ UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture8** ppCubeTexture)
+HRESULT m_IDirect3DDevice8::CreateCubeTexture(THIS_ UINT EdgeLength, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DCubeTexture8** ppCubeTexture)
 {
-	return mypD3DDevice->CreateCubeTexture(EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture);
+	return m_pD3DDevice->CreateCubeTexture(EdgeLength, Levels, Usage, Format, Pool, ppCubeTexture);
 }
 
-HRESULT myIDirect3DDevice8::CreateDepthStencilSurface(THIS_ UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface8** ppSurface)
+HRESULT m_IDirect3DDevice8::CreateDepthStencilSurface(THIS_ UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, IDirect3DSurface8** ppSurface)
 {
-	return mypD3DDevice->CreateDepthStencilSurface(Width, Height, Format, MultiSample, ppSurface);
+	return m_pD3DDevice->CreateDepthStencilSurface(Width, Height, Format, MultiSample, ppSurface);
 }
 
-HRESULT myIDirect3DDevice8::CreateIndexBuffer(THIS_ UINT Length, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DIndexBuffer8** ppIndexBuffer)
+HRESULT m_IDirect3DDevice8::CreateIndexBuffer(THIS_ UINT Length, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DIndexBuffer8** ppIndexBuffer)
 {
-	return mypD3DDevice->CreateIndexBuffer(Length, Usage, Format, Pool, ppIndexBuffer);
+	return m_pD3DDevice->CreateIndexBuffer(Length, Usage, Format, Pool, ppIndexBuffer);
 }
 
-HRESULT myIDirect3DDevice8::CreateRenderTarget(THIS_ UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, BOOL Lockable, IDirect3DSurface8** ppSurface)
+HRESULT m_IDirect3DDevice8::CreateRenderTarget(THIS_ UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, BOOL Lockable, IDirect3DSurface8** ppSurface)
 {
-	return mypD3DDevice->CreateRenderTarget(Width, Height, Format, MultiSample, Lockable, ppSurface);
+	return m_pD3DDevice->CreateRenderTarget(Width, Height, Format, MultiSample, Lockable, ppSurface);
 }
 
-HRESULT myIDirect3DDevice8::CreateTexture(THIS_ UINT Width, UINT Height, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture8** ppTexture)
+HRESULT m_IDirect3DDevice8::CreateTexture(THIS_ UINT Width, UINT Height, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DTexture8** ppTexture)
 {
-	return mypD3DDevice->CreateTexture(Width, Height, Levels, Usage, Format, Pool, ppTexture);
+	return m_pD3DDevice->CreateTexture(Width, Height, Levels, Usage, Format, Pool, ppTexture);
 }
 
-HRESULT myIDirect3DDevice8::CreateVertexBuffer(THIS_ UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer8** ppVertexBuffer)
+HRESULT m_IDirect3DDevice8::CreateVertexBuffer(THIS_ UINT Length, DWORD Usage, DWORD FVF, D3DPOOL Pool, IDirect3DVertexBuffer8** ppVertexBuffer)
 {
-	return mypD3DDevice->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer);
+	return m_pD3DDevice->CreateVertexBuffer(Length, Usage, FVF, Pool, ppVertexBuffer);
 }
 
-HRESULT myIDirect3DDevice8::CreateVolumeTexture(THIS_ UINT Width, UINT Height, UINT Depth, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DVolumeTexture8** ppVolumeTexture)
+HRESULT m_IDirect3DDevice8::CreateVolumeTexture(THIS_ UINT Width, UINT Height, UINT Depth, UINT Levels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, IDirect3DVolumeTexture8** ppVolumeTexture)
 {
-	return mypD3DDevice->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, ppVolumeTexture);
+	return m_pD3DDevice->CreateVolumeTexture(Width, Height, Depth, Levels, Usage, Format, Pool, ppVolumeTexture);
 }
 
-HRESULT myIDirect3DDevice8::BeginStateBlock()
+HRESULT m_IDirect3DDevice8::BeginStateBlock()
 {
-	return mypD3DDevice->BeginStateBlock();
+	return m_pD3DDevice->BeginStateBlock();
 }
 
-HRESULT myIDirect3DDevice8::CreateStateBlock(THIS_ D3DSTATEBLOCKTYPE Type, DWORD* pToken)
+HRESULT m_IDirect3DDevice8::CreateStateBlock(THIS_ D3DSTATEBLOCKTYPE Type, DWORD* pToken)
 {
-	return mypD3DDevice->CreateStateBlock(Type, pToken);
+	return m_pD3DDevice->CreateStateBlock(Type, pToken);
 }
 
-HRESULT myIDirect3DDevice8::ApplyStateBlock(THIS_ DWORD Token)
+HRESULT m_IDirect3DDevice8::ApplyStateBlock(THIS_ DWORD Token)
 {
-	return mypD3DDevice->ApplyStateBlock(Token);
+	return m_pD3DDevice->ApplyStateBlock(Token);
 }
 
-HRESULT myIDirect3DDevice8::CaptureStateBlock(THIS_ DWORD Token)
+HRESULT m_IDirect3DDevice8::CaptureStateBlock(THIS_ DWORD Token)
 {
-	return mypD3DDevice->CaptureStateBlock(Token);
+	return m_pD3DDevice->CaptureStateBlock(Token);
 }
 
-HRESULT myIDirect3DDevice8::DeleteStateBlock(THIS_ DWORD Token)
+HRESULT m_IDirect3DDevice8::DeleteStateBlock(THIS_ DWORD Token)
 {
-	return mypD3DDevice->DeleteStateBlock(Token);
+	return m_pD3DDevice->DeleteStateBlock(Token);
 }
 
-HRESULT myIDirect3DDevice8::EndStateBlock(THIS_ DWORD* pToken)
+HRESULT m_IDirect3DDevice8::EndStateBlock(THIS_ DWORD* pToken)
 {
-	return mypD3DDevice->EndStateBlock(pToken);
+	return m_pD3DDevice->EndStateBlock(pToken);
 }
 
-HRESULT myIDirect3DDevice8::GetClipStatus(D3DCLIPSTATUS8 *pClipStatus)
+HRESULT m_IDirect3DDevice8::GetClipStatus(D3DCLIPSTATUS8 *pClipStatus)
 {
-	return mypD3DDevice->GetClipStatus(pClipStatus);
+	return m_pD3DDevice->GetClipStatus(pClipStatus);
 }
 
-HRESULT myIDirect3DDevice8::GetDisplayMode(THIS_ D3DDISPLAYMODE* pMode)
+HRESULT m_IDirect3DDevice8::GetDisplayMode(THIS_ D3DDISPLAYMODE* pMode)
 {
-	return mypD3DDevice->GetDisplayMode(pMode);
+	return m_pD3DDevice->GetDisplayMode(pMode);
 }
 
-HRESULT myIDirect3DDevice8::GetRenderState(D3DRENDERSTATETYPE State, DWORD *pValue)
+HRESULT m_IDirect3DDevice8::GetRenderState(D3DRENDERSTATETYPE State, DWORD *pValue)
 {
-	return mypD3DDevice->GetRenderState(State, pValue);
+	return m_pD3DDevice->GetRenderState(State, pValue);
 }
 
-HRESULT myIDirect3DDevice8::GetRenderTarget(THIS_ IDirect3DSurface8** ppRenderTarget)
+HRESULT m_IDirect3DDevice8::GetRenderTarget(THIS_ IDirect3DSurface8** ppRenderTarget)
 {
-	return mypD3DDevice->GetRenderTarget(ppRenderTarget);
+	return m_pD3DDevice->GetRenderTarget(ppRenderTarget);
 }
 
-HRESULT myIDirect3DDevice8::GetTransform(D3DTRANSFORMSTATETYPE State, D3DMATRIX *pMatrix)
+HRESULT m_IDirect3DDevice8::GetTransform(D3DTRANSFORMSTATETYPE State, D3DMATRIX *pMatrix)
 {
-	return mypD3DDevice->GetTransform(State, pMatrix);
+	return m_pD3DDevice->GetTransform(State, pMatrix);
 }
 
-HRESULT myIDirect3DDevice8::SetClipStatus(CONST D3DCLIPSTATUS8 *pClipStatus)
+HRESULT m_IDirect3DDevice8::SetClipStatus(CONST D3DCLIPSTATUS8 *pClipStatus)
 {
-	return mypD3DDevice->SetClipStatus(pClipStatus);
+	return m_pD3DDevice->SetClipStatus(pClipStatus);
 }
 
-HRESULT myIDirect3DDevice8::SetRenderState(D3DRENDERSTATETYPE State, DWORD Value)
+HRESULT m_IDirect3DDevice8::SetRenderState(D3DRENDERSTATETYPE State, DWORD Value)
 {
 	LOG << "SetRenderState " << State << " " << Value << "\n";
-	return mypD3DDevice->SetRenderState(State, Value);
+	return m_pD3DDevice->SetRenderState(State, Value);
 }
 
-HRESULT myIDirect3DDevice8::SetRenderTarget(THIS_ IDirect3DSurface8* pRenderTarget, IDirect3DSurface8* pNewZStencil)
+HRESULT m_IDirect3DDevice8::SetRenderTarget(THIS_ IDirect3DSurface8* pRenderTarget, IDirect3DSurface8* pNewZStencil)
 {
-	return mypD3DDevice->SetRenderTarget(pRenderTarget, pNewZStencil);
+	return m_pD3DDevice->SetRenderTarget(pRenderTarget, pNewZStencil);
 }
 
-HRESULT myIDirect3DDevice8::SetTransform(D3DTRANSFORMSTATETYPE State, CONST D3DMATRIX *pMatrix)
+HRESULT m_IDirect3DDevice8::SetTransform(D3DTRANSFORMSTATETYPE State, CONST D3DMATRIX *pMatrix)
 {
-	return mypD3DDevice->SetTransform(State, pMatrix);
+	return m_pD3DDevice->SetTransform(State, pMatrix);
 }
 
-void myIDirect3DDevice8::GetGammaRamp(THIS_ D3DGAMMARAMP* pRamp)
+void m_IDirect3DDevice8::GetGammaRamp(THIS_ D3DGAMMARAMP* pRamp)
 {
-	mypD3DDevice->GetGammaRamp(pRamp);
+	m_pD3DDevice->GetGammaRamp(pRamp);
 }
 
-void myIDirect3DDevice8::SetGammaRamp(THIS_ DWORD Flags, CONST D3DGAMMARAMP* pRamp)
+void m_IDirect3DDevice8::SetGammaRamp(THIS_ DWORD Flags, CONST D3DGAMMARAMP* pRamp)
 {
-	mypD3DDevice->SetGammaRamp(Flags, pRamp);
+	m_pD3DDevice->SetGammaRamp(Flags, pRamp);
 }
 
-HRESULT myIDirect3DDevice8::DeletePatch(UINT Handle)
+HRESULT m_IDirect3DDevice8::DeletePatch(UINT Handle)
 {
-	return mypD3DDevice->DeletePatch(Handle);
+	return m_pD3DDevice->DeletePatch(Handle);
 }
 
-HRESULT myIDirect3DDevice8::DrawRectPatch(UINT Handle, CONST float *pNumSegs, CONST D3DRECTPATCH_INFO *pRectPatchInfo)
+HRESULT m_IDirect3DDevice8::DrawRectPatch(UINT Handle, CONST float *pNumSegs, CONST D3DRECTPATCH_INFO *pRectPatchInfo)
 {
-	return mypD3DDevice->DrawRectPatch(Handle, pNumSegs, pRectPatchInfo);
+	return m_pD3DDevice->DrawRectPatch(Handle, pNumSegs, pRectPatchInfo);
 }
 
-HRESULT myIDirect3DDevice8::DrawTriPatch(UINT Handle, CONST float *pNumSegs, CONST D3DTRIPATCH_INFO *pTriPatchInfo)
+HRESULT m_IDirect3DDevice8::DrawTriPatch(UINT Handle, CONST float *pNumSegs, CONST D3DTRIPATCH_INFO *pTriPatchInfo)
 {
-	return mypD3DDevice->DrawTriPatch(Handle, pNumSegs, pTriPatchInfo);
+	return m_pD3DDevice->DrawTriPatch(Handle, pNumSegs, pTriPatchInfo);
 }
 
-HRESULT myIDirect3DDevice8::GetIndices(THIS_ IDirect3DIndexBuffer8** ppIndexData, UINT* pBaseVertexIndex)
+HRESULT m_IDirect3DDevice8::GetIndices(THIS_ IDirect3DIndexBuffer8** ppIndexData, UINT* pBaseVertexIndex)
 {
-	return mypD3DDevice->GetIndices(ppIndexData, pBaseVertexIndex);
+	return m_pD3DDevice->GetIndices(ppIndexData, pBaseVertexIndex);
 }
 
-HRESULT myIDirect3DDevice8::SetIndices(THIS_ IDirect3DIndexBuffer8* pIndexData, UINT BaseVertexIndex)
+HRESULT m_IDirect3DDevice8::SetIndices(THIS_ IDirect3DIndexBuffer8* pIndexData, UINT BaseVertexIndex)
 {
-	return mypD3DDevice->SetIndices(pIndexData, BaseVertexIndex);
+	return m_pD3DDevice->SetIndices(pIndexData, BaseVertexIndex);
 }
 
-UINT myIDirect3DDevice8::GetAvailableTextureMem()
+UINT m_IDirect3DDevice8::GetAvailableTextureMem()
 {
-	return mypD3DDevice->GetAvailableTextureMem();
+	return m_pD3DDevice->GetAvailableTextureMem();
 }
 
-HRESULT myIDirect3DDevice8::GetCreationParameters(D3DDEVICE_CREATION_PARAMETERS *pParameters)
+HRESULT m_IDirect3DDevice8::GetCreationParameters(D3DDEVICE_CREATION_PARAMETERS *pParameters)
 {
-	return mypD3DDevice->GetCreationParameters(pParameters);
+	return m_pD3DDevice->GetCreationParameters(pParameters);
 }
 
-HRESULT myIDirect3DDevice8::GetDeviceCaps(D3DCAPS8 *pCaps)
+HRESULT m_IDirect3DDevice8::GetDeviceCaps(D3DCAPS8 *pCaps)
 {
-	return mypD3DDevice->GetDeviceCaps(pCaps);
+	return m_pD3DDevice->GetDeviceCaps(pCaps);
 }
 
-HRESULT myIDirect3DDevice8::GetDirect3D(IDirect3D8 **ppD3D9)
+HRESULT m_IDirect3DDevice8::GetDirect3D(IDirect3D8 **ppD3D9)
 {
-	return mypD3DDevice->GetDirect3D(ppD3D9);
+	return m_pD3DDevice->GetDirect3D(ppD3D9);
 }
 
-HRESULT myIDirect3DDevice8::GetRasterStatus(THIS_ D3DRASTER_STATUS* pRasterStatus)
+HRESULT m_IDirect3DDevice8::GetRasterStatus(THIS_ D3DRASTER_STATUS* pRasterStatus)
 {
-	return mypD3DDevice->GetRasterStatus(pRasterStatus);
+	return m_pD3DDevice->GetRasterStatus(pRasterStatus);
 }
 
-HRESULT myIDirect3DDevice8::GetLight(DWORD Index, D3DLIGHT8 *pLight)
+HRESULT m_IDirect3DDevice8::GetLight(DWORD Index, D3DLIGHT8 *pLight)
 {
-	return mypD3DDevice->GetLight(Index, pLight);
+	return m_pD3DDevice->GetLight(Index, pLight);
 }
 
-HRESULT myIDirect3DDevice8::GetLightEnable(DWORD Index, BOOL *pEnable)
+HRESULT m_IDirect3DDevice8::GetLightEnable(DWORD Index, BOOL *pEnable)
 {
-	return mypD3DDevice->GetLightEnable(Index, pEnable);
+	return m_pD3DDevice->GetLightEnable(Index, pEnable);
 }
 
-HRESULT myIDirect3DDevice8::GetMaterial(D3DMATERIAL8 *pMaterial)
+HRESULT m_IDirect3DDevice8::GetMaterial(D3DMATERIAL8 *pMaterial)
 {
-	return mypD3DDevice->GetMaterial(pMaterial);
+	return m_pD3DDevice->GetMaterial(pMaterial);
 }
 
-HRESULT myIDirect3DDevice8::LightEnable(DWORD LightIndex, BOOL bEnable)
+HRESULT m_IDirect3DDevice8::LightEnable(DWORD LightIndex, BOOL bEnable)
 {
-	return mypD3DDevice->LightEnable(LightIndex, bEnable);
+	return m_pD3DDevice->LightEnable(LightIndex, bEnable);
 }
 
-HRESULT myIDirect3DDevice8::SetLight(DWORD Index, CONST D3DLIGHT8 *pLight)
+HRESULT m_IDirect3DDevice8::SetLight(DWORD Index, CONST D3DLIGHT8 *pLight)
 {
 
-	return mypD3DDevice->SetLight(Index, pLight);
+	return m_pD3DDevice->SetLight(Index, pLight);
 }
 
-HRESULT myIDirect3DDevice8::SetMaterial(CONST D3DMATERIAL8 *pMaterial)
+HRESULT m_IDirect3DDevice8::SetMaterial(CONST D3DMATERIAL8 *pMaterial)
 {
-	return mypD3DDevice->SetMaterial(pMaterial);
+	return m_pD3DDevice->SetMaterial(pMaterial);
 }
 
-HRESULT myIDirect3DDevice8::MultiplyTransform(D3DTRANSFORMSTATETYPE State, CONST D3DMATRIX *pMatrix)
+HRESULT m_IDirect3DDevice8::MultiplyTransform(D3DTRANSFORMSTATETYPE State, CONST D3DMATRIX *pMatrix)
 {
-	return mypD3DDevice->MultiplyTransform(State, pMatrix);
+	return m_pD3DDevice->MultiplyTransform(State, pMatrix);
 }
 
-HRESULT myIDirect3DDevice8::ProcessVertices(THIS_ UINT SrcStartIndex, UINT DestIndex, UINT VertexCount, IDirect3DVertexBuffer8* pDestBuffer, DWORD Flags)
+HRESULT m_IDirect3DDevice8::ProcessVertices(THIS_ UINT SrcStartIndex, UINT DestIndex, UINT VertexCount, IDirect3DVertexBuffer8* pDestBuffer, DWORD Flags)
 {
-	return mypD3DDevice->ProcessVertices(SrcStartIndex, DestIndex, VertexCount, pDestBuffer, Flags);
+	return m_pD3DDevice->ProcessVertices(SrcStartIndex, DestIndex, VertexCount, pDestBuffer, Flags);
 }
 
-HRESULT myIDirect3DDevice8::TestCooperativeLevel()
+HRESULT m_IDirect3DDevice8::TestCooperativeLevel()
 {
-	return mypD3DDevice->TestCooperativeLevel();
+	return m_pD3DDevice->TestCooperativeLevel();
 }
 
-HRESULT myIDirect3DDevice8::GetCurrentTexturePalette(UINT *pPaletteNumber)
+HRESULT m_IDirect3DDevice8::GetCurrentTexturePalette(UINT *pPaletteNumber)
 {
-	return mypD3DDevice->GetCurrentTexturePalette(pPaletteNumber);
+	return m_pD3DDevice->GetCurrentTexturePalette(pPaletteNumber);
 }
 
-HRESULT myIDirect3DDevice8::GetPaletteEntries(UINT PaletteNumber, PALETTEENTRY *pEntries)
+HRESULT m_IDirect3DDevice8::GetPaletteEntries(UINT PaletteNumber, PALETTEENTRY *pEntries)
 {
-	return mypD3DDevice->GetPaletteEntries(PaletteNumber, pEntries);
+	return m_pD3DDevice->GetPaletteEntries(PaletteNumber, pEntries);
 }
 
-HRESULT myIDirect3DDevice8::SetCurrentTexturePalette(UINT PaletteNumber)
+HRESULT m_IDirect3DDevice8::SetCurrentTexturePalette(UINT PaletteNumber)
 {
-	return mypD3DDevice->SetCurrentTexturePalette(PaletteNumber);
+	return m_pD3DDevice->SetCurrentTexturePalette(PaletteNumber);
 }
 
-HRESULT myIDirect3DDevice8::SetPaletteEntries(UINT PaletteNumber, CONST PALETTEENTRY *pEntries)
+HRESULT m_IDirect3DDevice8::SetPaletteEntries(UINT PaletteNumber, CONST PALETTEENTRY *pEntries)
 {
-	return mypD3DDevice->SetPaletteEntries(PaletteNumber, pEntries);
+	return m_pD3DDevice->SetPaletteEntries(PaletteNumber, pEntries);
 }
 
-HRESULT myIDirect3DDevice8::CreatePixelShader(THIS_ CONST DWORD* pFunction, DWORD* pHandle)
+HRESULT m_IDirect3DDevice8::CreatePixelShader(THIS_ CONST DWORD* pFunction, DWORD* pHandle)
 {
 	if (pFunction != nullptr)
 	{
@@ -336,138 +336,138 @@ HRESULT myIDirect3DDevice8::CreatePixelShader(THIS_ CONST DWORD* pFunction, DWOR
 		LOG << "> Dumping translated shader assembly:\n" << cstr;
 	}
 
-	return mypD3DDevice->CreatePixelShader(pFunction, pHandle);
+	return m_pD3DDevice->CreatePixelShader(pFunction, pHandle);
 }
 
-HRESULT myIDirect3DDevice8::GetPixelShader(THIS_ DWORD* pHandle)
+HRESULT m_IDirect3DDevice8::GetPixelShader(THIS_ DWORD* pHandle)
 {
-	return mypD3DDevice->GetPixelShader(pHandle);
+	return m_pD3DDevice->GetPixelShader(pHandle);
 }
 
-HRESULT myIDirect3DDevice8::SetPixelShader(THIS_ DWORD Handle)
+HRESULT m_IDirect3DDevice8::SetPixelShader(THIS_ DWORD Handle)
 {
-	return mypD3DDevice->SetPixelShader(Handle);
+	return m_pD3DDevice->SetPixelShader(Handle);
 }
 
-HRESULT myIDirect3DDevice8::DeletePixelShader(THIS_ DWORD Handle)
+HRESULT m_IDirect3DDevice8::DeletePixelShader(THIS_ DWORD Handle)
 {
-	return mypD3DDevice->DeletePixelShader(Handle);
+	return m_pD3DDevice->DeletePixelShader(Handle);
 }
 
-HRESULT myIDirect3DDevice8::GetPixelShaderFunction(THIS_ DWORD Handle, void* pData, DWORD* pSizeOfData)
+HRESULT m_IDirect3DDevice8::GetPixelShaderFunction(THIS_ DWORD Handle, void* pData, DWORD* pSizeOfData)
 {
-	return mypD3DDevice->GetPixelShaderFunction(Handle, pData, pSizeOfData);
+	return m_pD3DDevice->GetPixelShaderFunction(Handle, pData, pSizeOfData);
 }
 
-HRESULT myIDirect3DDevice8::Present(CONST RECT *pSourceRect, CONST RECT *pDestRect, HWND hDestWindowOverride, CONST RGNDATA *pDirtyRegion)
+HRESULT m_IDirect3DDevice8::Present(CONST RECT *pSourceRect, CONST RECT *pDestRect, HWND hDestWindowOverride, CONST RGNDATA *pDirtyRegion)
 {
-	return mypD3DDevice->Present(pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
+	return m_pD3DDevice->Present(pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
 }
 
-HRESULT myIDirect3DDevice8::DrawIndexedPrimitive(THIS_ D3DPRIMITIVETYPE Type, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
+HRESULT m_IDirect3DDevice8::DrawIndexedPrimitive(THIS_ D3DPRIMITIVETYPE Type, UINT MinVertexIndex, UINT NumVertices, UINT startIndex, UINT primCount)
 {
-	return mypD3DDevice->DrawIndexedPrimitive(Type, MinVertexIndex, NumVertices, startIndex, primCount);
+	return m_pD3DDevice->DrawIndexedPrimitive(Type, MinVertexIndex, NumVertices, startIndex, primCount);
 }
 
-HRESULT myIDirect3DDevice8::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE PrimitiveType, UINT MinIndex, UINT NumVertices, UINT PrimitiveCount, CONST void *pIndexData, D3DFORMAT IndexDataFormat, CONST void *pVertexStreamZeroData, UINT VertexStreamZeroStride)
+HRESULT m_IDirect3DDevice8::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE PrimitiveType, UINT MinIndex, UINT NumVertices, UINT PrimitiveCount, CONST void *pIndexData, D3DFORMAT IndexDataFormat, CONST void *pVertexStreamZeroData, UINT VertexStreamZeroStride)
 {
-	return mypD3DDevice->DrawIndexedPrimitiveUP(PrimitiveType, MinIndex, NumVertices, PrimitiveCount, pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
+	return m_pD3DDevice->DrawIndexedPrimitiveUP(PrimitiveType, MinIndex, NumVertices, PrimitiveCount, pIndexData, IndexDataFormat, pVertexStreamZeroData, VertexStreamZeroStride);
 }
 
-HRESULT myIDirect3DDevice8::DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount)
+HRESULT m_IDirect3DDevice8::DrawPrimitive(D3DPRIMITIVETYPE PrimitiveType, UINT StartVertex, UINT PrimitiveCount)
 {
-	return mypD3DDevice->DrawPrimitive(PrimitiveType, StartVertex, PrimitiveCount);
+	return m_pD3DDevice->DrawPrimitive(PrimitiveType, StartVertex, PrimitiveCount);
 }
 
-HRESULT myIDirect3DDevice8::DrawPrimitiveUP(D3DPRIMITIVETYPE PrimitiveType, UINT PrimitiveCount, CONST void *pVertexStreamZeroData, UINT VertexStreamZeroStride)
+HRESULT m_IDirect3DDevice8::DrawPrimitiveUP(D3DPRIMITIVETYPE PrimitiveType, UINT PrimitiveCount, CONST void *pVertexStreamZeroData, UINT VertexStreamZeroStride)
 {
-	return mypD3DDevice->DrawPrimitiveUP(PrimitiveType, PrimitiveCount, pVertexStreamZeroData, VertexStreamZeroStride);
+	return m_pD3DDevice->DrawPrimitiveUP(PrimitiveType, PrimitiveCount, pVertexStreamZeroData, VertexStreamZeroStride);
 }
 
-HRESULT myIDirect3DDevice8::BeginScene()
+HRESULT m_IDirect3DDevice8::BeginScene()
 {
-	return mypD3DDevice->BeginScene();
+	return m_pD3DDevice->BeginScene();
 }
 
-HRESULT myIDirect3DDevice8::GetStreamSource(THIS_ UINT StreamNumber, IDirect3DVertexBuffer8** ppStreamData, UINT* pStride)
+HRESULT m_IDirect3DDevice8::GetStreamSource(THIS_ UINT StreamNumber, IDirect3DVertexBuffer8** ppStreamData, UINT* pStride)
 {
-	return mypD3DDevice->GetStreamSource(StreamNumber, ppStreamData, pStride);
+	return m_pD3DDevice->GetStreamSource(StreamNumber, ppStreamData, pStride);
 }
 
-HRESULT myIDirect3DDevice8::SetStreamSource(THIS_ UINT StreamNumber, IDirect3DVertexBuffer8* pStreamData, UINT Stride)
+HRESULT m_IDirect3DDevice8::SetStreamSource(THIS_ UINT StreamNumber, IDirect3DVertexBuffer8* pStreamData, UINT Stride)
 {
-	return mypD3DDevice->SetStreamSource(StreamNumber, pStreamData, Stride);
+	return m_pD3DDevice->SetStreamSource(StreamNumber, pStreamData, Stride);
 }
 
-HRESULT myIDirect3DDevice8::GetBackBuffer(THIS_ UINT iBackBuffer, D3DBACKBUFFER_TYPE Type, IDirect3DSurface8** ppBackBuffer)
+HRESULT m_IDirect3DDevice8::GetBackBuffer(THIS_ UINT iBackBuffer, D3DBACKBUFFER_TYPE Type, IDirect3DSurface8** ppBackBuffer)
 {
-	return mypD3DDevice->GetBackBuffer(iBackBuffer, Type, ppBackBuffer);
+	return m_pD3DDevice->GetBackBuffer(iBackBuffer, Type, ppBackBuffer);
 }
 
-HRESULT myIDirect3DDevice8::GetDepthStencilSurface(IDirect3DSurface8 **ppZStencilSurface)
+HRESULT m_IDirect3DDevice8::GetDepthStencilSurface(IDirect3DSurface8 **ppZStencilSurface)
 {
-	return mypD3DDevice->GetDepthStencilSurface(ppZStencilSurface);
+	return m_pD3DDevice->GetDepthStencilSurface(ppZStencilSurface);
 }
 
-HRESULT myIDirect3DDevice8::GetTexture(DWORD Stage, IDirect3DBaseTexture8 **ppTexture)
+HRESULT m_IDirect3DDevice8::GetTexture(DWORD Stage, IDirect3DBaseTexture8 **ppTexture)
 {
-	return mypD3DDevice->GetTexture(Stage, ppTexture);
+	return m_pD3DDevice->GetTexture(Stage, ppTexture);
 }
 
-HRESULT myIDirect3DDevice8::GetTextureStageState(DWORD Stage, D3DTEXTURESTAGESTATETYPE Type, DWORD *pValue)
+HRESULT m_IDirect3DDevice8::GetTextureStageState(DWORD Stage, D3DTEXTURESTAGESTATETYPE Type, DWORD *pValue)
 {
-	return mypD3DDevice->GetTextureStageState(Stage, Type, pValue);
+	return m_pD3DDevice->GetTextureStageState(Stage, Type, pValue);
 }
 
-HRESULT myIDirect3DDevice8::SetTexture(DWORD Stage, IDirect3DBaseTexture8 *pTexture)
+HRESULT m_IDirect3DDevice8::SetTexture(DWORD Stage, IDirect3DBaseTexture8 *pTexture)
 {
-	return mypD3DDevice->SetTexture(Stage, pTexture);
+	return m_pD3DDevice->SetTexture(Stage, pTexture);
 }
 
-HRESULT myIDirect3DDevice8::SetTextureStageState(DWORD Stage, D3DTEXTURESTAGESTATETYPE Type, DWORD Value)
+HRESULT m_IDirect3DDevice8::SetTextureStageState(DWORD Stage, D3DTEXTURESTAGESTATETYPE Type, DWORD Value)
 {
 	LOG << "SetTextureStageState " << Stage << " " << Type << " " << Value << "\n";
-	return mypD3DDevice->SetTextureStageState(Stage, Type, Value);
+	return m_pD3DDevice->SetTextureStageState(Stage, Type, Value);
 }
 
-HRESULT myIDirect3DDevice8::UpdateTexture(IDirect3DBaseTexture8 *pSourceTexture, IDirect3DBaseTexture8 *pDestinationTexture)
+HRESULT m_IDirect3DDevice8::UpdateTexture(IDirect3DBaseTexture8 *pSourceTexture, IDirect3DBaseTexture8 *pDestinationTexture)
 {
-	return mypD3DDevice->UpdateTexture(pSourceTexture, pDestinationTexture);
+	return m_pD3DDevice->UpdateTexture(pSourceTexture, pDestinationTexture);
 }
 
-HRESULT myIDirect3DDevice8::ValidateDevice(DWORD *pNumPasses)
+HRESULT m_IDirect3DDevice8::ValidateDevice(DWORD *pNumPasses)
 {
-	HRESULT rt = mypD3DDevice->ValidateDevice(pNumPasses);
+	HRESULT rt = m_pD3DDevice->ValidateDevice(pNumPasses);
 	LOG << "ValidateDevice " << rt << "\n";
 	return rt;
 }
 
-HRESULT myIDirect3DDevice8::GetClipPlane(DWORD Index, float *pPlane)
+HRESULT m_IDirect3DDevice8::GetClipPlane(DWORD Index, float *pPlane)
 {
-	return mypD3DDevice->GetClipPlane(Index, pPlane);
+	return m_pD3DDevice->GetClipPlane(Index, pPlane);
 }
 
-HRESULT myIDirect3DDevice8::SetClipPlane(DWORD Index, CONST float *pPlane)
+HRESULT m_IDirect3DDevice8::SetClipPlane(DWORD Index, CONST float *pPlane)
 {
-	return mypD3DDevice->SetClipPlane(Index, pPlane);
+	return m_pD3DDevice->SetClipPlane(Index, pPlane);
 }
 
-HRESULT myIDirect3DDevice8::Clear(DWORD Count, CONST D3DRECT *pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil)
+HRESULT m_IDirect3DDevice8::Clear(DWORD Count, CONST D3DRECT *pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil)
 {
-	return mypD3DDevice->Clear(Count, pRects, Flags, Color, Z, Stencil);
+	return m_pD3DDevice->Clear(Count, pRects, Flags, Color, Z, Stencil);
 }
 
-HRESULT myIDirect3DDevice8::GetViewport(D3DVIEWPORT8 *pViewport)
+HRESULT m_IDirect3DDevice8::GetViewport(D3DVIEWPORT8 *pViewport)
 {
-	return mypD3DDevice->GetViewport(pViewport);
+	return m_pD3DDevice->GetViewport(pViewport);
 }
 
-HRESULT myIDirect3DDevice8::SetViewport(CONST D3DVIEWPORT8 *pViewport)
+HRESULT m_IDirect3DDevice8::SetViewport(CONST D3DVIEWPORT8 *pViewport)
 {
-	return mypD3DDevice->SetViewport(pViewport);
+	return m_pD3DDevice->SetViewport(pViewport);
 }
 
-HRESULT myIDirect3DDevice8::CreateVertexShader(THIS_ CONST DWORD* pDeclaration, CONST DWORD* pFunction, DWORD* pHandle, DWORD Usage)
+HRESULT m_IDirect3DDevice8::CreateVertexShader(THIS_ CONST DWORD* pDeclaration, CONST DWORD* pFunction, DWORD* pHandle, DWORD Usage)
 {
 	if (pFunction != nullptr)
 	{
@@ -497,76 +497,76 @@ HRESULT myIDirect3DDevice8::CreateVertexShader(THIS_ CONST DWORD* pDeclaration, 
 		LOG << "> Dumping translated shader assembly:\n" << cstr;
 	}
 
-	return mypD3DDevice->CreateVertexShader(pDeclaration, pFunction, pHandle, Usage);
+	return m_pD3DDevice->CreateVertexShader(pDeclaration, pFunction, pHandle, Usage);
 }
 
-HRESULT myIDirect3DDevice8::GetVertexShader(THIS_ DWORD* pHandle)
+HRESULT m_IDirect3DDevice8::GetVertexShader(THIS_ DWORD* pHandle)
 {
-	return mypD3DDevice->GetVertexShader(pHandle);
+	return m_pD3DDevice->GetVertexShader(pHandle);
 }
 
-HRESULT myIDirect3DDevice8::SetVertexShader(THIS_ DWORD Handle)
+HRESULT m_IDirect3DDevice8::SetVertexShader(THIS_ DWORD Handle)
 {
-	return mypD3DDevice->SetVertexShader(Handle);
+	return m_pD3DDevice->SetVertexShader(Handle);
 }
 
-HRESULT myIDirect3DDevice8::DeleteVertexShader(THIS_ DWORD Handle)
+HRESULT m_IDirect3DDevice8::DeleteVertexShader(THIS_ DWORD Handle)
 {
-	return mypD3DDevice->DeleteVertexShader(Handle);
+	return m_pD3DDevice->DeleteVertexShader(Handle);
 }
 
-HRESULT myIDirect3DDevice8::GetVertexShaderDeclaration(THIS_ DWORD Handle, void* pData, DWORD* pSizeOfData)
+HRESULT m_IDirect3DDevice8::GetVertexShaderDeclaration(THIS_ DWORD Handle, void* pData, DWORD* pSizeOfData)
 {
-	return mypD3DDevice->GetVertexShaderDeclaration(Handle, pData, pSizeOfData);
+	return m_pD3DDevice->GetVertexShaderDeclaration(Handle, pData, pSizeOfData);
 }
 
-HRESULT myIDirect3DDevice8::GetVertexShaderFunction(THIS_ DWORD Handle, void* pData, DWORD* pSizeOfData)
+HRESULT m_IDirect3DDevice8::GetVertexShaderFunction(THIS_ DWORD Handle, void* pData, DWORD* pSizeOfData)
 {
-	return mypD3DDevice->GetVertexShaderFunction(Handle, pData, pSizeOfData);
+	return m_pD3DDevice->GetVertexShaderFunction(Handle, pData, pSizeOfData);
 }
 
-HRESULT myIDirect3DDevice8::SetPixelShaderConstant(THIS_ DWORD Register, CONST void* pConstantData, DWORD ConstantCount)
+HRESULT m_IDirect3DDevice8::SetPixelShaderConstant(THIS_ DWORD Register, CONST void* pConstantData, DWORD ConstantCount)
 {
-	return mypD3DDevice->SetPixelShaderConstant(Register, pConstantData, ConstantCount);
+	return m_pD3DDevice->SetPixelShaderConstant(Register, pConstantData, ConstantCount);
 }
 
-HRESULT myIDirect3DDevice8::GetPixelShaderConstant(THIS_ DWORD Register, void* pConstantData, DWORD ConstantCount)
+HRESULT m_IDirect3DDevice8::GetPixelShaderConstant(THIS_ DWORD Register, void* pConstantData, DWORD ConstantCount)
 {
-	return mypD3DDevice->GetPixelShaderConstant(Register, pConstantData, ConstantCount);
+	return m_pD3DDevice->GetPixelShaderConstant(Register, pConstantData, ConstantCount);
 }
 
 
-HRESULT myIDirect3DDevice8::SetVertexShaderConstant(THIS_ DWORD Register, CONST void* pConstantData, DWORD ConstantCount)
+HRESULT m_IDirect3DDevice8::SetVertexShaderConstant(THIS_ DWORD Register, CONST void* pConstantData, DWORD ConstantCount)
 {
-	return mypD3DDevice->SetVertexShaderConstant(Register, pConstantData, ConstantCount);
+	return m_pD3DDevice->SetVertexShaderConstant(Register, pConstantData, ConstantCount);
 }
 
-HRESULT myIDirect3DDevice8::GetVertexShaderConstant(THIS_ DWORD Register, void* pConstantData, DWORD ConstantCount)
+HRESULT m_IDirect3DDevice8::GetVertexShaderConstant(THIS_ DWORD Register, void* pConstantData, DWORD ConstantCount)
 {
-	return mypD3DDevice->GetVertexShaderConstant(Register, pConstantData, ConstantCount);
+	return m_pD3DDevice->GetVertexShaderConstant(Register, pConstantData, ConstantCount);
 }
 
-HRESULT myIDirect3DDevice8::ResourceManagerDiscardBytes(THIS_ DWORD Bytes)
+HRESULT m_IDirect3DDevice8::ResourceManagerDiscardBytes(THIS_ DWORD Bytes)
 {
-	return mypD3DDevice->ResourceManagerDiscardBytes(Bytes);
+	return m_pD3DDevice->ResourceManagerDiscardBytes(Bytes);
 }
 
-HRESULT myIDirect3DDevice8::CreateImageSurface(THIS_ UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface8** ppSurface)
+HRESULT m_IDirect3DDevice8::CreateImageSurface(THIS_ UINT Width, UINT Height, D3DFORMAT Format, IDirect3DSurface8** ppSurface)
 {
-	return mypD3DDevice->CreateImageSurface(Width, Height, Format, ppSurface);
+	return m_pD3DDevice->CreateImageSurface(Width, Height, Format, ppSurface);
 }
 
-HRESULT myIDirect3DDevice8::CopyRects(THIS_ IDirect3DSurface8* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface8* pDestinationSurface, CONST POINT* pDestPointsArray)
+HRESULT m_IDirect3DDevice8::CopyRects(THIS_ IDirect3DSurface8* pSourceSurface, CONST RECT* pSourceRectsArray, UINT cRects, IDirect3DSurface8* pDestinationSurface, CONST POINT* pDestPointsArray)
 {
-	return mypD3DDevice->CopyRects(pSourceSurface, pSourceRectsArray, cRects, pDestinationSurface, pDestPointsArray);
+	return m_pD3DDevice->CopyRects(pSourceSurface, pSourceRectsArray, cRects, pDestinationSurface, pDestPointsArray);
 }
 
-HRESULT myIDirect3DDevice8::GetFrontBuffer(THIS_ IDirect3DSurface8* pDestSurface)
+HRESULT m_IDirect3DDevice8::GetFrontBuffer(THIS_ IDirect3DSurface8* pDestSurface)
 {
-	return mypD3DDevice->GetFrontBuffer(pDestSurface);
+	return m_pD3DDevice->GetFrontBuffer(pDestSurface);
 }
 
-HRESULT myIDirect3DDevice8::GetInfo(THIS_ DWORD DevInfoID, void* pDevInfoStruct, DWORD DevInfoStructSize)
+HRESULT m_IDirect3DDevice8::GetInfo(THIS_ DWORD DevInfoID, void* pDevInfoStruct, DWORD DevInfoStructSize)
 {
-	return mypD3DDevice->GetInfo(DevInfoID, pDevInfoStruct, DevInfoStructSize);
+	return m_pD3DDevice->GetInfo(DevInfoID, pDevInfoStruct, DevInfoStructSize);
 }
