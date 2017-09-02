@@ -22,6 +22,24 @@ typedef	HRESULT(WINAPI *DllGetClassObjectProc)(REFCLSID, REFIID, LPVOID *);
 typedef HRESULT(WINAPI *DllCanUnloadNowProc)(void);
 
 // Very simple logging for the purpose of debugging only.
-extern std::ofstream LOG;
+class Log
+{
+public:
+	Log() {}
+	~Log()
+	{
+		LOG << std::endl;
+	}
+
+	template <typename T>
+	Log& operator<<(const T& t)
+	{
+		LOG << t;
+		return *this;
+	}
+
+private:
+	static std::ofstream LOG;
+};
 
 void logf(char * format, ...);

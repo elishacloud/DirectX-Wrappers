@@ -6,9 +6,27 @@
 #include "IDirect3DDevice9.h"
 
 // Very simple logging for the purpose of debugging only.
-extern std::ofstream LOG;
+class Log
+{
+public:
+	Log() {}
+	~Log()
+	{
+		LOG << std::endl;
+	}
+
+	template <typename T>
+	Log& operator<<(const T& t)
+	{
+		LOG << t;
+		return *this;
+	}
+
+private:
+	static std::ofstream LOG;
+};
+
+void logf(char * format, ...);
 
 typedef IDirect3D9 *(WINAPI *Direct3DCreate9Proc)(UINT);
 extern Direct3DCreate9Proc m_pDirect3DCreate9;
-
-void logf(char * format, ...);

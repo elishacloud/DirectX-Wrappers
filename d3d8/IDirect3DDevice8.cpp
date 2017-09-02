@@ -166,7 +166,7 @@ HRESULT m_IDirect3DDevice8::SetClipStatus(CONST D3DCLIPSTATUS8 *pClipStatus)
 
 HRESULT m_IDirect3DDevice8::SetRenderState(D3DRENDERSTATETYPE State, DWORD Value)
 {
-	LOG << "SetRenderState " << State << " " << Value << "\n";
+	Log() << "SetRenderState " << State << " " << Value;
 	return m_pD3DDevice->SetRenderState(State, Value);
 }
 
@@ -310,11 +310,11 @@ HRESULT m_IDirect3DDevice8::CreatePixelShader(THIS_ CONST DWORD* pFunction, DWOR
 {
 	if (pFunction != nullptr)
 	{
-		LOG << "<CreatePixelShader> Disassembling shader and translating assembly to Direct3D 9 compatible code ...\n";
+		Log() << "<CreatePixelShader> Disassembling shader and translating assembly to Direct3D 9 compatible code ...";
 
 		/*if (*pFunction < D3DVS_VERSION(1, 0) || *pFunction > D3DVS_VERSION(1, 1))
 		{
-		LOG << "> Failed because of version mismatch ('" << std::showbase << std::hex << *pFunction << std::dec << std::noshowbase << "')! Only 'vs_1_x' shaders are supported.\n";
+		Log() << "> Failed because of version mismatch ('" << std::showbase << std::hex << *pFunction << std::dec << std::noshowbase << "')! Only 'vs_1_x' shaders are supported.";
 
 		return D3DERR_INVALIDCALL;
 		}*/
@@ -325,7 +325,7 @@ HRESULT m_IDirect3DDevice8::CreatePixelShader(THIS_ CONST DWORD* pFunction, DWOR
 
 		if (FAILED(hr))
 		{
-			LOG << "> Failed to disassemble shader with error code " << std::hex << hr << std::dec << "!\n";
+			Log() << "> Failed to disassemble shader with error code " << std::hex << hr << std::dec << "!";
 
 			return hr;
 		}
@@ -333,7 +333,7 @@ HRESULT m_IDirect3DDevice8::CreatePixelShader(THIS_ CONST DWORD* pFunction, DWOR
 		std::string SourceCode(static_cast<const char *>(Disassembly->GetBufferPointer()), Disassembly->GetBufferSize() - 1);
 		const char *cstr = SourceCode.c_str();
 
-		LOG << "> Dumping translated shader assembly:\n" << cstr;
+		Log() << "> Dumping translated shader assembly:" << cstr;
 	}
 
 	return m_pD3DDevice->CreatePixelShader(pFunction, pHandle);
@@ -426,7 +426,7 @@ HRESULT m_IDirect3DDevice8::SetTexture(DWORD Stage, IDirect3DBaseTexture8 *pText
 
 HRESULT m_IDirect3DDevice8::SetTextureStageState(DWORD Stage, D3DTEXTURESTAGESTATETYPE Type, DWORD Value)
 {
-	LOG << "SetTextureStageState " << Stage << " " << Type << " " << Value << "\n";
+	Log() << "SetTextureStageState " << Stage << " " << Type << " " << Value;
 	return m_pD3DDevice->SetTextureStageState(Stage, Type, Value);
 }
 
@@ -438,7 +438,7 @@ HRESULT m_IDirect3DDevice8::UpdateTexture(IDirect3DBaseTexture8 *pSourceTexture,
 HRESULT m_IDirect3DDevice8::ValidateDevice(DWORD *pNumPasses)
 {
 	HRESULT rt = m_pD3DDevice->ValidateDevice(pNumPasses);
-	LOG << "ValidateDevice " << rt << "\n";
+	Log() << "ValidateDevice " << rt;
 	return rt;
 }
 
@@ -471,11 +471,11 @@ HRESULT m_IDirect3DDevice8::CreateVertexShader(THIS_ CONST DWORD* pDeclaration, 
 {
 	if (pFunction != nullptr)
 	{
-		LOG << "<CreateVertexShader> Disassembling shader and translating assembly to Direct3D 9 compatible code ...";
+		Log() << "<CreateVertexShader> Disassembling shader and translating assembly to Direct3D 9 compatible code ...";
 
 		if (*pFunction < D3DVS_VERSION(1, 0) || *pFunction > D3DVS_VERSION(1, 1))
 		{
-			LOG << "> Failed because of version mismatch ('" << std::showbase << std::hex << *pFunction << std::dec << std::noshowbase << "')! Only 'vs_1_x' shaders are supported.";
+			Log() << "> Failed because of version mismatch ('" << std::showbase << std::hex << *pFunction << std::dec << std::noshowbase << "')! Only 'vs_1_x' shaders are supported.";
 
 			return D3DERR_INVALIDCALL;
 		}
@@ -486,7 +486,7 @@ HRESULT m_IDirect3DDevice8::CreateVertexShader(THIS_ CONST DWORD* pDeclaration, 
 
 		if (FAILED(hr))
 		{
-			LOG << "> Failed to disassemble shader with error code " << std::hex << hr << std::dec << "!";
+			Log() << "> Failed to disassemble shader with error code " << std::hex << hr << std::dec << "!";
 
 			return hr;
 		}
@@ -494,7 +494,7 @@ HRESULT m_IDirect3DDevice8::CreateVertexShader(THIS_ CONST DWORD* pDeclaration, 
 		std::string SourceCode(static_cast<const char *>(Disassembly->GetBufferPointer()), Disassembly->GetBufferSize() - 1);
 		const char *cstr = SourceCode.c_str();
 
-		LOG << "> Dumping translated shader assembly:\n" << cstr;
+		Log() << "> Dumping translated shader assembly:" << cstr;
 	}
 
 	return m_pD3DDevice->CreateVertexShader(pDeclaration, pFunction, pHandle, Usage);

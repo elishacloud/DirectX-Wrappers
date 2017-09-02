@@ -11,13 +11,16 @@ Currently this can wrap the following DLLs:
 - dsound.dll
 
 However I plan to add these DLLs soon:
+- d2d1.dll
 - d3dim.dll
 - d3dim700.dll
 - d3d10.dll
+- d3d10core.dll
 - d3d11.dll
 - d3d12.dll
 - dinput.dll
 - dinput8.dll
+- dxgi.dll
 
 Note: It currently only works with 32bit games, but I may add 64bit support later.
 

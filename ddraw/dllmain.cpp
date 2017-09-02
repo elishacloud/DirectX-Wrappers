@@ -27,7 +27,7 @@
 
 #include "ddraw.h"
 
-std::ofstream LOG;
+std::ofstream Log::LOG("ddraw.log");
 
 typedef HRESULT(_stdcall *DDrawCreateProc)(void* a, void* b, void* c);
 typedef HRESULT(_stdcall *DDrawEnumerateProc)(void* callback, void* context);
@@ -53,11 +53,10 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 	switch (dwReason)
 	{
 	case DLL_PROCESS_ATTACH:
-		LOG.open("ddraw.log", std::ios::trunc);
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\ddraw.dll");
-		LOG << "Loading " << path << "\n";
+		Log() << "Loading " << path << "\n";
 		ddrawdll = LoadLibraryA(path);
 		DDrawCreate = (DDrawCreateProc)GetProcAddress(ddrawdll, "DirectDrawCreate");
 		DDrawEnumerate = (DDrawEnumerateProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateA");
@@ -71,7 +70,6 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 
 	case DLL_PROCESS_DETACH:
 		FreeLibrary(ddrawdll);
-		LOG.flush();
 		break;
 	}
 	return true;
@@ -81,10 +79,11 @@ void logf(char * fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
-	static constexpr DWORD BuffSize = 250;
-	static char buffer[BuffSize];
-	sprintf_s(buffer, fmt, ap);
-	LOG << buffer;
+	auto size = vsnprintf(nullptr, 0, fmt, ap);
+	std::string output(size + 1, '\0');
+	vsprintf_s(&output[0], size + 1, fmt, ap);
+	Log() << output.c_str();
+	va_end(ap);
 }
 
 struct WrapPair

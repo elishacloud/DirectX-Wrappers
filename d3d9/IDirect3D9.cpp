@@ -57,7 +57,7 @@ HRESULT m_IDirect3D9::EnumAdapterModes(THIS_ UINT Adapter, D3DFORMAT Format, UIN
 UINT m_IDirect3D9::GetAdapterCount()
 {
 	UINT Count = m_pD3D->GetAdapterCount();
-	LOG << "GetAdapterCount " << Count << "\n";
+	Log() << "GetAdapterCount " << Count;
 	return  Count;
 }
 
@@ -74,7 +74,7 @@ HRESULT m_IDirect3D9::GetAdapterIdentifier(UINT Adapter, DWORD Flags, D3DADAPTER
 UINT m_IDirect3D9::GetAdapterModeCount(THIS_ UINT Adapter, D3DFORMAT Format)
 {
 	UINT Count = m_pD3D->GetAdapterModeCount(Adapter, Format);
-	LOG << "GetAdapterModeCount Adapter " << Adapter << " Format " << Format << " Count " << Count << "\n";
+	Log() << "GetAdapterModeCount Adapter " << Adapter << " Format " << Format << " Count " << Count;
 	return Count;
 }
 
@@ -95,7 +95,7 @@ HRESULT m_IDirect3D9::RegisterSoftwareDevice(void *pInitializeFunction)
 
 HRESULT m_IDirect3D9::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, D3DFORMAT RenderTargetFormat, D3DFORMAT DepthStencilFormat)
 {
-	LOG << "CheckDepthStencilMatch " << Adapter << " " << DeviceType << " " << AdapterFormat << " " << RenderTargetFormat << " " << DepthStencilFormat << "\n";
+	Log() << "CheckDepthStencilMatch " << Adapter << " " << DeviceType << " " << AdapterFormat << " " << RenderTargetFormat << " " << DepthStencilFormat;
 	return m_pD3D->CheckDepthStencilMatch(Adapter, DeviceType, AdapterFormat, RenderTargetFormat, DepthStencilFormat);
 }
 

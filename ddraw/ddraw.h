@@ -49,9 +49,28 @@
 #include "IDirectDrawSurface7.h"
 
 // Very simple logging for the purpose of debugging only.
-extern std::ofstream LOG;
+class Log
+{
+public:
+	Log() {}
+	~Log()
+	{
+		//LOG << std::endl;		// Remark out for now since too many log entries don't expect end of line to be added
+	}
+
+	template <typename T>
+	Log& operator<<(const T& t)
+	{
+		LOG << t;
+		return *this;
+	}
+
+private:
+	static std::ofstream LOG;
+	};
 
 void logf(char * format, ...);
+
 void genericQueryInterface(REFIID riid, LPVOID * ppvObj);
 void wrapstore(void * aOriginal, void * aWrapper);
 void *wrapfetch(void * aOriginal);

@@ -16,7 +16,7 @@
 
 #include "d3d8.h"
 
-std::ofstream LOG;
+std::ofstream Log::LOG("d3d8.log");
 
 Direct3DCreate8Proc m_pDirect3DCreate8;
 
@@ -27,18 +27,16 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	switch (dwReason)
 	{
 	case DLL_PROCESS_ATTACH:
-		LOG.open("d3d8.log", std::ios::trunc);
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\d3d8.dll");
-		LOG << "Loading " << path << "\n";
+		Log() << "Loading " << path;
 		d3d8dll = LoadLibraryA(path);
 		m_pDirect3DCreate8 = (Direct3DCreate8Proc)GetProcAddress(d3d8dll, "Direct3DCreate8");
 		break;
 
 	case DLL_PROCESS_DETACH:
 		FreeLibrary(d3d8dll);
-		LOG.flush();
 		break;
 	}
 
@@ -49,10 +47,11 @@ void logf(char * fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
-	static constexpr DWORD BuffSize = 250;
-	static char buffer[BuffSize];
-	sprintf_s(buffer, fmt, ap);
-	LOG << buffer;
+	auto size = vsnprintf(nullptr, 0, fmt, ap);
+	std::string output(size + 1, '\0');
+	vsprintf_s(&output[0], size + 1, fmt, ap);
+	Log() << output.c_str();
+	va_end(ap);
 }
 
 IDirect3D8 *WINAPI m_Direct3DCreate8(UINT SDKVersion)

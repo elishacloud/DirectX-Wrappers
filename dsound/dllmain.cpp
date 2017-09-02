@@ -18,7 +18,7 @@
 
 #include "dsound.h"
 
-std::ofstream LOG;
+std::ofstream Log::LOG("dsound.log");
 
 DirectSoundCreate8Proc m_pDirectSoundCreate8 = nullptr;
 DirectSoundCreateProc m_pDirectSoundCreate = nullptr;
@@ -135,11 +135,10 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 	switch (fdwReason)
 	{
 	case DLL_PROCESS_ATTACH:
-		LOG.open("dsound.log", std::ios::trunc);
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\dsound.dll");
-		LOG << "Loading " << path << "\n";
+		Log() << "Loading " << path << "\n";
 		dsounddll = LoadLibraryA(path);
 		m_pDirectSoundCreate = (DirectSoundCreateProc)GetProcAddress(dsounddll, "DirectSoundCreate");
 		m_pDirectSoundCreate8 = (DirectSoundCreate8Proc)GetProcAddress(dsounddll, "DirectSoundCreate8");
@@ -157,7 +156,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 
 	case DLL_PROCESS_DETACH:
 		FreeLibrary(dsounddll);
-		LOG.flush();
 		break;
 	}
 
@@ -168,8 +166,9 @@ void logf(char * fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
-	static constexpr DWORD BuffSize = 250;
-	static char buffer[BuffSize];
-	sprintf_s(buffer, fmt, ap);
-	LOG << buffer;
+	auto size = vsnprintf(nullptr, 0, fmt, ap);
+	std::string output(size + 1, '\0');
+	vsprintf_s(&output[0], size + 1, fmt, ap);
+	Log() << output.c_str();
+	va_end(ap);
 }
