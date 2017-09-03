@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3d8", "d3d8\d3d8.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsound", "dsound\dsound.vcxproj", "{4832D9A7-7748-4C94-96E1-07C80B9E75BA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dinput", "dinput\dinput.vcxproj", "{1786D16A-E5FC-4195-8E48-33C1B9E360B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +35,10 @@ Global
 		{4832D9A7-7748-4C94-96E1-07C80B9E75BA}.Debug|Win32.Build.0 = Debug|Win32
 		{4832D9A7-7748-4C94-96E1-07C80B9E75BA}.Release|Win32.ActiveCfg = Release|Win32
 		{4832D9A7-7748-4C94-96E1-07C80B9E75BA}.Release|Win32.Build.0 = Release|Win32
+		{1786D16A-E5FC-4195-8E48-33C1B9E360B9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1786D16A-E5FC-4195-8E48-33C1B9E360B9}.Debug|Win32.Build.0 = Debug|Win32
+		{1786D16A-E5FC-4195-8E48-33C1B9E360B9}.Release|Win32.ActiveCfg = Release|Win32
+		{1786D16A-E5FC-4195-8E48-33C1B9E360B9}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

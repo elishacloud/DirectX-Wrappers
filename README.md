@@ -8,6 +8,7 @@ Currently this can wrap the following DLLs:
 - ddraw.dll
 - d3d8.dll
 - d3d9.dll
+- dinput.dll
 - dsound.dll
 
 However I plan to add these DLLs soon:
@@ -18,9 +19,8 @@ However I plan to add these DLLs soon:
 - d3d10core.dll
 - d3d11.dll
 - d3d12.dll
-- dinput.dll
-- dinput8.dll
 - dxgi.dll
+- dinput8.dll
 
 Note: It currently only works with 32bit games, but I may add 64bit support later.
 
@@ -44,6 +44,7 @@ Code in this project is taken from:
 - [Jari Komppa's dxwrapper](https://github.com/jarikomppa/dxwrapper)
 - [Direct3D9 Wrapper DLL](https://gist.github.com/shaunlebron/3854bf4eec5bec297907)
 - [DirectSoundControl](https://github.com/nRaecheR/DirectSoundControl)
+- [XWA hooks](https://github.com/JeremyAnsel/xwa_hooks/tree/master/DInputLogger)
 
 ### Development
 
