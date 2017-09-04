@@ -89,10 +89,9 @@ extern "C" HRESULT WINAPI DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, L
 	HRESULT hr = m_pDirectInputCreateW(hinst, dwVersion, lplpDirectInput, punkOuter);
 	if (SUCCEEDED(hr))
 	{
-		//TODO: Add wrappers
-		//LPDIRECTINPUTW* temp = lplpDirectInput;
-		//*lplpDirectInput = new m_DirectInputW(*temp);
-		//delete temp;
+		LPDIRECTINPUTW* temp = lplpDirectInput;
+		*lplpDirectInput = new m_DirectInputW(*temp);
+		delete temp;
 	}
 	Log() << __FUNCTION__ << " " << (void*)dwVersion << "\t" << hr;
 	return hr;

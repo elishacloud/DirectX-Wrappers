@@ -4,7 +4,9 @@
 #include <fstream>
 #include <dinput.h>
 #include "DirectInputA.h"
+#include "DirectInputW.h"
 #include "DirectInputDeviceA.h"
+#include "DirectInputDeviceW.h"
 
 // Very simple logging for the purpose of debugging only.
 class Log

@@ -1,0 +1,26 @@
+#pragma once
+
+class m_DirectInputW : public IDirectInputW
+{
+private:
+	IDirectInputW* m_pDInput;
+
+public:
+	m_DirectInputW(IDirectInputW* original) { m_pDInput = original; };
+
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);
+	STDMETHOD_(ULONG, AddRef)(THIS);
+	STDMETHOD_(ULONG, Release)(THIS);
+
+	/*** IDirectInput methods ***/
+	STDMETHOD(CreateDevice)(THIS_ REFGUID, LPDIRECTINPUTDEVICEW *, LPUNKNOWN);
+	STDMETHOD(EnumDevices)(THIS_ DWORD, LPDIENUMDEVICESCALLBACKW, LPVOID, DWORD);
+	STDMETHOD(GetDeviceStatus)(THIS_ REFGUID);
+	STDMETHOD(RunControlPanel)(THIS_ HWND, DWORD);
+	STDMETHOD(Initialize)(THIS_ HINSTANCE, DWORD);
+	/*STDMETHOD(FindDevice)(THIS_ REFGUID, LPCWSTR, LPGUID);
+	STDMETHOD(CreateDeviceEx)(THIS_ REFGUID, REFIID, LPVOID *, LPUNKNOWN);
+	STDMETHOD(EnumDevicesBySemantics)(THIS_ LPCWSTR, LPDIACTIONFORMATW, LPDIENUMDEVICESBYSEMANTICSCBW, LPVOID, DWORD);
+	STDMETHOD(ConfigureDevices)(THIS_ LPDICONFIGUREDEVICESCALLBACK, LPDICONFIGUREDEVICESPARAMSW, DWORD, LPVOID);*/
+};

@@ -81,6 +81,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectInputDeviceW.cpp" />
+    <ClCompile Include="DirectInputW.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="DirectInputA.cpp" />
     <ClCompile Include="DirectInputDeviceA.cpp" />
@@ -92,6 +94,8 @@
     <ClInclude Include="dinput.h" />
     <ClInclude Include="DirectInputA.h" />
     <ClInclude Include="DirectInputDeviceA.h" />
+    <ClInclude Include="DirectInputDeviceW.h" />
+    <ClInclude Include="DirectInputW.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
