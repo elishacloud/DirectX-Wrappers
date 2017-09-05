@@ -3,12 +3,12 @@
 class m_IDirectSoundClassFactory : public IClassFactory
 {
 public:
-	virtual HRESULT __stdcall QueryInterface(REFIID, LPVOID *);
-	virtual ULONG __stdcall AddRef();
-	virtual ULONG __stdcall Release();
+	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, LPVOID *);
+	virtual ULONG STDMETHODCALLTYPE AddRef();
+	virtual ULONG STDMETHODCALLTYPE Release();
 
-	virtual HRESULT __stdcall CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject);
-	virtual HRESULT __stdcall LockServer(BOOL fLock);
+	virtual HRESULT STDMETHODCALLTYPE CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject);
+	virtual HRESULT STDMETHODCALLTYPE LockServer(BOOL fLock);
 
 	LPCLASSFACTORY m_lpClassFactory = nullptr;
 };

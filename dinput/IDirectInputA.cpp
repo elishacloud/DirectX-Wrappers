@@ -32,9 +32,9 @@ HRESULT m_DirectInputA::CreateDevice(REFGUID rguid, LPDIRECTINPUTDEVICEA *lplpDi
 	HRESULT hr = m_pDInput->CreateDevice(rguid, lplpDirectInputDevice, pUnkOuter);
 	if (SUCCEEDED(hr))
 	{
-		LPDIRECTINPUTDEVICEA* temp = lplpDirectInputDevice;
-		*lplpDirectInputDevice = new m_DirectInputDeviceA(*temp);
-		delete temp;
+		LPDIRECTINPUTDEVICEA* pDIDX = lplpDirectInputDevice;
+		*lplpDirectInputDevice = new m_DirectInputDeviceA(*pDIDX);
+		delete pDIDX;
 	}
 	Log() << this << " " << __FUNCTION__ << " " << str << "\t" << hr;
 	return hr;

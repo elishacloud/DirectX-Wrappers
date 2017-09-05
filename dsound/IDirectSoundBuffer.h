@@ -3,34 +3,38 @@
 class m_IDirectSoundBuffer8 : public IDirectSoundBuffer8
 {
 public:
-	virtual HRESULT __stdcall QueryInterface(REFIID, LPVOID *);
-	virtual ULONG __stdcall AddRef();
-	virtual ULONG __stdcall Release();
+	// IUnknown methods
+	STDMETHOD(QueryInterface)(THIS_ _In_ REFIID, _Outptr_ LPVOID*);
+	STDMETHOD_(ULONG, AddRef)(THIS);
+	STDMETHOD_(ULONG, Release)(THIS);
 
 	// IDirectSoundBuffer methods
-	virtual HRESULT __stdcall GetCaps(LPDSBCAPS pDSBufferCaps);
-	virtual HRESULT __stdcall GetCurrentPosition(LPDWORD pdwCurrentPlayCursor, LPDWORD pdwCurrentWriteCursor);
-	virtual HRESULT __stdcall GetFormat(LPWAVEFORMATEX pwfxFormat, DWORD dwSizeAllocated, LPDWORD pdwSizeWritten);
-	virtual HRESULT __stdcall GetVolume(LPLONG plVolume);
-	virtual HRESULT __stdcall GetPan(LPLONG plPan);
-	virtual HRESULT __stdcall GetFrequency(LPDWORD pdwFrequency);
-	virtual HRESULT __stdcall GetStatus(LPDWORD pdwStatus);
-	virtual HRESULT __stdcall Initialize(LPDIRECTSOUND pDirectSound, LPCDSBUFFERDESC pcDSBufferDesc);
-	virtual HRESULT __stdcall Lock(DWORD dwOffset, DWORD dwBytes, LPVOID *ppvAudioPtr1, LPDWORD pdwAudioBytes1, LPVOID *ppvAudioPtr2, LPDWORD pdwAudioBytes2, DWORD dwFlags);
-	virtual HRESULT __stdcall Play(DWORD dwReserved1, DWORD dwPriority, DWORD dwFlags);
-	virtual HRESULT __stdcall SetCurrentPosition(DWORD dwNewPosition);
-	virtual HRESULT __stdcall SetFormat(LPCWAVEFORMATEX pcfxFormat);
-	virtual HRESULT __stdcall SetVolume(LONG lVolume);
-	virtual HRESULT __stdcall SetPan(LONG lPan);
-	virtual HRESULT __stdcall SetFrequency(DWORD dwFrequency);
-	virtual HRESULT __stdcall Stop();
-	virtual HRESULT __stdcall Unlock(LPVOID pvAudioPtr1, DWORD dwAudioBytes1, LPVOID pvAudioPtr2, DWORD dwAudioBytes2);
-	virtual HRESULT __stdcall Restore();
+	STDMETHOD(GetCaps)(THIS_ _Out_ LPDSBCAPS pDSBufferCaps);
+	STDMETHOD(GetCurrentPosition)(THIS_ _Out_opt_ LPDWORD pdwCurrentPlayCursor, _Out_opt_ LPDWORD pdwCurrentWriteCursor);
+	STDMETHOD(GetFormat)(THIS_ _Out_writes_bytes_opt_(dwSizeAllocated) LPWAVEFORMATEX pwfxFormat, DWORD dwSizeAllocated, _Out_opt_ LPDWORD pdwSizeWritten);
+	STDMETHOD(GetVolume)(THIS_ _Out_ LPLONG plVolume);
+	STDMETHOD(GetPan)(THIS_ _Out_ LPLONG plPan);
+	STDMETHOD(GetFrequency)(THIS_ _Out_ LPDWORD pdwFrequency);
+	STDMETHOD(GetStatus)(THIS_ _Out_ LPDWORD pdwStatus);
+	STDMETHOD(Initialize)(THIS_ _In_ LPDIRECTSOUND pDirectSound, _In_ LPCDSBUFFERDESC pcDSBufferDesc);
+	STDMETHOD(Lock)(THIS_ DWORD dwOffset, DWORD dwBytes,
+		_Outptr_result_bytebuffer_(*pdwAudioBytes1) LPVOID *ppvAudioPtr1, _Out_ LPDWORD pdwAudioBytes1,
+		_Outptr_opt_result_bytebuffer_(*pdwAudioBytes2) LPVOID *ppvAudioPtr2, _Out_opt_ LPDWORD pdwAudioBytes2, DWORD dwFlags);
+	STDMETHOD(Play)(THIS_ DWORD dwReserved1, DWORD dwPriority, DWORD dwFlags);
+	STDMETHOD(SetCurrentPosition)(THIS_ DWORD dwNewPosition);
+	STDMETHOD(SetFormat)(THIS_ _In_ LPCWAVEFORMATEX pcfxFormat);
+	STDMETHOD(SetVolume)(THIS_ LONG lVolume);
+	STDMETHOD(SetPan)(THIS_ LONG lPan);
+	STDMETHOD(SetFrequency)(THIS_ DWORD dwFrequency);
+	STDMETHOD(Stop)(THIS);
+	STDMETHOD(Unlock)(THIS_ _In_reads_bytes_(dwAudioBytes1) LPVOID pvAudioPtr1, DWORD dwAudioBytes1,
+		_In_reads_bytes_opt_(dwAudioBytes2) LPVOID pvAudioPtr2, DWORD dwAudioBytes2);
+	STDMETHOD(Restore)(THIS);
 
 	// IDirectSoundBuffer8 methods
-	virtual HRESULT __stdcall SetFX(DWORD dwEffectsCount, LPDSEFFECTDESC pDSFXDesc, LPDWORD pdwResultCodes);
-	virtual HRESULT __stdcall AcquireResources(DWORD dwFlags, DWORD dwEffectsCount, LPDWORD pdwResultCodes);
-	virtual HRESULT __stdcall GetObjectInPath(REFGUID rguidObject, DWORD dwIndex, REFGUID rguidInterface, LPVOID *ppObject);
+	STDMETHOD(SetFX)(THIS_ DWORD dwEffectsCount, _In_reads_opt_(dwEffectsCount) LPDSEFFECTDESC pDSFXDesc, _Out_writes_opt_(dwEffectsCount) LPDWORD pdwResultCodes);
+	STDMETHOD(AcquireResources)(THIS_ DWORD dwFlags, DWORD dwEffectsCount, _Out_writes_(dwEffectsCount) LPDWORD pdwResultCodes);
+	STDMETHOD(GetObjectInPath)(THIS_ _In_ REFGUID rguidObject, DWORD dwIndex, _In_ REFGUID rguidInterface, _Outptr_ LPVOID *ppObject);
 
 	bool GetPrimaryBuffer()
 	{

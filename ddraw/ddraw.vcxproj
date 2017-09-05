@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{64C7BD54-5672-490E-9A88-BF0BB6C81FD9}</ProjectGuid>
+    <ProjectGuid>{4C1BAB9B-316B-41D2-AC2B-18013DCE7D53}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ddraw</RootNamespace>
   </PropertyGroup>
@@ -81,26 +81,6 @@
   <ItemGroup>
     <ClCompile Include="InterfaceQuery.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="IDirect3D.cpp" />
-    <ClCompile Include="IDirect3D2.cpp" />
-    <ClCompile Include="IDirect3D3.cpp" />
-    <ClCompile Include="IDirect3D7.cpp" />
-    <ClCompile Include="IDirect3DDevice.cpp" />
-    <ClCompile Include="IDirect3DDevice2.cpp" />
-    <ClCompile Include="IDirect3DDevice3.cpp" />
-    <ClCompile Include="IDirect3DDevice7.cpp" />
-    <ClCompile Include="IDirect3DExecuteBuffer.cpp" />
-    <ClCompile Include="IDirect3DLight.cpp" />
-    <ClCompile Include="IDirect3DMaterial.cpp" />
-    <ClCompile Include="IDirect3DMaterial2.cpp" />
-    <ClCompile Include="IDirect3DMaterial3.cpp" />
-    <ClCompile Include="IDirect3DTexture.cpp" />
-    <ClCompile Include="IDirect3DTexture2.cpp" />
-    <ClCompile Include="IDirect3DVertexBuffer.cpp" />
-    <ClCompile Include="IDirect3DVertexBuffer7.cpp" />
-    <ClCompile Include="IDirect3DViewport.cpp" />
-    <ClCompile Include="IDirect3DViewport2.cpp" />
-    <ClCompile Include="IDirect3DViewport3.cpp" />
     <ClCompile Include="IDirectDraw.cpp" />
     <ClCompile Include="IDirectDraw2.cpp" />
     <ClCompile Include="IDirectDraw3.cpp" />
@@ -118,26 +98,6 @@
     <ClCompile Include="IDirectDrawSurface7.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IDirect3D.h" />
-    <ClInclude Include="IDirect3D2.h" />
-    <ClInclude Include="IDirect3D3.h" />
-    <ClInclude Include="IDirect3D7.h" />
-    <ClInclude Include="IDirect3DDevice.h" />
-    <ClInclude Include="IDirect3DDevice2.h" />
-    <ClInclude Include="IDirect3DDevice3.h" />
-    <ClInclude Include="IDirect3DDevice7.h" />
-    <ClInclude Include="IDirect3DExecuteBuffer.h" />
-    <ClInclude Include="IDirect3DLight.h" />
-    <ClInclude Include="IDirect3DMaterial.h" />
-    <ClInclude Include="IDirect3DMaterial2.h" />
-    <ClInclude Include="IDirect3DMaterial3.h" />
-    <ClInclude Include="IDirect3DTexture.h" />
-    <ClInclude Include="IDirect3DTexture2.h" />
-    <ClInclude Include="IDirect3DVertexBuffer.h" />
-    <ClInclude Include="IDirect3DVertexBuffer7.h" />
-    <ClInclude Include="IDirect3DViewport.h" />
-    <ClInclude Include="IDirect3DViewport2.h" />
-    <ClInclude Include="IDirect3DViewport3.h" />
     <ClInclude Include="IDirectDraw.h" />
     <ClInclude Include="IDirectDraw2.h" />
     <ClInclude Include="IDirectDraw3.h" />

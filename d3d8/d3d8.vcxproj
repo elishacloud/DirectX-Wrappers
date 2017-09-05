@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7EE21ADA-3B02-4CD6-A891-C2257A54B061}</ProjectGuid>
+    <ProjectGuid>{5117B33A-8FA9-4074-A340-8E4E11C9568D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>d3d8</RootNamespace>
   </PropertyGroup>
@@ -81,13 +81,29 @@
     <ClCompile Include="d3dx9.cpp" />
     <ClCompile Include="IDirect3D8.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="IDirect3DCubeTexture8.cpp" />
     <ClCompile Include="IDirect3DDevice8.cpp" />
+    <ClCompile Include="IDirect3DIndexBuffer8.cpp" />
+    <ClCompile Include="IDirect3DSurface8.cpp" />
+    <ClCompile Include="IDirect3DSwapChain8.cpp" />
+    <ClCompile Include="IDirect3DTexture8.cpp" />
+    <ClCompile Include="IDirect3DVertexBuffer8.cpp" />
+    <ClCompile Include="IDirect3DVolumeTexture8.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3d8.h" />
     <ClInclude Include="d3dx9.h" />
     <ClInclude Include="IDirect3D8.h" />
+    <ClInclude Include="IDirect3DCubeTexture8.h" />
     <ClInclude Include="IDirect3DDevice8.h" />
+    <ClInclude Include="IDirect3DIndexBuffer8.h" />
+    <ClInclude Include="IDirect3DSurface8.h" />
+    <ClInclude Include="IDirect3DSwapChain8.h" />
+    <ClInclude Include="IDirect3DTexture8.h" />
+    <ClInclude Include="IDirect3DVertexBuffer8.h" />
+    <ClInclude Include="IDirect3DVolumeTexture8.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d8.def" />

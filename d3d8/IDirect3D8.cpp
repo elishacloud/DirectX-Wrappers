@@ -21,20 +21,13 @@ HRESULT m_IDirect3D8::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
 	D3DPRESENT_PARAMETERS *pPresentationParameters,
 	IDirect3DDevice8 **ppReturnedDeviceInterface)
 {
-	LPDIRECT3DDEVICE8 *temp = ppReturnedDeviceInterface;
-
-	*temp = new m_IDirect3DDevice8(*ppReturnedDeviceInterface, &ppReturnedDeviceInterface);
-	*ppReturnedDeviceInterface = *temp;
-	delete temp;
-
 	HRESULT hr = m_pD3D->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, ppReturnedDeviceInterface);
 
+	if (SUCCEEDED(hr))
+	{
+		*ppReturnedDeviceInterface = GetOrCreateWrapperT(IDirect3DDevice8, *ppReturnedDeviceInterface);
+	}
 	return hr;
-}
-
-ULONG m_IDirect3D8::AddRef()
-{
-	return m_pD3D->AddRef();
 }
 
 HRESULT m_IDirect3D8::QueryInterface(REFIID riid, LPVOID *ppvObj)
@@ -42,9 +35,22 @@ HRESULT m_IDirect3D8::QueryInterface(REFIID riid, LPVOID *ppvObj)
 	return m_pD3D->QueryInterface(riid, ppvObj);
 }
 
+ULONG m_IDirect3D8::AddRef()
+{
+	return m_pD3D->AddRef();
+}
+
 ULONG m_IDirect3D8::Release()
 {
-	return m_pD3D->Release();
+	ULONG count = m_pD3D->Release();
+
+	if (count == 0)
+	{
+		RemoveWrapper(m_pD3D);
+		delete this;
+	}
+
+	return count;
 }
 
 HRESULT m_IDirect3D8::EnumAdapterModes(THIS_ UINT Adapter, UINT Mode, D3DDISPLAYMODE* pMode)
@@ -54,9 +60,7 @@ HRESULT m_IDirect3D8::EnumAdapterModes(THIS_ UINT Adapter, UINT Mode, D3DDISPLAY
 
 UINT m_IDirect3D8::GetAdapterCount()
 {
-	UINT Count = m_pD3D->GetAdapterCount();
-	Log() << "GetAdapterCount " << Count;
-	return  Count;
+	return m_pD3D->GetAdapterCount();
 }
 
 HRESULT m_IDirect3D8::GetAdapterDisplayMode(UINT Adapter, D3DDISPLAYMODE *pMode)
@@ -71,9 +75,7 @@ HRESULT m_IDirect3D8::GetAdapterIdentifier(UINT Adapter, DWORD Flags, D3DADAPTER
 
 UINT m_IDirect3D8::GetAdapterModeCount(THIS_ UINT Adapter)
 {
-	UINT Count = m_pD3D->GetAdapterModeCount(Adapter);
-	Log() << "GetAdapterModeCount Adapter " << Adapter << " Count " << Count;
-	return Count;
+	return m_pD3D->GetAdapterModeCount(Adapter);
 }
 
 HMONITOR m_IDirect3D8::GetAdapterMonitor(UINT Adapter)
@@ -93,7 +95,6 @@ HRESULT m_IDirect3D8::RegisterSoftwareDevice(void *pInitializeFunction)
 
 HRESULT m_IDirect3D8::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, D3DFORMAT RenderTargetFormat, D3DFORMAT DepthStencilFormat)
 {
-	Log() << "CheckDepthStencilMatch " << Adapter << " " << DeviceType << " " << AdapterFormat << " " << RenderTargetFormat << " " << DepthStencilFormat;
 	return m_pD3D->CheckDepthStencilMatch(Adapter, DeviceType, AdapterFormat, RenderTargetFormat, DepthStencilFormat);
 }
 

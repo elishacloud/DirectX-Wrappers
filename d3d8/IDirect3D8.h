@@ -7,7 +7,6 @@ private:
 
 public:
 	m_IDirect3D8(LPDIRECT3D8 pDirect3D) { m_pD3D = pDirect3D; }
-	m_IDirect3D8() { m_pD3D = NULL; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);

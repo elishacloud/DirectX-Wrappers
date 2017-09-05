@@ -3,29 +3,30 @@
 class m_IDirectSound3DBuffer8 : public IDirectSound3DBuffer8
 {
 public:
-	virtual HRESULT __stdcall QueryInterface(REFIID, LPVOID *);
-	virtual ULONG __stdcall AddRef();
-	virtual ULONG __stdcall Release();
+	// IUnknown methods
+	STDMETHOD(QueryInterface)(THIS_ _In_ REFIID, _Outptr_ LPVOID*);
+	STDMETHOD_(ULONG, AddRef)(THIS);
+	STDMETHOD_(ULONG, Release)(THIS);
 
 	// IDirectSound3DBuffer methods
-	virtual HRESULT __stdcall GetAllParameters(LPDS3DBUFFER pDs3dBuffer);
-	virtual HRESULT __stdcall GetConeAngles(LPDWORD pdwInsideConeAngle, LPDWORD pdwOutsideConeAngle);
-	virtual HRESULT __stdcall GetConeOrientation(D3DVECTOR* pvOrientation);
-	virtual HRESULT __stdcall GetConeOutsideVolume(LPLONG plConeOutsideVolume);
-	virtual HRESULT __stdcall GetMaxDistance(D3DVALUE* pflMaxDistance);
-	virtual HRESULT __stdcall GetMinDistance(D3DVALUE* pflMinDistance);
-	virtual HRESULT __stdcall GetMode(LPDWORD pdwMode);
-	virtual HRESULT __stdcall GetPosition(D3DVECTOR* pvPosition);
-	virtual HRESULT __stdcall GetVelocity(D3DVECTOR* pvVelocity);
-	virtual HRESULT __stdcall SetAllParameters(LPCDS3DBUFFER pcDs3dBuffer, DWORD dwApply);
-	virtual HRESULT __stdcall SetConeAngles(DWORD dwInsideConeAngle, DWORD dwOutsideConeAngle, DWORD dwApply);
-	virtual HRESULT __stdcall SetConeOrientation(D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply);
-	virtual HRESULT __stdcall SetConeOutsideVolume(LONG lConeOutsideVolume, DWORD dwApply);
-	virtual HRESULT __stdcall SetMaxDistance(D3DVALUE flMaxDistance, DWORD dwApply);
-	virtual HRESULT __stdcall SetMinDistance(D3DVALUE flMinDistance, DWORD dwApply);
-	virtual HRESULT __stdcall SetMode(DWORD dwMode, DWORD dwApply);
-	virtual HRESULT __stdcall SetPosition(D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply);
-	virtual HRESULT __stdcall SetVelocity(D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply);
+	STDMETHOD(GetAllParameters)(THIS_ _Out_ LPDS3DBUFFER pDs3dBuffer);
+	STDMETHOD(GetConeAngles)(THIS_ _Out_ LPDWORD pdwInsideConeAngle, _Out_ LPDWORD pdwOutsideConeAngle);
+	STDMETHOD(GetConeOrientation)(THIS_ _Out_ D3DVECTOR* pvOrientation);
+	STDMETHOD(GetConeOutsideVolume)(THIS_ _Out_ LPLONG plConeOutsideVolume);
+	STDMETHOD(GetMaxDistance)(THIS_ _Out_ D3DVALUE* pflMaxDistance);
+	STDMETHOD(GetMinDistance)(THIS_ _Out_ D3DVALUE* pflMinDistance);
+	STDMETHOD(GetMode)(THIS_ _Out_ LPDWORD pdwMode);
+	STDMETHOD(GetPosition)(THIS_ _Out_ D3DVECTOR* pvPosition);
+	STDMETHOD(GetVelocity)(THIS_ _Out_ D3DVECTOR* pvVelocity);
+	STDMETHOD(SetAllParameters)(THIS_ _In_ LPCDS3DBUFFER pcDs3dBuffer, DWORD dwApply);
+	STDMETHOD(SetConeAngles)(THIS_ DWORD dwInsideConeAngle, DWORD dwOutsideConeAngle, DWORD dwApply);
+	STDMETHOD(SetConeOrientation)(THIS_ D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply);
+	STDMETHOD(SetConeOutsideVolume)(THIS_ LONG lConeOutsideVolume, DWORD dwApply);
+	STDMETHOD(SetMaxDistance)(THIS_ D3DVALUE flMaxDistance, DWORD dwApply);
+	STDMETHOD(SetMinDistance)(THIS_ D3DVALUE flMinDistance, DWORD dwApply);
+	STDMETHOD(SetMode)(THIS_ DWORD dwMode, DWORD dwApply);
+	STDMETHOD(SetPosition)(THIS_ D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply);
+	STDMETHOD(SetVelocity)(THIS_ D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply);
 
 	LPDIRECTSOUND3DBUFFER8 m_lpDirectSound3DBuffer8 = nullptr;
 };

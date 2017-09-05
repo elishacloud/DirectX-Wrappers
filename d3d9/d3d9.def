@@ -1,4 +1,18 @@
 LIBRARY d3d9
 EXPORTS
 
-Direct3DCreate9 = m_Direct3DCreate9 @1
+Direct3DShaderValidatorCreate9				@19
+PSGPError									@20
+PSGPSampleTexture							@21
+D3DPERF_BeginEvent							@22
+D3DPERF_EndEvent							@23
+D3DPERF_GetStatus							@24
+D3DPERF_QueryRepeatFrame					@25
+D3DPERF_SetMarker							@26
+D3DPERF_SetOptions							@27
+D3DPERF_SetRegion							@28
+DebugSetLevel								@29
+DebugSetMute								@30
+Direct3D9EnableMaximizedWindowedModeShim	@31
+Direct3DCreate9								@32
+Direct3DCreate9Ex							@33

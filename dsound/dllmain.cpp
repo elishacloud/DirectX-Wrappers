@@ -20,111 +20,18 @@
 
 std::ofstream Log::LOG("dsound.log");
 
-DirectSoundCreate8Proc m_pDirectSoundCreate8 = nullptr;
-DirectSoundCreateProc m_pDirectSoundCreate = nullptr;
-GetDeviceIDProc m_pGetDeviceID = nullptr;
-DirectSoundEnumerateAProc m_pDirectSoundEnumerateA = nullptr;
-DirectSoundEnumerateWProc m_pDirectSoundEnumerateW = nullptr;
-DirectSoundCaptureCreateProc m_pDirectSoundCaptureCreate = nullptr;
-DirectSoundCaptureEnumerateAProc m_pDirectSoundCaptureEnumerateA = nullptr;
-DirectSoundCaptureEnumerateWProc m_pDirectSoundCaptureEnumerateW = nullptr;
-DirectSoundCaptureCreate8Proc m_pDirectSoundCaptureCreate8 = nullptr;
-DirectSoundFullDuplexCreateProc m_pDirectSoundFullDuplexCreate = nullptr;
-DllGetClassObjectProc m_pDllGetClassObject = nullptr;
-DllCanUnloadNowProc m_pDllCanUnloadNow = nullptr;
-
-LPDSENUMCALLBACKA m_pAppDSEnumCallbackA;
-LPDSENUMCALLBACKW m_pAppDSEnumCallbackW;
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundCreate(LPCGUID pcGuidDevice, LPDIRECTSOUND *ppDS, LPUNKNOWN pUnkOuter)
-{
-	m_IDirectSound8* pDSX = new m_IDirectSound8;
-
-	HRESULT hRes = m_pDirectSoundCreate(pcGuidDevice, (LPDIRECTSOUND*)&(pDSX->m_lpDirectSound8) /* ppDS8 */, pUnkOuter);
-
-	if (hRes != S_OK)
-	{
-		delete pDSX;
-		return hRes;
-	}
-
-	*ppDS = (LPDIRECTSOUND)pDSX;
-
-	return hRes;
-}
-
-BOOL STDMETHODCALLTYPE DSDLLEnumCallbackA(LPGUID lpGuid, LPCSTR lpcstrDescription, LPCSTR lpcstrModule, LPVOID lpContext)
-{
-	return m_pAppDSEnumCallbackA(lpGuid, lpcstrDescription, lpcstrModule, lpContext);
-}
-
-BOOL STDMETHODCALLTYPE DSDLLEnumCallbackW(LPGUID lpGuid, LPCWSTR lpcstrDescription, LPCWSTR lpcstrModule, LPVOID lpContext)
-{
-	return m_pAppDSEnumCallbackW(lpGuid, lpcstrDescription, lpcstrModule, lpContext);
-}
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundEnumerateA(LPDSENUMCALLBACKA pDSEnumCallback, LPVOID pContext)
-{
-	return m_pDirectSoundEnumerateA(pDSEnumCallback, pContext);
-}
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundEnumerateW(LPDSENUMCALLBACKW pDSEnumCallback, LPVOID pContext)
-{
-	return m_pDirectSoundEnumerateW(pDSEnumCallback, pContext);
-}
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundCaptureCreate(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTURE *ppDSC, LPUNKNOWN pUnkOuter)
-{
-	return m_pDirectSoundCaptureCreate(pcGuidDevice, ppDSC, pUnkOuter);
-}
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundCaptureEnumerateA(LPDSENUMCALLBACKA pDSEnumCallback, LPVOID pContext)
-{
-	return m_pDirectSoundCaptureEnumerateA(pDSEnumCallback, pContext);
-}
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundCaptureEnumerateW(LPDSENUMCALLBACKW pDSEnumCallback, LPVOID pContext)
-{
-	return m_pDirectSoundCaptureEnumerateW(pDSEnumCallback, pContext);
-}
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUND8 *ppDS8, LPUNKNOWN pUnkOuter)
-{
-	m_IDirectSound8* pDSX = new m_IDirectSound8;
-
-	HRESULT hRes = m_pDirectSoundCreate8(pcGuidDevice, &(pDSX->m_lpDirectSound8) /* ppDS8 */, pUnkOuter);
-
-	if (hRes != S_OK)
-	{
-		delete pDSX;
-		return hRes;
-	}
-
-	*ppDS8 = (LPDIRECTSOUND8)pDSX;
-
-	return hRes;
-}
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundCaptureCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTURE8 *ppDSC8, LPUNKNOWN pUnkOuter)
-{
-	return m_pDirectSoundCaptureCreate8(pcGuidDevice, ppDSC8, pUnkOuter);
-}
-
-HRESULT STDMETHODCALLTYPE m_DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUID pcGuidRenderDevice,
-	LPCDSCBUFFERDESC pcDSCBufferDesc, LPCDSBUFFERDESC pcDSBufferDesc, HWND hWnd,
-	DWORD dwLevel, LPDIRECTSOUNDFULLDUPLEX* ppDSFD, LPDIRECTSOUNDCAPTUREBUFFER8 *ppDSCBuffer8,
-	LPDIRECTSOUNDBUFFER8 *ppDSBuffer8, LPUNKNOWN pUnkOuter)
-{
-	return m_pDirectSoundFullDuplexCreate(pcGuidCaptureDevice, pcGuidRenderDevice,
-		pcDSCBufferDesc, pcDSBufferDesc, hWnd,
-		dwLevel, ppDSFD, ppDSCBuffer8,
-		ppDSBuffer8, pUnkOuter);
-}
-
-HRESULT STDMETHODCALLTYPE m_GetDeviceID(LPCGUID pGuidSrc, LPGUID pGuidDest)
-{
-	return m_pGetDeviceID(pGuidSrc, pGuidDest);
-}
+DirectSoundCreateProc m_pDirectSoundCreate;
+DirectSoundEnumerateAProc m_pDirectSoundEnumerateA;
+DirectSoundEnumerateWProc m_pDirectSoundEnumerateW;
+DllCanUnloadNowProc m_pDllCanUnloadNow;
+DllGetClassObjectProc m_pDllGetClassObject;
+DirectSoundCaptureCreateProc m_pDirectSoundCaptureCreate;
+DirectSoundCaptureEnumerateAProc m_pDirectSoundCaptureEnumerateA;
+DirectSoundCaptureEnumerateWProc m_pDirectSoundCaptureEnumerateW;
+GetDeviceIDProc m_pGetDeviceID;
+DirectSoundFullDuplexCreateProc m_pDirectSoundFullDuplexCreate;
+DirectSoundCreate8Proc m_pDirectSoundCreate8;
+DirectSoundCaptureCreate8Proc m_pDirectSoundCaptureCreate8;
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 {
@@ -135,23 +42,26 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 	switch (fdwReason)
 	{
 	case DLL_PROCESS_ATTACH:
+		// Load dll
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\dsound.dll");
-		Log() << "Loading " << path << "\n";
+		Log() << "Loading " << path;
 		dsounddll = LoadLibraryA(path);
+
+		// Get function addresses
 		m_pDirectSoundCreate = (DirectSoundCreateProc)GetProcAddress(dsounddll, "DirectSoundCreate");
-		m_pDirectSoundCreate8 = (DirectSoundCreate8Proc)GetProcAddress(dsounddll, "DirectSoundCreate8");
-		m_pGetDeviceID = (GetDeviceIDProc)GetProcAddress(dsounddll, "GetDeviceID");
 		m_pDirectSoundEnumerateA = (DirectSoundEnumerateAProc)GetProcAddress(dsounddll, "DirectSoundEnumerateA");
 		m_pDirectSoundEnumerateW = (DirectSoundEnumerateWProc)GetProcAddress(dsounddll, "DirectSoundEnumerateW");
+		m_pDllCanUnloadNow = (DllCanUnloadNowProc)GetProcAddress(dsounddll, "DllCanUnloadNow");
+		m_pDllGetClassObject = (DllGetClassObjectProc)GetProcAddress(dsounddll, "DllGetClassObject");
 		m_pDirectSoundCaptureCreate = (DirectSoundCaptureCreateProc)GetProcAddress(dsounddll, "DirectSoundCaptureCreate");
 		m_pDirectSoundCaptureEnumerateA = (DirectSoundCaptureEnumerateAProc)GetProcAddress(dsounddll, "DirectSoundCaptureEnumerateA");
 		m_pDirectSoundCaptureEnumerateW = (DirectSoundCaptureEnumerateWProc)GetProcAddress(dsounddll, "DirectSoundCaptureEnumerateW");
-		m_pDirectSoundCaptureCreate8 = (DirectSoundCaptureCreate8Proc)GetProcAddress(dsounddll, "DirectSoundCaptureCreate8");
+		m_pGetDeviceID = (GetDeviceIDProc)GetProcAddress(dsounddll, "GetDeviceID");
 		m_pDirectSoundFullDuplexCreate = (DirectSoundFullDuplexCreateProc)GetProcAddress(dsounddll, "DirectSoundFullDuplexCreate");
-		m_pDllGetClassObject = (DllGetClassObjectProc)GetProcAddress(dsounddll, "DllGetClassObject");
-		m_pDllCanUnloadNow = (DllCanUnloadNowProc)GetProcAddress(dsounddll, "DllCanUnloadNow");
+		m_pDirectSoundCreate8 = (DirectSoundCreate8Proc)GetProcAddress(dsounddll, "DirectSoundCreate8");
+		m_pDirectSoundCaptureCreate8 = (DirectSoundCaptureCreate8Proc)GetProcAddress(dsounddll, "DirectSoundCaptureCreate8");
 		break;
 
 	case DLL_PROCESS_DETACH:
@@ -171,4 +81,108 @@ void logf(char * fmt, ...)
 	vsprintf_s(&output[0], size + 1, fmt, ap);
 	Log() << output.c_str();
 	va_end(ap);
+}
+
+HRESULT WINAPI DirectSoundCreate(LPCGUID pcGuidDevice, LPDIRECTSOUND *ppDS, LPUNKNOWN pUnkOuter)
+{
+	m_IDirectSound8* pDSX = new m_IDirectSound8;
+	HRESULT hr = m_pDirectSoundCreate(pcGuidDevice, (LPDIRECTSOUND*)&(pDSX->m_lpDirectSound8) /* ppDS8 */, pUnkOuter);
+	Log() << __FUNCTION__ << " " << hr;
+	if (SUCCEEDED(hr))
+	{
+		delete pDSX;
+		return hr;
+	}
+	*ppDS = (LPDIRECTSOUND)pDSX;
+	return hr;
+}
+
+HRESULT WINAPI DirectSoundEnumerateA(LPDSENUMCALLBACKA pDSEnumCallback, LPVOID pContext)
+{
+	HRESULT hr = m_pDirectSoundEnumerateA(pDSEnumCallback, pContext);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DirectSoundEnumerateW(LPDSENUMCALLBACKW pDSEnumCallback, LPVOID pContext)
+{
+	HRESULT hr = m_pDirectSoundEnumerateW(pDSEnumCallback, pContext);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DllCanUnloadNow()
+{
+	HRESULT hr = m_pDllCanUnloadNow();
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID FAR* ppv)
+{
+	HRESULT hr = m_pDllGetClassObject(rclsid, riid, ppv);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DirectSoundCaptureCreate(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTURE *ppDSC, LPUNKNOWN pUnkOuter)
+{
+	HRESULT hr = m_pDirectSoundCaptureCreate(pcGuidDevice, ppDSC, pUnkOuter);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DirectSoundCaptureEnumerateA(LPDSENUMCALLBACKA pDSEnumCallback, LPVOID pContext)
+{
+	HRESULT hr = m_pDirectSoundCaptureEnumerateA(pDSEnumCallback, pContext);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DirectSoundCaptureEnumerateW(LPDSENUMCALLBACKW pDSEnumCallback, LPVOID pContext)
+{
+	HRESULT hr = m_pDirectSoundCaptureEnumerateW(pDSEnumCallback, pContext);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI GetDeviceID(LPCGUID pGuidSrc, LPGUID pGuidDest)
+{
+	HRESULT hr = m_pGetDeviceID(pGuidSrc, pGuidDest);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUID pcGuidRenderDevice,
+	LPCDSCBUFFERDESC pcDSCBufferDesc, LPCDSBUFFERDESC pcDSBufferDesc, HWND hWnd,
+	DWORD dwLevel, LPDIRECTSOUNDFULLDUPLEX* ppDSFD, LPDIRECTSOUNDCAPTUREBUFFER8 *ppDSCBuffer8,
+	LPDIRECTSOUNDBUFFER8 *ppDSBuffer8, LPUNKNOWN pUnkOuter)
+{
+	HRESULT hr = m_pDirectSoundFullDuplexCreate(pcGuidCaptureDevice, pcGuidRenderDevice,
+		pcDSCBufferDesc, pcDSBufferDesc, hWnd,
+		dwLevel, ppDSFD, ppDSCBuffer8,
+		ppDSBuffer8, pUnkOuter);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DirectSoundCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUND8 *ppDS8, LPUNKNOWN pUnkOuter)
+{
+	m_IDirectSound8* pDSX = new m_IDirectSound8;
+	HRESULT hr = m_pDirectSoundCreate8(pcGuidDevice, &(pDSX->m_lpDirectSound8) /* ppDS8 */, pUnkOuter);
+	Log() << __FUNCTION__ << " " << hr;
+	if (SUCCEEDED(hr))
+	{
+		delete pDSX;
+		return hr;
+	}
+	*ppDS8 = (LPDIRECTSOUND8)pDSX;
+	return hr;
+}
+
+HRESULT WINAPI DirectSoundCaptureCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTURE8 *ppDSC8, LPUNKNOWN pUnkOuter)
+{
+	HRESULT hr = m_pDirectSoundCaptureCreate8(pcGuidDevice, ppDSC8, pUnkOuter);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
 }

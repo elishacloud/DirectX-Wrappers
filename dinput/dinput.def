@@ -1,6 +1,10 @@
 LIBRARY dinput
 EXPORTS
 
-DirectInputCreateA      @1
-DirectInputCreateEx     @2
-DirectInputCreateW      @3
+DirectInputCreateA		@1
+DirectInputCreateEx		@2
+DirectInputCreateW		@3
+DllCanUnloadNow			PRIVATE
+DllGetClassObject		PRIVATE
+DllRegisterServer		PRIVATE
+DllUnregisterServer		PRIVATE

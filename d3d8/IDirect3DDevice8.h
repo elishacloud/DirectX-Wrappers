@@ -6,8 +6,7 @@ private:
 	LPDIRECT3DDEVICE8 m_pD3DDevice;
 
 public:
-	m_IDirect3DDevice8(LPDIRECT3DDEVICE8 pDevice, LPDIRECT3DDEVICE8 **ppDevice);
-	m_IDirect3DDevice8() { m_pD3DDevice = NULL; }
+	m_IDirect3DDevice8::m_IDirect3DDevice8(LPDIRECT3DDEVICE8 pDevice) { m_pD3DDevice = pDevice; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);

@@ -29,23 +29,28 @@
 
 std::ofstream Log::LOG("ddraw.log");
 
-typedef HRESULT(_stdcall *DDrawCreateProc)(void* a, void* b, void* c);
-typedef HRESULT(_stdcall *DDrawEnumerateProc)(void* callback, void* context);
-typedef void(_stdcall *DDrawMiscProc)();
-typedef HRESULT(_stdcall *DDrawCreateExProc)(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID iid, IUnknown FAR *pUnkOuter);
-
-static DDrawCreateProc DDrawCreate = 0;
-static DDrawEnumerateProc DDrawEnumerate = 0;
-static DDrawMiscProc AcquireLock;
-static DDrawMiscProc ParseUnknown;
-static DDrawMiscProc InternalLock;
-static DDrawMiscProc InternalUnlock;
-static DDrawMiscProc ReleaseLock;
-static DDrawCreateExProc DDrawCreateEx;
-
-bool _stdcall SetWindowPosHook(HWND, HWND, int, int, int, int, int) { return true; }
-bool _stdcall SetWindowLongHook(HWND, int, int) { return true; }
-bool _stdcall ShowWindowHook(HWND, int) { return true; }
+FARPROC m_pAcquireDDThreadLock;
+FARPROC m_pCompleteCreateSysmemSurface;
+FARPROC m_pD3DParseUnknownCommand;
+FARPROC m_pDDGetAttachedSurfaceLcl;
+FARPROC m_pDDInternalLock;
+FARPROC m_pDDInternalUnlock;
+FARPROC m_pDSoundHelp;
+DDrawCreateProc m_pDDrawCreate;
+FARPROC m_pDirectDrawCreateClipper;
+DDrawCreateExProc m_pDDrawCreateEx;
+DDrawEnumerateAProc m_pDDrawEnumerateA;
+DDrawEnumerateExAProc m_pDDrawEnumerateExA;
+DDrawEnumerateExWProc m_pDDrawEnumerateExW;
+DDrawEnumerateWProc m_pDDrawEnumerateW;
+DllCanUnloadNowProc m_pDllCanUnloadNow;
+FARPROC m_pDllGetClassObject;
+FARPROC m_pGetDDSurfaceLocal;
+FARPROC m_pGetOLEThunkData;
+FARPROC m_pGetSurfaceFromDC;
+FARPROC m_pRegisterSpecialCase;
+FARPROC m_pReleaseDDThreadLock;
+SetAppCompatDataProc m_pSetAppCompatData;
 
 bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 {
@@ -53,19 +58,36 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 	switch (dwReason)
 	{
 	case DLL_PROCESS_ATTACH:
+		// Load dll
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\ddraw.dll");
-		Log() << "Loading " << path << "\n";
+		Log() << "Loading " << path;
 		ddrawdll = LoadLibraryA(path);
-		DDrawCreate = (DDrawCreateProc)GetProcAddress(ddrawdll, "DirectDrawCreate");
-		DDrawEnumerate = (DDrawEnumerateProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateA");
-		DDrawCreateEx = (DDrawCreateExProc)GetProcAddress(ddrawdll, "DirectDrawCreateEx");
-		AcquireLock = (DDrawMiscProc)GetProcAddress(ddrawdll, "AcquireDDThreadLock");
-		ParseUnknown = (DDrawMiscProc)GetProcAddress(ddrawdll, "D3DParseUnknownCommand");
-		InternalLock = (DDrawMiscProc)GetProcAddress(ddrawdll, "DDInternalLock");
-		InternalUnlock = (DDrawMiscProc)GetProcAddress(ddrawdll, "DDInternalUnlock");
-		ReleaseLock = (DDrawMiscProc)GetProcAddress(ddrawdll, "ReleaseDDThreadLock");
+
+		// Get function addresses
+		m_pAcquireDDThreadLock = GetProcAddress(ddrawdll, "AcquireDDThreadLock");
+		m_pCompleteCreateSysmemSurface = GetProcAddress(ddrawdll, "CompleteCreateSysmemSurface");
+		m_pD3DParseUnknownCommand = GetProcAddress(ddrawdll, "D3DParseUnknownCommand");
+		m_pDDGetAttachedSurfaceLcl = GetProcAddress(ddrawdll, "DDGetAttachedSurfaceLcl");
+		m_pDDInternalLock = GetProcAddress(ddrawdll, "DDInternalLock");
+		m_pDDInternalUnlock = GetProcAddress(ddrawdll, "DDInternalUnlock");
+		m_pDSoundHelp = GetProcAddress(ddrawdll, "DSoundHelp");
+		m_pDDrawCreate = (DDrawCreateProc)GetProcAddress(ddrawdll, "DirectDrawCreate");
+		m_pDirectDrawCreateClipper = GetProcAddress(ddrawdll, "DirectDrawCreateClipper");
+		m_pDDrawCreateEx = (DDrawCreateExProc)GetProcAddress(ddrawdll, "DirectDrawCreateEx");
+		m_pDDrawEnumerateA = (DDrawEnumerateAProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateA");
+		m_pDDrawEnumerateExA = (DDrawEnumerateExAProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateExA");
+		m_pDDrawEnumerateExW = (DDrawEnumerateExWProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateExW");
+		m_pDDrawEnumerateW = (DDrawEnumerateWProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateW");
+		m_pDllCanUnloadNow = (DllCanUnloadNowProc)GetProcAddress(ddrawdll, "DllCanUnloadNow");
+		m_pDllGetClassObject = GetProcAddress(ddrawdll, "DllGetClassObject");
+		m_pGetDDSurfaceLocal = GetProcAddress(ddrawdll, "GetDDSurfaceLocal");
+		m_pGetOLEThunkData = GetProcAddress(ddrawdll, "GetOLEThunkData");
+		m_pGetSurfaceFromDC = GetProcAddress(ddrawdll, "GetSurfaceFromDC");
+		m_pRegisterSpecialCase = GetProcAddress(ddrawdll, "RegisterSpecialCase");
+		m_pReleaseDDThreadLock = GetProcAddress(ddrawdll, "ReleaseDDThreadLock");
+		m_pSetAppCompatData = (SetAppCompatDataProc)GetProcAddress(ddrawdll, "SetAppCompatData");
 		break;
 
 	case DLL_PROCESS_DETACH:
@@ -132,7 +154,7 @@ void wrapstore(void * aOriginal, void * aWrapper)
 
 	if (gWrapPairs >= MAX_PAIRS)
 	{
-		logf("**** Max number of wrappers exceeded - adjust and recompile\n");
+		logf("**** Max number of wrappers exceeded - adjust and recompile");
 	}
 }
 
@@ -141,56 +163,144 @@ void * wrapfetch(void * aOriginal)
 	void * ret = do_wrapfetch(aOriginal);
 	if (!ret)
 	{
-		logf("Pre-wrapped object not found - returning null\n");
+		logf("Pre-wrapped object not found - returning null");
 	}
 	return ret;
 }
 
-extern "C" void __declspec(naked) m_AcquireLock()
+void __declspec(naked) AcquireDDThreadLock()
 {
-	logf(__FUNCTION__ "\n");
-	_asm jmp AcquireLock;
-}
-extern "C" void __declspec(naked) m_ParseUnknown()
-{
-	logf(__FUNCTION__ "\n");
-	_asm jmp ParseUnknown;
-}
-extern "C" void __declspec(naked) m_InternalLock()
-{
-	logf(__FUNCTION__ "\n");
-	_asm jmp InternalLock;
-}
-extern "C" void __declspec(naked) m_InternalUnlock()
-{
-	logf(__FUNCTION__ "\n");
-	_asm jmp InternalUnlock;
-}
-extern "C" void __declspec(naked) m_ReleaseLock()
-{
-	logf(__FUNCTION__ "\n");
-	_asm jmp ReleaseLock;
+	logf(__FUNCTION__);
+	_asm jmp m_pAcquireDDThreadLock;
 }
 
-extern "C" HRESULT _stdcall m_DirectDrawCreate(GUID* a, IDirectDraw** b, IUnknown* c)
+void __declspec(naked) CompleteCreateSysmemSurface()
 {
-	logf(__FUNCTION__ "\n");
-	HRESULT hr = DDrawCreate(a, b, c);
+	logf(__FUNCTION__);
+	_asm jmp m_pCompleteCreateSysmemSurface;
+}
+
+void __declspec(naked) D3DParseUnknownCommand()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pD3DParseUnknownCommand;
+}
+
+void __declspec(naked) DDGetAttachedSurfaceLcl()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pDDGetAttachedSurfaceLcl;
+}
+
+void __declspec(naked) DDInternalLock()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pDDInternalLock;
+}
+
+void __declspec(naked) DDInternalUnlock()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pDDInternalUnlock;
+}
+
+void __declspec(naked) DSoundHelp()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pDSoundHelp;
+}
+
+HRESULT WINAPI DirectDrawCreate(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnknown FAR *pUnkOuter)
+{
+	logf(__FUNCTION__);
+	HRESULT hr = m_pDDrawCreate(lpGUID, lplpDD, pUnkOuter);
 	if (FAILED(hr)) return hr;
-	*b = (IDirectDraw*)new m_IDirectDraw(*b);
+	*lplpDD = (IDirectDraw*)new m_IDirectDraw(*lplpDD);
 	return 0;
 }
 
-extern "C" HRESULT _stdcall m_DirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID iid, IUnknown FAR *pUnkOuter)
+void __declspec(naked) DirectDrawCreateClipper()
 {
-	logf(__FUNCTION__ "\n");
-	HRESULT hr = DDrawCreateEx(lpGUID, lplpDD, iid, pUnkOuter);
+	logf(__FUNCTION__);
+	_asm jmp m_pDirectDrawCreateClipper;
+}
+
+HRESULT WINAPI DirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID iid, IUnknown FAR *pUnkOuter)
+{
+	logf(__FUNCTION__);
+	HRESULT hr = m_pDDrawCreateEx(lpGUID, lplpDD, iid, pUnkOuter);
 	genericQueryInterface(iid, lplpDD);
 	return hr;
 }
 
-extern "C" HRESULT _stdcall m_DirectDrawEnumerate(void* lpCallback, void* lpContext)
+HRESULT WINAPI DirectDrawEnumerateA(LPDDENUMCALLBACKA lpCallback, LPVOID lpContext)
 {
-	logf(__FUNCTION__ "\n");
-	return DDrawEnumerate(lpCallback, lpContext);
+	logf(__FUNCTION__);
+	return m_pDDrawEnumerateA(lpCallback, lpContext);
+}
+
+HRESULT WINAPI DirectDrawEnumerateExA(LPDDENUMCALLBACKEXA lpCallback, LPVOID lpContext, DWORD dwFlags)
+{
+	logf(__FUNCTION__);
+	return m_pDDrawEnumerateExA(lpCallback, lpContext, dwFlags);
+}
+
+HRESULT WINAPI DirectDrawEnumerateExW(LPDDENUMCALLBACKEXW lpCallback, LPVOID lpContext, DWORD dwFlags)
+{
+	logf(__FUNCTION__);
+	return m_pDDrawEnumerateExW(lpCallback, lpContext, dwFlags);
+}
+
+HRESULT WINAPI DirectDrawEnumerateW(LPDDENUMCALLBACKW lpCallback, LPVOID lpContext)
+{
+	logf(__FUNCTION__);
+	return m_pDDrawEnumerateW(lpCallback, lpContext);
+}
+
+HRESULT WINAPI DllCanUnloadNow()
+{
+	logf(__FUNCTION__);
+	return m_pDllCanUnloadNow();
+}
+
+void __declspec(naked) DllGetClassObject()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pDllGetClassObject;
+}
+
+void __declspec(naked) GetDDSurfaceLocal()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pGetDDSurfaceLocal;
+}
+
+void __declspec(naked) GetOLEThunkData()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pGetOLEThunkData;
+}
+
+void __declspec(naked) GetSurfaceFromDC()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pGetSurfaceFromDC;
+}
+
+void __declspec(naked) RegisterSpecialCase()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pRegisterSpecialCase;
+}
+
+void __declspec(naked) ReleaseDDThreadLock()
+{
+	logf(__FUNCTION__);
+	_asm jmp m_pReleaseDDThreadLock;
+}
+
+HRESULT WINAPI SetAppCompatData(DWORD Type, DWORD Value)
+{
+	logf(__FUNCTION__);
+	return m_pSetAppCompatData(Type, Value);
 }

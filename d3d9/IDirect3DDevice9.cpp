@@ -153,7 +153,6 @@ HRESULT m_IDirect3DDevice9::SetClipStatus(CONST D3DCLIPSTATUS9 *pClipStatus)
 
 HRESULT m_IDirect3DDevice9::SetRenderState(D3DRENDERSTATETYPE State, DWORD Value)
 {
-	Log() << "SetRenderState " << State << " " << Value;
 	return m_pD3DDevice->SetRenderState(State, Value);
 }
 
@@ -299,13 +298,6 @@ HRESULT m_IDirect3DDevice9::CreatePixelShader(THIS_ CONST DWORD* pFunction, IDir
 	{
 		Log() << "<CreatePixelShader> Disassembling shader and translating assembly to Direct3D 9 compatible code ...";
 
-		/*if (*pFunction < D3DVS_VERSION(1, 0) || *pFunction > D3DVS_VERSION(1, 1))
-		{
-		Log() << "> Failed because of version mismatch ('" << std::showbase << std::hex << *pFunction << std::dec << std::noshowbase << "')! Only 'vs_1_x' shaders are supported.";
-
-		return D3DERR_INVALIDCALL;
-		}*/
-
 		ID3DXBuffer *Disassembly = nullptr, *Assembly = nullptr, *ErrorBuffer = nullptr;
 
 		HRESULT hr = D3DXDisassembleShader(pFunction, FALSE, nullptr, &Disassembly);
@@ -403,7 +395,6 @@ HRESULT m_IDirect3DDevice9::SetTexture(DWORD Stage, IDirect3DBaseTexture9 *pText
 
 HRESULT m_IDirect3DDevice9::SetTextureStageState(DWORD Stage, D3DTEXTURESTAGESTATETYPE Type, DWORD Value)
 {
-	Log() << "SetTextureStageState " << Stage << " " << Type << " " << Value;
 	return m_pD3DDevice->SetTextureStageState(Stage, Type, Value);
 }
 
@@ -414,9 +405,7 @@ HRESULT m_IDirect3DDevice9::UpdateTexture(IDirect3DBaseTexture9 *pSourceTexture,
 
 HRESULT m_IDirect3DDevice9::ValidateDevice(DWORD *pNumPasses)
 {
-	HRESULT rt = m_pD3DDevice->ValidateDevice(pNumPasses);
-	Log() << "ValidateDevice " << rt;
-	return rt;
+	return m_pD3DDevice->ValidateDevice(pNumPasses);
 }
 
 HRESULT m_IDirect3DDevice9::GetClipPlane(DWORD Index, float *pPlane)
@@ -449,13 +438,6 @@ HRESULT m_IDirect3DDevice9::CreateVertexShader(THIS_ CONST DWORD* pFunction, IDi
 	if (pFunction != nullptr)
 	{
 		Log() << "<CreateVertexShader> Disassembling shader and translating assembly to Direct3D 9 compatible code ...";
-
-		if (*pFunction < D3DVS_VERSION(1, 0) || *pFunction > D3DVS_VERSION(1, 1))
-		{
-			Log() << "> Failed because of version mismatch ('" << std::showbase << std::hex << *pFunction << std::dec << std::noshowbase << "')! Only 'vs_1_x' shaders are supported.";
-
-			return D3DERR_INVALIDCALL;
-		}
 
 		ID3DXBuffer *Disassembly = nullptr, *Assembly = nullptr, *ErrorBuffer = nullptr;
 
@@ -564,13 +546,11 @@ HRESULT m_IDirect3DDevice9::GetVertexShaderConstantI(THIS_ UINT StartRegister, i
 
 HRESULT m_IDirect3DDevice9::SetFVF(THIS_ DWORD FVF)
 {
-	Log() << "SetFVF " << FVF;
 	return m_pD3DDevice->SetFVF(FVF);
 }
 
 HRESULT m_IDirect3DDevice9::GetFVF(THIS_ DWORD* pFVF)
 {
-	Log() << "GetFVF " << *pFVF;
 	return m_pD3DDevice->GetFVF(pFVF);
 }
 

@@ -18,6 +18,10 @@
 
 std::ofstream Log::LOG("d3d8.log");
 
+FARPROC m_pDirect3D8EnableMaximizedWindowedModeShim;
+ValidatePixelShaderProc m_pValidatePixelShader;
+ValidateVertexShaderProc m_pValidateVertexShader;
+DebugSetMuteProc m_pDebugSetMute;
 Direct3DCreate8Proc m_pDirect3DCreate8;
 
 bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
@@ -27,11 +31,18 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	switch (dwReason)
 	{
 	case DLL_PROCESS_ATTACH:
+		// Load dll
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\d3d8.dll");
 		Log() << "Loading " << path;
 		d3d8dll = LoadLibraryA(path);
+
+		// Get function addresses
+		m_pDirect3D8EnableMaximizedWindowedModeShim = GetProcAddress(d3d8dll, "Direct3D8EnableMaximizedWindowedModeShim");
+		m_pValidatePixelShader = (ValidatePixelShaderProc)GetProcAddress(d3d8dll, "ValidatePixelShader");
+		m_pValidateVertexShader = (ValidateVertexShaderProc)GetProcAddress(d3d8dll, "ValidateVertexShader");
+		m_pDebugSetMute = (DebugSetMuteProc)GetProcAddress(d3d8dll, "DebugSetMute");
 		m_pDirect3DCreate8 = (Direct3DCreate8Proc)GetProcAddress(d3d8dll, "Direct3DCreate8");
 		break;
 
@@ -43,18 +54,35 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	return true;
 }
 
-void logf(char * fmt, ...)
+void __declspec(naked) Direct3D8EnableMaximizedWindowedModeShim()
 {
-	va_list ap;
-	va_start(ap, fmt);
-	auto size = vsnprintf(nullptr, 0, fmt, ap);
-	std::string output(size + 1, '\0');
-	vsprintf_s(&output[0], size + 1, fmt, ap);
-	Log() << output.c_str();
-	va_end(ap);
+	logf(__FUNCTION__ "\n");
+	_asm jmp m_pDirect3D8EnableMaximizedWindowedModeShim;
 }
 
-IDirect3D8 *WINAPI m_Direct3DCreate8(UINT SDKVersion)
+HRESULT WINAPI ValidatePixelShader(DWORD* pixelshader, DWORD* reserved1, BOOL flag, DWORD* toto)
 {
-	return new m_IDirect3D8(m_pDirect3DCreate8(SDKVersion));
+	HRESULT hr = m_pValidatePixelShader(pixelshader, reserved1, flag, toto);
+	Log() << __FUNCTION__ << "" << hr;
+	return hr;
+}
+
+HRESULT WINAPI ValidateVertexShader(DWORD* vertexshader, DWORD* reserved1, DWORD* reserved2, BOOL flag, DWORD* toto)
+{
+	HRESULT hr = m_pValidateVertexShader(vertexshader, reserved1, reserved2, flag, toto);
+	Log() << __FUNCTION__ << "" << hr;
+	return hr;
+}
+
+HRESULT WINAPI DebugSetMute()
+{
+	HRESULT hr = m_pDebugSetMute();
+	Log() << __FUNCTION__ << "" << hr;
+	return hr;
+}
+
+IDirect3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
+{
+	Log() << __FUNCTION__ << " " << SDKVersion;
+	return GetOrCreateWrapperT(IDirect3D8, m_pDirect3DCreate8(SDKVersion));
 }

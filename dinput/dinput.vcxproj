@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1786D16A-E5FC-4195-8E48-33C1B9E360B9}</ProjectGuid>
+    <ProjectGuid>{0C32F7D5-4261-4E29-BBCB-93364B10A7BC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>dinput</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -81,21 +81,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DirectInputDeviceW.cpp" />
-    <ClCompile Include="DirectInputW.cpp" />
+    <ClCompile Include="IDirectInputDeviceW.cpp" />
+    <ClCompile Include="IDirectInputW.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="DirectInputA.cpp" />
-    <ClCompile Include="DirectInputDeviceA.cpp" />
+    <ClCompile Include="IDirectInputA.cpp" />
+    <ClCompile Include="IDirectInputDeviceA.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dinput.def" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dinput.h" />
-    <ClInclude Include="DirectInputA.h" />
-    <ClInclude Include="DirectInputDeviceA.h" />
-    <ClInclude Include="DirectInputDeviceW.h" />
-    <ClInclude Include="DirectInputW.h" />
+    <ClInclude Include="IDirectInputA.h" />
+    <ClInclude Include="IDirectInputDeviceA.h" />
+    <ClInclude Include="IDirectInputDeviceW.h" />
+    <ClInclude Include="IDirectInputW.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

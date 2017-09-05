@@ -23,6 +23,10 @@ std::ofstream Log::LOG("dinput.log");
 DirectInputCreateAProc m_pDirectInputCreateA;
 DirectInputCreateExProc m_pDirectInputCreateEx;
 DirectInputCreateWProc m_pDirectInputCreateW;
+DllCanUnloadNowProc m_pDllCanUnloadNow;
+DllGetClassObjectProc m_pDllGetClassObject;
+DllRegisterServerProc m_pDllRegisterServer;
+DllUnregisterServerProc m_pDllUnregisterServer;
 
 bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
@@ -31,14 +35,21 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	switch (dwReason)
 	{
 	case DLL_PROCESS_ATTACH:
+		// Load dll
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\dinput.dll");
 		Log() << "Loading " << path;
 		dinputdll = LoadLibraryA(path);
+
+		// Get function addresses
 		m_pDirectInputCreateA = (DirectInputCreateAProc)GetProcAddress(dinputdll, "DirectInputCreateA");
 		m_pDirectInputCreateEx = (DirectInputCreateExProc)GetProcAddress(dinputdll, "DirectInputCreateEx");
 		m_pDirectInputCreateW = (DirectInputCreateWProc)GetProcAddress(dinputdll, "DirectInputCreateW");
+		m_pDllCanUnloadNow = (DllCanUnloadNowProc)GetProcAddress(dinputdll, "DllCanUnloadNow");
+		m_pDllGetClassObject = (DllGetClassObjectProc)GetProcAddress(dinputdll, "DllGetClassObject");
+		m_pDllRegisterServer = (DllRegisterServerProc)GetProcAddress(dinputdll, "DllRegisterServer");
+		m_pDllUnregisterServer = (DllUnregisterServerProc)GetProcAddress(dinputdll, "DllUnregisterServer");
 		break;
 
 	case DLL_PROCESS_DETACH:
@@ -60,7 +71,7 @@ void logf(char * fmt, ...)
 	va_end(ap);
 }
 
-extern "C" HRESULT WINAPI DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTA* lplpDirectInput, LPUNKNOWN punkOuter)
+HRESULT WINAPI DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTA* lplpDirectInput, LPUNKNOWN punkOuter)
 {
 	HRESULT hr = m_pDirectInputCreateA(hinst, dwVersion, lplpDirectInput, punkOuter);
 	if (SUCCEEDED(hr))
@@ -73,7 +84,7 @@ extern "C" HRESULT WINAPI DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, L
 	return hr;
 }
 
-extern "C" HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID * ppvOut, LPUNKNOWN punkOuter)
+HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID * ppvOut, LPUNKNOWN punkOuter)
 {
 	HRESULT hr = m_pDirectInputCreateEx(hinst, dwVersion, riidltf, ppvOut, punkOuter);
 	Log() << __FUNCTION__ << " " << (void*)dwVersion << " " << "\t" << hr;
@@ -84,15 +95,43 @@ extern "C" HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, 
 	return hr;
 }
 
-extern "C" HRESULT WINAPI DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTW* lplpDirectInput, LPUNKNOWN punkOuter)
+HRESULT WINAPI DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTW* lplpDirectInput, LPUNKNOWN punkOuter)
 {
 	HRESULT hr = m_pDirectInputCreateW(hinst, dwVersion, lplpDirectInput, punkOuter);
 	if (SUCCEEDED(hr))
 	{
-		LPDIRECTINPUTW* temp = lplpDirectInput;
-		*lplpDirectInput = new m_DirectInputW(*temp);
-		delete temp;
+		LPDIRECTINPUTW* pDIX = lplpDirectInput;
+		*lplpDirectInput = new m_DirectInputW(*pDIX);
+		delete pDIX;
 	}
 	Log() << __FUNCTION__ << " " << (void*)dwVersion << "\t" << hr;
+	return hr;
+}
+
+HRESULT WINAPI DllCanUnloadNow()
+{
+	HRESULT hr = m_pDllCanUnloadNow();
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID FAR* ppv)
+{
+	HRESULT hr = m_pDllGetClassObject(rclsid, riid, ppv);
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DllRegisterServer()
+{
+	HRESULT hr = m_pDllRegisterServer();
+	Log() << __FUNCTION__ << " " << hr;
+	return hr;
+}
+
+HRESULT WINAPI DllUnregisterServer()
+{
+	HRESULT hr = m_pDllUnregisterServer();
+	Log() << __FUNCTION__ << " " << hr;
 	return hr;
 }

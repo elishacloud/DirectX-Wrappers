@@ -3,10 +3,10 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <fstream>
 #include <dinput.h>
-#include "DirectInputA.h"
-#include "DirectInputW.h"
-#include "DirectInputDeviceA.h"
-#include "DirectInputDeviceW.h"
+#include "IDirectInputA.h"
+#include "IDirectInputW.h"
+#include "IDirectInputDeviceA.h"
+#include "IDirectInputDeviceW.h"
 
 // Very simple logging for the purpose of debugging only.
 class Log
@@ -31,6 +31,10 @@ private:
 
 void logf(char * format, ...);
 
-typedef HRESULT (WINAPI *DirectInputCreateAProc)(HINSTANCE, DWORD, LPDIRECTINPUTA*, LPUNKNOWN);
-typedef HRESULT (WINAPI *DirectInputCreateExProc)(HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOWN);
-typedef HRESULT (WINAPI *DirectInputCreateWProc)(HINSTANCE, DWORD, LPDIRECTINPUTW*, LPUNKNOWN);
+typedef HRESULT(WINAPI *DirectInputCreateAProc)(HINSTANCE, DWORD, LPDIRECTINPUTA*, LPUNKNOWN);
+typedef HRESULT(WINAPI *DirectInputCreateExProc)(HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOWN);
+typedef HRESULT(WINAPI *DirectInputCreateWProc)(HINSTANCE, DWORD, LPDIRECTINPUTW*, LPUNKNOWN);
+typedef HRESULT(WINAPI *DllCanUnloadNowProc)();
+typedef	HRESULT(WINAPI *DllGetClassObjectProc)(REFCLSID, REFIID, LPVOID *);
+typedef HRESULT(WINAPI *DllRegisterServerProc)();
+typedef HRESULT(WINAPI *DllUnregisterServerProc)();
