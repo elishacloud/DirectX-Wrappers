@@ -6,7 +6,7 @@ Wraps the main DirectX and Direct3D DLLs.  It allows you to intercept calls to D
 
 Currently this can wrap the following DLLs:
 - ddraw.dll
-- d3d8.dll
+- d3d8.dll (Complete)
 - d3d9.dll
 - dinput.dll
 - dsound.dll
@@ -42,10 +42,11 @@ applications, and to alter it and redistribute it freely, subject to the followi
 
 Code in this project is taken from:
 - [Jari Komppa's dxwrapper](https://github.com/jarikomppa/dxwrapper)
+- [d3d8to9](https://github.com/crosire/d3d8to9)
 - [Direct3D9 Wrapper DLL](https://gist.github.com/shaunlebron/3854bf4eec5bec297907)
 - [DirectSoundControl](https://github.com/nRaecheR/DirectSoundControl)
 - [XWA hooks](https://github.com/JeremyAnsel/xwa_hooks/tree/master/DInputLogger)
 
 ### Development
 
-You will need the [DirectX 8.1 SDK](http://www.tdxlibrary.org/Downloads/Microsoft/dx7sdk.zip) as well as the standalone [DirectX SDK](https://www.microsoft.com/en-us/download/details.aspx?id=6812) to compile this.
+You will need the [DirectX 8.1 SDK](https://www.microsoft.com/en-us/download/details.aspx?id=13287) as well as the standalone [DirectX SDK](https://www.microsoft.com/en-us/download/details.aspx?id=6812) to compile this.

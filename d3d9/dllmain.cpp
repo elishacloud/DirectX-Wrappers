@@ -167,7 +167,7 @@ void WINAPI DebugSetMute()
 
 void __declspec(naked) Direct3D9EnableMaximizedWindowedModeShim()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pDirect3D9EnableMaximizedWindowedModeShim;
 }
 
