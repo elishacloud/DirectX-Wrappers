@@ -16,37 +16,31 @@
 
 #include "d3d8.h"
 
-HRESULT m_IDirect3D8::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType,
-	HWND hFocusWindow, DWORD BehaviorFlags,
-	D3DPRESENT_PARAMETERS *pPresentationParameters,
-	IDirect3DDevice8 **ppReturnedDeviceInterface)
-{
-	HRESULT hr = m_pD3D->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, ppReturnedDeviceInterface);
-
-	if (SUCCEEDED(hr))
-	{
-		*ppReturnedDeviceInterface = GetOrCreateWrapperT(IDirect3DDevice8, *ppReturnedDeviceInterface);
-	}
-	return hr;
-}
-
 HRESULT m_IDirect3D8::QueryInterface(REFIID riid, LPVOID *ppvObj)
 {
-	return m_pD3D->QueryInterface(riid, ppvObj);
+	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown)) && ppvObj)
+	{
+		AddRef();
+
+		*ppvObj = this;
+
+		return S_OK;
+	}
+
+	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
 ULONG m_IDirect3D8::AddRef()
 {
-	return m_pD3D->AddRef();
+	return ProxyInterface->AddRef();
 }
 
 ULONG m_IDirect3D8::Release()
 {
-	ULONG count = m_pD3D->Release();
+	ULONG count = ProxyInterface->Release();
 
 	if (count == 0)
 	{
-		RemoveWrapper(m_pD3D);
 		delete this;
 	}
 
@@ -55,61 +49,71 @@ ULONG m_IDirect3D8::Release()
 
 HRESULT m_IDirect3D8::EnumAdapterModes(THIS_ UINT Adapter, UINT Mode, D3DDISPLAYMODE* pMode)
 {
-	return m_pD3D->EnumAdapterModes(Adapter, Mode, pMode);
+	return ProxyInterface->EnumAdapterModes(Adapter, Mode, pMode);
 }
 
 UINT m_IDirect3D8::GetAdapterCount()
 {
-	return m_pD3D->GetAdapterCount();
+	return ProxyInterface->GetAdapterCount();
 }
 
 HRESULT m_IDirect3D8::GetAdapterDisplayMode(UINT Adapter, D3DDISPLAYMODE *pMode)
 {
-	return m_pD3D->GetAdapterDisplayMode(Adapter, pMode);
+	return ProxyInterface->GetAdapterDisplayMode(Adapter, pMode);
 }
 
 HRESULT m_IDirect3D8::GetAdapterIdentifier(UINT Adapter, DWORD Flags, D3DADAPTER_IDENTIFIER8 *pIdentifier)
 {
-	return m_pD3D->GetAdapterIdentifier(Adapter, Flags, pIdentifier);
+	return ProxyInterface->GetAdapterIdentifier(Adapter, Flags, pIdentifier);
 }
 
 UINT m_IDirect3D8::GetAdapterModeCount(THIS_ UINT Adapter)
 {
-	return m_pD3D->GetAdapterModeCount(Adapter);
+	return ProxyInterface->GetAdapterModeCount(Adapter);
 }
 
 HMONITOR m_IDirect3D8::GetAdapterMonitor(UINT Adapter)
 {
-	return m_pD3D->GetAdapterMonitor(Adapter);
+	return ProxyInterface->GetAdapterMonitor(Adapter);
 }
 
 HRESULT m_IDirect3D8::GetDeviceCaps(UINT Adapter, D3DDEVTYPE DeviceType, D3DCAPS8 *pCaps)
 {
-	return m_pD3D->GetDeviceCaps(Adapter, DeviceType, pCaps);
+	return ProxyInterface->GetDeviceCaps(Adapter, DeviceType, pCaps);
 }
 
 HRESULT m_IDirect3D8::RegisterSoftwareDevice(void *pInitializeFunction)
 {
-	return m_pD3D->RegisterSoftwareDevice(pInitializeFunction);
+	return ProxyInterface->RegisterSoftwareDevice(pInitializeFunction);
 }
 
 HRESULT m_IDirect3D8::CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, D3DFORMAT RenderTargetFormat, D3DFORMAT DepthStencilFormat)
 {
-	return m_pD3D->CheckDepthStencilMatch(Adapter, DeviceType, AdapterFormat, RenderTargetFormat, DepthStencilFormat);
+	return ProxyInterface->CheckDepthStencilMatch(Adapter, DeviceType, AdapterFormat, RenderTargetFormat, DepthStencilFormat);
 }
 
 HRESULT m_IDirect3D8::CheckDeviceFormat(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, DWORD Usage, D3DRESOURCETYPE RType, D3DFORMAT CheckFormat)
 {
-	return m_pD3D->CheckDeviceFormat(Adapter, DeviceType, AdapterFormat, Usage, RType, CheckFormat);
+	return ProxyInterface->CheckDeviceFormat(Adapter, DeviceType, AdapterFormat, Usage, RType, CheckFormat);
 }
 
 HRESULT m_IDirect3D8::CheckDeviceMultiSampleType(THIS_ UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SurfaceFormat, BOOL Windowed, D3DMULTISAMPLE_TYPE MultiSampleType)
 {
-	return m_pD3D->CheckDeviceMultiSampleType(Adapter, DeviceType, SurfaceFormat, Windowed, MultiSampleType);
+	return ProxyInterface->CheckDeviceMultiSampleType(Adapter, DeviceType, SurfaceFormat, Windowed, MultiSampleType);
 }
 
 HRESULT m_IDirect3D8::CheckDeviceType(UINT Adapter, D3DDEVTYPE CheckType, D3DFORMAT DisplayFormat, D3DFORMAT BackBufferFormat, BOOL Windowed)
 {
-	return m_pD3D->CheckDeviceType(Adapter, CheckType, DisplayFormat, BackBufferFormat, Windowed);
+	return ProxyInterface->CheckDeviceType(Adapter, CheckType, DisplayFormat, BackBufferFormat, Windowed);
 }
 
+HRESULT m_IDirect3D8::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS *pPresentationParameters, IDirect3DDevice8 **ppReturnedDeviceInterface)
+{
+	HRESULT hr = ProxyInterface->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, ppReturnedDeviceInterface);
+
+	if (SUCCEEDED(hr))
+	{
+		*ppReturnedDeviceInterface = new m_IDirect3DDevice8(*ppReturnedDeviceInterface, ProxyInterface);
+	}
+	return hr;
+}

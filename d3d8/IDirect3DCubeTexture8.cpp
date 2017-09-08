@@ -18,101 +18,104 @@
 
 HRESULT m_IDirect3DCubeTexture8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	return m_pD3DCubeTexture8->QueryInterface(riid, ppvObj);
+	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource8) || riid == __uuidof(m_IDirect3DBaseTexture8)) && ppvObj)
+	{
+		AddRef();
+
+		*ppvObj = this;
+
+		return S_OK;
+	}
+
+	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
 ULONG m_IDirect3DCubeTexture8::AddRef(THIS)
 {
-	return m_pD3DCubeTexture8->AddRef();
+	return ProxyInterface->AddRef();
 }
 
 ULONG m_IDirect3DCubeTexture8::Release(THIS)
 {
-	ULONG count = m_pD3DCubeTexture8->Release();
-
-	if (count == 0)
-	{
-		RemoveWrapper(m_pD3DCubeTexture8);
-		delete this;
-	}
-
-	return count;
+	return ProxyInterface->Release();
 }
 
 HRESULT m_IDirect3DCubeTexture8::GetDevice(THIS_ IDirect3DDevice8** ppDevice)
 {
-	HRESULT hr = m_pD3DCubeTexture8->GetDevice(ppDevice);
-
-	if (SUCCEEDED(hr))
+	if (!ppDevice)
 	{
-		*ppDevice = GetOrCreateWrapperT(IDirect3DDevice8, *ppDevice);
+		return D3DERR_INVALIDCALL;
 	}
 
-	return hr;
+	m_pDevice->AddRef();
+
+	*ppDevice = m_pDevice;
+
+	return D3D_OK;
 }
 
 HRESULT m_IDirect3DCubeTexture8::SetPrivateData(THIS_ REFGUID refguid, CONST void* pData, DWORD SizeOfData, DWORD Flags)
 {
-	return m_pD3DCubeTexture8->SetPrivateData(refguid, pData, SizeOfData, Flags);
+	return ProxyInterface->SetPrivateData(refguid, pData, SizeOfData, Flags);
 }
 
 HRESULT m_IDirect3DCubeTexture8::GetPrivateData(THIS_ REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-	return m_pD3DCubeTexture8->GetPrivateData(refguid, pData, pSizeOfData);
+	return ProxyInterface->GetPrivateData(refguid, pData, pSizeOfData);
 }
 
 HRESULT m_IDirect3DCubeTexture8::FreePrivateData(THIS_ REFGUID refguid)
 {
-	return m_pD3DCubeTexture8->FreePrivateData(refguid);
+	return ProxyInterface->FreePrivateData(refguid);
 }
 
 DWORD m_IDirect3DCubeTexture8::SetPriority(THIS_ DWORD PriorityNew)
 {
-	return m_pD3DCubeTexture8->SetPriority(PriorityNew);
+	return ProxyInterface->SetPriority(PriorityNew);
 }
 
 DWORD m_IDirect3DCubeTexture8::GetPriority(THIS)
 {
-	return m_pD3DCubeTexture8->GetPriority();
+	return ProxyInterface->GetPriority();
 }
 
 void m_IDirect3DCubeTexture8::PreLoad(THIS)
 {
-	m_pD3DCubeTexture8->PreLoad();
+	ProxyInterface->PreLoad();
 }
 
 D3DRESOURCETYPE m_IDirect3DCubeTexture8::GetType(THIS)
 {
-	return m_pD3DCubeTexture8->GetType();
+	return ProxyInterface->GetType();
 }
 
 DWORD m_IDirect3DCubeTexture8::SetLOD(THIS_ DWORD LODNew)
 {
-	return m_pD3DCubeTexture8->SetLOD(LODNew);
+	return ProxyInterface->SetLOD(LODNew);
 }
 
 DWORD m_IDirect3DCubeTexture8::GetLOD(THIS)
 {
-	return m_pD3DCubeTexture8->GetLOD();
+	return ProxyInterface->GetLOD();
 }
 
 DWORD m_IDirect3DCubeTexture8::GetLevelCount(THIS)
 {
-	return m_pD3DCubeTexture8->GetLevelCount();
+	return ProxyInterface->GetLevelCount();
 }
 
 HRESULT m_IDirect3DCubeTexture8::GetLevelDesc(THIS_ UINT Level, D3DSURFACE_DESC *pDesc)
 {
-	return m_pD3DCubeTexture8->GetLevelDesc(Level, pDesc);
+	return ProxyInterface->GetLevelDesc(Level, pDesc);
 }
 
 HRESULT m_IDirect3DCubeTexture8::GetCubeMapSurface(THIS_ D3DCUBEMAP_FACES FaceType, UINT Level, IDirect3DSurface8** ppCubeMapSurface)
 {
-	HRESULT hr = m_pD3DCubeTexture8->GetCubeMapSurface(FaceType, Level, ppCubeMapSurface);
+	HRESULT hr = ProxyInterface->GetCubeMapSurface(FaceType, Level, ppCubeMapSurface);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && (*ppCubeMapSurface))
 	{
-		*ppCubeMapSurface = GetOrCreateWrapperT(IDirect3DSurface8, *ppCubeMapSurface);
+		*ppCubeMapSurface = m_pDevice->ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface8>(*ppCubeMapSurface);
 	}
 
 	return hr;
@@ -120,15 +123,15 @@ HRESULT m_IDirect3DCubeTexture8::GetCubeMapSurface(THIS_ D3DCUBEMAP_FACES FaceTy
 
 HRESULT m_IDirect3DCubeTexture8::LockRect(THIS_ D3DCUBEMAP_FACES FaceType, UINT Level, D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags)
 {
-	return m_pD3DCubeTexture8->LockRect(FaceType, Level, pLockedRect, pRect, Flags);
+	return ProxyInterface->LockRect(FaceType, Level, pLockedRect, pRect, Flags);
 }
 
 HRESULT m_IDirect3DCubeTexture8::UnlockRect(THIS_ D3DCUBEMAP_FACES FaceType, UINT Level)
 {
-	return m_pD3DCubeTexture8->UnlockRect(FaceType, Level);
+	return ProxyInterface->UnlockRect(FaceType, Level);
 }
 
 HRESULT m_IDirect3DCubeTexture8::AddDirtyRect(THIS_ D3DCUBEMAP_FACES FaceType, CONST RECT* pDirtyRect)
 {
-	return m_pD3DCubeTexture8->AddDirtyRect(FaceType, pDirtyRect);
+	return ProxyInterface->AddDirtyRect(FaceType, pDirtyRect);
 }

@@ -1,12 +1,19 @@
 #pragma once
 
-class m_IDirect3DCubeTexture8 : public IDirect3DCubeTexture8
+class m_IDirect3DCubeTexture8 : public IDirect3DCubeTexture8, public AddressLookupTableObject
 {
 private:
-	LPDIRECT3DCUBETEXTURE8 m_pD3DCubeTexture8;
+	LPDIRECT3DCUBETEXTURE8 ProxyInterface;
+	m_IDirect3DDevice8* m_pDevice;
 
 public:
-	m_IDirect3DCubeTexture8(LPDIRECT3DCUBETEXTURE8 pTexture8) { m_pD3DCubeTexture8 = pTexture8; }
+	m_IDirect3DCubeTexture8(LPDIRECT3DCUBETEXTURE8 pTexture8, m_IDirect3DDevice8* pDevice) : ProxyInterface(pTexture8), m_pDevice(pDevice)
+	{
+		m_pDevice->ProxyAddressLookupTable->SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirect3DCubeTexture8() {}
+
+	LPDIRECT3DCUBETEXTURE8 GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj);

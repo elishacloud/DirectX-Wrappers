@@ -1,12 +1,19 @@
 #pragma once
 
-class m_IDirect3DTexture8 : public IDirect3DTexture8
+class m_IDirect3DTexture8 : public IDirect3DTexture8, public AddressLookupTableObject
 {
 private:
-	LPDIRECT3DTEXTURE8 m_pD3DTexture8;
+	LPDIRECT3DTEXTURE8 ProxyInterface;
+	m_IDirect3DDevice8* m_pDevice;
 
 public:
-	m_IDirect3DTexture8(LPDIRECT3DTEXTURE8 pTexture8) { m_pD3DTexture8 = pTexture8; }
+	m_IDirect3DTexture8(LPDIRECT3DTEXTURE8 pTexture8, m_IDirect3DDevice8* pDevice) : ProxyInterface(pTexture8), m_pDevice(pDevice)
+	{
+		m_pDevice->ProxyAddressLookupTable->SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirect3DTexture8() {}
+
+	LPDIRECT3DTEXTURE8 GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj);

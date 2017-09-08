@@ -1,12 +1,19 @@
 #pragma once
 
-class m_IDirect3DSwapChain8 : public IDirect3DSwapChain8
+class m_IDirect3DSwapChain8 : public IDirect3DSwapChain8, public AddressLookupTableObject
 {
 private:
-	LPDIRECT3DSWAPCHAIN8 m_pD3DSwapChain8;
+	LPDIRECT3DSWAPCHAIN8 ProxyInterface;
+	m_IDirect3DDevice8* m_pDevice;
 
 public:
-	m_IDirect3DSwapChain8(LPDIRECT3DSWAPCHAIN8 pSwapChain8) { m_pD3DSwapChain8 = pSwapChain8; }
+	m_IDirect3DSwapChain8(LPDIRECT3DSWAPCHAIN8 pSwapChain8, m_IDirect3DDevice8* pDevice) : ProxyInterface(pSwapChain8), m_pDevice(pDevice)
+	{
+		m_pDevice->ProxyAddressLookupTable->SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirect3DSwapChain8() {}
+
+	LPDIRECT3DSWAPCHAIN8 GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj);

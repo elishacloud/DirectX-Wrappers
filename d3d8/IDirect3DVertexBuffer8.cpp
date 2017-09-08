@@ -18,85 +18,88 @@
 
 HRESULT m_IDirect3DVertexBuffer8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	return m_pD3DIBuffer8->QueryInterface(riid, ppvObj);
+	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource8)) && ppvObj)
+	{
+		AddRef();
+
+		*ppvObj = this;
+
+		return S_OK;
+	}
+
+	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
 ULONG m_IDirect3DVertexBuffer8::AddRef(THIS)
 {
-	return m_pD3DIBuffer8->AddRef();
+	return ProxyInterface->AddRef();
 }
 
 ULONG m_IDirect3DVertexBuffer8::Release(THIS)
 {
-	ULONG count = m_pD3DIBuffer8->Release();
-
-	if (count == 0)
-	{
-		RemoveWrapper(m_pD3DIBuffer8);
-		delete this;
-	}
-
-	return count;
+	return ProxyInterface->Release();
 }
 
 HRESULT m_IDirect3DVertexBuffer8::GetDevice(THIS_ IDirect3DDevice8** ppDevice)
 {
-	HRESULT hr = m_pD3DIBuffer8->GetDevice(ppDevice);
-
-	if (SUCCEEDED(hr))
+	if (!ppDevice)
 	{
-		*ppDevice = GetOrCreateWrapperT(IDirect3DDevice8, *ppDevice);
+		return D3DERR_INVALIDCALL;
 	}
 
-	return hr;
+	m_pDevice->AddRef();
+
+	*ppDevice = m_pDevice;
+
+	return D3D_OK;
 }
 
 HRESULT m_IDirect3DVertexBuffer8::SetPrivateData(THIS_ REFGUID refguid, CONST void* pData, DWORD SizeOfData, DWORD Flags)
 {
-	return m_pD3DIBuffer8->SetPrivateData(refguid, pData, SizeOfData, Flags);
+	return ProxyInterface->SetPrivateData(refguid, pData, SizeOfData, Flags);
 }
 
 HRESULT m_IDirect3DVertexBuffer8::GetPrivateData(THIS_ REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
-	return m_pD3DIBuffer8->GetPrivateData(refguid, pData, pSizeOfData);
+	return ProxyInterface->GetPrivateData(refguid, pData, pSizeOfData);
 }
 
 HRESULT m_IDirect3DVertexBuffer8::FreePrivateData(THIS_ REFGUID refguid)
 {
-	return m_pD3DIBuffer8->FreePrivateData(refguid);
+	return ProxyInterface->FreePrivateData(refguid);
 }
 
 DWORD m_IDirect3DVertexBuffer8::SetPriority(THIS_ DWORD PriorityNew)
 {
-	return m_pD3DIBuffer8->SetPriority(PriorityNew);
+	return ProxyInterface->SetPriority(PriorityNew);
 }
 
 DWORD m_IDirect3DVertexBuffer8::GetPriority(THIS)
 {
-	return m_pD3DIBuffer8->GetPriority();
+	return ProxyInterface->GetPriority();
 }
 
 void m_IDirect3DVertexBuffer8::PreLoad(THIS)
 {
-	return m_pD3DIBuffer8->PreLoad();
+	return ProxyInterface->PreLoad();
 }
 
 D3DRESOURCETYPE m_IDirect3DVertexBuffer8::GetType(THIS)
 {
-	return m_pD3DIBuffer8->GetType();
+	return ProxyInterface->GetType();
 }
 
 HRESULT m_IDirect3DVertexBuffer8::Lock(THIS_ UINT OffsetToLock, UINT SizeToLock, BYTE** ppbData, DWORD Flags)
 {
-	return m_pD3DIBuffer8->Lock(OffsetToLock, SizeToLock, ppbData, Flags);
+	return ProxyInterface->Lock(OffsetToLock, SizeToLock, ppbData, Flags);
 }
 
 HRESULT m_IDirect3DVertexBuffer8::Unlock(THIS)
 {
-	return m_pD3DIBuffer8->Unlock();
+	return ProxyInterface->Unlock();
 }
 
 HRESULT m_IDirect3DVertexBuffer8::GetDesc(THIS_ D3DVERTEXBUFFER_DESC *pDesc)
 {
-	return m_pD3DIBuffer8->GetDesc(pDesc);
+	return ProxyInterface->GetDesc(pDesc);
 }

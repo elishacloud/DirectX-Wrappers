@@ -78,7 +78,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="d3dx9.cpp" />
     <ClCompile Include="IDirect3D8.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="IDirect3DCubeTexture8.cpp" />
@@ -88,12 +87,11 @@
     <ClCompile Include="IDirect3DSwapChain8.cpp" />
     <ClCompile Include="IDirect3DTexture8.cpp" />
     <ClCompile Include="IDirect3DVertexBuffer8.cpp" />
+    <ClCompile Include="IDirect3DVolume8.cpp" />
     <ClCompile Include="IDirect3DVolumeTexture8.cpp" />
-    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3d8.h" />
-    <ClInclude Include="d3dx9.h" />
     <ClInclude Include="IDirect3D8.h" />
     <ClInclude Include="IDirect3DCubeTexture8.h" />
     <ClInclude Include="IDirect3DDevice8.h" />
@@ -102,8 +100,10 @@
     <ClInclude Include="IDirect3DSwapChain8.h" />
     <ClInclude Include="IDirect3DTexture8.h" />
     <ClInclude Include="IDirect3DVertexBuffer8.h" />
+    <ClInclude Include="IDirect3DVolume8.h" />
     <ClInclude Include="IDirect3DVolumeTexture8.h" />
-    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Logging.h" />
+    <ClInclude Include="Wrappers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d8.def" />

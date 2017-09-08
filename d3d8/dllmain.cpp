@@ -18,7 +18,7 @@
 
 std::ofstream Log::LOG("d3d8.log");
 
-FARPROC m_pDirect3D8EnableMaximizedWindowedModeShim;
+Direct3D8EnableMaximizedWindowedModeShimProc m_pDirect3D8EnableMaximizedWindowedModeShim;
 ValidatePixelShaderProc m_pValidatePixelShader;
 ValidateVertexShaderProc m_pValidateVertexShader;
 DebugSetMuteProc m_pDebugSetMute;
@@ -39,7 +39,7 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 		d3d8dll = LoadLibraryA(path);
 
 		// Get function addresses
-		m_pDirect3D8EnableMaximizedWindowedModeShim = GetProcAddress(d3d8dll, "Direct3D8EnableMaximizedWindowedModeShim");
+		m_pDirect3D8EnableMaximizedWindowedModeShim = (Direct3D8EnableMaximizedWindowedModeShimProc)GetProcAddress(d3d8dll, "Direct3D8EnableMaximizedWindowedModeShim");
 		m_pValidatePixelShader = (ValidatePixelShaderProc)GetProcAddress(d3d8dll, "ValidatePixelShader");
 		m_pValidateVertexShader = (ValidateVertexShaderProc)GetProcAddress(d3d8dll, "ValidateVertexShader");
 		m_pDebugSetMute = (DebugSetMuteProc)GetProcAddress(d3d8dll, "DebugSetMute");
@@ -54,35 +54,34 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	return true;
 }
 
-void __declspec(naked) Direct3D8EnableMaximizedWindowedModeShim()
+void WINAPI Direct3D8EnableMaximizedWindowedModeShim()
 {
-	logf(__FUNCTION__ "\n");
-	_asm jmp m_pDirect3D8EnableMaximizedWindowedModeShim;
+	Log() << __FUNCTION__;
+	return m_pDirect3D8EnableMaximizedWindowedModeShim();
 }
 
 HRESULT WINAPI ValidatePixelShader(DWORD* pixelshader, DWORD* reserved1, BOOL flag, DWORD* toto)
 {
 	HRESULT hr = m_pValidatePixelShader(pixelshader, reserved1, flag, toto);
-	Log() << __FUNCTION__ << "" << hr;
+	Log() << __FUNCTION__ << " " << hr;
 	return hr;
 }
 
 HRESULT WINAPI ValidateVertexShader(DWORD* vertexshader, DWORD* reserved1, DWORD* reserved2, BOOL flag, DWORD* toto)
 {
 	HRESULT hr = m_pValidateVertexShader(vertexshader, reserved1, reserved2, flag, toto);
-	Log() << __FUNCTION__ << "" << hr;
+	Log() << __FUNCTION__ << " " << hr;
 	return hr;
 }
 
-HRESULT WINAPI DebugSetMute()
+void WINAPI DebugSetMute()
 {
-	HRESULT hr = m_pDebugSetMute();
-	Log() << __FUNCTION__ << "" << hr;
-	return hr;
+	Log() << __FUNCTION__;
+	return m_pDebugSetMute();
 }
 
 IDirect3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
 {
 	Log() << __FUNCTION__ << " " << SDKVersion;
-	return GetOrCreateWrapperT(IDirect3D8, m_pDirect3DCreate8(SDKVersion));
+	return new m_IDirect3D8(m_pDirect3DCreate8(SDKVersion));
 }

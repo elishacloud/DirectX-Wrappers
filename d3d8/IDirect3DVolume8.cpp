@@ -16,7 +16,7 @@
 
 #include "d3d8.h"
 
-HRESULT m_IDirect3DSurface8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
+HRESULT m_IDirect3DVolume8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
 	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown)) && ppvObj)
 	{
@@ -30,17 +30,17 @@ HRESULT m_IDirect3DSurface8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
-ULONG m_IDirect3DSurface8::AddRef(THIS)
+ULONG m_IDirect3DVolume8::AddRef(THIS)
 {
 	return ProxyInterface->AddRef();
 }
 
-ULONG m_IDirect3DSurface8::Release(THIS)
+ULONG m_IDirect3DVolume8::Release(THIS)
 {
 	return ProxyInterface->Release();
 }
 
-HRESULT m_IDirect3DSurface8::GetDevice(THIS_ IDirect3DDevice8** ppDevice)
+HRESULT m_IDirect3DVolume8::GetDevice(THIS_ IDirect3DDevice8** ppDevice)
 {
 	if (!ppDevice)
 	{
@@ -54,37 +54,37 @@ HRESULT m_IDirect3DSurface8::GetDevice(THIS_ IDirect3DDevice8** ppDevice)
 	return D3D_OK;
 }
 
-HRESULT m_IDirect3DSurface8::SetPrivateData(THIS_ REFGUID refguid, CONST void* pData, DWORD SizeOfData, DWORD Flags)
+HRESULT m_IDirect3DVolume8::SetPrivateData(THIS_ REFGUID refguid, CONST void* pData, DWORD SizeOfData, DWORD Flags)
 {
 	return ProxyInterface->SetPrivateData(refguid, pData, SizeOfData, Flags);
 }
 
-HRESULT m_IDirect3DSurface8::GetPrivateData(THIS_ REFGUID refguid, void* pData, DWORD* pSizeOfData)
+HRESULT m_IDirect3DVolume8::GetPrivateData(THIS_ REFGUID refguid, void* pData, DWORD* pSizeOfData)
 {
 	return ProxyInterface->GetPrivateData(refguid, pData, pSizeOfData);
 }
 
-HRESULT m_IDirect3DSurface8::FreePrivateData(THIS_ REFGUID refguid)
+HRESULT m_IDirect3DVolume8::FreePrivateData(THIS_ REFGUID refguid)
 {
 	return ProxyInterface->FreePrivateData(refguid);
 }
 
-HRESULT m_IDirect3DSurface8::GetContainer(THIS_ REFIID riid, void** ppContainer)
+HRESULT m_IDirect3DVolume8::GetContainer(THIS_ REFIID riid, void** ppContainer)
 {
 	return ProxyInterface->GetContainer(riid, ppContainer);
 }
 
-HRESULT m_IDirect3DSurface8::GetDesc(THIS_ D3DSURFACE_DESC *pDesc)
+HRESULT m_IDirect3DVolume8::GetDesc(THIS_ D3DVOLUME_DESC *pDesc)
 {
 	return ProxyInterface->GetDesc(pDesc);
 }
 
-HRESULT m_IDirect3DSurface8::LockRect(THIS_ D3DLOCKED_RECT* pLockedRect, CONST RECT* pRect, DWORD Flags)
+HRESULT m_IDirect3DVolume8::LockBox(THIS_ D3DLOCKED_BOX * pLockedVolume, CONST D3DBOX* pBox, DWORD Flags)
 {
-	return ProxyInterface->LockRect(pLockedRect, pRect, Flags);
+	return ProxyInterface->LockBox(pLockedVolume, pBox, Flags);
 }
 
-HRESULT m_IDirect3DSurface8::UnlockRect(THIS)
+HRESULT m_IDirect3DVolume8::UnlockBox(THIS)
 {
-	return ProxyInterface->UnlockRect();
+	return ProxyInterface->UnlockBox();
 }

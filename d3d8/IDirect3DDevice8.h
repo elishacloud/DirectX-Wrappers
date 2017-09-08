@@ -3,10 +3,21 @@
 class m_IDirect3DDevice8 : public IDirect3DDevice8
 {
 private:
-	LPDIRECT3DDEVICE8 m_pD3DDevice;
+	LPDIRECT3DDEVICE8 ProxyInterface;
+	LPDIRECT3D8 m_pD3D;
 
 public:
-	m_IDirect3DDevice8::m_IDirect3DDevice8(LPDIRECT3DDEVICE8 pDevice) { m_pD3DDevice = pDevice; }
+	m_IDirect3DDevice8(LPDIRECT3DDEVICE8 pDevice, LPDIRECT3D8 pD3D) : ProxyInterface(pDevice), m_pD3D(pD3D)
+	{
+		ProxyAddressLookupTable = new AddressLookupTable<m_IDirect3DDevice8>(this);
+	}
+	~m_IDirect3DDevice8()
+	{
+		delete ProxyAddressLookupTable;
+	}
+
+	LPDIRECT3DDEVICE8 GetProxyInterface() { return ProxyInterface; }
+	AddressLookupTable<m_IDirect3DDevice8> *ProxyAddressLookupTable;
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);

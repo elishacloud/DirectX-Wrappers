@@ -18,110 +18,120 @@
 
 HRESULT m_IDirect3DVolumeTexture8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	return m_pD3DVolumeTexture8->QueryInterface(riid, ppvObj);
+	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource8) || riid == __uuidof(m_IDirect3DBaseTexture8)) && ppvObj)
+	{
+		AddRef();
+
+		*ppvObj = this;
+
+		return S_OK;
+	}
+
+	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
 ULONG m_IDirect3DVolumeTexture8::AddRef(THIS)
 {
-	return m_pD3DVolumeTexture8->AddRef();
+	return ProxyInterface->AddRef();
 }
 
 ULONG m_IDirect3DVolumeTexture8::Release(THIS)
 {
-	ULONG count = m_pD3DVolumeTexture8->Release();
-
-	if (count == 0)
-	{
-		RemoveWrapper(m_pD3DVolumeTexture8);
-		delete this;
-	}
-
-	return count;
+	return ProxyInterface->Release();
 }
 
 HRESULT m_IDirect3DVolumeTexture8::GetDevice(THIS_ IDirect3DDevice8** ppDevice)
 {
-	HRESULT hr = m_pD3DVolumeTexture8->GetDevice(ppDevice);
-
-	if (SUCCEEDED(hr))
+	if (!ppDevice)
 	{
-		*ppDevice = GetOrCreateWrapperT(IDirect3DDevice8, *ppDevice);
+		return D3DERR_INVALIDCALL;
+	}
+
+	m_pDevice->AddRef();
+
+	*ppDevice = m_pDevice;
+
+	return D3D_OK;
+}
+
+HRESULT m_IDirect3DVolumeTexture8::SetPrivateData(THIS_ REFGUID refguid, CONST void* pData, DWORD SizeOfData, DWORD Flags)
+{
+	return ProxyInterface->SetPrivateData(refguid, pData, SizeOfData, Flags);
+}
+
+HRESULT m_IDirect3DVolumeTexture8::GetPrivateData(THIS_ REFGUID refguid, void* pData, DWORD* pSizeOfData)
+{
+	return ProxyInterface->GetPrivateData(refguid, pData, pSizeOfData);
+}
+
+HRESULT m_IDirect3DVolumeTexture8::FreePrivateData(THIS_ REFGUID refguid)
+{
+	return ProxyInterface->FreePrivateData(refguid);
+}
+
+DWORD m_IDirect3DVolumeTexture8::SetPriority(THIS_ DWORD PriorityNew)
+{
+	return ProxyInterface->SetPriority(PriorityNew);
+}
+
+DWORD m_IDirect3DVolumeTexture8::GetPriority(THIS)
+{
+	return ProxyInterface->GetPriority();
+}
+
+void m_IDirect3DVolumeTexture8::PreLoad(THIS)
+{
+	return ProxyInterface->PreLoad();
+}
+
+D3DRESOURCETYPE m_IDirect3DVolumeTexture8::GetType(THIS)
+{
+	return ProxyInterface->GetType();
+}
+
+DWORD m_IDirect3DVolumeTexture8::SetLOD(THIS_ DWORD LODNew)
+{
+	return ProxyInterface->SetLOD(LODNew);
+}
+
+DWORD m_IDirect3DVolumeTexture8::GetLOD(THIS)
+{
+	return ProxyInterface->GetLOD();
+}
+
+DWORD m_IDirect3DVolumeTexture8::GetLevelCount(THIS)
+{
+	return ProxyInterface->GetLevelCount();
+}
+
+HRESULT m_IDirect3DVolumeTexture8::GetLevelDesc(THIS_ UINT Level, D3DVOLUME_DESC *pDesc)
+{
+	return ProxyInterface->GetLevelDesc(Level, pDesc);
+}
+
+HRESULT m_IDirect3DVolumeTexture8::GetVolumeLevel(THIS_ UINT Level, IDirect3DVolume8** ppVolumeLevel)
+{
+	HRESULT hr = ProxyInterface->GetVolumeLevel(Level, ppVolumeLevel);
+
+	if (SUCCEEDED(hr) && (*ppVolumeLevel))
+	{
+		*ppVolumeLevel = m_pDevice->ProxyAddressLookupTable->FindAddress<m_IDirect3DVolume8>(*ppVolumeLevel);
 	}
 
 	return hr;
 }
 
-HRESULT m_IDirect3DVolumeTexture8::SetPrivateData(THIS_ REFGUID refguid, CONST void* pData, DWORD SizeOfData, DWORD Flags)
-{
-	return m_pD3DVolumeTexture8->SetPrivateData(refguid, pData, SizeOfData, Flags);
-}
-
-HRESULT m_IDirect3DVolumeTexture8::GetPrivateData(THIS_ REFGUID refguid, void* pData, DWORD* pSizeOfData)
-{
-	return m_pD3DVolumeTexture8->GetPrivateData(refguid, pData, pSizeOfData);
-}
-
-HRESULT m_IDirect3DVolumeTexture8::FreePrivateData(THIS_ REFGUID refguid)
-{
-	return m_pD3DVolumeTexture8->FreePrivateData(refguid);
-}
-
-DWORD m_IDirect3DVolumeTexture8::SetPriority(THIS_ DWORD PriorityNew)
-{
-	return m_pD3DVolumeTexture8->SetPriority(PriorityNew);
-}
-
-DWORD m_IDirect3DVolumeTexture8::GetPriority(THIS)
-{
-	return m_pD3DVolumeTexture8->GetPriority();
-}
-
-void m_IDirect3DVolumeTexture8::PreLoad(THIS)
-{
-	m_pD3DVolumeTexture8->PreLoad();
-}
-
-D3DRESOURCETYPE m_IDirect3DVolumeTexture8::GetType(THIS)
-{
-	return m_pD3DVolumeTexture8->GetType();
-}
-
-DWORD m_IDirect3DVolumeTexture8::SetLOD(THIS_ DWORD LODNew)
-{
-	return m_pD3DVolumeTexture8->SetLOD(LODNew);
-}
-
-DWORD m_IDirect3DVolumeTexture8::GetLOD(THIS)
-{
-	return m_pD3DVolumeTexture8->GetLOD();
-}
-
-DWORD m_IDirect3DVolumeTexture8::GetLevelCount(THIS)
-{
-	return m_pD3DVolumeTexture8->GetLevelCount();
-}
-
-HRESULT m_IDirect3DVolumeTexture8::GetLevelDesc(THIS_ UINT Level, D3DVOLUME_DESC *pDesc)
-{
-	return m_pD3DVolumeTexture8->GetLevelDesc(Level, pDesc);
-}
-
-HRESULT m_IDirect3DVolumeTexture8::GetVolumeLevel(THIS_ UINT Level, IDirect3DVolume8** ppVolumeLevel)
-{
-	return m_pD3DVolumeTexture8->GetVolumeLevel(Level, ppVolumeLevel);
-}
-
 HRESULT m_IDirect3DVolumeTexture8::LockBox(THIS_ UINT Level, D3DLOCKED_BOX* pLockedVolume, CONST D3DBOX* pBox, DWORD Flags)
 {
-	return m_pD3DVolumeTexture8->LockBox(Level, pLockedVolume, pBox, Flags);
+	return ProxyInterface->LockBox(Level, pLockedVolume, pBox, Flags);
 }
 
 HRESULT m_IDirect3DVolumeTexture8::UnlockBox(THIS_ UINT Level)
 {
-	return m_pD3DVolumeTexture8->UnlockBox(Level);
+	return ProxyInterface->UnlockBox(Level);
 }
 
 HRESULT m_IDirect3DVolumeTexture8::AddDirtyBox(THIS_ CONST D3DBOX* pDirtyBox)
 {
-	return m_pD3DVolumeTexture8->AddDirtyBox(pDirtyBox);
+	return ProxyInterface->AddDirtyBox(pDirtyBox);
 }
