@@ -6,61 +6,67 @@ template <typename D>
 class AddressLookupTable
 {
 public:
-	explicit AddressLookupTable(D *pDevice) : m_pDevice(pDevice) {}
+	explicit AddressLookupTable(D *pDevice) : pDevice(pDevice) {}
 	~AddressLookupTable()
 	{
 		while (g_map.size() != 0)
 		{
 			auto it = g_map.begin();
 
-			if (it->second != nullptr)
-			{
-				it->second->DeleteMe();
-			}
+			it->second->DeleteMe();
 
 			it = g_map.erase(it);
 		}
 	}
 
 	template <typename T>
-	T *FindAddress(void *Wrapper)
+	T *FindAddress(void *Proxy)
 	{
-		if (Wrapper == nullptr)
+		if (Proxy == nullptr)
 		{
 			return nullptr;
 		}
 
-		T *Proxy = static_cast<T *>(g_map[Wrapper]);
+		T *Wrapper = static_cast<T *>(g_map[Proxy]);
 
-		if (Proxy == nullptr)
+		if (Wrapper == nullptr)
 		{
-			Proxy = new T(static_cast<T *>(Wrapper), m_pDevice);
+			Wrapper = new T(static_cast<T *>(Proxy), pDevice);
 		}
 
-		return Proxy;
+		return Wrapper;
 	}
 
 	template <typename T>
-	void SaveAddress(T *Proxy, void *Wrapper)
+	void SaveAddress(T *Wrapper, void *Proxy)
 	{
-		if (Proxy != nullptr && Wrapper != nullptr)
+		if (Wrapper != nullptr && Proxy != nullptr)
 		{
-			g_map[Wrapper] = Proxy;
+			g_map[Proxy] = Wrapper;
 		}
 	}
 
-	void DeleteAddress(void* Wrapper)
+	template <typename T>
+	void DeleteAddress(T *Wrapper)
 	{
-		if (g_map[Wrapper] != nullptr)
+		if (Wrapper != nullptr)
 		{
-			g_map[Wrapper]->DeleteMe();
-		}
+			for (auto it = g_map.begin(); it != g_map.end(); ++it)
+			{
+				if (it->second == Wrapper)
+				{
+					it->second->DeleteMe();
 
-		g_map.erase(Wrapper);
+					it = g_map.erase(it);
+					
+					return;
+				}
+			}
+		}
 	}
 
 private:
-	D *const m_pDevice;
+	D *const pDevice;
 	std::unordered_map<void*, class AddressLookupTableObject*> g_map;
 };
 
