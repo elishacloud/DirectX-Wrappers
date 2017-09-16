@@ -116,8 +116,6 @@
     <ClInclude Include="IDirect3DVertexShader9.h" />
     <ClInclude Include="IDirect3DVolume9.h" />
     <ClInclude Include="IDirect3DVolumeTexture9.h" />
-    <ClInclude Include="Logging.h" />
-    <ClInclude Include="Wrappers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d9.def" />

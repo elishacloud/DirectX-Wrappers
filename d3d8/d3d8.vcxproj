@@ -102,8 +102,6 @@
     <ClInclude Include="IDirect3DVertexBuffer8.h" />
     <ClInclude Include="IDirect3DVolume8.h" />
     <ClInclude Include="IDirect3DVolumeTexture8.h" />
-    <ClInclude Include="Logging.h" />
-    <ClInclude Include="Wrappers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d8.def" />

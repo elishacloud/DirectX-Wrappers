@@ -21,8 +21,8 @@ typedef HRESULT(WINAPI *ValidateVertexShaderProc)(DWORD*, DWORD*, DWORD*, BOOL, 
 typedef void(WINAPI *DebugSetMuteProc)();
 typedef IDirect3D8 *(WINAPI *Direct3DCreate8Proc)(UINT);
 
-#include "Logging.h"
-#include "Wrappers.h"
+#include "..\Common\Logging.h"
+#include "..\Common\Wrapper.h"
 #include "IDirect3D8.h"
 #include "IDirect3DDevice8.h"
 #include "IDirect3DCubeTexture8.h"

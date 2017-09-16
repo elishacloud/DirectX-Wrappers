@@ -43,8 +43,8 @@ typedef void(WINAPI *Direct3D9EnableMaximizedWindowedModeShimProc)();
 typedef IDirect3D9 *(WINAPI *Direct3DCreate9Proc)(UINT);
 typedef HRESULT(WINAPI *Direct3DCreate9ExProc)(UINT, IDirect3D9Ex **);
 
-#include "Logging.h"
-#include "Wrappers.h"
+#include "..\Common\Logging.h"
+#include "..\Common\Wrapper.h"
 #include "IDirect3D9.h"
 #include "IDirect3D9Ex.h"
 #include "IDirect3DDevice9.h"
