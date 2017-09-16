@@ -1,28 +1,23 @@
 #pragma once
 
-class m_IDirect3DDevice9 : public IDirect3DDevice9
+class m_IDirect3DDevice9Ex : public IDirect3DDevice9Ex
 {
 private:
-	LPDIRECT3DDEVICE9 ProxyInterface;
-	m_IDirect3D9* m_pD3D = nullptr;
-	m_IDirect3D9Ex* m_pD3DEx = nullptr;
+	LPDIRECT3DDEVICE9EX ProxyInterface;
+	m_IDirect3D9Ex* m_pD3DEx;
 
 public:
-	m_IDirect3DDevice9(LPDIRECT3DDEVICE9 pDevice, m_IDirect3D9* pD3D) : ProxyInterface(pDevice), m_pD3D(pD3D)
+	m_IDirect3DDevice9Ex(LPDIRECT3DDEVICE9EX pDevice, m_IDirect3D9Ex* pD3D) : ProxyInterface(pDevice), m_pD3DEx(pD3D)
 	{
-		ProxyAddressLookupTable = new AddressLookupTable<m_IDirect3DDevice9>(this);
+		ProxyAddressLookupTable = new AddressLookupTable<m_IDirect3DDevice9Ex>(this);
 	}
-	m_IDirect3DDevice9(LPDIRECT3DDEVICE9 pDevice, m_IDirect3D9Ex* pD3D) : ProxyInterface(pDevice), m_pD3DEx(pD3D)
-	{
-		ProxyAddressLookupTable = new AddressLookupTable<m_IDirect3DDevice9>(this);
-	}
-	~m_IDirect3DDevice9()
+	~m_IDirect3DDevice9Ex()
 	{
 		delete ProxyAddressLookupTable;
 	}
 
-	virtual LPDIRECT3DDEVICE9 GetProxyInterface() { return ProxyInterface; }
-	AddressLookupTable<m_IDirect3DDevice9> *ProxyAddressLookupTable;
+	LPDIRECT3DDEVICE9EX GetProxyInterface() { return ProxyInterface; }
+	AddressLookupTable<m_IDirect3DDevice9Ex> *ProxyAddressLookupTable;
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj);
@@ -41,7 +36,7 @@ public:
 	STDMETHOD_(void, SetCursorPosition)(THIS_ int X, int Y, DWORD Flags);
 	STDMETHOD_(BOOL, ShowCursor)(THIS_ BOOL bShow);
 	STDMETHOD(CreateAdditionalSwapChain)(THIS_ D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DSwapChain9** pSwapChain);
-	STDMETHOD(GetSwapChain)(THIS_ UINT iSwapChain, IDirect3DSwapChain9** ppSwapChain);
+	STDMETHOD(GetSwapChain)(THIS_ UINT iSwapChain, IDirect3DSwapChain9** pSwapChain);
 	STDMETHOD_(UINT, GetNumberOfSwapChains)(THIS);
 	STDMETHOD(Reset)(THIS_ D3DPRESENT_PARAMETERS* pPresentationParameters);
 	STDMETHOD(Present)(THIS_ CONST RECT* pSourceRect, CONST RECT* pDestRect, HWND hDestWindowOverride, CONST RGNDATA* pDirtyRegion);
@@ -73,7 +68,7 @@ public:
 	STDMETHOD(Clear)(THIS_ DWORD Count, CONST D3DRECT* pRects, DWORD Flags, D3DCOLOR Color, float Z, DWORD Stencil);
 	STDMETHOD(SetTransform)(THIS_ D3DTRANSFORMSTATETYPE State, CONST D3DMATRIX* pMatrix);
 	STDMETHOD(GetTransform)(THIS_ D3DTRANSFORMSTATETYPE State, D3DMATRIX* pMatrix);
-	STDMETHOD(MultiplyTransform)(THIS_ D3DTRANSFORMSTATETYPE, CONST D3DMATRIX* pMatrix);
+	STDMETHOD(MultiplyTransform)(THIS_ D3DTRANSFORMSTATETYPE State, CONST D3DMATRIX *pMatrix);
 	STDMETHOD(SetViewport)(THIS_ CONST D3DVIEWPORT9* pViewport);
 	STDMETHOD(GetViewport)(THIS_ D3DVIEWPORT9* pViewport);
 	STDMETHOD(SetMaterial)(THIS_ CONST D3DMATERIAL9* pMaterial);
@@ -146,4 +141,19 @@ public:
 	STDMETHOD(DrawTriPatch)(THIS_ UINT Handle, CONST float* pNumSegs, CONST D3DTRIPATCH_INFO* pTriPatchInfo);
 	STDMETHOD(DeletePatch)(THIS_ UINT Handle);
 	STDMETHOD(CreateQuery)(THIS_ D3DQUERYTYPE Type, IDirect3DQuery9** ppQuery);
+	STDMETHOD(SetConvolutionMonoKernel)(THIS_ UINT width, UINT height, float* rows, float* columns);
+	STDMETHOD(ComposeRects)(THIS_ IDirect3DSurface9* pSrc, IDirect3DSurface9* pDst, IDirect3DVertexBuffer9* pSrcRectDescs, UINT NumRects, IDirect3DVertexBuffer9* pDstRectDescs, D3DCOMPOSERECTSOP Operation, int Xoffset, int Yoffset);
+	STDMETHOD(PresentEx)(THIS_ CONST RECT* pSourceRect, CONST RECT* pDestRect, HWND hDestWindowOverride, CONST RGNDATA* pDirtyRegion, DWORD dwFlags);
+	STDMETHOD(GetGPUThreadPriority)(THIS_ INT* pPriority);
+	STDMETHOD(SetGPUThreadPriority)(THIS_ INT Priority);
+	STDMETHOD(WaitForVBlank)(THIS_ UINT iSwapChain);
+	STDMETHOD(CheckResourceResidency)(THIS_ IDirect3DResource9** pResourceArray, UINT32 NumResources);
+	STDMETHOD(SetMaximumFrameLatency)(THIS_ UINT MaxLatency);
+	STDMETHOD(GetMaximumFrameLatency)(THIS_ UINT* pMaxLatency);
+	STDMETHOD(CheckDeviceState)(THIS_ HWND hDestinationWindow);
+	STDMETHOD(CreateRenderTargetEx)(THIS_ UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, DWORD MultisampleQuality, BOOL Lockable, IDirect3DSurface9** ppSurface, HANDLE* pSharedHandle, DWORD Usage);
+	STDMETHOD(CreateOffscreenPlainSurfaceEx)(THIS_ UINT Width, UINT Height, D3DFORMAT Format, D3DPOOL Pool, IDirect3DSurface9** ppSurface, HANDLE* pSharedHandle, DWORD Usage);
+	STDMETHOD(CreateDepthStencilSurfaceEx)(THIS_ UINT Width, UINT Height, D3DFORMAT Format, D3DMULTISAMPLE_TYPE MultiSample, DWORD MultisampleQuality, BOOL Discard, IDirect3DSurface9** ppSurface, HANDLE* pSharedHandle, DWORD Usage);
+	STDMETHOD(ResetEx)(THIS_ D3DPRESENT_PARAMETERS* pPresentationParameters, D3DDISPLAYMODEEX *pFullscreenDisplayMode);
+	STDMETHOD(GetDisplayModeEx)(THIS_ UINT iSwapChain, D3DDISPLAYMODEEX* pMode, D3DDISPLAYROTATION* pRotation);
 };

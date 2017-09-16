@@ -30,7 +30,7 @@ D3DPERF_SetOptionsProc m_pD3DPERF_SetOptions;
 D3DPERF_SetRegionProc m_pD3DPERF_SetRegion;
 DebugSetLevelProc m_pDebugSetLevel;
 DebugSetMuteProc m_pDebugSetMute;
-FARPROC m_pDirect3D9EnableMaximizedWindowedModeShim;
+Direct3D9EnableMaximizedWindowedModeShimProc m_pDirect3D9EnableMaximizedWindowedModeShim;
 Direct3DCreate9Proc m_pDirect3DCreate9;
 Direct3DCreate9ExProc m_pDirect3DCreate9Ex;
 
@@ -61,7 +61,7 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 		m_pD3DPERF_SetRegion = (D3DPERF_SetRegionProc)GetProcAddress(d3d9dll, "D3DPERF_SetRegion");
 		m_pDebugSetLevel = (DebugSetLevelProc)GetProcAddress(d3d9dll, "DebugSetLevel");
 		m_pDebugSetMute = (DebugSetMuteProc)GetProcAddress(d3d9dll, "DebugSetMute");
-		m_pDirect3D9EnableMaximizedWindowedModeShim = GetProcAddress(d3d9dll, "Direct3D9EnableMaximizedWindowedModeShim");
+		m_pDirect3D9EnableMaximizedWindowedModeShim = (Direct3D9EnableMaximizedWindowedModeShimProc)GetProcAddress(d3d9dll, "Direct3D9EnableMaximizedWindowedModeShim");
 		m_pDirect3DCreate9 = (Direct3DCreate9Proc)GetProcAddress(d3d9dll, "Direct3DCreate9");
 		m_pDirect3DCreate9Ex = (Direct3DCreate9ExProc)GetProcAddress(d3d9dll, "Direct3DCreate9Ex");
 		break;
@@ -72,17 +72,6 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	}
 
 	return true;
-}
-
-void logf(char * fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-	auto size = vsnprintf(nullptr, 0, fmt, ap);
-	std::string output(size + 1, '\0');
-	vsprintf_s(&output[0], size + 1, fmt, ap);
-	Log() << output.c_str();
-	va_end(ap);
 }
 
 HRESULT WINAPI Direct3DShaderValidatorCreate9()
@@ -165,10 +154,10 @@ void WINAPI DebugSetMute()
 	m_pDebugSetMute();
 }
 
-void __declspec(naked) Direct3D9EnableMaximizedWindowedModeShim()
+void WINAPI Direct3D9EnableMaximizedWindowedModeShim()
 {
-	logf(__FUNCTION__);
-	_asm jmp m_pDirect3D9EnableMaximizedWindowedModeShim;
+	Log() << __FUNCTION__;
+	return m_pDirect3D9EnableMaximizedWindowedModeShim();
 }
 
 IDirect3D9 *WINAPI Direct3DCreate9(UINT SDKVersion)
@@ -181,9 +170,11 @@ HRESULT WINAPI Direct3DCreate9Ex(UINT SDKVersion, IDirect3D9Ex **ppD3D)
 {
 	HRESULT hr = m_pDirect3DCreate9Ex(SDKVersion, ppD3D);
 	Log() << __FUNCTION__ << " " << SDKVersion << " " << hr;
+
 	if (SUCCEEDED(hr))
 	{
-		//TODO: Add wrappers
+		*ppD3D = new m_IDirect3D9Ex(*ppD3D);
 	}
+
 	return hr;
 }

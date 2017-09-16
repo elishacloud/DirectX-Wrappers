@@ -7,7 +7,7 @@ Wraps the main DirectX and Direct3D DLLs.  It allows you to intercept calls to D
 Currently this can wrap the following DLLs:
 - ddraw.dll
 - d3d8.dll (Complete)
-- d3d9.dll
+- d3d9.dll (Complete)
 - dinput.dll
 - dsound.dll
 

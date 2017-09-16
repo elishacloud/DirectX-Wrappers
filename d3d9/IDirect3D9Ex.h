@@ -1,12 +1,12 @@
 #pragma once
 
-class m_IDirect3D9 : public IDirect3D9
+class m_IDirect3D9Ex : public IDirect3D9Ex
 {
 private:
-	LPDIRECT3D9 ProxyInterface;
+	LPDIRECT3D9EX ProxyInterface;
 
 public:
-	m_IDirect3D9(LPDIRECT3D9 pDirect3D) : ProxyInterface(pDirect3D) { }
+	m_IDirect3D9Ex(LPDIRECT3D9EX pDirect3D) : ProxyInterface(pDirect3D) { }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj);
@@ -28,4 +28,9 @@ public:
 	STDMETHOD(GetDeviceCaps)(THIS_ UINT Adapter, D3DDEVTYPE DeviceType, D3DCAPS9* pCaps);
 	STDMETHOD_(HMONITOR, GetAdapterMonitor)(THIS_ UINT Adapter);
 	STDMETHOD(CreateDevice)(THIS_ UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice9** ppReturnedDeviceInterface);
+	STDMETHOD_(UINT, GetAdapterModeCountEx)(THIS_ UINT Adapter, CONST D3DDISPLAYMODEFILTER* pFilter);
+	STDMETHOD(EnumAdapterModesEx)(THIS_ UINT Adapter, CONST D3DDISPLAYMODEFILTER* pFilter, UINT Mode, D3DDISPLAYMODEEX* pMode);
+	STDMETHOD(GetAdapterDisplayModeEx)(THIS_ UINT Adapter, D3DDISPLAYMODEEX* pMode, D3DDISPLAYROTATION* pRotation);
+	STDMETHOD(CreateDeviceEx)(THIS_ UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, D3DDISPLAYMODEEX* pFullscreenDisplayMode, IDirect3DDevice9Ex** ppReturnedDeviceInterface);
+	STDMETHOD(GetAdapterLUID)(THIS_ UINT Adapter, LUID * pLUID);
 };

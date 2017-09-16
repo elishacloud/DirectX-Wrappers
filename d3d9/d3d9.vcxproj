@@ -78,16 +78,46 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="d3dx9.cpp" />
     <ClCompile Include="IDirect3D9.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="IDirect3D9Ex.cpp" />
+    <ClCompile Include="IDirect3DCubeTexture9.cpp" />
     <ClCompile Include="IDirect3DDevice9.cpp" />
+    <ClCompile Include="IDirect3DDevice9Ex.cpp" />
+    <ClCompile Include="IDirect3DIndexBuffer9.cpp" />
+    <ClCompile Include="IDirect3DPixelShader9.cpp" />
+    <ClCompile Include="IDirect3DQuery9.cpp" />
+    <ClCompile Include="IDirect3DStateBlock9.cpp" />
+    <ClCompile Include="IDirect3DSurface9.cpp" />
+    <ClCompile Include="IDirect3DSwapChain9.cpp" />
+    <ClCompile Include="IDirect3DTexture9.cpp" />
+    <ClCompile Include="IDirect3DVertexBuffer9.cpp" />
+    <ClCompile Include="IDirect3DVertexDeclaration9.cpp" />
+    <ClCompile Include="IDirect3DVertexShader9.cpp" />
+    <ClCompile Include="IDirect3DVolume9.cpp" />
+    <ClCompile Include="IDirect3DVolumeTexture9.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3d9.h" />
-    <ClInclude Include="d3dx9.h" />
     <ClInclude Include="IDirect3D9.h" />
+    <ClInclude Include="IDirect3D9Ex.h" />
+    <ClInclude Include="IDirect3DCubeTexture9.h" />
     <ClInclude Include="IDirect3DDevice9.h" />
+    <ClInclude Include="IDirect3DDevice9Ex.h" />
+    <ClInclude Include="IDirect3DIndexBuffer9.h" />
+    <ClInclude Include="IDirect3DPixelShader9.h" />
+    <ClInclude Include="IDirect3DQuery9.h" />
+    <ClInclude Include="IDirect3DStateBlock9.h" />
+    <ClInclude Include="IDirect3DSurface9.h" />
+    <ClInclude Include="IDirect3DSwapChain9.h" />
+    <ClInclude Include="IDirect3DTexture9.h" />
+    <ClInclude Include="IDirect3DVertexBuffer9.h" />
+    <ClInclude Include="IDirect3DVertexDeclaration9.h" />
+    <ClInclude Include="IDirect3DVertexShader9.h" />
+    <ClInclude Include="IDirect3DVolume9.h" />
+    <ClInclude Include="IDirect3DVolumeTexture9.h" />
+    <ClInclude Include="Logging.h" />
+    <ClInclude Include="Wrappers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d9.def" />
