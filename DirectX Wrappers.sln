@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dsound", "dsound\dsound.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dinput", "dinput\dinput.vcxproj", "{0C32F7D5-4261-4E29-BBCB-93364B10A7BC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3dim700", "d3dim700\d3dim700.vcxproj", "{0311DE9B-E0B0-4678-A298-B81A76D8BC50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +41,10 @@ Global
 		{0C32F7D5-4261-4E29-BBCB-93364B10A7BC}.Debug|Win32.Build.0 = Debug|Win32
 		{0C32F7D5-4261-4E29-BBCB-93364B10A7BC}.Release|Win32.ActiveCfg = Release|Win32
 		{0C32F7D5-4261-4E29-BBCB-93364B10A7BC}.Release|Win32.Build.0 = Release|Win32
+		{0311DE9B-E0B0-4678-A298-B81A76D8BC50}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0311DE9B-E0B0-4678-A298-B81A76D8BC50}.Debug|Win32.Build.0 = Debug|Win32
+		{0311DE9B-E0B0-4678-A298-B81A76D8BC50}.Release|Win32.ActiveCfg = Release|Win32
+		{0311DE9B-E0B0-4678-A298-B81A76D8BC50}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

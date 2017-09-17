@@ -19,7 +19,7 @@ DllCanUnloadNow					PRIVATE
 DllGetClassObject				PRIVATE
 GetDDSurfaceLocal				@17
 GetOLEThunkData					@18
-;GetSurfaceFromDC				@19		;<--- TODO: Fix this wrapper
+GetSurfaceFromDC				@19
 RegisterSpecialCase				@20
 ReleaseDDThreadLock				@21
 SetAppCompatData				@22

@@ -281,7 +281,7 @@ void __declspec(naked) GetOLEThunkData()
 	_asm jmp m_pGetOLEThunkData;
 }
 
-void __declspec(naked) GetSurfaceFromDC()
+extern "C" void __declspec(naked) GetSurfaceFromDC()
 {
 	logf(__FUNCTION__);
 	_asm jmp m_pGetSurfaceFromDC;

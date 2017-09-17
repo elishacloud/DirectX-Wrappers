@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <algorithm>
 
 template <typename D>
 class AddressLookupTable
@@ -9,7 +10,7 @@ public:
 	explicit AddressLookupTable(D *pDevice) : pDevice(pDevice) {}
 	~AddressLookupTable()
 	{
-		while (g_map.size() != 0)
+		while (g_map.size())
 		{
 			auto it = g_map.begin();
 
@@ -51,16 +52,12 @@ public:
 	{
 		if (Wrapper != nullptr)
 		{
-			for (auto it = g_map.begin(); it != g_map.end(); ++it)
-			{
-				if (it->second == Wrapper)
-				{
-					it->second->DeleteMe();
+			auto it = std::find_if(g_map.begin(), g_map.end(),
+				[Wrapper](std::pair<void*, class AddressLookupTableObject*> Map) -> bool { return Map.second == Wrapper; });
 
+			if (it != std::end(g_map))
+			{
 					it = g_map.erase(it);
-					
-					return;
-				}
 			}
 		}
 	}
