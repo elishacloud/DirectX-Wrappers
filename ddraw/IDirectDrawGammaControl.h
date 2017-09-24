@@ -1,15 +1,24 @@
 #pragma once
 
-class m_IDirectDrawGammaControl : public IDirectDrawGammaControl
+class m_IDirectDrawGammaControl : public IDirectDrawGammaControl, public AddressLookupTableObject
 {
-public:
-	m_IDirectDrawGammaControl(IDirectDrawGammaControl * aOriginal);
-	~m_IDirectDrawGammaControl();
-	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
-	ULONG __stdcall AddRef();
-	ULONG __stdcall Release();
-	HRESULT __stdcall GetGammaRamp(DWORD a, LPDDGAMMARAMP b);
-	HRESULT __stdcall SetGammaRamp(DWORD a, LPDDGAMMARAMP b);
-	IDirectDrawGammaControl * mOriginal;
-};
+private:
+	IDirectDrawGammaControl *ProxyInterface;
 
+public:
+	m_IDirectDrawGammaControl(IDirectDrawGammaControl *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectDrawGammaControl() {}
+
+	IDirectDrawGammaControl *GetProxyInterface() { return ProxyInterface; }
+
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
+	STDMETHOD_(ULONG, AddRef) (THIS) ;
+	STDMETHOD_(ULONG, Release) (THIS);
+	/*** IDirectDrawGammaControl methods ***/
+	STDMETHOD(GetGammaRamp)(THIS_ DWORD, LPDDGAMMARAMP);
+	STDMETHOD(SetGammaRamp)(THIS_ DWORD, LPDDGAMMARAMP);
+};

@@ -1,17 +1,26 @@
 #pragma once
 
-class m_IDirectDrawPalette : public IDirectDrawPalette
+class m_IDirectDrawPalette : public IDirectDrawPalette, public AddressLookupTableObject
 {
-public:
-	m_IDirectDrawPalette(IDirectDrawPalette * aOriginal);
-	~m_IDirectDrawPalette();
-	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
-	ULONG __stdcall AddRef();
-	ULONG __stdcall Release();
-	HRESULT __stdcall GetCaps(LPDWORD a);
-	HRESULT __stdcall GetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENTRY d);
-	HRESULT __stdcall Initialize(LPDIRECTDRAW a, DWORD b, LPPALETTEENTRY c);
-	HRESULT __stdcall SetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENTRY d);
-	IDirectDrawPalette * mOriginal;
-};
+private:
+	IDirectDrawPalette *ProxyInterface;
 
+public:
+	m_IDirectDrawPalette(IDirectDrawPalette *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectDrawPalette() {}
+
+	IDirectDrawPalette *GetProxyInterface() { return ProxyInterface; }
+
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
+	STDMETHOD_(ULONG, AddRef) (THIS) ;
+	STDMETHOD_(ULONG, Release) (THIS);
+	/*** IDirectDrawPalette methods ***/
+	STDMETHOD(GetCaps)(THIS_ LPDWORD);
+	STDMETHOD(GetEntries)(THIS_ DWORD, DWORD, DWORD, LPPALETTEENTRY);
+	STDMETHOD(Initialize)(THIS_ LPDIRECTDRAW, DWORD, LPPALETTEENTRY);
+	STDMETHOD(SetEntries)(THIS_ DWORD, DWORD, DWORD, LPPALETTEENTRY);
+};

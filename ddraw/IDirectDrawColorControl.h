@@ -1,15 +1,24 @@
 #pragma once
 
-class m_IDirectDrawColorControl : public IDirectDrawColorControl
+class m_IDirectDrawColorControl : public IDirectDrawColorControl, public AddressLookupTableObject
 {
-public:
-	m_IDirectDrawColorControl(IDirectDrawColorControl * aOriginal);
-	~m_IDirectDrawColorControl();
-	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
-	ULONG __stdcall AddRef();
-	ULONG __stdcall Release();
-	HRESULT __stdcall GetColorControls(LPDDCOLORCONTROL a);
-	HRESULT __stdcall SetColorControls(LPDDCOLORCONTROL a);
-	IDirectDrawColorControl * mOriginal;
-};
+private:
+	IDirectDrawColorControl *ProxyInterface;
 
+public:
+	m_IDirectDrawColorControl(IDirectDrawColorControl *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectDrawColorControl() {}
+
+	IDirectDrawColorControl *GetProxyInterface() { return ProxyInterface; }
+
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
+	STDMETHOD_(ULONG, AddRef) (THIS) ;
+	STDMETHOD_(ULONG, Release) (THIS);
+	/*** IDirectDrawColorControl methods ***/
+	STDMETHOD(GetColorControls)(THIS_ LPDDCOLORCONTROL);
+	STDMETHOD(SetColorControls)(THIS_ LPDDCOLORCONTROL);
+};

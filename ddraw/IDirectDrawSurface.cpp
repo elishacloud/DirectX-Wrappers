@@ -1,359 +1,284 @@
-/*
-* Copyright 2013 Jari Komppa http://iki.fi/sol/
+/**
+* Copyright (C) 2017 Elisha Riedlinger
 *
-* This software is provided 'as-is', without any express or implied
-* warranty. In no event will the authors be held liable for any damages
-* arising from the use of this software.
+* This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
+* authors be held liable for any damages arising from the use of this software.
+* Permission  is granted  to anyone  to use  this software  for  any  purpose,  including  commercial
+* applications, and to alter it and redistribute it freely, subject to the following restrictions:
 *
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-*
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-*
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-*
-* 3. This notice may not be removed or altered from any source
-* distribution.
-*
-* Taken from code found here: https://github.com/jarikomppa/dxwrapper
-*
-* Updated 2017 by Elisha Riedlinger
+*   1. The origin of this software must not be misrepresented; you must not claim that you  wrote the
+*      original  software. If you use this  software  in a product, an  acknowledgment in the product
+*      documentation would be appreciated but is not required.
+*   2. Altered source versions must  be plainly  marked as such, and  must not be  misrepresented  as
+*      being the original software.
+*   3. This notice may not be removed or altered from any source distribution.
 */
 
 #include "ddraw.h"
-#include "IDirectDrawSurface.h"
 
-m_IDirectDrawSurface::m_IDirectDrawSurface(IDirectDrawSurface * aOriginal)
+HRESULT m_IDirectDrawSurface::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	logf("IDirectDrawSurface ctor\n");
-	mOriginal = aOriginal;
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
+	return hr;
 }
 
-m_IDirectDrawSurface::~m_IDirectDrawSurface()
+ULONG m_IDirectDrawSurface::AddRef()
 {
-	logf("IDirectDrawSurface dtor\n");
+	return ProxyInterface->AddRef();
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
+ULONG m_IDirectDrawSurface::Release()
 {
-	logf("IDirectDrawSurface::QueryInterface(REFIID, LPVOID FAR * 0x%x);", ppvObj);
-	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
-	logf(" -> return %d\n", x);
-	if (x == 0) genericQueryInterface(riid, ppvObj);
-	return x;
-}
+	ULONG x = ProxyInterface->Release();
 
-ULONG __stdcall m_IDirectDrawSurface::AddRef()
-{
-	logf("IDirectDrawSurface::AddRef();");
-	ULONG x = mOriginal->AddRef();
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-ULONG __stdcall m_IDirectDrawSurface::Release()
-{
-	logf("IDirectDrawSurface::Release();");
-	ULONG x = mOriginal->Release();
-	logf(" -> return %d\n", x);
 	if (x == 0)
 	{
-		wrapstore(mOriginal, 0);
-		mOriginal = NULL;
+		ProxyAddressLookupTable.DeleteAddress(this);
+
 		delete this;
 	}
+
 	return x;
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::AddAttachedSurface(LPDIRECTDRAWSURFACE a)
+HRESULT m_IDirectDrawSurface::AddAttachedSurface(LPDIRECTDRAWSURFACE a)
 {
-	logf("IDirectDrawSurface::AddAttachedSurface(LPDIRECTDRAWSURFACE 0x%x);", a);
-	HRESULT x = mOriginal->AddAttachedSurface((a) ? ((m_IDirectDrawSurface *)a)->mOriginal : 0);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::AddOverlayDirtyRect(LPRECT a)
-{
-	logf("IDirectDrawSurface::AddOverlayDirtyRect(LPRECT 0x%x);", a);
-	HRESULT x = mOriginal->AddOverlayDirtyRect(a);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::Blt(LPRECT a, LPDIRECTDRAWSURFACE b, LPRECT c, DWORD d, LPDDBLTFX e)
-{
-	logf("IDirectDrawSurface::Blt(LPRECT 0x%x, LPDIRECTDRAWSURFACE 0x%x, LPRECT 0x%x, DWORD %d, LPDDBLTFX 0x%x);", a, b, c, d, e);
-	HRESULT x = mOriginal->Blt(a, (b) ? ((m_IDirectDrawSurface *)b)->mOriginal : 0, c, d, e);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::BltBatch(LPDDBLTBATCH a, DWORD b, DWORD c)
-{
-	logf("IDirectDrawSurface::BltBatch(LPDDBLTBATCH 0x%x, DWORD %d, DWORD %d);", a, b, c);
-	HRESULT x = mOriginal->BltBatch(a, b, c);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::BltFast(DWORD a, DWORD b, LPDIRECTDRAWSURFACE c, LPRECT d, DWORD e)
-{
-	logf("IDirectDrawSurface::BltFast(DWORD %d, DWORD %d, LPDIRECTDRAWSURFACE 0x%x, LPRECT 0x%x, DWORD %d);", a, b, c, d, e);
-	HRESULT x = mOriginal->BltFast(a, b, (c) ? ((m_IDirectDrawSurface *)c)->mOriginal : 0, d, e);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::DeleteAttachedSurface(DWORD a, LPDIRECTDRAWSURFACE b)
-{
-	logf("IDirectDrawSurface::DeleteAttachedSurface(DWORD %d, LPDIRECTDRAWSURFACE 0x%x);", a, b);
-	HRESULT x = mOriginal->DeleteAttachedSurface(a, (b) ? ((m_IDirectDrawSurface *)b)->mOriginal : 0);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::EnumAttachedSurfaces(LPVOID a, LPDDENUMSURFACESCALLBACK b)
-{
-	logf("IDirectDrawSurface::EnumAttachedSurfaces(LPVOID 0x%x, LPDDENUMSURFACESCALLBACK 0x%x);", a, b);
-	HRESULT x = mOriginal->EnumAttachedSurfaces(a, b);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::EnumOverlayZOrders(DWORD a, LPVOID b, LPDDENUMSURFACESCALLBACK c)
-{
-	logf("IDirectDrawSurface::EnumOverlayZOrders(DWORD %d, LPVOID 0x%x, LPDDENUMSURFACESCALLBACK 0x%x);", a, b, c);
-	HRESULT x = mOriginal->EnumOverlayZOrders(a, b, c);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::Flip(LPDIRECTDRAWSURFACE a, DWORD b)
-{
-	logf("IDirectDrawSurface::Flip(LPDIRECTDRAWSURFACE 0x%x, DWORD %d);", a, b);
-	HRESULT x = mOriginal->Flip((a) ? ((m_IDirectDrawSurface *)a)->mOriginal : 0, b);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::GetAttachedSurface(LPDDSCAPS a, LPDIRECTDRAWSURFACE FAR * b)
-{
-	logf("IDirectDrawSurface::GetAttachedSurface(LPDDSCAPS 0x%x, LPDIRECTDRAWSURFACE FAR * 0x%x);", a, b);
-	HRESULT x = mOriginal->GetAttachedSurface(a, b);
-	logf(" -> return %d\n", x);
-	m_IDirectDrawSurface * n = (m_IDirectDrawSurface *)wrapfetch(*b);
-	if (n == NULL && *b != NULL)
+	if (a)
 	{
-		n = (m_IDirectDrawSurface *)new m_IDirectDrawSurface(*b);
-		wrapstore(n, *b);
-		logf("Wrapped.\n");
+		a = static_cast<m_IDirectDrawSurface *>(a)->GetProxyInterface();
 	}
-	*b = n;
-	return x;
+
+	return ProxyInterface->AddAttachedSurface(a);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::GetBltStatus(DWORD a)
+HRESULT m_IDirectDrawSurface::AddOverlayDirtyRect(LPRECT a)
 {
-	logf("IDirectDrawSurface::GetBltStatus(DWORD %d);", a);
-	HRESULT x = mOriginal->GetBltStatus(a);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->AddOverlayDirtyRect(a);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::GetCaps(LPDDSCAPS a)
+HRESULT m_IDirectDrawSurface::Blt(LPRECT a, LPDIRECTDRAWSURFACE b, LPRECT c, DWORD d, LPDDBLTFX e)
 {
-	logf("IDirectDrawSurface::GetCaps(LPDDSCAPS 0x%x);", a);
-	HRESULT x = mOriginal->GetCaps(a);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::GetClipper(LPDIRECTDRAWCLIPPER FAR * a)
-{
-	logf("IDirectDrawSurface::GetClipper(LPDIRECTDRAWCLIPPER FAR * 0x%x);", a);
-	HRESULT x = mOriginal->GetClipper(a);
-	logf(" -> return %d\n", x);
-	m_IDirectDrawClipper * n = (m_IDirectDrawClipper *)wrapfetch(*a);
-	if (n == NULL && *a != NULL)
+	if (b)
 	{
-		n = (m_IDirectDrawClipper *)new m_IDirectDrawClipper(*a);
-		wrapstore(n, *a);
-		logf("Wrapped.\n");
+		b = static_cast<m_IDirectDrawSurface *>(b)->GetProxyInterface();
 	}
-	*a = n;
-	return x;
+
+	return ProxyInterface->Blt(a, b, c, d, e);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::GetColorKey(DWORD a, LPDDCOLORKEY b)
+HRESULT m_IDirectDrawSurface::BltBatch(LPDDBLTBATCH a, DWORD b, DWORD c)
 {
-	logf("IDirectDrawSurface::GetColorKey(DWORD %d, LPDDCOLORKEY 0x%x);", a, b);
-	HRESULT x = mOriginal->GetColorKey(a, b);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->BltBatch(a, b, c);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::GetDC(HDC FAR * a)
+HRESULT m_IDirectDrawSurface::BltFast(DWORD a, DWORD b, LPDIRECTDRAWSURFACE c, LPRECT d, DWORD e)
 {
-	logf("IDirectDrawSurface::GetDC(HDC FAR *);");
-	HRESULT x = mOriginal->GetDC(a);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::GetFlipStatus(DWORD a)
-{
-	logf("IDirectDrawSurface::GetFlipStatus(DWORD %d);", a);
-	HRESULT x = mOriginal->GetFlipStatus(a);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::GetOverlayPosition(LPLONG a, LPLONG b)
-{
-	logf("IDirectDrawSurface::GetOverlayPosition(LPLONG 0x%x, LPLONG 0x%x);", a, b);
-	HRESULT x = mOriginal->GetOverlayPosition(a, b);
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-HRESULT __stdcall m_IDirectDrawSurface::GetPalette(LPDIRECTDRAWPALETTE FAR * a)
-{
-	logf("IDirectDrawSurface::GetPalette(LPDIRECTDRAWPALETTE FAR * 0x%x);", a);
-	HRESULT x = mOriginal->GetPalette(a);
-	logf(" -> return %d\n", x);
-	m_IDirectDrawPalette * n = (m_IDirectDrawPalette *)wrapfetch(*a);
-	if (n == NULL && *a != NULL)
+	if (c)
 	{
-		n = (m_IDirectDrawPalette *)new m_IDirectDrawPalette(*a);
-		wrapstore(n, *a);
-		logf("Wrapped.\n");
+		c = static_cast<m_IDirectDrawSurface *>(c)->GetProxyInterface();
 	}
-	*a = n;
-	return x;
+
+	return ProxyInterface->BltFast(a, b, c, d, e);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::GetPixelFormat(LPDDPIXELFORMAT a)
+HRESULT m_IDirectDrawSurface::DeleteAttachedSurface(DWORD a, LPDIRECTDRAWSURFACE b)
 {
-	logf("IDirectDrawSurface::GetPixelFormat(LPDDPIXELFORMAT 0x%x);", a);
-	HRESULT x = mOriginal->GetPixelFormat(a);
-	logf(" -> return %d\n", x);
-	return x;
+	if (b)
+	{
+		b = static_cast<m_IDirectDrawSurface *>(b)->GetProxyInterface();
+	}
+
+	return ProxyInterface->DeleteAttachedSurface(a, b);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::GetSurfaceDesc(LPDDSURFACEDESC a)
+HRESULT m_IDirectDrawSurface::EnumAttachedSurfaces(LPVOID a, LPDDENUMSURFACESCALLBACK b)
 {
-	logf("IDirectDrawSurface::GetSurfaceDesc(LPDDSURFACEDESC 0x%x);", a);
-	HRESULT x = mOriginal->GetSurfaceDesc(a);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->EnumAttachedSurfaces(a, b);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::Initialize(LPDIRECTDRAW a, LPDDSURFACEDESC b)
+HRESULT m_IDirectDrawSurface::EnumOverlayZOrders(DWORD a, LPVOID b, LPDDENUMSURFACESCALLBACK c)
 {
-	logf("IDirectDrawSurface::Initialize(LPDIRECTDRAW 0x%x, LPDDSURFACEDESC 0x%x);", a, b);
-	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirectDraw *)a)->mOriginal : 0, b);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->EnumOverlayZOrders(a, b, c);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::IsLost()
+HRESULT m_IDirectDrawSurface::Flip(LPDIRECTDRAWSURFACE a, DWORD b)
 {
-	logf("IDirectDrawSurface::IsLost();");
-	HRESULT x = mOriginal->IsLost();
-	logf(" -> return %d\n", x);
-	return x;
+	if (a)
+	{
+		a = static_cast<m_IDirectDrawSurface *>(a)->GetProxyInterface();
+	}
+
+	return ProxyInterface->Flip(a, b);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::Lock(LPRECT a, LPDDSURFACEDESC b, DWORD c, HANDLE d)
+HRESULT m_IDirectDrawSurface::GetAttachedSurface(LPDDSCAPS a, LPDIRECTDRAWSURFACE FAR * b)
 {
-	logf("IDirectDrawSurface::Lock(LPRECT 0x%x, LPDDSURFACEDESC 0x%x, DWORD %d, HANDLE);", a, b, c);
-	HRESULT x = mOriginal->Lock(a, b, c, d);
-	logf(" -> return %d\n", x);
-	return x;
+	HRESULT hr = ProxyInterface->GetAttachedSurface(a, b);
+
+	if (SUCCEEDED(hr))
+	{
+		*b = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface>(*b);
+	}
+
+	return hr;
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::ReleaseDC(HDC a)
+HRESULT m_IDirectDrawSurface::GetBltStatus(DWORD a)
 {
-	logf("IDirectDrawSurface::ReleaseDC(HDC);");
-	HRESULT x = mOriginal->ReleaseDC(a);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetBltStatus(a);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::Restore()
+HRESULT m_IDirectDrawSurface::GetCaps(LPDDSCAPS a)
 {
-	logf("IDirectDrawSurface::Restore();");
-	HRESULT x = mOriginal->Restore();
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetCaps(a);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::SetClipper(LPDIRECTDRAWCLIPPER a)
+HRESULT m_IDirectDrawSurface::GetClipper(LPDIRECTDRAWCLIPPER FAR * a)
 {
-	logf("IDirectDrawSurface::SetClipper(LPDIRECTDRAWCLIPPER 0x%x);", a);
-	HRESULT x = mOriginal->SetClipper((a) ? ((m_IDirectDrawClipper *)a)->mOriginal : 0);
-	logf(" -> return %d\n", x);
-	return x;
+	HRESULT hr = ProxyInterface->GetClipper(a);
+
+	if (SUCCEEDED(hr))
+	{
+		*a= ProxyAddressLookupTable.FindAddress<m_IDirectDrawClipper>(*a);
+	}
+
+	return hr;
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::SetColorKey(DWORD a, LPDDCOLORKEY b)
+HRESULT m_IDirectDrawSurface::GetColorKey(DWORD a, LPDDCOLORKEY b)
 {
-	logf("IDirectDrawSurface::SetColorKey(DWORD %d, LPDDCOLORKEY 0x%x);", a, b);
-	HRESULT x = mOriginal->SetColorKey(a, b);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetColorKey(a, b);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::SetOverlayPosition(LONG a, LONG b)
+HRESULT m_IDirectDrawSurface::GetDC(HDC FAR * a)
 {
-	logf("IDirectDrawSurface::SetOverlayPosition(LONG, LONG);");
-	HRESULT x = mOriginal->SetOverlayPosition(a, b);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetDC(a);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::SetPalette(LPDIRECTDRAWPALETTE a)
+HRESULT m_IDirectDrawSurface::GetFlipStatus(DWORD a)
 {
-	logf("IDirectDrawSurface::SetPalette(LPDIRECTDRAWPALETTE 0x%x);", a);
-	HRESULT x = mOriginal->SetPalette((a) ? ((m_IDirectDrawPalette *)a)->mOriginal : 0);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetFlipStatus(a);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::Unlock(LPVOID a)
+HRESULT m_IDirectDrawSurface::GetOverlayPosition(LPLONG a, LPLONG b)
 {
-	logf("IDirectDrawSurface::Unlock(LPVOID 0x%x);", a);
-	HRESULT x = mOriginal->Unlock(a);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetOverlayPosition(a, b);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::UpdateOverlay(LPRECT a, LPDIRECTDRAWSURFACE b, LPRECT c, DWORD d, LPDDOVERLAYFX e)
+HRESULT m_IDirectDrawSurface::GetPalette(LPDIRECTDRAWPALETTE FAR * a)
 {
-	logf("IDirectDrawSurface::UpdateOverlay(LPRECT 0x%x, LPDIRECTDRAWSURFACE 0x%x, LPRECT 0x%x, DWORD %d, LPDDOVERLAYFX 0x%x);", a, b, c, d, e);
-	HRESULT x = mOriginal->UpdateOverlay(a, (b) ? ((m_IDirectDrawSurface *)b)->mOriginal : 0, c, d, e);
-	logf(" -> return %d\n", x);
-	return x;
+	HRESULT hr = ProxyInterface->GetPalette(a);
+
+	if (SUCCEEDED(hr))
+	{
+		*a = ProxyAddressLookupTable.FindAddress<m_IDirectDrawPalette>(*a);
+	}
+
+	return hr;
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::UpdateOverlayDisplay(DWORD a)
+HRESULT m_IDirectDrawSurface::GetPixelFormat(LPDDPIXELFORMAT a)
 {
-	logf("IDirectDrawSurface::UpdateOverlayDisplay(DWORD %d);", a);
-	HRESULT x = mOriginal->UpdateOverlayDisplay(a);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetPixelFormat(a);
 }
 
-HRESULT __stdcall m_IDirectDrawSurface::UpdateOverlayZOrder(DWORD a, LPDIRECTDRAWSURFACE b)
+HRESULT m_IDirectDrawSurface::GetSurfaceDesc(LPDDSURFACEDESC a)
 {
-	logf("IDirectDrawSurface::UpdateOverlayZOrder(DWORD %d, LPDIRECTDRAWSURFACE 0x%x);", a, b);
-	HRESULT x = mOriginal->UpdateOverlayZOrder(a, (b) ? ((m_IDirectDrawSurface *)b)->mOriginal : 0);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetSurfaceDesc(a);
+}
+
+HRESULT m_IDirectDrawSurface::Initialize(LPDIRECTDRAW a, LPDDSURFACEDESC b)
+{
+	if (a)
+	{
+		a = static_cast<m_IDirectDraw *>(a)->GetProxyInterface();
+	}
+
+	return ProxyInterface->Initialize(a, b);
+}
+
+HRESULT m_IDirectDrawSurface::IsLost()
+{
+	return ProxyInterface->IsLost();
+}
+
+HRESULT m_IDirectDrawSurface::Lock(LPRECT a, LPDDSURFACEDESC b, DWORD c, HANDLE d)
+{
+	return ProxyInterface->Lock(a, b, c, d);
+}
+
+HRESULT m_IDirectDrawSurface::ReleaseDC(HDC a)
+{
+	return ProxyInterface->ReleaseDC(a);
+}
+
+HRESULT m_IDirectDrawSurface::Restore()
+{
+	return ProxyInterface->Restore();
+}
+
+HRESULT m_IDirectDrawSurface::SetClipper(LPDIRECTDRAWCLIPPER a)
+{
+	if (a)
+	{
+		a = static_cast<m_IDirectDrawClipper *>(a)->GetProxyInterface();
+	}
+
+	return ProxyInterface->SetClipper(a);
+}
+
+HRESULT m_IDirectDrawSurface::SetColorKey(DWORD a, LPDDCOLORKEY b)
+{
+	return ProxyInterface->SetColorKey(a, b);
+}
+
+HRESULT m_IDirectDrawSurface::SetOverlayPosition(LONG a, LONG b)
+{
+	return ProxyInterface->SetOverlayPosition(a, b);
+}
+
+HRESULT m_IDirectDrawSurface::SetPalette(LPDIRECTDRAWPALETTE a)
+{
+	if (a)
+	{
+		a = static_cast<m_IDirectDrawPalette *>(a)->GetProxyInterface();
+	}
+
+	return ProxyInterface->SetPalette(a);
+}
+
+HRESULT m_IDirectDrawSurface::Unlock(LPVOID a)
+{
+	return ProxyInterface->Unlock(a);
+}
+
+HRESULT m_IDirectDrawSurface::UpdateOverlay(LPRECT a, LPDIRECTDRAWSURFACE b, LPRECT c, DWORD d, LPDDOVERLAYFX e)
+{
+	if (b)
+	{
+		b = static_cast<m_IDirectDrawSurface *>(b)->GetProxyInterface();
+	}
+
+	return ProxyInterface->UpdateOverlay(a, b, c, d, e);
+}
+
+HRESULT m_IDirectDrawSurface::UpdateOverlayDisplay(DWORD a)
+{
+	return ProxyInterface->UpdateOverlayDisplay(a);
+}
+
+HRESULT m_IDirectDrawSurface::UpdateOverlayZOrder(DWORD a, LPDIRECTDRAWSURFACE b)
+{
+	if (b)
+	{
+		b = static_cast<m_IDirectDrawSurface *>(b)->GetProxyInterface();
+	}
+
+	return ProxyInterface->UpdateOverlayZOrder(a, b);
 }

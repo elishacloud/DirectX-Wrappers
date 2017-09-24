@@ -1,55 +1,67 @@
 #pragma once
 
-class m_IDirectDrawSurface4 : public IDirectDrawSurface4
+class m_IDirectDrawSurface4 : public IDirectDrawSurface4, public AddressLookupTableObject
 {
-public:
-	m_IDirectDrawSurface4(IDirectDrawSurface4 * aOriginal);
-	~m_IDirectDrawSurface4();
-	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
-	ULONG __stdcall AddRef();
-	ULONG __stdcall Release();
-	HRESULT __stdcall AddAttachedSurface(LPDIRECTDRAWSURFACE4 a);
-	HRESULT __stdcall AddOverlayDirtyRect(LPRECT a);
-	HRESULT __stdcall Blt(LPRECT a, LPDIRECTDRAWSURFACE4 b, LPRECT c, DWORD d, LPDDBLTFX e);
-	HRESULT __stdcall BltBatch(LPDDBLTBATCH a, DWORD b, DWORD c);
-	HRESULT __stdcall BltFast(DWORD a, DWORD b, LPDIRECTDRAWSURFACE4 c, LPRECT d, DWORD e);
-	HRESULT __stdcall DeleteAttachedSurface(DWORD a, LPDIRECTDRAWSURFACE4 b);
-	HRESULT __stdcall EnumAttachedSurfaces(LPVOID a, LPDDENUMSURFACESCALLBACK2 b);
-	HRESULT __stdcall EnumOverlayZOrders(DWORD a, LPVOID b, LPDDENUMSURFACESCALLBACK2 c);
-	HRESULT __stdcall Flip(LPDIRECTDRAWSURFACE4 a, DWORD b);
-	HRESULT __stdcall GetAttachedSurface(LPDDSCAPS2 a, LPDIRECTDRAWSURFACE4 FAR * b);
-	HRESULT __stdcall GetBltStatus(DWORD a);
-	HRESULT __stdcall GetCaps(LPDDSCAPS2 a);
-	HRESULT __stdcall GetClipper(LPDIRECTDRAWCLIPPER FAR * a);
-	HRESULT __stdcall GetColorKey(DWORD a, LPDDCOLORKEY b);
-	HRESULT __stdcall GetDC(HDC FAR * a);
-	HRESULT __stdcall GetFlipStatus(DWORD a);
-	HRESULT __stdcall GetOverlayPosition(LPLONG a, LPLONG b);
-	HRESULT __stdcall GetPalette(LPDIRECTDRAWPALETTE FAR * a);
-	HRESULT __stdcall GetPixelFormat(LPDDPIXELFORMAT a);
-	HRESULT __stdcall GetSurfaceDesc(LPDDSURFACEDESC2 a);
-	HRESULT __stdcall Initialize(LPDIRECTDRAW a, LPDDSURFACEDESC2 b);
-	HRESULT __stdcall IsLost();
-	HRESULT __stdcall Lock(LPRECT a, LPDDSURFACEDESC2 b, DWORD c, HANDLE d);
-	HRESULT __stdcall ReleaseDC(HDC a);
-	HRESULT __stdcall Restore();
-	HRESULT __stdcall SetClipper(LPDIRECTDRAWCLIPPER a);
-	HRESULT __stdcall SetColorKey(DWORD a, LPDDCOLORKEY b);
-	HRESULT __stdcall SetOverlayPosition(LONG a, LONG b);
-	HRESULT __stdcall SetPalette(LPDIRECTDRAWPALETTE a);
-	HRESULT __stdcall Unlock(LPRECT a);
-	HRESULT __stdcall UpdateOverlay(LPRECT a, LPDIRECTDRAWSURFACE4 b, LPRECT c, DWORD d, LPDDOVERLAYFX e);
-	HRESULT __stdcall UpdateOverlayDisplay(DWORD a);
-	HRESULT __stdcall UpdateOverlayZOrder(DWORD a, LPDIRECTDRAWSURFACE4 b);
-	HRESULT __stdcall GetDDInterface(LPVOID FAR * a);
-	HRESULT __stdcall PageLock(DWORD a);
-	HRESULT __stdcall PageUnlock(DWORD a);
-	HRESULT __stdcall SetSurfaceDesc(LPDDSURFACEDESC2 a, DWORD b);
-	HRESULT __stdcall SetPrivateData(REFGUID a, LPVOID b, DWORD c, DWORD d);
-	HRESULT __stdcall GetPrivateData(REFGUID a, LPVOID b, LPDWORD c);
-	HRESULT __stdcall FreePrivateData(REFGUID a);
-	HRESULT __stdcall GetUniquenessValue(LPDWORD a);
-	HRESULT __stdcall ChangeUniquenessValue();
-	IDirectDrawSurface4 * mOriginal;
-};
+private:
+	IDirectDrawSurface4 *ProxyInterface;
 
+public:
+	m_IDirectDrawSurface4(IDirectDrawSurface4 *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectDrawSurface4() {}
+
+	IDirectDrawSurface4 *GetProxyInterface() { return ProxyInterface; }
+
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
+	STDMETHOD_(ULONG, AddRef) (THIS) ;
+	STDMETHOD_(ULONG, Release) (THIS);
+	/*** IDirectDrawSurface methods ***/
+	STDMETHOD(AddAttachedSurface)(THIS_ LPDIRECTDRAWSURFACE4);
+	STDMETHOD(AddOverlayDirtyRect)(THIS_ LPRECT);
+	STDMETHOD(Blt)(THIS_ LPRECT, LPDIRECTDRAWSURFACE4, LPRECT, DWORD, LPDDBLTFX);
+	STDMETHOD(BltBatch)(THIS_ LPDDBLTBATCH, DWORD, DWORD);
+	STDMETHOD(BltFast)(THIS_ DWORD, DWORD, LPDIRECTDRAWSURFACE4, LPRECT, DWORD);
+	STDMETHOD(DeleteAttachedSurface)(THIS_ DWORD, LPDIRECTDRAWSURFACE4);
+	STDMETHOD(EnumAttachedSurfaces)(THIS_ LPVOID, LPDDENUMSURFACESCALLBACK2);
+	STDMETHOD(EnumOverlayZOrders)(THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK2);
+	STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE4, DWORD);
+	STDMETHOD(GetAttachedSurface)(THIS_ LPDDSCAPS2, LPDIRECTDRAWSURFACE4 FAR *);
+	STDMETHOD(GetBltStatus)(THIS_ DWORD);
+	STDMETHOD(GetCaps)(THIS_ LPDDSCAPS2);
+	STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR*);
+	STDMETHOD(GetColorKey)(THIS_ DWORD, LPDDCOLORKEY);
+	STDMETHOD(GetDC)(THIS_ HDC FAR *);
+	STDMETHOD(GetFlipStatus)(THIS_ DWORD);
+	STDMETHOD(GetOverlayPosition)(THIS_ LPLONG, LPLONG);
+	STDMETHOD(GetPalette)(THIS_ LPDIRECTDRAWPALETTE FAR*);
+	STDMETHOD(GetPixelFormat)(THIS_ LPDDPIXELFORMAT);
+	STDMETHOD(GetSurfaceDesc)(THIS_ LPDDSURFACEDESC2);
+	STDMETHOD(Initialize)(THIS_ LPDIRECTDRAW, LPDDSURFACEDESC2);
+	STDMETHOD(IsLost)(THIS);
+	STDMETHOD(Lock)(THIS_ LPRECT, LPDDSURFACEDESC2, DWORD, HANDLE);
+	STDMETHOD(ReleaseDC)(THIS_ HDC);
+	STDMETHOD(Restore)(THIS);
+	STDMETHOD(SetClipper)(THIS_ LPDIRECTDRAWCLIPPER);
+	STDMETHOD(SetColorKey)(THIS_ DWORD, LPDDCOLORKEY);
+	STDMETHOD(SetOverlayPosition)(THIS_ LONG, LONG);
+	STDMETHOD(SetPalette)(THIS_ LPDIRECTDRAWPALETTE);
+	STDMETHOD(Unlock)(THIS_ LPRECT);
+	STDMETHOD(UpdateOverlay)(THIS_ LPRECT, LPDIRECTDRAWSURFACE4, LPRECT, DWORD, LPDDOVERLAYFX);
+	STDMETHOD(UpdateOverlayDisplay)(THIS_ DWORD);
+	STDMETHOD(UpdateOverlayZOrder)(THIS_ DWORD, LPDIRECTDRAWSURFACE4);
+	/*** Added in the v2 interface ***/
+	STDMETHOD(GetDDInterface)(THIS_ LPVOID FAR *);
+	STDMETHOD(PageLock)(THIS_ DWORD);
+	STDMETHOD(PageUnlock)(THIS_ DWORD);
+	/*** Added in the v3 interface ***/
+	STDMETHOD(SetSurfaceDesc)(THIS_ LPDDSURFACEDESC2, DWORD);
+	/*** Added in the v4 interface ***/
+	STDMETHOD(SetPrivateData)(THIS_ REFGUID, LPVOID, DWORD, DWORD);
+	STDMETHOD(GetPrivateData)(THIS_ REFGUID, LPVOID, LPDWORD);
+	STDMETHOD(FreePrivateData)(THIS_ REFGUID);
+	STDMETHOD(GetUniquenessValue)(THIS_ LPDWORD);
+	STDMETHOD(ChangeUniquenessValue)(THIS);
+};

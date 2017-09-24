@@ -1,58 +1,72 @@
 #pragma once
 
-class m_IDirectDrawSurface7 : public IDirectDrawSurface7
+class m_IDirectDrawSurface7 : public IDirectDrawSurface7, public AddressLookupTableObject
 {
 public:
-	m_IDirectDrawSurface7(IDirectDrawSurface7 * aOriginal);
-	~m_IDirectDrawSurface7();
-	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
-	ULONG __stdcall AddRef();
-	ULONG __stdcall Release();
-	HRESULT __stdcall AddAttachedSurface(LPDIRECTDRAWSURFACE7 a);
-	HRESULT __stdcall AddOverlayDirtyRect(LPRECT a);
-	HRESULT __stdcall Blt(LPRECT a, LPDIRECTDRAWSURFACE7 b, LPRECT c, DWORD d, LPDDBLTFX e);
-	HRESULT __stdcall BltBatch(LPDDBLTBATCH a, DWORD b, DWORD c);
-	HRESULT __stdcall BltFast(DWORD a, DWORD b, LPDIRECTDRAWSURFACE7 c, LPRECT d, DWORD e);
-	HRESULT __stdcall DeleteAttachedSurface(DWORD a, LPDIRECTDRAWSURFACE7 b);
-	HRESULT __stdcall EnumAttachedSurfaces(LPVOID a, LPDDENUMSURFACESCALLBACK7 b);
-	HRESULT __stdcall EnumOverlayZOrders(DWORD a, LPVOID b, LPDDENUMSURFACESCALLBACK7 c);
-	HRESULT __stdcall Flip(LPDIRECTDRAWSURFACE7 a, DWORD b);
-	HRESULT __stdcall GetAttachedSurface(LPDDSCAPS2 a, LPDIRECTDRAWSURFACE7 FAR * b);
-	HRESULT __stdcall GetBltStatus(DWORD a);
-	HRESULT __stdcall GetCaps(LPDDSCAPS2 a);
-	HRESULT __stdcall GetClipper(LPDIRECTDRAWCLIPPER FAR * a);
-	HRESULT __stdcall GetColorKey(DWORD a, LPDDCOLORKEY b);
-	HRESULT __stdcall GetDC(HDC FAR * a);
-	HRESULT __stdcall GetFlipStatus(DWORD a);
-	HRESULT __stdcall GetOverlayPosition(LPLONG a, LPLONG b);
-	HRESULT __stdcall GetPalette(LPDIRECTDRAWPALETTE FAR * a);
-	HRESULT __stdcall GetPixelFormat(LPDDPIXELFORMAT a);
-	HRESULT __stdcall GetSurfaceDesc(LPDDSURFACEDESC2 a);
-	HRESULT __stdcall Initialize(LPDIRECTDRAW a, LPDDSURFACEDESC2 b);
-	HRESULT __stdcall IsLost();
-	HRESULT __stdcall Lock(LPRECT a, LPDDSURFACEDESC2 b, DWORD c, HANDLE d);
-	HRESULT __stdcall ReleaseDC(HDC a);
-	HRESULT __stdcall Restore();
-	HRESULT __stdcall SetClipper(LPDIRECTDRAWCLIPPER a);
-	HRESULT __stdcall SetColorKey(DWORD a, LPDDCOLORKEY b);
-	HRESULT __stdcall SetOverlayPosition(LONG a, LONG b);
-	HRESULT __stdcall SetPalette(LPDIRECTDRAWPALETTE a);
-	HRESULT __stdcall Unlock(LPRECT a);
-	HRESULT __stdcall UpdateOverlay(LPRECT a, LPDIRECTDRAWSURFACE7 b, LPRECT c, DWORD d, LPDDOVERLAYFX e);
-	HRESULT __stdcall UpdateOverlayDisplay(DWORD a);
-	HRESULT __stdcall UpdateOverlayZOrder(DWORD a, LPDIRECTDRAWSURFACE7 b);
-	HRESULT __stdcall GetDDInterface(LPVOID FAR * a);
-	HRESULT __stdcall PageLock(DWORD a);
-	HRESULT __stdcall PageUnlock(DWORD a);
-	HRESULT __stdcall SetSurfaceDesc(LPDDSURFACEDESC2 a, DWORD b);
-	HRESULT __stdcall SetPrivateData(REFGUID a, LPVOID b, DWORD c, DWORD d);
-	HRESULT __stdcall GetPrivateData(REFGUID a, LPVOID b, LPDWORD c);
-	HRESULT __stdcall FreePrivateData(REFGUID a);
-	HRESULT __stdcall GetUniquenessValue(LPDWORD a);
-	HRESULT __stdcall ChangeUniquenessValue();
-	HRESULT __stdcall SetPriority(DWORD a);
-	HRESULT __stdcall GetPriority(LPDWORD a);
-	HRESULT __stdcall SetLOD(DWORD a);
-	HRESULT __stdcall GetLOD(LPDWORD a);
-	IDirectDrawSurface7 * mOriginal;
+	IDirectDrawSurface7 *ProxyInterface;
+
+public:
+	m_IDirectDrawSurface7(IDirectDrawSurface7 *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectDrawSurface7() {}
+
+	IDirectDrawSurface7 *GetProxyInterface() { return ProxyInterface; }
+
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
+	STDMETHOD_(ULONG, AddRef) (THIS);
+	STDMETHOD_(ULONG, Release) (THIS);
+	/*** IDirectDrawSurface methods ***/
+	STDMETHOD(AddAttachedSurface)(THIS_ LPDIRECTDRAWSURFACE7);
+	STDMETHOD(AddOverlayDirtyRect)(THIS_ LPRECT);
+	STDMETHOD(Blt)(THIS_ LPRECT, LPDIRECTDRAWSURFACE7, LPRECT, DWORD, LPDDBLTFX);
+	STDMETHOD(BltBatch)(THIS_ LPDDBLTBATCH, DWORD, DWORD);
+	STDMETHOD(BltFast)(THIS_ DWORD, DWORD, LPDIRECTDRAWSURFACE7, LPRECT, DWORD);
+	STDMETHOD(DeleteAttachedSurface)(THIS_ DWORD, LPDIRECTDRAWSURFACE7);
+	STDMETHOD(EnumAttachedSurfaces)(THIS_ LPVOID, LPDDENUMSURFACESCALLBACK7);
+	STDMETHOD(EnumOverlayZOrders)(THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK7);
+	STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE7, DWORD);
+	STDMETHOD(GetAttachedSurface)(THIS_ LPDDSCAPS2, LPDIRECTDRAWSURFACE7 FAR *);
+	STDMETHOD(GetBltStatus)(THIS_ DWORD);
+	STDMETHOD(GetCaps)(THIS_ LPDDSCAPS2);
+	STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR*);
+	STDMETHOD(GetColorKey)(THIS_ DWORD, LPDDCOLORKEY);
+	STDMETHOD(GetDC)(THIS_ HDC FAR *);
+	STDMETHOD(GetFlipStatus)(THIS_ DWORD);
+	STDMETHOD(GetOverlayPosition)(THIS_ LPLONG, LPLONG);
+	STDMETHOD(GetPalette)(THIS_ LPDIRECTDRAWPALETTE FAR*);
+	STDMETHOD(GetPixelFormat)(THIS_ LPDDPIXELFORMAT);
+	STDMETHOD(GetSurfaceDesc)(THIS_ LPDDSURFACEDESC2);
+	STDMETHOD(Initialize)(THIS_ LPDIRECTDRAW, LPDDSURFACEDESC2);
+	STDMETHOD(IsLost)(THIS);
+	STDMETHOD(Lock)(THIS_ LPRECT, LPDDSURFACEDESC2, DWORD, HANDLE);
+	STDMETHOD(ReleaseDC)(THIS_ HDC);
+	STDMETHOD(Restore)(THIS);
+	STDMETHOD(SetClipper)(THIS_ LPDIRECTDRAWCLIPPER);
+	STDMETHOD(SetColorKey)(THIS_ DWORD, LPDDCOLORKEY);
+	STDMETHOD(SetOverlayPosition)(THIS_ LONG, LONG);
+	STDMETHOD(SetPalette)(THIS_ LPDIRECTDRAWPALETTE);
+	STDMETHOD(Unlock)(THIS_ LPRECT);
+	STDMETHOD(UpdateOverlay)(THIS_ LPRECT, LPDIRECTDRAWSURFACE7, LPRECT, DWORD, LPDDOVERLAYFX);
+	STDMETHOD(UpdateOverlayDisplay)(THIS_ DWORD);
+	STDMETHOD(UpdateOverlayZOrder)(THIS_ DWORD, LPDIRECTDRAWSURFACE7);
+	/*** Added in the v2 interface ***/
+	STDMETHOD(GetDDInterface)(THIS_ LPVOID FAR *);
+	STDMETHOD(PageLock)(THIS_ DWORD);
+	STDMETHOD(PageUnlock)(THIS_ DWORD);
+	/*** Added in the v3 interface ***/
+	STDMETHOD(SetSurfaceDesc)(THIS_ LPDDSURFACEDESC2, DWORD);
+	/*** Added in the v4 interface ***/
+	STDMETHOD(SetPrivateData)(THIS_ REFGUID, LPVOID, DWORD, DWORD);
+	STDMETHOD(GetPrivateData)(THIS_ REFGUID, LPVOID, LPDWORD);
+	STDMETHOD(FreePrivateData)(THIS_ REFGUID);
+	STDMETHOD(GetUniquenessValue)(THIS_ LPDWORD);
+	STDMETHOD(ChangeUniquenessValue)(THIS);
+	/*** Moved Texture7 methods here ***/
+	STDMETHOD(SetPriority)(THIS_ DWORD);
+	STDMETHOD(GetPriority)(THIS_ LPDWORD);
+	STDMETHOD(SetLOD)(THIS_ DWORD);
+	STDMETHOD(GetLOD)(THIS_ LPDWORD);
 };

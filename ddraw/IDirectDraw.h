@@ -1,33 +1,42 @@
 #pragma once
 
-class m_IDirectDraw : public IDirectDraw
+class m_IDirectDraw : public IDirectDraw, public AddressLookupTableObject
 {
-public:
-	m_IDirectDraw(IDirectDraw * aOriginal);
-	~m_IDirectDraw();
-	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
-	ULONG __stdcall AddRef();
-	ULONG __stdcall Release();
-	HRESULT __stdcall Compact();
-	HRESULT __stdcall CreateClipper(DWORD a, LPDIRECTDRAWCLIPPER FAR * b, IUnknown FAR * c);
-	HRESULT __stdcall CreatePalette(DWORD a, LPPALETTEENTRY b, LPDIRECTDRAWPALETTE FAR * c, IUnknown FAR * d);
-	HRESULT __stdcall CreateSurface(LPDDSURFACEDESC a, LPDIRECTDRAWSURFACE FAR * b, IUnknown FAR * c);
-	HRESULT __stdcall DuplicateSurface(LPDIRECTDRAWSURFACE a, LPDIRECTDRAWSURFACE FAR * b);
-	HRESULT __stdcall EnumDisplayModes(DWORD a, LPDDSURFACEDESC b, LPVOID c, LPDDENUMMODESCALLBACK d);
-	HRESULT __stdcall EnumSurfaces(DWORD a, LPDDSURFACEDESC b, LPVOID c, LPDDENUMSURFACESCALLBACK d);
-	HRESULT __stdcall FlipToGDISurface();
-	HRESULT __stdcall GetCaps(LPDDCAPS a, LPDDCAPS b);
-	HRESULT __stdcall GetDisplayMode(LPDDSURFACEDESC a);
-	HRESULT __stdcall GetFourCCCodes(LPDWORD a, LPDWORD b);
-	HRESULT __stdcall GetGDISurface(LPDIRECTDRAWSURFACE FAR * a);
-	HRESULT __stdcall GetMonitorFrequency(LPDWORD a);
-	HRESULT __stdcall GetScanLine(LPDWORD a);
-	HRESULT __stdcall GetVerticalBlankStatus(LPBOOL a);
-	HRESULT __stdcall Initialize(GUID FAR * a);
-	HRESULT __stdcall RestoreDisplayMode();
-	HRESULT __stdcall SetCooperativeLevel(HWND a, DWORD b);
-	HRESULT __stdcall SetDisplayMode(DWORD a, DWORD b, DWORD c);
-	HRESULT __stdcall WaitForVerticalBlank(DWORD a, HANDLE b);
-	IDirectDraw * mOriginal;
-};
+private:
+	IDirectDraw * ProxyInterface;
 
+public:
+	m_IDirectDraw(IDirectDraw *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectDraw() {}
+
+	IDirectDraw *GetProxyInterface() { return ProxyInterface; }
+
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
+	STDMETHOD_(ULONG, AddRef) (THIS) ;
+	STDMETHOD_(ULONG, Release) (THIS);
+	/*** IDirectDraw methods ***/
+	STDMETHOD(Compact)(THIS);
+	STDMETHOD(CreateClipper)(THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR*, IUnknown FAR *);
+	STDMETHOD(CreatePalette)(THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR*, IUnknown FAR *);
+	STDMETHOD(CreateSurface)(THIS_  LPDDSURFACEDESC, LPDIRECTDRAWSURFACE FAR *, IUnknown FAR *);
+	STDMETHOD(DuplicateSurface)(THIS_ LPDIRECTDRAWSURFACE, LPDIRECTDRAWSURFACE FAR *);
+	STDMETHOD(EnumDisplayModes)(THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMMODESCALLBACK);
+	STDMETHOD(EnumSurfaces)(THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMSURFACESCALLBACK);
+	STDMETHOD(FlipToGDISurface)(THIS);
+	STDMETHOD(GetCaps)(THIS_ LPDDCAPS, LPDDCAPS);
+	STDMETHOD(GetDisplayMode)(THIS_ LPDDSURFACEDESC);
+	STDMETHOD(GetFourCCCodes)(THIS_  LPDWORD, LPDWORD);
+	STDMETHOD(GetGDISurface)(THIS_ LPDIRECTDRAWSURFACE FAR *);
+	STDMETHOD(GetMonitorFrequency)(THIS_ LPDWORD);
+	STDMETHOD(GetScanLine)(THIS_ LPDWORD);
+	STDMETHOD(GetVerticalBlankStatus)(THIS_ LPBOOL);
+	STDMETHOD(Initialize)(THIS_ GUID FAR *);
+	STDMETHOD(RestoreDisplayMode)(THIS);
+	STDMETHOD(SetCooperativeLevel)(THIS_ HWND, DWORD);
+	STDMETHOD(SetDisplayMode)(THIS_ DWORD, DWORD, DWORD);
+	STDMETHOD(WaitForVerticalBlank)(THIS_ DWORD, HANDLE);
+};

@@ -1,119 +1,83 @@
-/*
-* Copyright 2013 Jari Komppa http://iki.fi/sol/
+/**
+* Copyright (C) 2017 Elisha Riedlinger
 *
-* This software is provided 'as-is', without any express or implied
-* warranty. In no event will the authors be held liable for any damages
-* arising from the use of this software.
+* This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
+* authors be held liable for any damages arising from the use of this software.
+* Permission  is granted  to anyone  to use  this software  for  any  purpose,  including  commercial
+* applications, and to alter it and redistribute it freely, subject to the following restrictions:
 *
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-*
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-*
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-*
-* 3. This notice may not be removed or altered from any source
-* distribution.
-*
-* Taken from code found here: https://github.com/jarikomppa/dxwrapper
-*
-* Updated 2017 by Elisha Riedlinger
+*   1. The origin of this software must not be misrepresented; you must not claim that you  wrote the
+*      original  software. If you use this  software  in a product, an  acknowledgment in the product
+*      documentation would be appreciated but is not required.
+*   2. Altered source versions must  be plainly  marked as such, and  must not be  misrepresented  as
+*      being the original software.
+*   3. This notice may not be removed or altered from any source distribution.
 */
 
 #include "ddraw.h"
-#include "IDirectDrawClipper.h"
 
-m_IDirectDrawClipper::m_IDirectDrawClipper(IDirectDrawClipper * aOriginal)
+HRESULT m_IDirectDrawClipper::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	logf("IDirectDrawClipper ctor\n");
-	mOriginal = aOriginal;
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
+	return hr;
 }
 
-m_IDirectDrawClipper::~m_IDirectDrawClipper()
+ULONG m_IDirectDrawClipper::AddRef()
 {
-	logf("IDirectDrawClipper dtor\n");
+	return ProxyInterface->AddRef();
 }
 
-HRESULT __stdcall m_IDirectDrawClipper::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
+ULONG m_IDirectDrawClipper::Release()
 {
-	logf("IDirectDrawClipper::QueryInterface(REFIID, LPVOID FAR * 0x%x);", ppvObj);
-	HRESULT x = mOriginal->QueryInterface(riid, ppvObj);
-	logf(" -> return %d\n", x);
-	if (x == 0) genericQueryInterface(riid, ppvObj);
-	return x;
-}
+	ULONG x = ProxyInterface->Release();
 
-ULONG __stdcall m_IDirectDrawClipper::AddRef()
-{
-	logf("IDirectDrawClipper::AddRef();");
-	ULONG x = mOriginal->AddRef();
-	logf(" -> return %d\n", x);
-	return x;
-}
-
-ULONG __stdcall m_IDirectDrawClipper::Release()
-{
-	logf("IDirectDrawClipper::Release();");
-	ULONG x = mOriginal->Release();
-	logf(" -> return %d\n", x);
 	if (x == 0)
 	{
-		wrapstore(mOriginal, 0);
-		mOriginal = NULL;
+		ProxyAddressLookupTable.DeleteAddress(this);
+
 		delete this;
 	}
+
 	return x;
 }
 
-HRESULT __stdcall m_IDirectDrawClipper::GetClipList(LPRECT a, LPRGNDATA b, LPDWORD c)
+HRESULT m_IDirectDrawClipper::GetClipList(LPRECT a, LPRGNDATA b, LPDWORD c)
 {
-	logf("IDirectDrawClipper::GetClipList(LPRECT 0x%x, LPRGNDATA 0x%x, LPDWORD 0x%x);", a, b, c);
-	HRESULT x = mOriginal->GetClipList(a, b, c);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetClipList(a, b, c);
 }
 
-HRESULT __stdcall m_IDirectDrawClipper::GetHWnd(HWND FAR * a)
+HRESULT m_IDirectDrawClipper::GetHWnd(HWND FAR * a)
 {
-	logf("IDirectDrawClipper::GetHWnd(HWND FAR *);");
-	HRESULT x = mOriginal->GetHWnd(a);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->GetHWnd(a);
 }
 
-HRESULT __stdcall m_IDirectDrawClipper::Initialize(LPDIRECTDRAW a, DWORD b)
+HRESULT m_IDirectDrawClipper::Initialize(LPDIRECTDRAW a, DWORD b)
 {
-	logf("IDirectDrawClipper::Initialize(LPDIRECTDRAW 0x%x, DWORD %d);", a, b);
-	HRESULT x = mOriginal->Initialize((a) ? ((m_IDirectDraw *)a)->mOriginal : 0, b);
-	logf(" -> return %d\n", x);
-	return x;
+	if (a)
+	{
+		a = static_cast<m_IDirectDraw *>(a)->GetProxyInterface();
+	}
+
+	return ProxyInterface->Initialize(a, b);
 }
 
-HRESULT __stdcall m_IDirectDrawClipper::IsClipListChanged(BOOL FAR * a)
+HRESULT m_IDirectDrawClipper::IsClipListChanged(BOOL FAR * a)
 {
-	logf("IDirectDrawClipper::IsClipListChanged(BOOL FAR *);");
-	HRESULT x = mOriginal->IsClipListChanged(a);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->IsClipListChanged(a);
 }
 
-HRESULT __stdcall m_IDirectDrawClipper::SetClipList(LPRGNDATA a, DWORD b)
+HRESULT m_IDirectDrawClipper::SetClipList(LPRGNDATA a, DWORD b)
 {
-	logf("IDirectDrawClipper::SetClipList(LPRGNDATA 0x%x, DWORD %d);", a, b);
-	HRESULT x = mOriginal->SetClipList(a, b);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->SetClipList(a, b);
 }
 
-HRESULT __stdcall m_IDirectDrawClipper::SetHWnd(DWORD a, HWND b)
+HRESULT m_IDirectDrawClipper::SetHWnd(DWORD a, HWND b)
 {
-	logf("IDirectDrawClipper::SetHWnd(DWORD %d, HWND 0x%x);", a, b);
-	HRESULT x = mOriginal->SetHWnd(a, b);
-	logf(" -> return %d\n", x);
-	return x;
+	return ProxyInterface->SetHWnd(a, b);
 }

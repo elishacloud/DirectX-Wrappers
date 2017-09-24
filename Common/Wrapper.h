@@ -28,14 +28,14 @@ public:
 			return nullptr;
 		}
 
-		T *Wrapper = static_cast<T *>(g_map[Proxy]);
+		auto it = g_map.find(Proxy);
 
-		if (Wrapper == nullptr)
+		if (it != std::end(g_map))
 		{
-			Wrapper = new T(static_cast<T *>(Proxy), pDevice);
+			return static_cast<T *>(it->second);
 		}
 
-		return Wrapper;
+		return new T(static_cast<T *>(Proxy), pDevice);
 	}
 
 	template <typename T>

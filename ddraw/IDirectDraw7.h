@@ -1,40 +1,51 @@
 #pragma once
 
-class m_IDirectDraw7 : public IDirectDraw7
+class m_IDirectDraw7 : public IDirectDraw7, public AddressLookupTableObject
 {
-public:
-	m_IDirectDraw7(IDirectDraw7 * aOriginal);
-	~m_IDirectDraw7();
-	HRESULT __stdcall QueryInterface(REFIID riid, LPVOID FAR * ppvObj);
-	ULONG __stdcall AddRef();
-	ULONG __stdcall Release();
-	HRESULT __stdcall Compact();
-	HRESULT __stdcall CreateClipper(DWORD a, LPDIRECTDRAWCLIPPER FAR * b, IUnknown FAR * c);
-	HRESULT __stdcall CreatePalette(DWORD a, LPPALETTEENTRY b, LPDIRECTDRAWPALETTE FAR * c, IUnknown FAR * d);
-	HRESULT __stdcall CreateSurface(LPDDSURFACEDESC2 a, LPDIRECTDRAWSURFACE7 FAR * b, IUnknown FAR * c);
-	HRESULT __stdcall DuplicateSurface(LPDIRECTDRAWSURFACE7 a, LPDIRECTDRAWSURFACE7 FAR * b);
-	HRESULT __stdcall EnumDisplayModes(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, LPDDENUMMODESCALLBACK2 d);
-	HRESULT __stdcall EnumSurfaces(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, LPDDENUMSURFACESCALLBACK7 d);
-	HRESULT __stdcall FlipToGDISurface();
-	HRESULT __stdcall GetCaps(LPDDCAPS a, LPDDCAPS b);
-	HRESULT __stdcall GetDisplayMode(LPDDSURFACEDESC2 a);
-	HRESULT __stdcall GetFourCCCodes(LPDWORD a, LPDWORD b);
-	HRESULT __stdcall GetGDISurface(LPDIRECTDRAWSURFACE7 FAR * a);
-	HRESULT __stdcall GetMonitorFrequency(LPDWORD a);
-	HRESULT __stdcall GetScanLine(LPDWORD a);
-	HRESULT __stdcall GetVerticalBlankStatus(LPBOOL a);
-	HRESULT __stdcall Initialize(GUID FAR * a);
-	HRESULT __stdcall RestoreDisplayMode();
-	HRESULT __stdcall SetCooperativeLevel(HWND a, DWORD b);
-	HRESULT __stdcall SetDisplayMode(DWORD a, DWORD b, DWORD c, DWORD d, DWORD e);
-	HRESULT __stdcall WaitForVerticalBlank(DWORD a, HANDLE b);
-	HRESULT __stdcall GetAvailableVidMem(LPDDSCAPS2 a, LPDWORD b, LPDWORD c);
-	HRESULT __stdcall GetSurfaceFromDC(HDC a, LPDIRECTDRAWSURFACE7 * b);
-	HRESULT __stdcall RestoreAllSurfaces();
-	HRESULT __stdcall TestCooperativeLevel();
-	HRESULT __stdcall GetDeviceIdentifier(LPDDDEVICEIDENTIFIER2 a, DWORD b);
-	HRESULT __stdcall StartModeTest(LPSIZE a, DWORD b, DWORD c);
-	HRESULT __stdcall EvaluateMode(DWORD a, DWORD * b);
-	IDirectDraw7 * mOriginal;
-};
+private:
+	IDirectDraw7 *ProxyInterface;
 
+public:
+	m_IDirectDraw7(IDirectDraw7 *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectDraw7() {}
+
+	IDirectDraw7 *GetProxyInterface() { return ProxyInterface; }
+
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
+	STDMETHOD_(ULONG, AddRef) (THIS) ;
+	STDMETHOD_(ULONG, Release) (THIS);
+	/*** IDirectDraw methods ***/
+	STDMETHOD(Compact)(THIS);
+	STDMETHOD(CreateClipper)(THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR*, IUnknown FAR *);
+	STDMETHOD(CreatePalette)(THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR*, IUnknown FAR *);
+	STDMETHOD(CreateSurface)(THIS_  LPDDSURFACEDESC2, LPDIRECTDRAWSURFACE7 FAR *, IUnknown FAR *);
+	STDMETHOD(DuplicateSurface)(THIS_ LPDIRECTDRAWSURFACE7, LPDIRECTDRAWSURFACE7 FAR *);
+	STDMETHOD(EnumDisplayModes)(THIS_ DWORD, LPDDSURFACEDESC2, LPVOID, LPDDENUMMODESCALLBACK2);
+	STDMETHOD(EnumSurfaces)(THIS_ DWORD, LPDDSURFACEDESC2, LPVOID, LPDDENUMSURFACESCALLBACK7);
+	STDMETHOD(FlipToGDISurface)(THIS);
+	STDMETHOD(GetCaps)(THIS_ LPDDCAPS, LPDDCAPS);
+	STDMETHOD(GetDisplayMode)(THIS_ LPDDSURFACEDESC2);
+	STDMETHOD(GetFourCCCodes)(THIS_  LPDWORD, LPDWORD);
+	STDMETHOD(GetGDISurface)(THIS_ LPDIRECTDRAWSURFACE7 FAR *);
+	STDMETHOD(GetMonitorFrequency)(THIS_ LPDWORD);
+	STDMETHOD(GetScanLine)(THIS_ LPDWORD);
+	STDMETHOD(GetVerticalBlankStatus)(THIS_ LPBOOL);
+	STDMETHOD(Initialize)(THIS_ GUID FAR *);
+	STDMETHOD(RestoreDisplayMode)(THIS);
+	STDMETHOD(SetCooperativeLevel)(THIS_ HWND, DWORD);
+	STDMETHOD(SetDisplayMode)(THIS_ DWORD, DWORD, DWORD, DWORD, DWORD);
+	STDMETHOD(WaitForVerticalBlank)(THIS_ DWORD, HANDLE);
+	/*** Added in the v2 interface ***/
+	STDMETHOD(GetAvailableVidMem)(THIS_ LPDDSCAPS2, LPDWORD, LPDWORD);
+	/*** Added in the V4 Interface ***/
+	STDMETHOD(GetSurfaceFromDC) (THIS_ HDC, LPDIRECTDRAWSURFACE7 *);
+	STDMETHOD(RestoreAllSurfaces)(THIS);
+	STDMETHOD(TestCooperativeLevel)(THIS);
+	STDMETHOD(GetDeviceIdentifier)(THIS_ LPDDDEVICEIDENTIFIER2, DWORD);
+	STDMETHOD(StartModeTest)(THIS_ LPSIZE, DWORD, DWORD);
+	STDMETHOD(EvaluateMode)(THIS_ DWORD, DWORD *);
+};
