@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DSwapChain8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown)) && ppvObj)
+	if ((riid == IID_IDirect3DSwapChain8 || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 
@@ -49,7 +49,7 @@ HRESULT m_IDirect3DSwapChain8::GetBackBuffer(THIS_ UINT BackBuffer, D3DBACKBUFFE
 {
 	HRESULT hr = ProxyInterface->GetBackBuffer(BackBuffer, Type, ppBackBuffer);
 
-	if (SUCCEEDED(hr) && (*ppBackBuffer))
+	if (SUCCEEDED(hr))
 	{
 		*ppBackBuffer = m_pDevice->ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface8>(*ppBackBuffer);
 	}

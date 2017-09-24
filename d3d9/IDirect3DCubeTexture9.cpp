@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DCubeTexture9::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource9) || riid == __uuidof(m_IDirect3DBaseTexture9)) && ppvObj)
+	if ((riid == IID_IDirect3DCubeTexture9 || riid == IID_IUnknown || riid == IID_IDirect3DResource9 || riid == IID_IDirect3DBaseTexture9) && ppvObj)
 	{
 		AddRef();
 
@@ -138,7 +138,7 @@ HRESULT m_IDirect3DCubeTexture9::GetCubeMapSurface(THIS_ D3DCUBEMAP_FACES FaceTy
 {
 	HRESULT hr = ProxyInterface->GetCubeMapSurface(FaceType, Level, ppCubeMapSurface);
 
-	if (SUCCEEDED(hr) && (*ppCubeMapSurface))
+	if (SUCCEEDED(hr))
 	{
 		if (m_pDevice)
 		{

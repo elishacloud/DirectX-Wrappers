@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DTexture8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource8) || riid == __uuidof(m_IDirect3DBaseTexture8)) && ppvObj)
+	if ((riid == IID_IDirect3DTexture8 || riid == IID_IUnknown || riid == IID_IDirect3DResource8 || riid == IID_IDirect3DBaseTexture8) && ppvObj)
 	{
 		AddRef();
 
@@ -113,7 +113,7 @@ HRESULT m_IDirect3DTexture8::GetSurfaceLevel(THIS_ UINT Level, IDirect3DSurface8
 {
 	HRESULT hr = ProxyInterface->GetSurfaceLevel(Level, ppSurfaceLevel);
 
-	if (SUCCEEDED(hr) && (*ppSurfaceLevel))
+	if (SUCCEEDED(hr))
 	{
 		*ppSurfaceLevel = m_pDevice->ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface8>(*ppSurfaceLevel);
 	}

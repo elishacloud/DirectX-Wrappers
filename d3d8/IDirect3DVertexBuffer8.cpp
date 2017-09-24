@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DVertexBuffer8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource8)) && ppvObj)
+	if ((riid == IID_IDirect3DVertexBuffer8 || riid == IID_IUnknown || riid == IID_IDirect3DResource8) && ppvObj)
 	{
 		AddRef();
 

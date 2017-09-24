@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DVertexShader9::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource9) || riid == __uuidof(m_IDirect3DBaseTexture9)) && ppvObj)
+	if ((riid == IID_IDirect3DVertexShader9 || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 

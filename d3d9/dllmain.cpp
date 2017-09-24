@@ -76,100 +76,77 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 
 HRESULT WINAPI Direct3DShaderValidatorCreate9()
 {
-	HRESULT hr = m_pDirect3DShaderValidatorCreate9();
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDirect3DShaderValidatorCreate9();
 }
 
 HRESULT WINAPI PSGPError()
 {
-	HRESULT hr = m_pPSGPError();
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pPSGPError();
 }
 
 HRESULT WINAPI PSGPSampleTexture()
 {
-	HRESULT hr = m_pPSGPSampleTexture();
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pPSGPSampleTexture();
 }
 
 int WINAPI D3DPERF_BeginEvent(D3DCOLOR col, LPCWSTR wszName)
 {
-	int rt = m_pD3DPERF_BeginEvent(col, wszName);
-	Log() << __FUNCTION__ << " " << rt;
-	return rt;
+	return m_pD3DPERF_BeginEvent(col, wszName);
 }
 
 int WINAPI D3DPERF_EndEvent()
 {
-	int rt = m_pD3DPERF_EndEvent();
-	Log() << __FUNCTION__ << " " << rt;
-	return rt;
+	return m_pD3DPERF_EndEvent();
 }
 
 DWORD WINAPI D3DPERF_GetStatus()
 {
-	DWORD rt = m_pD3DPERF_GetStatus();
-	Log() << __FUNCTION__ << " " << rt;
-	return rt;
+	return m_pD3DPERF_GetStatus();
 }
 
 BOOL WINAPI D3DPERF_QueryRepeatFrame()
 {
-	BOOL rt = m_pD3DPERF_QueryRepeatFrame();
-	Log() << __FUNCTION__ << " " << rt;
-	return rt;
+	return m_pD3DPERF_QueryRepeatFrame();
 }
 
 void WINAPI D3DPERF_SetMarker(D3DCOLOR col, LPCWSTR wszName)
 {
-	Log() << __FUNCTION__;
-	m_pD3DPERF_SetMarker(col, wszName);
+	return m_pD3DPERF_SetMarker(col, wszName);
 }
 
 void WINAPI D3DPERF_SetOptions(DWORD dwOptions)
 {
-	Log() << __FUNCTION__;
-	m_pD3DPERF_SetOptions(dwOptions);
+	return m_pD3DPERF_SetOptions(dwOptions);
 }
 
 void WINAPI D3DPERF_SetRegion(D3DCOLOR col, LPCWSTR wszName)
 {
-	Log() << __FUNCTION__;
-	m_pD3DPERF_SetRegion(col, wszName);
+	return m_pD3DPERF_SetRegion(col, wszName);
 }
 
 HRESULT WINAPI DebugSetLevel(DWORD dw1)
 {
-	HRESULT hr = m_pDebugSetLevel(dw1);
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDebugSetLevel(dw1);
 }
 
 void WINAPI DebugSetMute()
 {
-	Log() << __FUNCTION__;
-	m_pDebugSetMute();
+	return m_pDebugSetMute();
 }
 
 void WINAPI Direct3D9EnableMaximizedWindowedModeShim()
 {
-	Log() << __FUNCTION__;
 	return m_pDirect3D9EnableMaximizedWindowedModeShim();
 }
 
 IDirect3D9 *WINAPI Direct3DCreate9(UINT SDKVersion)
 {
-	Log() << __FUNCTION__ << " " << SDKVersion;
 	return new m_IDirect3D9(m_pDirect3DCreate9(SDKVersion));
 }
 
 HRESULT WINAPI Direct3DCreate9Ex(UINT SDKVersion, IDirect3D9Ex **ppD3D)
 {
 	HRESULT hr = m_pDirect3DCreate9Ex(SDKVersion, ppD3D);
-	Log() << __FUNCTION__ << " " << SDKVersion << " " << hr;
 
 	if (SUCCEEDED(hr))
 	{

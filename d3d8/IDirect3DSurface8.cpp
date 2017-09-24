@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DSurface8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown)) && ppvObj)
+	if ((riid == IID_IDirect3DSurface8 || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 

@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DDevice9Ex::QueryInterface(REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IDirect3DDevice9) || riid == __uuidof(IUnknown)) && ppvObj)
+	if ((riid == IID_IDirect3DDevice9Ex || riid == IID_IDirect3DDevice9 || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 
@@ -82,7 +82,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateAdditionalSwapChain(D3DPRESENT_PARAMETERS *p
 
 	if (SUCCEEDED(hr))
 	{
-		*ppSwapChain = new m_IDirect3DSwapChain9(*ppSwapChain, this);
+		*ppSwapChain = ProxyAddressLookupTable->FindAddress<m_IDirect3DSwapChain9>(*ppSwapChain);
 	}
 
 	return hr;
@@ -94,7 +94,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateCubeTexture(THIS_ UINT EdgeLength, UINT Leve
 
 	if (SUCCEEDED(hr))
 	{
-		*ppCubeTexture = new m_IDirect3DCubeTexture9(*ppCubeTexture, this);
+		*ppCubeTexture = ProxyAddressLookupTable->FindAddress<m_IDirect3DCubeTexture9>(*ppCubeTexture);
 	}
 
 	return hr;
@@ -106,7 +106,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateDepthStencilSurface(THIS_ UINT Width, UINT H
 
 	if (SUCCEEDED(hr))
 	{
-		*ppSurface = new m_IDirect3DSurface9(*ppSurface, this);
+		*ppSurface = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppSurface);
 	}
 
 	return hr;
@@ -118,7 +118,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateIndexBuffer(THIS_ UINT Length, DWORD Usage, 
 
 	if (SUCCEEDED(hr))
 	{
-		*ppIndexBuffer = new m_IDirect3DIndexBuffer9(*ppIndexBuffer, this);
+		*ppIndexBuffer = ProxyAddressLookupTable->FindAddress<m_IDirect3DIndexBuffer9>(*ppIndexBuffer);
 	}
 
 	return hr;
@@ -130,7 +130,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateRenderTarget(THIS_ UINT Width, UINT Height, 
 
 	if (SUCCEEDED(hr))
 	{
-		*ppSurface = new m_IDirect3DSurface9(*ppSurface, this);
+		*ppSurface = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppSurface);
 	}
 
 	return hr;
@@ -142,7 +142,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateTexture(THIS_ UINT Width, UINT Height, UINT 
 
 	if (SUCCEEDED(hr))
 	{
-		*ppTexture = new m_IDirect3DTexture9(*ppTexture, this);
+		*ppTexture = ProxyAddressLookupTable->FindAddress<m_IDirect3DTexture9>(*ppTexture);
 	}
 
 	return hr;
@@ -154,7 +154,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateVertexBuffer(THIS_ UINT Length, DWORD Usage,
 
 	if (SUCCEEDED(hr))
 	{
-		*ppVertexBuffer = new m_IDirect3DVertexBuffer9(*ppVertexBuffer, this);
+		*ppVertexBuffer = ProxyAddressLookupTable->FindAddress<m_IDirect3DVertexBuffer9>(*ppVertexBuffer);
 	}
 
 	return hr;
@@ -166,7 +166,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateVolumeTexture(THIS_ UINT Width, UINT Height,
 
 	if (SUCCEEDED(hr))
 	{
-		*ppVolumeTexture = new m_IDirect3DVolumeTexture9(*ppVolumeTexture, this);
+		*ppVolumeTexture = ProxyAddressLookupTable->FindAddress<m_IDirect3DVolumeTexture9>(*ppVolumeTexture);
 	}
 
 	return hr;
@@ -183,7 +183,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateStateBlock(THIS_ D3DSTATEBLOCKTYPE Type, IDi
 
 	if (SUCCEEDED(hr))
 	{
-		*ppSB = new m_IDirect3DStateBlock9(*ppSB, this);
+		*ppSB = ProxyAddressLookupTable->FindAddress<m_IDirect3DStateBlock9>(*ppSB);
 	}
 
 	return hr;
@@ -193,7 +193,7 @@ HRESULT m_IDirect3DDevice9Ex::EndStateBlock(THIS_ IDirect3DStateBlock9** ppSB)
 {
 	HRESULT hr = ProxyInterface->EndStateBlock(ppSB);
 
-	if (SUCCEEDED(hr) && (*ppSB))
+	if (SUCCEEDED(hr))
 	{
 		*ppSB = ProxyAddressLookupTable->FindAddress<m_IDirect3DStateBlock9>(*ppSB);
 	}
@@ -220,7 +220,7 @@ HRESULT m_IDirect3DDevice9Ex::GetRenderTarget(THIS_ DWORD RenderTargetIndex, IDi
 {
 	HRESULT hr = ProxyInterface->GetRenderTarget(RenderTargetIndex, ppRenderTarget);
 
-	if (SUCCEEDED(hr) && (*ppRenderTarget))
+	if (SUCCEEDED(hr))
 	{
 		*ppRenderTarget = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppRenderTarget);
 	}
@@ -287,7 +287,7 @@ HRESULT m_IDirect3DDevice9Ex::GetIndices(THIS_ IDirect3DIndexBuffer9** ppIndexDa
 {
 	HRESULT hr = ProxyInterface->GetIndices(ppIndexData);
 
-	if (SUCCEEDED(hr) && (*ppIndexData))
+	if (SUCCEEDED(hr))
 	{
 		*ppIndexData = ProxyAddressLookupTable->FindAddress<m_IDirect3DIndexBuffer9>(*ppIndexData);
 	}
@@ -420,7 +420,7 @@ HRESULT m_IDirect3DDevice9Ex::CreatePixelShader(THIS_ CONST DWORD* pFunction, ID
 
 	if (SUCCEEDED(hr))
 	{
-		*ppShader = new m_IDirect3DPixelShader9(*ppShader, this);
+		*ppShader = ProxyAddressLookupTable->FindAddress<m_IDirect3DPixelShader9>(*ppShader);
 	}
 
 	return hr;
@@ -430,7 +430,7 @@ HRESULT m_IDirect3DDevice9Ex::GetPixelShader(THIS_ IDirect3DPixelShader9** ppSha
 {
 	HRESULT hr = ProxyInterface->GetPixelShader(ppShader);
 
-	if (SUCCEEDED(hr) && (*ppShader))
+	if (SUCCEEDED(hr))
 	{
 		*ppShader = ProxyAddressLookupTable->FindAddress<m_IDirect3DPixelShader9>(*ppShader);
 	}
@@ -482,7 +482,7 @@ HRESULT m_IDirect3DDevice9Ex::GetStreamSource(THIS_ UINT StreamNumber, IDirect3D
 {
 	HRESULT hr = ProxyInterface->GetStreamSource(StreamNumber, ppStreamData, OffsetInBytes, pStride);
 
-	if (SUCCEEDED(hr) && (*ppStreamData))
+	if (SUCCEEDED(hr))
 	{
 		*ppStreamData = ProxyAddressLookupTable->FindAddress<m_IDirect3DVertexBuffer9>(*ppStreamData);
 	}
@@ -504,7 +504,7 @@ HRESULT m_IDirect3DDevice9Ex::GetBackBuffer(THIS_ UINT iSwapChain, UINT iBackBuf
 {
 	HRESULT hr = ProxyInterface->GetBackBuffer(iSwapChain, iBackBuffer, Type, ppBackBuffer);
 
-	if (SUCCEEDED(hr) && (*ppBackBuffer))
+	if (SUCCEEDED(hr))
 	{
 		*ppBackBuffer = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppBackBuffer);
 	}
@@ -516,7 +516,7 @@ HRESULT m_IDirect3DDevice9Ex::GetDepthStencilSurface(IDirect3DSurface9 **ppZSten
 {
 	HRESULT hr = ProxyInterface->GetDepthStencilSurface(ppZStencilSurface);
 
-	if (SUCCEEDED(hr) && (*ppZStencilSurface))
+	if (SUCCEEDED(hr))
 	{
 		*ppZStencilSurface = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppZStencilSurface);
 	}
@@ -658,7 +658,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateVertexShader(THIS_ CONST DWORD* pFunction, I
 
 	if (SUCCEEDED(hr))
 	{
-		*ppShader = new m_IDirect3DVertexShader9(*ppShader, this);
+		*ppShader = ProxyAddressLookupTable->FindAddress<m_IDirect3DVertexShader9>(*ppShader);
 	}
 
 	return hr;
@@ -668,7 +668,7 @@ HRESULT m_IDirect3DDevice9Ex::GetVertexShader(THIS_ IDirect3DVertexShader9** ppS
 {
 	HRESULT hr = ProxyInterface->GetVertexShader(ppShader);
 
-	if (SUCCEEDED(hr) && (*ppShader))
+	if (SUCCEEDED(hr))
 	{
 		*ppShader = ProxyAddressLookupTable->FindAddress<m_IDirect3DVertexShader9>(*ppShader);
 	}
@@ -692,7 +692,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateQuery(THIS_ D3DQUERYTYPE Type, IDirect3DQuer
 
 	if (SUCCEEDED(hr))
 	{
-		*ppQuery = new m_IDirect3DQuery9(*ppQuery, this);
+		*ppQuery = ProxyAddressLookupTable->FindAddress<m_IDirect3DQuery9>(*ppQuery);
 	}
 
 	return hr;
@@ -784,7 +784,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateVertexDeclaration(THIS_ CONST D3DVERTEXELEME
 
 	if (SUCCEEDED(hr))
 	{
-		*ppDecl = new m_IDirect3DVertexDeclaration9(*ppDecl, this);
+		*ppDecl = ProxyAddressLookupTable->FindAddress<m_IDirect3DVertexDeclaration9>(*ppDecl);
 	}
 
 	return hr;
@@ -804,7 +804,7 @@ HRESULT m_IDirect3DDevice9Ex::GetVertexDeclaration(THIS_ IDirect3DVertexDeclarat
 {
 	HRESULT hr = ProxyInterface->GetVertexDeclaration(ppDecl);
 
-	if (SUCCEEDED(hr) && (*ppDecl))
+	if (SUCCEEDED(hr))
 	{
 		*ppDecl = ProxyAddressLookupTable->FindAddress<m_IDirect3DVertexDeclaration9>(*ppDecl);
 	}
@@ -878,7 +878,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateOffscreenPlainSurface(THIS_ UINT Width, UINT
 
 	if (SUCCEEDED(hr))
 	{
-		*ppSurface = new m_IDirect3DSurface9(*ppSurface, this);
+		*ppSurface = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppSurface);
 	}
 
 	return hr;
@@ -958,7 +958,7 @@ HRESULT m_IDirect3DDevice9Ex::GetSwapChain(THIS_ UINT iSwapChain, IDirect3DSwapC
 {
 	HRESULT hr = ProxyInterface->GetSwapChain(iSwapChain, ppSwapChain);
 
-	if (SUCCEEDED(hr) && (*ppSwapChain))
+	if (SUCCEEDED(hr))
 	{
 		*ppSwapChain = ProxyAddressLookupTable->FindAddress<m_IDirect3DSwapChain9>(*ppSwapChain);
 	}
@@ -1078,7 +1078,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateRenderTargetEx(THIS_ UINT Width, UINT Height
 
 	if (SUCCEEDED(hr))
 	{
-		*ppSurface = new m_IDirect3DSurface9(*ppSurface, this);
+		*ppSurface = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppSurface);
 	}
 
 	return hr;
@@ -1090,7 +1090,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateOffscreenPlainSurfaceEx(THIS_ UINT Width, UI
 
 	if (SUCCEEDED(hr))
 	{
-		*ppSurface = new m_IDirect3DSurface9(*ppSurface, this);
+		*ppSurface = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppSurface);
 	}
 
 	return hr;
@@ -1102,7 +1102,7 @@ HRESULT m_IDirect3DDevice9Ex::CreateDepthStencilSurfaceEx(THIS_ UINT Width, UINT
 
 	if (SUCCEEDED(hr))
 	{
-		*ppSurface = new m_IDirect3DSurface9(*ppSurface, this);
+		*ppSurface = ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppSurface);
 	}
 
 	return hr;

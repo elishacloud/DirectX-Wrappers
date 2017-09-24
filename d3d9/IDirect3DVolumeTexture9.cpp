@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DVolumeTexture9::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource9) || riid == __uuidof(m_IDirect3DBaseTexture9)) && ppvObj)
+	if ((riid == IID_IDirect3DVolumeTexture9 || riid == IID_IUnknown || riid == IID_IDirect3DResource9 || riid == IID_IDirect3DBaseTexture9) && ppvObj)
 	{
 		AddRef();
 
@@ -138,7 +138,7 @@ HRESULT m_IDirect3DVolumeTexture9::GetVolumeLevel(THIS_ UINT Level, IDirect3DVol
 {
 	HRESULT hr = ProxyInterface->GetVolumeLevel(Level, ppVolumeLevel);
 
-	if (SUCCEEDED(hr) && (*ppVolumeLevel))
+	if (SUCCEEDED(hr))
 	{
 		if (m_pDevice)
 		{

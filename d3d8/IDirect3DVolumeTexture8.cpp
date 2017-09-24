@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DVolumeTexture8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource8) || riid == __uuidof(m_IDirect3DBaseTexture8)) && ppvObj)
+	if ((riid == IID_IDirect3DVolumeTexture8 || riid == IID_IUnknown || riid == IID_IDirect3DResource8 || riid == IID_IDirect3DBaseTexture8) && ppvObj)
 	{
 		AddRef();
 
@@ -113,7 +113,7 @@ HRESULT m_IDirect3DVolumeTexture8::GetVolumeLevel(THIS_ UINT Level, IDirect3DVol
 {
 	HRESULT hr = ProxyInterface->GetVolumeLevel(Level, ppVolumeLevel);
 
-	if (SUCCEEDED(hr) && (*ppVolumeLevel))
+	if (SUCCEEDED(hr))
 	{
 		*ppVolumeLevel = m_pDevice->ProxyAddressLookupTable->FindAddress<m_IDirect3DVolume8>(*ppVolumeLevel);
 	}

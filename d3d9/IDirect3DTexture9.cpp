@@ -18,7 +18,7 @@
 
 HRESULT m_IDirect3DTexture9::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 {
-	if ((riid == __uuidof(this) || riid == __uuidof(IUnknown) || riid == __uuidof(m_IDirect3DResource9) || riid == __uuidof(m_IDirect3DBaseTexture9)) && ppvObj)
+	if ((riid == IID_IDirect3DTexture9 || riid == IID_IUnknown || riid == IID_IDirect3DResource9 || riid == IID_IDirect3DBaseTexture9) && ppvObj)
 	{
 		AddRef();
 
@@ -138,7 +138,7 @@ HRESULT m_IDirect3DTexture9::GetSurfaceLevel(THIS_ UINT Level, IDirect3DSurface9
 {
 	HRESULT hr = ProxyInterface->GetSurfaceLevel(Level, ppSurfaceLevel);
 
-	if (SUCCEEDED(hr) && (*ppSurfaceLevel))
+	if (SUCCEEDED(hr))
 	{
 		if (m_pDevice)
 		{
