@@ -112,7 +112,13 @@ HRESULT m_IDirectDraw7::EnumDisplayModes(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, 
 
 HRESULT m_IDirectDraw7::EnumSurfaces(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, LPDDENUMSURFACESCALLBACK7 d)
 {
-	return ProxyInterface->EnumSurfaces(a, b, c, d);
+	m_IDirectDrawEnumSurface7::SetCallback(d);
+
+	HRESULT hr = ProxyInterface->EnumSurfaces(a, b, c, reinterpret_cast<LPDDENUMSURFACESCALLBACK7>(m_IDirectDrawEnumSurface7::EnumSurface7Callback));
+
+	m_IDirectDrawEnumSurface7::ReleaseCallback();
+
+	return hr;
 }
 
 HRESULT m_IDirectDraw7::FlipToGDISurface()

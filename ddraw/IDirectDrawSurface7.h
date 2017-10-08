@@ -2,7 +2,7 @@
 
 class m_IDirectDrawSurface7 : public IDirectDrawSurface7, public AddressLookupTableObject
 {
-public:
+private:
 	IDirectDrawSurface7 *ProxyInterface;
 
 public:

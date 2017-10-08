@@ -99,6 +99,7 @@
     <ClCompile Include="IDirect3DViewport.cpp" />
     <ClCompile Include="IDirect3DViewport2.cpp" />
     <ClCompile Include="IDirect3DViewport3.cpp" />
+    <ClCompile Include="IDirectDrawEnumSurface.cpp" />
     <ClCompile Include="InterfaceQuery.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="IDirectDraw.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="IDirectDraw7.h" />
     <ClInclude Include="IDirectDrawClipper.h" />
     <ClInclude Include="IDirectDrawColorControl.h" />
+    <ClInclude Include="IDirectDrawEnumSurface.h" />
     <ClInclude Include="IDirectDrawFactory.h" />
     <ClInclude Include="IDirectDrawGammaControl.h" />
     <ClInclude Include="IDirectDrawPalette.h" />

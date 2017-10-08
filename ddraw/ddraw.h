@@ -54,6 +54,7 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 #include "IDirectDraw7.h"
 #include "IDirectDrawClipper.h"
 #include "IDirectDrawColorControl.h"
+#include "IDirectDrawEnumSurface.h"
 #include "IDirectDrawFactory.h"
 #include "IDirectDrawGammaControl.h"
 #include "IDirectDrawPalette.h"
