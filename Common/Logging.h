@@ -9,13 +9,19 @@ public:
 	Log() {}
 	~Log()
 	{
-		LOG << std::endl;
+		if (LOG.is_open())
+		{
+			LOG << std::endl;
+		}
 	}
 
 	template <typename T>
 	Log& operator<<(const T& t)
 	{
-		LOG << t;
+		if (LOG.is_open())
+		{
+			LOG << t;
+		}
 		return *this;
 	}
 private:

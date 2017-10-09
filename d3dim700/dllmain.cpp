@@ -17,16 +17,17 @@
 #include "d3dim700.h"
 
 std::ofstream Log::LOG("d3dim700.log");
+AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>(nullptr);
 
 FARPROC m_pD3DFree;
 FARPROC m_pD3DMalloc;
 FARPROC m_pD3DRealloc;
-FARPROC m_pDirect3DCreateDevice;
+Direct3DCreateDeviceProc m_pDirect3DCreateDevice;
 FARPROC m_pCreateTexture;
 FARPROC m_pD3DBreakVBLock;
 FARPROC m_pD3DTextureUpdate;
 FARPROC m_pDestroyTexture;
-FARPROC m_pDirect3DCreate;
+Direct3DCreateProc m_pDirect3DCreate;
 FARPROC m_pDirect3D_HALCleanUp;
 FARPROC m_pFlushD3DDevices;
 FARPROC m_pGetLOD;
@@ -46,17 +47,17 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 		char path[MAX_PATH];
 		GetSystemDirectoryA(path, MAX_PATH);
 		strcat_s(path, "\\d3dim700.dll");
-		Log() << "Loading " << path << "\n";
+		Log() << "Loading " << path;
 		d3dim700dll = LoadLibraryA(path);
 		m_pD3DFree = GetProcAddress(d3dim700dll, "D3DFree");
 		m_pD3DMalloc = GetProcAddress(d3dim700dll, "D3DMalloc");
 		m_pD3DRealloc = GetProcAddress(d3dim700dll, "D3DRealloc");
-		m_pDirect3DCreateDevice = GetProcAddress(d3dim700dll, "Direct3DCreateDevice");
+		m_pDirect3DCreateDevice = (Direct3DCreateDeviceProc)GetProcAddress(d3dim700dll, "Direct3DCreateDevice");
 		m_pCreateTexture = GetProcAddress(d3dim700dll, "CreateTexture");
 		m_pD3DBreakVBLock = GetProcAddress(d3dim700dll, "D3DBreakVBLock");
 		m_pD3DTextureUpdate = GetProcAddress(d3dim700dll, "D3DTextureUpdate");
 		m_pDestroyTexture = GetProcAddress(d3dim700dll, "DestroyTexture");
-		m_pDirect3DCreate = GetProcAddress(d3dim700dll, "Direct3DCreate");
+		m_pDirect3DCreate = (Direct3DCreateProc)GetProcAddress(d3dim700dll, "Direct3DCreate");
 		m_pDirect3D_HALCleanUp = GetProcAddress(d3dim700dll, "Direct3D_HALCleanUp");
 		m_pFlushD3DDevices = GetProcAddress(d3dim700dll, "FlushD3DDevices");
 		m_pGetLOD = GetProcAddress(d3dim700dll, "GetLOD");
@@ -77,91 +78,110 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 
 void __declspec(naked) D3DFree()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pD3DFree;
 }
 void __declspec(naked) D3DMalloc()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pD3DMalloc;
 }
 void __declspec(naked) D3DRealloc()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pD3DRealloc;
 }
-void __declspec(naked) Direct3DCreateDevice()
+
+HRESULT WINAPI Direct3DCreateDevice(GUID FAR *lpGUID, LPDIRECT3D lpd3ddevice, LPDIRECTDRAWSURFACE surf, LPDIRECT3D *lplpd3ddevice, LPUNKNOWN pUnkOuter)
 {
-	logf(__FUNCTION__ "\n");
-	_asm jmp m_pDirect3DCreateDevice;
+	logf(__FUNCTION__);
+	HRESULT hr = m_pDirect3DCreateDevice(lpGUID, lpd3ddevice, surf, lplpd3ddevice, pUnkOuter);
+
+	/*if (SUCCEEDED(hr))
+	{
+		*lplpd3ddevice = ProxyAddressLookupTable.FindAddress<m_IDirect3D7>(*lplpd3ddevice);
+		surf = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(surf);
+	}*/
+
+	return hr;
 }
+
 void __declspec(naked) CreateTexture()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pCreateTexture;
 }
 void __declspec(naked) D3DBreakVBLock()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pD3DBreakVBLock;
 }
 void __declspec(naked) D3DTextureUpdate()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pD3DTextureUpdate;
 }
 void __declspec(naked) DestroyTexture()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pDestroyTexture;
 }
-void __declspec(naked) Direct3DCreate()
+
+HRESULT WINAPI Direct3DCreate(UINT SDKVersion, LPDIRECT3D *lplpd3d, LPUNKNOWN pUnkOuter)
 {
-	logf(__FUNCTION__ "\n");
-	_asm jmp m_pDirect3DCreate;
+	logf(__FUNCTION__);
+	HRESULT hr = m_pDirect3DCreate(SDKVersion, lplpd3d, pUnkOuter);
+
+	/*if (SUCCEEDED(hr))
+	{
+		*lplpd3d = ProxyAddressLookupTable.FindAddress<m_IDirect3D7>(*lplpd3d);
+	}*/
+
+	return hr;
 }
+
 void __declspec(naked) Direct3D_HALCleanUp()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pDirect3D_HALCleanUp;
 }
 void __declspec(naked) FlushD3DDevices()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pFlushD3DDevices;
 }
 extern "C" void __declspec(naked) GetLOD()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pGetLOD;
 }
 extern "C" void __declspec(naked) GetPriority()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pGetPriority;
 }
 void __declspec(naked) PaletteAssociateNotify()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pPaletteAssociateNotify;
 }
 void __declspec(naked) PaletteUpdateNotify()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pPaletteUpdateNotify;
 }
 extern "C" void __declspec(naked) SetLOD()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pSetLOD;
 }
 extern "C" void __declspec(naked) SetPriority()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pSetPriority;
 }
 void __declspec(naked) SurfaceFlipNotify()
 {
-	logf(__FUNCTION__ "\n");
+	logf(__FUNCTION__);
 	_asm jmp m_pSurfaceFlipNotify;
 }

@@ -1,17 +1,22 @@
 #pragma once
 
-class m_IDirectDrawClipper : public IDirectDrawClipper
+class m_IDirectDrawClipper : public IDirectDrawClipper, public AddressLookupTableObject
 {
 private:
-	IDirectDrawClipper * ProxyInterface;
+	IDirectDrawClipper *ProxyInterface;
 
 public:
-	m_IDirectDrawClipper(IDirectDrawClipper * pClipper) : ProxyInterface(pClipper) {}
+	m_IDirectDrawClipper(IDirectDrawClipper *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
 	~m_IDirectDrawClipper() {}
+
+	IDirectDrawClipper *GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
-	STDMETHOD_(ULONG, AddRef) (THIS);
+	STDMETHOD_(ULONG, AddRef) (THIS) ;
 	STDMETHOD_(ULONG, Release) (THIS);
 	/*** IDirectDrawClipper methods ***/
 	STDMETHOD(GetClipList)(THIS_ LPRECT, LPRGNDATA, LPDWORD);

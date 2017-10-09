@@ -1,13 +1,18 @@
 #pragma once
 
-class m_IDirect3DDevice7 : public IDirect3DDevice7
+class m_IDirect3DDevice7 : public IDirect3DDevice7, public AddressLookupTableObject
 {
 private:
-	IDirect3DDevice7 * ProxyInterface;
+	IDirect3DDevice7 *ProxyInterface;
 
 public:
-	m_IDirect3DDevice7(IDirect3DDevice7 * pDevice) : ProxyInterface(pDevice) {}
+	m_IDirect3DDevice7(IDirect3DDevice7 *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
 	~m_IDirect3DDevice7() {}
+
+	IDirect3DDevice7 *GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);

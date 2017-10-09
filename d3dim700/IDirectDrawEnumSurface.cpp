@@ -14,14 +14,12 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "ddraw.h"
+#include "d3dim700.h"
 
 std::mutex mCallback;
-std::mutex mCallback2;
 std::mutex mCallback7;
 
 LPDDENUMSURFACESCALLBACK m_IDirectDrawEnumSurface::lpCallback;
-LPDDENUMSURFACESCALLBACK2 m_IDirectDrawEnumSurface2::lpCallback;
 LPDDENUMSURFACESCALLBACK7 m_IDirectDrawEnumSurface7::lpCallback;
 
 void m_IDirectDrawEnumSurface::SetCallback(LPDDENUMSURFACESCALLBACK a)
@@ -41,28 +39,6 @@ HRESULT m_IDirectDrawEnumSurface::EnumSurfaceCallback(LPDIRECTDRAWSURFACE a, LPD
 	if (a)
 	{
 		a = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface>(a);
-	}
-
-	return lpCallback(a, b, c);
-}
-
-void m_IDirectDrawEnumSurface2::SetCallback(LPDDENUMSURFACESCALLBACK2 a)
-{
-	mCallback2.lock();
-	lpCallback = a;
-}
-
-void m_IDirectDrawEnumSurface2::ReleaseCallback()
-{
-	lpCallback = nullptr;
-	mCallback2.unlock();
-}
-
-HRESULT m_IDirectDrawEnumSurface2::EnumSurface2Callback(LPDIRECTDRAWSURFACE4 a, LPDDSURFACEDESC2 b, LPVOID c)
-{
-	if (a)
-	{
-		a = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface4>(a);
 	}
 
 	return lpCallback(a, b, c);

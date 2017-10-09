@@ -18,7 +18,14 @@
 
 HRESULT m_IDirectDraw7::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	return ProxyInterface->QueryInterface(riid, ppvObj);
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
+	return hr;
 }
 
 ULONG m_IDirectDraw7::AddRef()
@@ -28,7 +35,16 @@ ULONG m_IDirectDraw7::AddRef()
 
 ULONG m_IDirectDraw7::Release()
 {
-	return ProxyInterface->Release();
+	ULONG x = ProxyInterface->Release();
+
+	if (x == 0)
+	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+
+		delete this;
+	}
+
+	return x;
 }
 
 HRESULT m_IDirectDraw7::Compact()
@@ -38,22 +54,55 @@ HRESULT m_IDirectDraw7::Compact()
 
 HRESULT m_IDirectDraw7::CreateClipper(DWORD a, LPDIRECTDRAWCLIPPER FAR * b, IUnknown FAR * c)
 {
-	return ProxyInterface->CreateClipper(a, b, c);
+	HRESULT hr = ProxyInterface->CreateClipper(a, b, c);
+
+	if (SUCCEEDED(hr))
+	{
+		*b = ProxyAddressLookupTable.FindAddress<m_IDirectDrawClipper>(*b);
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirectDraw7::CreatePalette(DWORD a, LPPALETTEENTRY b, LPDIRECTDRAWPALETTE FAR * c, IUnknown FAR * d)
 {
-	return ProxyInterface->CreatePalette(a, b, c, d);
+	HRESULT hr = ProxyInterface->CreatePalette(a, b, c, d);
+
+	if (SUCCEEDED(hr))
+	{
+		*c = ProxyAddressLookupTable.FindAddress<m_IDirectDrawPalette>(*c);
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirectDraw7::CreateSurface(LPDDSURFACEDESC2 a, LPDIRECTDRAWSURFACE7 FAR * b, IUnknown FAR * c)
 {
-	return ProxyInterface->CreateSurface(a, b, c);
+	HRESULT hr = ProxyInterface->CreateSurface(a, b, c);
+
+	if (SUCCEEDED(hr))
+	{
+		*b = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(*b);
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirectDraw7::DuplicateSurface(LPDIRECTDRAWSURFACE7 a, LPDIRECTDRAWSURFACE7 FAR * b)
 {
-	return ProxyInterface->DuplicateSurface(a, b);
+	if (a)
+	{
+		a = static_cast<m_IDirectDrawSurface7 *>(a)->GetProxyInterface();
+	}
+
+	HRESULT hr = ProxyInterface->DuplicateSurface(a, b);
+
+	if (SUCCEEDED(hr))
+	{
+		*b = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(*b);
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirectDraw7::EnumDisplayModes(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, LPDDENUMMODESCALLBACK2 d)
@@ -63,7 +112,13 @@ HRESULT m_IDirectDraw7::EnumDisplayModes(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, 
 
 HRESULT m_IDirectDraw7::EnumSurfaces(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, LPDDENUMSURFACESCALLBACK7 d)
 {
-	return ProxyInterface->EnumSurfaces(a, b, c, d);
+	m_IDirectDrawEnumSurface7::SetCallback(d);
+
+	HRESULT hr = ProxyInterface->EnumSurfaces(a, b, c, reinterpret_cast<LPDDENUMSURFACESCALLBACK7>(m_IDirectDrawEnumSurface7::EnumSurface7Callback));
+
+	m_IDirectDrawEnumSurface7::ReleaseCallback();
+
+	return hr;
 }
 
 HRESULT m_IDirectDraw7::FlipToGDISurface()
@@ -88,7 +143,14 @@ HRESULT m_IDirectDraw7::GetFourCCCodes(LPDWORD a, LPDWORD b)
 
 HRESULT m_IDirectDraw7::GetGDISurface(LPDIRECTDRAWSURFACE7 FAR * a)
 {
-	return ProxyInterface->GetGDISurface(a);
+	HRESULT hr = ProxyInterface->GetGDISurface(a);
+
+	if (SUCCEEDED(hr))
+	{
+		*a = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(*a);
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirectDraw7::GetMonitorFrequency(LPDWORD a)
@@ -138,7 +200,14 @@ HRESULT m_IDirectDraw7::GetAvailableVidMem(LPDDSCAPS2 a, LPDWORD b, LPDWORD c)
 
 HRESULT m_IDirectDraw7::GetSurfaceFromDC(HDC a, LPDIRECTDRAWSURFACE7 * b)
 {
-	return ProxyInterface->GetSurfaceFromDC(a, b);
+	HRESULT hr = ProxyInterface->GetSurfaceFromDC(a, b);
+
+	if (SUCCEEDED(hr))
+	{
+		*b = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(*b);
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirectDraw7::RestoreAllSurfaces()

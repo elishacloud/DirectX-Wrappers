@@ -18,7 +18,14 @@
 
 HRESULT m_IDirectDrawClipper::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	return ProxyInterface->QueryInterface(riid, ppvObj);
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
+	return hr;
 }
 
 ULONG m_IDirectDrawClipper::AddRef()
@@ -28,7 +35,16 @@ ULONG m_IDirectDrawClipper::AddRef()
 
 ULONG m_IDirectDrawClipper::Release()
 {
-	return ProxyInterface->Release();
+	ULONG x = ProxyInterface->Release();
+
+	if (x == 0)
+	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+
+		delete this;
+	}
+
+	return x;
 }
 
 HRESULT m_IDirectDrawClipper::GetClipList(LPRECT a, LPRGNDATA b, LPDWORD c)
@@ -43,6 +59,11 @@ HRESULT m_IDirectDrawClipper::GetHWnd(HWND FAR * a)
 
 HRESULT m_IDirectDrawClipper::Initialize(LPDIRECTDRAW a, DWORD b)
 {
+	if (a)
+	{
+		a = static_cast<m_IDirectDraw *>(a)->GetProxyInterface();
+	}
+
 	return ProxyInterface->Initialize(a, b);
 }
 

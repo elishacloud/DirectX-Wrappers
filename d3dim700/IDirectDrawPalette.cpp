@@ -18,7 +18,14 @@
 
 HRESULT m_IDirectDrawPalette::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	return ProxyInterface->QueryInterface(riid, ppvObj);
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
+	return hr;
 }
 
 ULONG m_IDirectDrawPalette::AddRef()
@@ -28,7 +35,16 @@ ULONG m_IDirectDrawPalette::AddRef()
 
 ULONG m_IDirectDrawPalette::Release()
 {
-	return ProxyInterface->Release();
+	ULONG x = ProxyInterface->Release();
+
+	if (x == 0)
+	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+
+		delete this;
+	}
+
+	return x;
 }
 
 HRESULT m_IDirectDrawPalette::GetCaps(LPDWORD a)
@@ -43,6 +59,11 @@ HRESULT m_IDirectDrawPalette::GetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENT
 
 HRESULT m_IDirectDrawPalette::Initialize(LPDIRECTDRAW a, DWORD b, LPPALETTEENTRY c)
 {
+	if (a)
+	{
+		a = static_cast<m_IDirectDraw *>(a)->GetProxyInterface();
+	}
+
 	return ProxyInterface->Initialize(a, b, c);
 }
 

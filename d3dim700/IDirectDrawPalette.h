@@ -1,13 +1,18 @@
 #pragma once
 
-class m_IDirectDrawPalette : public IDirectDrawPalette
+class m_IDirectDrawPalette : public IDirectDrawPalette, public AddressLookupTableObject
 {
 private:
-	IDirectDrawPalette * ProxyInterface;
+	IDirectDrawPalette *ProxyInterface;
 
 public:
-	m_IDirectDrawPalette(IDirectDrawPalette * pPalette) : ProxyInterface(pPalette) {}
+	m_IDirectDrawPalette(IDirectDrawPalette *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
 	~m_IDirectDrawPalette() {}
+
+	IDirectDrawPalette *GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);

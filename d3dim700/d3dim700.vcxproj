@@ -79,25 +79,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IDirectDraw.cpp" />
-    <ClCompile Include="IDirectDraw7.cpp" />
-    <ClCompile Include="IDirectDrawClipper.cpp" />
-    <ClCompile Include="IDirectDrawPalette.cpp" />
-    <ClCompile Include="IDirectDrawSurface.cpp" />
-    <ClCompile Include="IDirectDrawSurface7.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="IDirect3D7.cpp" />
     <ClCompile Include="IDirect3DDevice7.cpp" />
     <ClCompile Include="IDirect3DVertexBuffer7.cpp" />
+    <ClCompile Include="IDirectDraw.cpp" />
+    <ClCompile Include="IDirectDraw7.cpp" />
+    <ClCompile Include="IDirectDrawClipper.cpp" />
+    <ClCompile Include="IDirectDrawEnumSurface.cpp" />
+    <ClCompile Include="IDirectDrawPalette.cpp" />
+    <ClCompile Include="IDirectDrawSurface.cpp" />
+    <ClCompile Include="IDirectDrawSurface7.cpp" />
+    <ClCompile Include="InterfaceQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="d3dim700.h" />
     <ClInclude Include="IDirect3D7.h" />
     <ClInclude Include="IDirect3DDevice7.h" />
     <ClInclude Include="IDirect3DVertexBuffer7.h" />
-    <ClInclude Include="d3dim700.h" />
     <ClInclude Include="IDirectDraw.h" />
     <ClInclude Include="IDirectDraw7.h" />
     <ClInclude Include="IDirectDrawClipper.h" />
+    <ClInclude Include="IDirectDrawEnumSurface.h" />
     <ClInclude Include="IDirectDrawPalette.h" />
     <ClInclude Include="IDirectDrawSurface.h" />
     <ClInclude Include="IDirectDrawSurface7.h" />
