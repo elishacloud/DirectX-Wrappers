@@ -19,6 +19,7 @@
 #include "dsound.h"
 
 std::ofstream Log::LOG("dsound.log");
+AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>(nullptr);
 
 DirectSoundCreateProc m_pDirectSoundCreate;
 DirectSoundEnumerateAProc m_pDirectSoundEnumerateA;
@@ -72,117 +73,107 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 	return TRUE;
 }
 
-void logf(char * fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-	auto size = vsnprintf(nullptr, 0, fmt, ap);
-	std::string output(size + 1, '\0');
-	vsprintf_s(&output[0], size + 1, fmt, ap);
-	Log() << output.c_str();
-	va_end(ap);
-}
-
 HRESULT WINAPI DirectSoundCreate(LPCGUID pcGuidDevice, LPDIRECTSOUND *ppDS, LPUNKNOWN pUnkOuter)
 {
-	m_IDirectSound8* pDSX = new m_IDirectSound8;
-	HRESULT hr = m_pDirectSoundCreate(pcGuidDevice, (LPDIRECTSOUND*)&(pDSX->m_lpDirectSound8) /* ppDS8 */, pUnkOuter);
-	Log() << __FUNCTION__ << " " << hr;
+	HRESULT hr = m_pDirectSoundCreate(pcGuidDevice, ppDS, pUnkOuter);
+
 	if (SUCCEEDED(hr))
 	{
-		delete pDSX;
-		return hr;
+		*ppDS = ProxyAddressLookupTable.FindAddress<m_IDirectSound8>(*ppDS);
 	}
-	*ppDS = (LPDIRECTSOUND)pDSX;
+
 	return hr;
 }
 
 HRESULT WINAPI DirectSoundEnumerateA(LPDSENUMCALLBACKA pDSEnumCallback, LPVOID pContext)
 {
-	HRESULT hr = m_pDirectSoundEnumerateA(pDSEnumCallback, pContext);
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDirectSoundEnumerateA(pDSEnumCallback, pContext);
 }
 
 HRESULT WINAPI DirectSoundEnumerateW(LPDSENUMCALLBACKW pDSEnumCallback, LPVOID pContext)
 {
-	HRESULT hr = m_pDirectSoundEnumerateW(pDSEnumCallback, pContext);
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDirectSoundEnumerateW(pDSEnumCallback, pContext);
 }
 
 HRESULT WINAPI DllCanUnloadNow()
 {
-	HRESULT hr = m_pDllCanUnloadNow();
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDllCanUnloadNow();
 }
 
 HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID FAR* ppv)
 {
 	HRESULT hr = m_pDllGetClassObject(rclsid, riid, ppv);
-	Log() << __FUNCTION__ << " " << hr;
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppv);
+	}
+
 	return hr;
 }
 
 HRESULT WINAPI DirectSoundCaptureCreate(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTURE *ppDSC, LPUNKNOWN pUnkOuter)
 {
 	HRESULT hr = m_pDirectSoundCaptureCreate(pcGuidDevice, ppDSC, pUnkOuter);
-	Log() << __FUNCTION__ << " " << hr;
+
+	if (SUCCEEDED(hr))
+	{
+		*ppDSC = ProxyAddressLookupTable.FindAddress<m_IDirectSoundCapture8>(*ppDSC);
+	}
+
 	return hr;
 }
 
 HRESULT WINAPI DirectSoundCaptureEnumerateA(LPDSENUMCALLBACKA pDSEnumCallback, LPVOID pContext)
 {
-	HRESULT hr = m_pDirectSoundCaptureEnumerateA(pDSEnumCallback, pContext);
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDirectSoundCaptureEnumerateA(pDSEnumCallback, pContext);
 }
 
 HRESULT WINAPI DirectSoundCaptureEnumerateW(LPDSENUMCALLBACKW pDSEnumCallback, LPVOID pContext)
 {
-	HRESULT hr = m_pDirectSoundCaptureEnumerateW(pDSEnumCallback, pContext);
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDirectSoundCaptureEnumerateW(pDSEnumCallback, pContext);
 }
 
 HRESULT WINAPI GetDeviceID(LPCGUID pGuidSrc, LPGUID pGuidDest)
 {
-	HRESULT hr = m_pGetDeviceID(pGuidSrc, pGuidDest);
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pGetDeviceID(pGuidSrc, pGuidDest);
 }
 
-HRESULT WINAPI DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUID pcGuidRenderDevice,
-	LPCDSCBUFFERDESC pcDSCBufferDesc, LPCDSBUFFERDESC pcDSBufferDesc, HWND hWnd,
-	DWORD dwLevel, LPDIRECTSOUNDFULLDUPLEX* ppDSFD, LPDIRECTSOUNDCAPTUREBUFFER8 *ppDSCBuffer8,
-	LPDIRECTSOUNDBUFFER8 *ppDSBuffer8, LPUNKNOWN pUnkOuter)
+HRESULT WINAPI DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUID pcGuidRenderDevice, LPCDSCBUFFERDESC pcDSCBufferDesc, LPCDSBUFFERDESC pcDSBufferDesc, HWND hWnd,
+	DWORD dwLevel, LPDIRECTSOUNDFULLDUPLEX* ppDSFD, LPDIRECTSOUNDCAPTUREBUFFER8 *ppDSCBuffer8, LPDIRECTSOUNDBUFFER8 *ppDSBuffer8, LPUNKNOWN pUnkOuter)
 {
-	HRESULT hr = m_pDirectSoundFullDuplexCreate(pcGuidCaptureDevice, pcGuidRenderDevice,
-		pcDSCBufferDesc, pcDSBufferDesc, hWnd,
-		dwLevel, ppDSFD, ppDSCBuffer8,
-		ppDSBuffer8, pUnkOuter);
-	Log() << __FUNCTION__ << " " << hr;
+	HRESULT hr = m_pDirectSoundFullDuplexCreate(pcGuidCaptureDevice, pcGuidRenderDevice, pcDSCBufferDesc, pcDSBufferDesc, hWnd, dwLevel, ppDSFD, ppDSCBuffer8, ppDSBuffer8, pUnkOuter);
+
+	if (SUCCEEDED(hr))
+	{
+		*ppDSFD = ProxyAddressLookupTable.FindAddress<m_IDirectSoundFullDuplex8>(*ppDSFD);
+		*ppDSCBuffer8 = ProxyAddressLookupTable.FindAddress<m_IDirectSoundCaptureBuffer8>(*ppDSCBuffer8);
+		*ppDSBuffer8 = ProxyAddressLookupTable.FindAddress<m_IDirectSoundBuffer8>(*ppDSBuffer8);
+	}
+
 	return hr;
 }
 
 HRESULT WINAPI DirectSoundCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUND8 *ppDS8, LPUNKNOWN pUnkOuter)
 {
-	m_IDirectSound8* pDSX = new m_IDirectSound8;
-	HRESULT hr = m_pDirectSoundCreate8(pcGuidDevice, &(pDSX->m_lpDirectSound8) /* ppDS8 */, pUnkOuter);
-	Log() << __FUNCTION__ << " " << hr;
+	HRESULT hr = m_pDirectSoundCreate8(pcGuidDevice, ppDS8, pUnkOuter);
+
 	if (SUCCEEDED(hr))
 	{
-		delete pDSX;
-		return hr;
+		*ppDS8 = ProxyAddressLookupTable.FindAddress<m_IDirectSound8>(*ppDS8);
 	}
-	*ppDS8 = (LPDIRECTSOUND8)pDSX;
+
 	return hr;
 }
 
 HRESULT WINAPI DirectSoundCaptureCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTURE8 *ppDSC8, LPUNKNOWN pUnkOuter)
 {
 	HRESULT hr = m_pDirectSoundCaptureCreate8(pcGuidDevice, ppDSC8, pUnkOuter);
-	Log() << __FUNCTION__ << " " << hr;
+
+	if (SUCCEEDED(hr))
+	{
+		*ppDSC8 = ProxyAddressLookupTable.FindAddress<m_IDirectSoundCapture8>(*ppDSC8);
+	}
+
 	return hr;
 }

@@ -1,14 +1,25 @@
 #pragma once
 
-class m_IDirectSoundBuffer8 : public IDirectSoundBuffer8
+class m_IDirectSoundBuffer8 : public IDirectSoundBuffer8, public AddressLookupTableObject
 {
+private:
+	LPDIRECTSOUNDBUFFER8 ProxyInterface;
+
 public:
+	m_IDirectSoundBuffer8(LPDIRECTSOUNDBUFFER8 pSound8, void *temp) : ProxyInterface(pSound8)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectSoundBuffer8() {}
+
+	LPDIRECTSOUNDBUFFER8 GetProxyInterface() { return ProxyInterface; }
+
 	// IUnknown methods
 	STDMETHOD(QueryInterface)(THIS_ _In_ REFIID, _Outptr_ LPVOID*);
 	STDMETHOD_(ULONG, AddRef)(THIS);
 	STDMETHOD_(ULONG, Release)(THIS);
 
-	// IDirectSoundBuffer methods
+	// IDirectSoundBuffer8 methods
 	STDMETHOD(GetCaps)(THIS_ _Out_ LPDSBCAPS pDSBufferCaps);
 	STDMETHOD(GetCurrentPosition)(THIS_ _Out_opt_ LPDWORD pdwCurrentPlayCursor, _Out_opt_ LPDWORD pdwCurrentWriteCursor);
 	STDMETHOD(GetFormat)(THIS_ _Out_writes_bytes_opt_(dwSizeAllocated) LPWAVEFORMATEX pwfxFormat, DWORD dwSizeAllocated, _Out_opt_ LPDWORD pdwSizeWritten);
@@ -35,21 +46,4 @@ public:
 	STDMETHOD(SetFX)(THIS_ DWORD dwEffectsCount, _In_reads_opt_(dwEffectsCount) LPDSEFFECTDESC pDSFXDesc, _Out_writes_opt_(dwEffectsCount) LPDWORD pdwResultCodes);
 	STDMETHOD(AcquireResources)(THIS_ DWORD dwFlags, DWORD dwEffectsCount, _Out_writes_(dwEffectsCount) LPDWORD pdwResultCodes);
 	STDMETHOD(GetObjectInPath)(THIS_ _In_ REFGUID rguidObject, DWORD dwIndex, _In_ REFGUID rguidInterface, _Outptr_ LPVOID *ppObject);
-
-	bool GetPrimaryBuffer()
-	{
-		return m_bIsPrimary;
-	};
-	void SetPrimaryBuffer(bool bIsPrimary)
-	{
-		m_bIsPrimary = bIsPrimary;
-	};
-
-	LPDIRECTSOUNDBUFFER8 m_lpDirectSoundBuffer8 = nullptr;
-
-protected:
-	DWORD m_dwOldWriteCursorPos = 0;
-	BYTE m_nWriteCursorIdent = 0;
-
-	bool m_bIsPrimary = false;
 };

@@ -1,8 +1,19 @@
 #pragma once
 
-class m_IDirectSound3DListener8 : public IDirectSound3DListener8
+class m_IDirectSound3DListener8 : public IDirectSound3DListener8, public AddressLookupTableObject
 {
+private:
+	LPDIRECTSOUND3DLISTENER8 ProxyInterface;
+
 public:
+	m_IDirectSound3DListener8(LPDIRECTSOUND3DLISTENER8 pSound8, void *temp) : ProxyInterface(pSound8)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectSound3DListener8() {}
+
+	LPDIRECTSOUND3DLISTENER8 GetProxyInterface() { return ProxyInterface; }
+
 	// IUnknown methods
 	STDMETHOD(QueryInterface)(THIS_ _In_ REFIID, _Outptr_ LPVOID*);
 	STDMETHOD_(ULONG, AddRef)(THIS);
@@ -25,6 +36,4 @@ public:
 	STDMETHOD(SetRolloffFactor)(THIS_ D3DVALUE flRolloffFactor, DWORD dwApply);
 	STDMETHOD(SetVelocity)(THIS_ D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply);
 	STDMETHOD(CommitDeferredSettings)(THIS);
-
-	LPDIRECTSOUND3DLISTENER8 m_lpDirectSound3DListener8 = nullptr;
 };

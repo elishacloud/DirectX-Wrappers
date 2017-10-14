@@ -18,138 +18,124 @@
 
 #include "dsound.h"
 
-HRESULT m_IDirectSound3DBuffer8::QueryInterface(REFIID refIID, LPVOID * pVoid)
+HRESULT m_IDirectSound3DBuffer8::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
 
-	*pVoid = (LPVOID) nullptr;
-	HRESULT hRes;
-
-	if ((refIID == IID_IDirectSound3DBuffer) || (refIID == IID_IDirectSound3DBuffer8))
+	if (SUCCEEDED(hr))
 	{
-		LPVOID pTemp;
-		hRes = m_lpDirectSound3DBuffer8->QueryInterface(refIID, &pTemp);
-
-		if (hRes == S_OK)
-		{
-			m_lpDirectSound3DBuffer8 = (LPDIRECTSOUND3DBUFFER8)pTemp;
-			*pVoid = (LPVOID) this;
-		}
-
-		return hRes;
+		genericQueryInterface(riid, ppvObj);
 	}
 
-	// Unknown interface, let DX handle this...
-	hRes = m_lpDirectSound3DBuffer8->QueryInterface(refIID, pVoid);
-
-	return hRes;
+	return hr;
 }
 
 ULONG m_IDirectSound3DBuffer8::AddRef()
 {
-	ULONG nRefCnt = m_lpDirectSound3DBuffer8->AddRef();
-
-	return nRefCnt;
+	return ProxyInterface->AddRef();
 }
 
 ULONG m_IDirectSound3DBuffer8::Release()
 {
-	ULONG nRefCnt = m_lpDirectSound3DBuffer8->Release();
+	ULONG x = ProxyInterface->Release();
 
-	if (nRefCnt == 0)
+	if (x == 0)
 	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+
 		delete this;
-		return S_OK;
 	}
 
-	return nRefCnt;
+	return x;
 }
 
+// IDirectSound3DBuffer methods
 HRESULT m_IDirectSound3DBuffer8::GetAllParameters(LPDS3DBUFFER pDs3dBuffer)
 {
-	return m_lpDirectSound3DBuffer8->GetAllParameters(pDs3dBuffer);
+	return ProxyInterface->GetAllParameters(pDs3dBuffer);
 }
 
 HRESULT m_IDirectSound3DBuffer8::GetConeAngles(LPDWORD pdwInsideConeAngle, LPDWORD pdwOutsideConeAngle)
 {
-	return m_lpDirectSound3DBuffer8->GetConeAngles(pdwInsideConeAngle, pdwOutsideConeAngle);
+	return ProxyInterface->GetConeAngles(pdwInsideConeAngle, pdwOutsideConeAngle);
 }
 
 HRESULT m_IDirectSound3DBuffer8::GetConeOrientation(D3DVECTOR* pvOrientation)
 {
-	return m_lpDirectSound3DBuffer8->GetConeOrientation(pvOrientation);
+	return ProxyInterface->GetConeOrientation(pvOrientation);
 }
 
 HRESULT m_IDirectSound3DBuffer8::GetConeOutsideVolume(LPLONG plConeOutsideVolume)
 {
-	return m_lpDirectSound3DBuffer8->GetConeOutsideVolume(plConeOutsideVolume);
+	return ProxyInterface->GetConeOutsideVolume(plConeOutsideVolume);
 }
 
 HRESULT m_IDirectSound3DBuffer8::GetMaxDistance(D3DVALUE* pflMaxDistance)
 {
-	return m_lpDirectSound3DBuffer8->GetMaxDistance(pflMaxDistance);
+	return ProxyInterface->GetMaxDistance(pflMaxDistance);
 }
 
 HRESULT m_IDirectSound3DBuffer8::GetMinDistance(D3DVALUE* pflMinDistance)
 {
-	return m_lpDirectSound3DBuffer8->GetMinDistance(pflMinDistance);
+	return ProxyInterface->GetMinDistance(pflMinDistance);
 }
 
 HRESULT m_IDirectSound3DBuffer8::GetMode(LPDWORD pdwMode)
 {
-	return m_lpDirectSound3DBuffer8->GetMode(pdwMode);
+	return ProxyInterface->GetMode(pdwMode);
 }
 
 HRESULT m_IDirectSound3DBuffer8::GetPosition(D3DVECTOR* pvPosition)
 {
-	return m_lpDirectSound3DBuffer8->GetPosition(pvPosition);
+	return ProxyInterface->GetPosition(pvPosition);
 }
 
 HRESULT m_IDirectSound3DBuffer8::GetVelocity(D3DVECTOR* pvVelocity)
 {
-	return m_lpDirectSound3DBuffer8->GetVelocity(pvVelocity);
+	return ProxyInterface->GetVelocity(pvVelocity);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetAllParameters(LPCDS3DBUFFER pcDs3dBuffer, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetAllParameters(pcDs3dBuffer, dwApply);
+	return ProxyInterface->SetAllParameters(pcDs3dBuffer, dwApply);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetConeAngles(DWORD dwInsideConeAngle, DWORD dwOutsideConeAngle, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetConeAngles(dwInsideConeAngle, dwOutsideConeAngle, dwApply);
+	return ProxyInterface->SetConeAngles(dwInsideConeAngle, dwOutsideConeAngle, dwApply);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetConeOrientation(D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetConeOrientation(x, y, z, dwApply);
+	return ProxyInterface->SetConeOrientation(x, y, z, dwApply);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetConeOutsideVolume(LONG lConeOutsideVolume, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetConeOutsideVolume(lConeOutsideVolume, dwApply);
+	return ProxyInterface->SetConeOutsideVolume(lConeOutsideVolume, dwApply);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetMaxDistance(D3DVALUE flMaxDistance, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetMaxDistance(flMaxDistance, dwApply);
+	return ProxyInterface->SetMaxDistance(flMaxDistance, dwApply);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetMinDistance(D3DVALUE flMinDistance, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetMinDistance(flMinDistance, dwApply);
+	return ProxyInterface->SetMinDistance(flMinDistance, dwApply);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetMode(DWORD dwMode, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetMode(dwMode, dwApply);
+	return ProxyInterface->SetMode(dwMode, dwApply);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetPosition(D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetPosition(x, y, z, dwApply);
+	return ProxyInterface->SetPosition(x, y, z, dwApply);
 }
 
 HRESULT m_IDirectSound3DBuffer8::SetVelocity(D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply)
 {
-	return m_lpDirectSound3DBuffer8->SetVelocity(x, y, z, dwApply);
+	return ProxyInterface->SetVelocity(x, y, z, dwApply);
 }

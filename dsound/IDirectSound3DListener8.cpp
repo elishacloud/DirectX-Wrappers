@@ -18,123 +18,109 @@
 
 #include "dsound.h"
 
-HRESULT m_IDirectSound3DListener8::QueryInterface(REFIID refIID, LPVOID * pVoid)
+HRESULT m_IDirectSound3DListener8::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	*pVoid = (LPVOID) nullptr;
-	HRESULT hRes;
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
 
-	if ((refIID == IID_IDirectSound3DListener) || (refIID == IID_IDirectSound3DListener8))
+	if (SUCCEEDED(hr))
 	{
-		LPVOID pTemp;
-		hRes = m_lpDirectSound3DListener8->QueryInterface(refIID, &pTemp);
-
-		if (hRes == S_OK)
-		{
-			m_lpDirectSound3DListener8 = (LPDIRECTSOUND3DLISTENER8)pTemp;
-			*pVoid = (LPVOID) this;
-		}
-
-		return hRes;
+		genericQueryInterface(riid, ppvObj);
 	}
 
-	// Unknown interface, let DX handle this...
-	hRes = m_lpDirectSound3DListener8->QueryInterface(refIID, pVoid);
-
-	return hRes;
+	return hr;
 }
 
 ULONG m_IDirectSound3DListener8::AddRef()
 {
-	ULONG nRefCnt = m_lpDirectSound3DListener8->AddRef();
-
-	return nRefCnt;
+	return ProxyInterface->AddRef();
 }
 
 ULONG m_IDirectSound3DListener8::Release()
 {
-	ULONG nRefCnt = m_lpDirectSound3DListener8->Release();
+	ULONG x = ProxyInterface->Release();
 
-	if (nRefCnt == 0)
+	if (x == 0)
 	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+
 		delete this;
-		return S_OK;
 	}
 
-	return nRefCnt;
+	return x;
 }
 
 // IDirectSound3DListener methods
 HRESULT m_IDirectSound3DListener8::GetAllParameters(LPDS3DLISTENER pListener)
 {
-	return m_lpDirectSound3DListener8->GetAllParameters(pListener);
+	return ProxyInterface->GetAllParameters(pListener);
 }
 
 HRESULT m_IDirectSound3DListener8::GetDistanceFactor(D3DVALUE* pflDistanceFactor)
 {
-	return m_lpDirectSound3DListener8->GetDistanceFactor(pflDistanceFactor);
+	return ProxyInterface->GetDistanceFactor(pflDistanceFactor);
 }
 
 HRESULT m_IDirectSound3DListener8::GetDopplerFactor(D3DVALUE* pflDopplerFactor)
 {
-	return m_lpDirectSound3DListener8->GetDopplerFactor(pflDopplerFactor);
+	return ProxyInterface->GetDopplerFactor(pflDopplerFactor);
 }
 
 HRESULT m_IDirectSound3DListener8::GetOrientation(D3DVECTOR* pvOrientFront, D3DVECTOR* pvOrientTop)
 {
-	return m_lpDirectSound3DListener8->GetOrientation(pvOrientFront, pvOrientTop);
+	return ProxyInterface->GetOrientation(pvOrientFront, pvOrientTop);
 }
 
 HRESULT m_IDirectSound3DListener8::GetPosition(D3DVECTOR* pvPosition)
 {
-	return m_lpDirectSound3DListener8->GetPosition(pvPosition);
+	return ProxyInterface->GetPosition(pvPosition);
 }
 
 HRESULT m_IDirectSound3DListener8::GetRolloffFactor(D3DVALUE* pflRolloffFactor)
 {
-	return m_lpDirectSound3DListener8->GetRolloffFactor(pflRolloffFactor);
+	return ProxyInterface->GetRolloffFactor(pflRolloffFactor);
 }
 
 HRESULT m_IDirectSound3DListener8::GetVelocity(D3DVECTOR* pvVelocity)
 {
-	return m_lpDirectSound3DListener8->GetVelocity(pvVelocity);
+	return ProxyInterface->GetVelocity(pvVelocity);
 }
 
 HRESULT m_IDirectSound3DListener8::SetAllParameters(LPCDS3DLISTENER pcListener, DWORD dwApply)
 {
-	return m_lpDirectSound3DListener8->SetAllParameters(pcListener, dwApply);
+	return ProxyInterface->SetAllParameters(pcListener, dwApply);
 }
 
 HRESULT m_IDirectSound3DListener8::SetDistanceFactor(D3DVALUE flDistanceFactor, DWORD dwApply)
 {
-	return m_lpDirectSound3DListener8->SetDistanceFactor(flDistanceFactor, dwApply);
+	return ProxyInterface->SetDistanceFactor(flDistanceFactor, dwApply);
 }
 
 HRESULT m_IDirectSound3DListener8::SetDopplerFactor(D3DVALUE flDopplerFactor, DWORD dwApply)
 {
-	return m_lpDirectSound3DListener8->SetDopplerFactor(flDopplerFactor, dwApply);
+	return ProxyInterface->SetDopplerFactor(flDopplerFactor, dwApply);
 }
 
 HRESULT m_IDirectSound3DListener8::SetOrientation(D3DVALUE xFront, D3DVALUE yFront, D3DVALUE zFront, D3DVALUE xTop, D3DVALUE yTop, D3DVALUE zTop, DWORD dwApply)
 {
-	return m_lpDirectSound3DListener8->SetOrientation(xFront, yFront, zFront, xTop, yTop, zTop, dwApply);
+	return ProxyInterface->SetOrientation(xFront, yFront, zFront, xTop, yTop, zTop, dwApply);
 }
 
 HRESULT m_IDirectSound3DListener8::SetPosition(D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply)
 {
-	return m_lpDirectSound3DListener8->SetPosition(x, y, z, dwApply);
+	return ProxyInterface->SetPosition(x, y, z, dwApply);
 }
 
 HRESULT m_IDirectSound3DListener8::SetRolloffFactor(D3DVALUE flRolloffFactor, DWORD dwApply)
 {
-	return m_lpDirectSound3DListener8->SetRolloffFactor(flRolloffFactor, dwApply);
+	return ProxyInterface->SetRolloffFactor(flRolloffFactor, dwApply);
 }
 
 HRESULT m_IDirectSound3DListener8::SetVelocity(D3DVALUE x, D3DVALUE y, D3DVALUE z, DWORD dwApply)
 {
-	return m_lpDirectSound3DListener8->SetVelocity(x, y, z, dwApply);
+	return ProxyInterface->SetVelocity(x, y, z, dwApply);
 }
 
 HRESULT m_IDirectSound3DListener8::CommitDeferredSettings()
 {
-	return m_lpDirectSound3DListener8->CommitDeferredSettings();
+	return ProxyInterface->CommitDeferredSettings();
 }

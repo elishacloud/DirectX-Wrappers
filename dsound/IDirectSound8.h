@@ -1,8 +1,19 @@
 #pragma once
 
-class m_IDirectSound8 : public IDirectSound8
+class m_IDirectSound8 : public IDirectSound8, public AddressLookupTableObject
 {
+private:
+	LPDIRECTSOUND8 ProxyInterface;
+
 public:
+	m_IDirectSound8(LPDIRECTSOUND8 pSound8, void *temp) : ProxyInterface(pSound8)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectSound8() {}
+
+	LPDIRECTSOUND8 GetProxyInterface() { return ProxyInterface; }
+
 	// IUnknown methods
 	STDMETHOD(QueryInterface)(THIS_ _In_ REFIID, _Outptr_ LPVOID*);
 	STDMETHOD_(ULONG, AddRef)(THIS);
@@ -20,9 +31,4 @@ public:
 
 	// IDirectSound8 methods
 	STDMETHOD(VerifyCertification)(THIS_ _Out_ LPDWORD pdwCertified);
-
-	LPDIRECTSOUND8 m_lpDirectSound8 = nullptr;
-
-protected:
-	const char* m_cszClassName;
 };

@@ -81,22 +81,55 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="IDirectSound3DBuffer.cpp" />
-    <ClCompile Include="IDirectSound3DListener.cpp" />
-    <ClCompile Include="IDirectSoundBuffer.cpp" />
-    <ClCompile Include="IDirectSoundClassFactory.cpp" />
-    <ClCompile Include="IDirectSound.cpp" />
+    <ClCompile Include="IDirectSound3DBuffer8.cpp" />
+    <ClCompile Include="IDirectSound3DListener8.cpp" />
+    <ClCompile Include="IDirectSoundBuffer8.cpp" />
+    <ClCompile Include="IClassFactory.cpp" />
+    <ClCompile Include="IDirectSound8.cpp" />
+    <ClCompile Include="IDirectSoundCapture8.cpp" />
+    <ClCompile Include="IDirectSoundCaptureBuffer8.cpp" />
+    <ClCompile Include="IDirectSoundCaptureFXAec8.cpp" />
+    <ClCompile Include="IDirectSoundCaptureFXNoiseSuppress8.cpp" />
+    <ClCompile Include="IDirectSoundFullDuplex8.cpp" />
+    <ClCompile Include="IDirectSoundFXChorus8.cpp" />
+    <ClCompile Include="IDirectSoundFXCompressor8.cpp" />
+    <ClCompile Include="IDirectSoundFXDistortion8.cpp" />
+    <ClCompile Include="IDirectSoundFXEcho8.cpp" />
+    <ClCompile Include="IDirectSoundFXFlanger8.cpp" />
+    <ClCompile Include="IDirectSoundFXGargle8.cpp" />
+    <ClCompile Include="IDirectSoundFXI3DL2Reverb8.cpp" />
+    <ClCompile Include="IDirectSoundFXParamEq8.cpp" />
+    <ClCompile Include="IDirectSoundFXWavesReverb8.cpp" />
+    <ClCompile Include="IDirectSoundNotify8.cpp" />
+    <ClCompile Include="IKsPropertySet.cpp" />
+    <ClCompile Include="InterfaceQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dsound.def" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dsound.h" />
-    <ClInclude Include="IDirectSound3DBuffer.h" />
-    <ClInclude Include="IDirectSound3DListener.h" />
-    <ClInclude Include="IDirectSoundBuffer.h" />
-    <ClInclude Include="IDirectSoundClassFactory.h" />
-    <ClInclude Include="IDirectSound.h" />
+    <ClInclude Include="IDirectSound3DBuffer8.h" />
+    <ClInclude Include="IDirectSound3DListener8.h" />
+    <ClInclude Include="IDirectSoundBuffer8.h" />
+    <ClInclude Include="IClassFactory.h" />
+    <ClInclude Include="IDirectSound8.h" />
+    <ClInclude Include="IDirectSoundCapture8.h" />
+    <ClInclude Include="IDirectSoundCaptureBuffer8.h" />
+    <ClInclude Include="IDirectSoundCaptureFXAec8.h" />
+    <ClInclude Include="IDirectSoundCaptureFXNoiseSuppress8.h" />
+    <ClInclude Include="IDirectSoundFullDuplex8.h" />
+    <ClInclude Include="IDirectSoundFXChorus8.h" />
+    <ClInclude Include="IDirectSoundFXCompressor8.h" />
+    <ClInclude Include="IDirectSoundFXDistortion8.h" />
+    <ClInclude Include="IDirectSoundFXEcho8.h" />
+    <ClInclude Include="IDirectSoundFXFlanger8.h" />
+    <ClInclude Include="IDirectSoundFXGargle8.h" />
+    <ClInclude Include="IDirectSoundFXI3DL2Reverb8.h" />
+    <ClInclude Include="IDirectSoundFXParamEq8.h" />
+    <ClInclude Include="IDirectSoundFXWavesReverb8.h" />
+    <ClInclude Include="IDirectSoundNotify8.h" />
+    <ClInclude Include="IKsPropertySet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

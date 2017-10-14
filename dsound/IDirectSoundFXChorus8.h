@@ -1,0 +1,25 @@
+#pragma once
+
+class m_IDirectSoundFXChorus8 : public IDirectSoundFXChorus8, public AddressLookupTableObject
+{
+private:
+	LPDIRECTSOUNDFXCHORUS8 ProxyInterface;
+
+public:
+	m_IDirectSoundFXChorus8(LPDIRECTSOUNDFXCHORUS8 pSound8, void *temp) : ProxyInterface(pSound8)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectSoundFXChorus8() {}
+
+	LPDIRECTSOUNDFXCHORUS8 GetProxyInterface() { return ProxyInterface; }
+
+	// IUnknown methods
+	STDMETHOD(QueryInterface)(THIS_ _In_ REFIID, _Outptr_ LPVOID*);
+	STDMETHOD_(ULONG, AddRef)(THIS);
+	STDMETHOD_(ULONG, Release)(THIS);
+
+	// IDirectSoundFXChorus methods
+	STDMETHOD(SetAllParameters)(THIS_ _In_ LPCDSFXChorus pcDsFxChorus);
+	STDMETHOD(GetAllParameters)(THIS_ _Out_ LPDSFXChorus pDsFxChorus);
+};
