@@ -2,7 +2,6 @@
 
 #define INITGUID
 
-#include <fstream>
 #include <ddraw.h>
 #include <ddrawex.h>
 #include <d3d.h>
