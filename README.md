@@ -10,7 +10,7 @@ Currently this can wrap the following DLLs:
 - d3d8.dll (Complete)
 - d3d9.dll (Complete)
 - dinput.dll
-- dsound.dll
+- dsound.dll (Complete)
 
 However I plan to add these DLLs soon:
 - d2d1.dll
