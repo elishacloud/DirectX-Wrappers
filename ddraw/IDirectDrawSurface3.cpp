@@ -277,6 +277,18 @@ HRESULT m_IDirectDrawSurface3::UpdateOverlay(LPRECT a, LPDIRECTDRAWSURFACE3 b, L
 		b = static_cast<m_IDirectDrawSurface3 *>(b)->GetProxyInterface();
 	}
 
+	if (e)
+	{
+		if (e->lpDDSAlphaSrc)
+		{
+			e->lpDDSAlphaSrc = static_cast<m_IDirectDrawSurface *>(e->lpDDSAlphaSrc)->GetProxyInterface();
+		}
+		if (e->lpDDSAlphaDest)
+		{
+			e->lpDDSAlphaDest = static_cast<m_IDirectDrawSurface *>(e->lpDDSAlphaDest)->GetProxyInterface();
+		}
+	}
+
 	return ProxyInterface->UpdateOverlay(a, b, c, d, e);
 }
 

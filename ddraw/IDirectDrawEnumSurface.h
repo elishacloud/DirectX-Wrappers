@@ -1,11 +1,5 @@
 #pragma once
 
-#include <mutex>
-
-extern std::mutex mCallback;
-extern std::mutex mCallback2;
-extern std::mutex mCallback7;
-
 class m_IDirectDrawEnumSurface
 {
 private:
@@ -17,7 +11,7 @@ public:
 
 	static void SetCallback(LPDDENUMSURFACESCALLBACK);
 	static void ReleaseCallback();
-	static HRESULT EnumSurfaceCallback(LPDIRECTDRAWSURFACE, LPDDSURFACEDESC, LPVOID);
+	static HRESULT CALLBACK EnumSurfaceCallback(LPDIRECTDRAWSURFACE, LPDDSURFACEDESC, LPVOID);
 };
 
 class m_IDirectDrawEnumSurface2
@@ -31,7 +25,7 @@ public:
 
 	static void SetCallback(LPDDENUMSURFACESCALLBACK2);
 	static void ReleaseCallback();
-	static HRESULT EnumSurface2Callback(LPDIRECTDRAWSURFACE4, LPDDSURFACEDESC2, LPVOID);
+	static HRESULT CALLBACK EnumSurface2Callback(LPDIRECTDRAWSURFACE4, LPDDSURFACEDESC2, LPVOID);
 };
 
 class m_IDirectDrawEnumSurface7
@@ -45,5 +39,5 @@ public:
 
 	static void SetCallback(LPDDENUMSURFACESCALLBACK7);
 	static void ReleaseCallback();
-	static HRESULT EnumSurface7Callback(LPDIRECTDRAWSURFACE7, LPDDSURFACEDESC2, LPVOID);
+	static HRESULT CALLBACK EnumSurface7Callback(LPDIRECTDRAWSURFACE7, LPDDSURFACEDESC2, LPVOID);
 };

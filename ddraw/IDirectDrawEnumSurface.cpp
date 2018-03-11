@@ -16,27 +16,23 @@
 
 #include "ddraw.h"
 
-std::mutex mCallback;
-std::mutex mCallback2;
-std::mutex mCallback7;
-
 LPDDENUMSURFACESCALLBACK m_IDirectDrawEnumSurface::lpCallback;
 LPDDENUMSURFACESCALLBACK2 m_IDirectDrawEnumSurface2::lpCallback;
 LPDDENUMSURFACESCALLBACK7 m_IDirectDrawEnumSurface7::lpCallback;
 
 void m_IDirectDrawEnumSurface::SetCallback(LPDDENUMSURFACESCALLBACK a)
 {
-	mCallback.lock();
+	EnterCriticalSection(&critSec);
 	lpCallback = a;
 }
 
 void m_IDirectDrawEnumSurface::ReleaseCallback()
 {
 	lpCallback = nullptr;
-	mCallback.unlock();
+	LeaveCriticalSection(&critSec);
 }
 
-HRESULT m_IDirectDrawEnumSurface::EnumSurfaceCallback(LPDIRECTDRAWSURFACE a, LPDDSURFACEDESC b, LPVOID c)
+HRESULT CALLBACK m_IDirectDrawEnumSurface::EnumSurfaceCallback(LPDIRECTDRAWSURFACE a, LPDDSURFACEDESC b, LPVOID c)
 {
 	if (a)
 	{
@@ -48,17 +44,17 @@ HRESULT m_IDirectDrawEnumSurface::EnumSurfaceCallback(LPDIRECTDRAWSURFACE a, LPD
 
 void m_IDirectDrawEnumSurface2::SetCallback(LPDDENUMSURFACESCALLBACK2 a)
 {
-	mCallback2.lock();
+	EnterCriticalSection(&critSec);
 	lpCallback = a;
 }
 
 void m_IDirectDrawEnumSurface2::ReleaseCallback()
 {
 	lpCallback = nullptr;
-	mCallback2.unlock();
+	LeaveCriticalSection(&critSec);
 }
 
-HRESULT m_IDirectDrawEnumSurface2::EnumSurface2Callback(LPDIRECTDRAWSURFACE4 a, LPDDSURFACEDESC2 b, LPVOID c)
+HRESULT CALLBACK m_IDirectDrawEnumSurface2::EnumSurface2Callback(LPDIRECTDRAWSURFACE4 a, LPDDSURFACEDESC2 b, LPVOID c)
 {
 	if (a)
 	{
@@ -70,17 +66,17 @@ HRESULT m_IDirectDrawEnumSurface2::EnumSurface2Callback(LPDIRECTDRAWSURFACE4 a, 
 
 void m_IDirectDrawEnumSurface7::SetCallback(LPDDENUMSURFACESCALLBACK7 a)
 {
-	mCallback7.lock();
+	EnterCriticalSection(&critSec);
 	lpCallback = a;
 }
 
 void m_IDirectDrawEnumSurface7::ReleaseCallback()
 {
 	lpCallback = nullptr;
-	mCallback7.unlock();
+	LeaveCriticalSection(&critSec);
 }
 
-HRESULT m_IDirectDrawEnumSurface7::EnumSurface7Callback(LPDIRECTDRAWSURFACE7 a, LPDDSURFACEDESC2 b, LPVOID c)
+HRESULT CALLBACK m_IDirectDrawEnumSurface7::EnumSurface7Callback(LPDIRECTDRAWSURFACE7 a, LPDDSURFACEDESC2 b, LPVOID c)
 {
 	if (a)
 	{

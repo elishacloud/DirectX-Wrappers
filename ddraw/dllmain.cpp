@@ -18,6 +18,7 @@
 
 std::ofstream Log::LOG("ddraw.log");
 AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>(nullptr);
+CRITICAL_SECTION critSec;
 
 AcquireDDThreadLockProc m_pAcquireDDThreadLock;
 FARPROC m_pCompleteCreateSysmemSurface;

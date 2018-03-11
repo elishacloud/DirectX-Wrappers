@@ -6,7 +6,6 @@ Wraps the main DirectX and Direct3D DLLs.  It allows you to intercept calls to D
 
 Currently this can wrap the following DLLs:
 - ddraw.dll (Complete)
-- d3dim700.dll
 - d3d8.dll (Complete)
 - d3d9.dll (Complete)
 - dinput.dll
@@ -14,7 +13,6 @@ Currently this can wrap the following DLLs:
 
 However I plan to add these DLLs soon:
 - d2d1.dll
-- d3dim.dll
 - d3d10.dll
 - d3d10core.dll
 - d3d11.dll
