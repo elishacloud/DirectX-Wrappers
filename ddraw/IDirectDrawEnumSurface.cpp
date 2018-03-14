@@ -16,72 +16,38 @@
 
 #include "ddraw.h"
 
-LPDDENUMSURFACESCALLBACK m_IDirectDrawEnumSurface::lpCallback;
-LPDDENUMSURFACESCALLBACK2 m_IDirectDrawEnumSurface2::lpCallback;
-LPDDENUMSURFACESCALLBACK7 m_IDirectDrawEnumSurface7::lpCallback;
-
-void m_IDirectDrawEnumSurface::SetCallback(LPDDENUMSURFACESCALLBACK a)
-{
-	EnterCriticalSection(&critSec);
-	lpCallback = a;
-}
-
-void m_IDirectDrawEnumSurface::ReleaseCallback()
-{
-	lpCallback = nullptr;
-	LeaveCriticalSection(&critSec);
-}
-
 HRESULT CALLBACK m_IDirectDrawEnumSurface::EnumSurfaceCallback(LPDIRECTDRAWSURFACE a, LPDDSURFACEDESC b, LPVOID c)
 {
+	ENUMSURFACE *lpCallbackContext = (ENUMSURFACE*)c;
+
 	if (a)
 	{
 		a = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface>(a);
 	}
 
-	return lpCallback(a, b, c);
-}
-
-void m_IDirectDrawEnumSurface2::SetCallback(LPDDENUMSURFACESCALLBACK2 a)
-{
-	EnterCriticalSection(&critSec);
-	lpCallback = a;
-}
-
-void m_IDirectDrawEnumSurface2::ReleaseCallback()
-{
-	lpCallback = nullptr;
-	LeaveCriticalSection(&critSec);
+	return lpCallbackContext->lpCallback(a, b, lpCallbackContext->lpContext);
 }
 
 HRESULT CALLBACK m_IDirectDrawEnumSurface2::EnumSurface2Callback(LPDIRECTDRAWSURFACE4 a, LPDDSURFACEDESC2 b, LPVOID c)
 {
+	ENUMSURFACE2 *lpCallbackContext = (ENUMSURFACE2*)c;
+
 	if (a)
 	{
 		a = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface4>(a);
 	}
 
-	return lpCallback(a, b, c);
-}
-
-void m_IDirectDrawEnumSurface7::SetCallback(LPDDENUMSURFACESCALLBACK7 a)
-{
-	EnterCriticalSection(&critSec);
-	lpCallback = a;
-}
-
-void m_IDirectDrawEnumSurface7::ReleaseCallback()
-{
-	lpCallback = nullptr;
-	LeaveCriticalSection(&critSec);
+	return lpCallbackContext->lpCallback(a, b, lpCallbackContext->lpContext);
 }
 
 HRESULT CALLBACK m_IDirectDrawEnumSurface7::EnumSurface7Callback(LPDIRECTDRAWSURFACE7 a, LPDDSURFACEDESC2 b, LPVOID c)
 {
+	ENUMSURFACE7 *lpCallbackContext = (ENUMSURFACE7*)c;
+
 	if (a)
 	{
 		a = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(a);
 	}
 
-	return lpCallback(a, b, c);
+	return lpCallbackContext->lpCallback(a, b, lpCallbackContext->lpContext);
 }

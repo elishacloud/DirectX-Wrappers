@@ -25,7 +25,6 @@ typedef HRESULT(WINAPI *SetAppCompatDataProc)(DWORD, DWORD);
 
 void genericQueryInterface(REFIID riid, LPVOID * ppvObj);
 extern AddressLookupTable<void> ProxyAddressLookupTable;
-extern CRITICAL_SECTION critSec;
 
 #include "IDirect3D.h"
 #include "IDirect3D2.h"
