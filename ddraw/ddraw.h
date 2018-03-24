@@ -23,7 +23,7 @@ typedef HRESULT(WINAPI *GetSurfaceFromDCProc)(HDC hdc, LPDIRECTDRAWSURFACE7 *lpD
 typedef void(WINAPI *ReleaseDDThreadLockProc)();
 typedef HRESULT(WINAPI *SetAppCompatDataProc)(DWORD, DWORD);
 
-void genericQueryInterface(REFIID riid, LPVOID * ppvObj);
+void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj);
 extern AddressLookupTable<void> ProxyAddressLookupTable;
 
 #include "IDirect3D.h"

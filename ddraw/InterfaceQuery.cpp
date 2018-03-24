@@ -1,7 +1,12 @@
 #include "ddraw.h"
 
-void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
+void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
 {
+	REFIID riid = (CalledID == CLSID_DirectDraw) ? IID_IDirectDraw :
+		(CalledID == CLSID_DirectDraw7) ? IID_IDirectDraw7 :
+		(CalledID == CLSID_DirectDrawClipper) ? IID_IDirectDrawClipper :
+		CalledID;
+
 #define QUERYINTERFACE(x) \
 	if (riid == IID_ ## x) \
 		{ \
@@ -30,6 +35,7 @@ void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 	QUERYINTERFACE(IDirect3DViewport3);
 	QUERYINTERFACE(IDirectDraw);
 	QUERYINTERFACE(IDirectDraw2);
+	QUERYINTERFACE(IDirectDraw3);
 	QUERYINTERFACE(IDirectDraw4);
 	QUERYINTERFACE(IDirectDraw7);
 	QUERYINTERFACE(IDirectDrawClipper);
