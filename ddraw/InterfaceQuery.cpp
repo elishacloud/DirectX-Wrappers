@@ -5,6 +5,7 @@ void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
 	REFIID riid = (CalledID == CLSID_DirectDraw) ? IID_IDirectDraw :
 		(CalledID == CLSID_DirectDraw7) ? IID_IDirectDraw7 :
 		(CalledID == CLSID_DirectDrawClipper) ? IID_IDirectDrawClipper :
+		(CalledID == CLSID_DirectDrawFactory) ? IID_IDirectDrawFactory :
 		CalledID;
 
 #define QUERYINTERFACE(x) \

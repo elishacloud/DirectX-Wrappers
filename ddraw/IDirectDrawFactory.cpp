@@ -18,7 +18,7 @@
 
 HRESULT m_IDirectDrawFactory::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	if ((riid == IID_IDirectDrawFactory || riid == IID_IUnknown) && ppvObj)
+	if ((riid == IID_IDirectDrawFactory || riid == CLSID_DirectDrawFactory || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 
