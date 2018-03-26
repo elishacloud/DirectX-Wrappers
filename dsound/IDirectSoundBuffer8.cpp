@@ -20,6 +20,15 @@
 
 HRESULT m_IDirectSoundBuffer8::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
+	if ((riid == IID_IDirectSoundBuffer || riid == IID_IDirectSoundBuffer8 || riid == IID_IUnknown) && ppvObj)
+	{
+		AddRef();
+
+		*ppvObj = this;
+
+		return S_OK;
+	}
+
 	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
 
 	if (SUCCEEDED(hr))

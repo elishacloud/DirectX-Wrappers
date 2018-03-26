@@ -20,6 +20,15 @@
 
 HRESULT m_IKsPropertySet::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
+	if ((riid == IID_IKsPropertySet || riid == IID_IUnknown) && ppvObj)
+	{
+		AddRef();
+
+		*ppvObj = this;
+
+		return S_OK;
+	}
+
 	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
 
 	if (SUCCEEDED(hr))
