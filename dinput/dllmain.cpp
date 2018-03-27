@@ -12,13 +12,12 @@
 *   2. Altered source versions must  be plainly  marked as such, and  must not be  misrepresented  as
 *      being the original software.
 *   3. This notice may not be removed or altered from any source distribution.
-*
-* Code taken from code found here: https://github.com/JeremyAnsel/xwa_hooks/tree/master/DInputLogger
 */
 
 #include "dinput.h"
 
 std::ofstream Log::LOG("dinput.log");
+AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>(nullptr);
 
 DirectInputCreateAProc m_pDirectInputCreateA;
 DirectInputCreateExProc m_pDirectInputCreateEx;
@@ -60,78 +59,65 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	return true;
 }
 
-void logf(char * fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-	auto size = vsnprintf(nullptr, 0, fmt, ap);
-	std::string output(size + 1, '\0');
-	vsprintf_s(&output[0], size + 1, fmt, ap);
-	Log() << output.c_str();
-	va_end(ap);
-}
-
 HRESULT WINAPI DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTA* lplpDirectInput, LPUNKNOWN punkOuter)
 {
 	HRESULT hr = m_pDirectInputCreateA(hinst, dwVersion, lplpDirectInput, punkOuter);
+
 	if (SUCCEEDED(hr))
 	{
-		LPDIRECTINPUTA* temp = lplpDirectInput;
-		*lplpDirectInput = new m_DirectInputA(*temp);
-		delete temp;
+		*lplpDirectInput = ProxyAddressLookupTable.FindAddress<m_IDirectInputA>(*lplpDirectInput);
 	}
-	Log() << __FUNCTION__ << " " << (void*)dwVersion << "\t" << hr;
+
 	return hr;
 }
 
-HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID * ppvOut, LPUNKNOWN punkOuter)
+HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFIID riid, LPVOID * lplpDD, LPUNKNOWN punkOuter)
 {
-	HRESULT hr = m_pDirectInputCreateEx(hinst, dwVersion, riidltf, ppvOut, punkOuter);
-	Log() << __FUNCTION__ << " " << (void*)dwVersion << " " << "\t" << hr;
+	HRESULT hr = m_pDirectInputCreateEx(hinst, dwVersion, riid, lplpDD, punkOuter);
+
 	if (SUCCEEDED(hr))
 	{
-		//TODO: Add wrappers
+		genericQueryInterface(riid, lplpDD);
 	}
+
 	return hr;
 }
 
 HRESULT WINAPI DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTW* lplpDirectInput, LPUNKNOWN punkOuter)
 {
 	HRESULT hr = m_pDirectInputCreateW(hinst, dwVersion, lplpDirectInput, punkOuter);
+
 	if (SUCCEEDED(hr))
 	{
-		LPDIRECTINPUTW* pDIX = lplpDirectInput;
-		*lplpDirectInput = new m_DirectInputW(*pDIX);
-		delete pDIX;
+		*lplpDirectInput = ProxyAddressLookupTable.FindAddress<m_IDirectInputW>(*lplpDirectInput);
 	}
-	Log() << __FUNCTION__ << " " << (void*)dwVersion << "\t" << hr;
+
 	return hr;
 }
 
 HRESULT WINAPI DllCanUnloadNow()
 {
-	HRESULT hr = m_pDllCanUnloadNow();
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDllCanUnloadNow();
 }
 
 HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID FAR* ppv)
 {
 	HRESULT hr = m_pDllGetClassObject(rclsid, riid, ppv);
-	Log() << __FUNCTION__ << " " << hr;
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppv);
+	}
+
 	return hr;
 }
 
 HRESULT WINAPI DllRegisterServer()
 {
-	HRESULT hr = m_pDllRegisterServer();
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDllRegisterServer();
 }
 
 HRESULT WINAPI DllUnregisterServer()
 {
-	HRESULT hr = m_pDllUnregisterServer();
-	Log() << __FUNCTION__ << " " << hr;
-	return hr;
+	return m_pDllUnregisterServer();
 }

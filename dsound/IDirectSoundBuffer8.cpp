@@ -12,8 +12,6 @@
 *   2. Altered source versions must  be plainly  marked as such, and  must not be  misrepresented  as
 *      being the original software.
 *   3. This notice may not be removed or altered from any source distribution.
-*
-* Code taken from code found here: https://github.com/elishacloud/DirectSoundControl
 */
 
 #include "dsound.h"
@@ -41,9 +39,7 @@ HRESULT m_IDirectSoundBuffer8::QueryInterface(REFIID riid, LPVOID * ppvObj)
 
 ULONG m_IDirectSoundBuffer8::AddRef()
 {
-	ULONG nRefCnt = ProxyInterface->AddRef();
-
-	return nRefCnt;
+	return ProxyInterface->AddRef();
 }
 
 ULONG m_IDirectSoundBuffer8::Release()

@@ -1,12 +1,18 @@
 #pragma once
 
-class m_DirectInputW : public IDirectInputW
+class m_IDirectInputW : public IDirectInputW, public AddressLookupTableObject
 {
 private:
-	IDirectInputW* m_pDInput;
+	IDirectInputW *ProxyInterface;
 
 public:
-	m_DirectInputW(IDirectInputW* original) { m_pDInput = original; };
+	m_IDirectInputW(IDirectInputW *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectInputW() {}
+
+	IDirectInputW *GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);
@@ -19,8 +25,4 @@ public:
 	STDMETHOD(GetDeviceStatus)(THIS_ REFGUID);
 	STDMETHOD(RunControlPanel)(THIS_ HWND, DWORD);
 	STDMETHOD(Initialize)(THIS_ HINSTANCE, DWORD);
-	/*STDMETHOD(FindDevice)(THIS_ REFGUID, LPCWSTR, LPGUID);
-	STDMETHOD(CreateDeviceEx)(THIS_ REFGUID, REFIID, LPVOID *, LPUNKNOWN);
-	STDMETHOD(EnumDevicesBySemantics)(THIS_ LPCWSTR, LPDIACTIONFORMATW, LPDIENUMDEVICESBYSEMANTICSCBW, LPVOID, DWORD);
-	STDMETHOD(ConfigureDevices)(THIS_ LPDICONFIGUREDEVICESCALLBACK, LPDICONFIGUREDEVICESPARAMSW, DWORD, LPVOID);*/
 };

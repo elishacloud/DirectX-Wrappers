@@ -12,139 +12,121 @@
 *   2. Altered source versions must  be plainly  marked as such, and  must not be  misrepresented  as
 *      being the original software.
 *   3. This notice may not be removed or altered from any source distribution.
-*
-* Code taken from code found here: https://github.com/JeremyAnsel/xwa_hooks/tree/master/DInputLogger
 */
 
 #include "dinput.h"
 
-HRESULT m_DirectInputDeviceA::QueryInterface(REFIID riid, LPVOID* obp)
+HRESULT m_IDirectInputDeviceA::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	*obp = nullptr;
-	HRESULT hr = m_pDInputDevice->QueryInterface(riid, obp);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
+	if ((riid == IID_IDirectInputDeviceA || riid == IID_IUnknown) && ppvObj)
+	{
+		AddRef();
+
+		*ppvObj = this;
+
+		return S_OK;
+	}
+
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
 	return hr;
 }
 
-ULONG m_DirectInputDeviceA::AddRef()
+ULONG m_IDirectInputDeviceA::AddRef()
 {
-	ULONG count = m_pDInputDevice->AddRef();
-	Log() << this << " " << __FUNCTION__ << " " << count;
-	return count;
+	return ProxyInterface->AddRef();
 }
 
-ULONG m_DirectInputDeviceA::Release()
+ULONG m_IDirectInputDeviceA::Release()
 {
-	ULONG count = m_pDInputDevice->Release();
-	if (count == 0)
+	ULONG x = ProxyInterface->Release();
+
+	if (x == 0)
 	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+
 		delete this;
 	}
-	Log() << this << " " << __FUNCTION__ << " " << count;
-	return count;
+
+	return x;
 }
 
-HRESULT m_DirectInputDeviceA::GetCapabilities(LPDIDEVCAPS lpDIDevCaps)
+HRESULT m_IDirectInputDeviceA::GetCapabilities(LPDIDEVCAPS lpDIDevCaps)
 {
-	HRESULT hr = m_pDInputDevice->GetCapabilities(lpDIDevCaps);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->GetCapabilities(lpDIDevCaps);
 }
 
-HRESULT m_DirectInputDeviceA::EnumObjects(LPDIENUMDEVICEOBJECTSCALLBACKA lpCallback, LPVOID pvRef, DWORD dwFlags)
+HRESULT m_IDirectInputDeviceA::EnumObjects(LPDIENUMDEVICEOBJECTSCALLBACKA lpCallback, LPVOID pvRef, DWORD dwFlags)
 {
-	HRESULT hr = m_pDInputDevice->EnumObjects(lpCallback, pvRef, dwFlags);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->EnumObjects(lpCallback, pvRef, dwFlags);
 }
 
-HRESULT m_DirectInputDeviceA::GetProperty(REFGUID rguidProp, LPDIPROPHEADER pdiph)
+HRESULT m_IDirectInputDeviceA::GetProperty(REFGUID rguidProp, LPDIPROPHEADER pdiph)
 {
-	HRESULT hr = m_pDInputDevice->GetProperty(rguidProp, pdiph);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->GetProperty(rguidProp, pdiph);
 }
 
-HRESULT m_DirectInputDeviceA::SetProperty(REFGUID rguidProp, LPCDIPROPHEADER pdiph)
+HRESULT m_IDirectInputDeviceA::SetProperty(REFGUID rguidProp, LPCDIPROPHEADER pdiph)
 {
-	HRESULT hr = m_pDInputDevice->SetProperty(rguidProp, pdiph);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->SetProperty(rguidProp, pdiph);
 }
 
-HRESULT m_DirectInputDeviceA::Acquire()
+HRESULT m_IDirectInputDeviceA::Acquire()
 {
-	HRESULT hr = m_pDInputDevice->Acquire();
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->Acquire();
 }
 
-HRESULT m_DirectInputDeviceA::Unacquire()
+HRESULT m_IDirectInputDeviceA::Unacquire()
 {
-	HRESULT hr = m_pDInputDevice->Unacquire();
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->Unacquire();
 }
 
-HRESULT m_DirectInputDeviceA::GetDeviceState(DWORD cbData, LPVOID lpvData)
+HRESULT m_IDirectInputDeviceA::GetDeviceState(DWORD cbData, LPVOID lpvData)
 {
-	HRESULT hr = m_pDInputDevice->GetDeviceState(cbData, lpvData);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->GetDeviceState(cbData, lpvData);
 }
 
-HRESULT m_DirectInputDeviceA::GetDeviceData(DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags)
+HRESULT m_IDirectInputDeviceA::GetDeviceData(DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags)
 {
-	HRESULT hr = m_pDInputDevice->GetDeviceData(cbObjectData, rgdod, pdwInOut, dwFlags);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->GetDeviceData(cbObjectData, rgdod, pdwInOut, dwFlags);
 }
 
-HRESULT m_DirectInputDeviceA::SetDataFormat(LPCDIDATAFORMAT lpdf)
+HRESULT m_IDirectInputDeviceA::SetDataFormat(LPCDIDATAFORMAT lpdf)
 {
-	HRESULT hr = m_pDInputDevice->SetDataFormat(lpdf);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->SetDataFormat(lpdf);
 }
 
-HRESULT m_DirectInputDeviceA::SetEventNotification(HANDLE hEvent)
+HRESULT m_IDirectInputDeviceA::SetEventNotification(HANDLE hEvent)
 {
-	HRESULT hr = m_pDInputDevice->SetEventNotification(hEvent);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->SetEventNotification(hEvent);
 }
 
-HRESULT m_DirectInputDeviceA::SetCooperativeLevel(HWND hwnd, DWORD dwFlags)
+HRESULT m_IDirectInputDeviceA::SetCooperativeLevel(HWND hwnd, DWORD dwFlags)
 {
-	HRESULT hr = m_pDInputDevice->SetCooperativeLevel(hwnd, dwFlags);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->SetCooperativeLevel(hwnd, dwFlags);
 }
 
-HRESULT m_DirectInputDeviceA::GetObjectInfo(LPDIDEVICEOBJECTINSTANCEA pdidoi, DWORD dwObj, DWORD dwHow)
+HRESULT m_IDirectInputDeviceA::GetObjectInfo(LPDIDEVICEOBJECTINSTANCEA pdidoi, DWORD dwObj, DWORD dwHow)
 {
-	HRESULT hr = m_pDInputDevice->GetObjectInfo(pdidoi, dwObj, dwHow);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->GetObjectInfo(pdidoi, dwObj, dwHow);
 }
 
-HRESULT m_DirectInputDeviceA::GetDeviceInfo(LPDIDEVICEINSTANCEA pdidi)
+HRESULT m_IDirectInputDeviceA::GetDeviceInfo(LPDIDEVICEINSTANCEA pdidi)
 {
-	HRESULT hr = m_pDInputDevice->GetDeviceInfo(pdidi);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->GetDeviceInfo(pdidi);
 }
 
-HRESULT m_DirectInputDeviceA::RunControlPanel(HWND hwndOwner, DWORD dwFlags)
+HRESULT m_IDirectInputDeviceA::RunControlPanel(HWND hwndOwner, DWORD dwFlags)
 {
-	HRESULT hr = m_pDInputDevice->RunControlPanel(hwndOwner, dwFlags);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->RunControlPanel(hwndOwner, dwFlags);
 }
 
-HRESULT m_DirectInputDeviceA::Initialize(HINSTANCE hinst, DWORD dwVersion, REFGUID rguid)
+HRESULT m_IDirectInputDeviceA::Initialize(HINSTANCE hinst, DWORD dwVersion, REFGUID rguid)
 {
-	HRESULT hr = m_pDInputDevice->Initialize(hinst, dwVersion, rguid);
-	Log() << this << " " << __FUNCTION__ << "\t" << hr;
-	return hr;
+	return ProxyInterface->Initialize(hinst, dwVersion, rguid);
 }

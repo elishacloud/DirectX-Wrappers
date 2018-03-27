@@ -1,12 +1,18 @@
 #pragma once
 
-class m_DirectInputDeviceW : public IDirectInputDeviceW
+class m_IDirectInputDeviceW : public IDirectInputDeviceW, public AddressLookupTableObject
 {
 private:
-	IDirectInputDeviceW* m_pDInputDevice;
+	IDirectInputDeviceW *ProxyInterface;
 
 public:
-	m_DirectInputDeviceW(IDirectInputDeviceW* original) { m_pDInputDevice = original; };
+	m_IDirectInputDeviceW(IDirectInputDeviceW *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectInputDeviceW() {}
+
+	IDirectInputDeviceW *GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);
@@ -29,18 +35,4 @@ public:
 	STDMETHOD(GetDeviceInfo)(THIS_ LPDIDEVICEINSTANCEW);
 	STDMETHOD(RunControlPanel)(THIS_ HWND, DWORD);
 	STDMETHOD(Initialize)(THIS_ HINSTANCE, DWORD, REFGUID);
-	/*STDMETHOD(CreateEffect)(THIS_ REFGUID, LPCDIEFFECT, LPDIRECTINPUTEFFECT *, LPUNKNOWN);
-	STDMETHOD(EnumEffects)(THIS_ LPDIENUMEFFECTSCALLBACKW, LPVOID, DWORD);
-	STDMETHOD(GetEffectInfo)(THIS_ LPDIEFFECTINFOW, REFGUID);
-	STDMETHOD(GetForceFeedbackState)(THIS_ LPDWORD);
-	STDMETHOD(SendForceFeedbackCommand)(THIS_ DWORD);
-	STDMETHOD(EnumCreatedEffectObjects)(THIS_ LPDIENUMCREATEDEFFECTOBJECTSCALLBACK, LPVOID, DWORD);
-	STDMETHOD(Escape)(THIS_ LPDIEFFESCAPE);
-	STDMETHOD(Poll)(THIS);
-	STDMETHOD(SendDeviceData)(THIS_ DWORD, LPCDIDEVICEOBJECTDATA, LPDWORD, DWORD);
-	STDMETHOD(EnumEffectsInFile)(THIS_ LPCWSTR, LPDIENUMEFFECTSINFILECALLBACK, LPVOID, DWORD);
-	STDMETHOD(WriteEffectToFile)(THIS_ LPCWSTR, DWORD, LPDIFILEEFFECT, DWORD);
-	STDMETHOD(BuildActionMap)(THIS_ LPDIACTIONFORMATW, LPCWSTR, DWORD);
-	STDMETHOD(SetActionMap)(THIS_ LPDIACTIONFORMATW, LPCWSTR, DWORD);
-	STDMETHOD(GetImageInfo)(THIS_ LPDIDEVICEIMAGEINFOHEADERW);*/
 };

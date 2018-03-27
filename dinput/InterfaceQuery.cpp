@@ -14,50 +14,18 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "dsound.h"
+#include "dinput.h"
 
-HRESULT m_IDirectSoundNotify8::QueryInterface(REFIID riid, LPVOID * ppvObj)
+void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirectSoundNotify || riid == IID_IDirectSoundNotify8 || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
+#define QUERYINTERFACE(x) \
+	if (riid == IID_ ## x) \
+		{ \
+			*ppvObj = ProxyAddressLookupTable.FindAddress<m_ ## x>(*ppvObj); \
+		}
 
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
-}
-
-ULONG m_IDirectSoundNotify8::AddRef()
-{
-	return ProxyInterface->AddRef();
-}
-
-ULONG m_IDirectSoundNotify8::Release()
-{
-	ULONG x = ProxyInterface->Release();
-
-	if (x == 0)
-	{
-		ProxyAddressLookupTable.DeleteAddress(this);
-
-		delete this;
-	}
-
-	return x;
-}
-
-// IDirectSoundNotify methods
-HRESULT m_IDirectSoundNotify8::SetNotificationPositions(DWORD dwPositionNotifies, LPCDSBPOSITIONNOTIFY pcPositionNotifies)
-{
-	return ProxyInterface->SetNotificationPositions(dwPositionNotifies, pcPositionNotifies);
+	QUERYINTERFACE(IDirectInputA);
+	QUERYINTERFACE(IDirectInputDeviceA);
+	QUERYINTERFACE(IDirectInputDeviceW);
+	QUERYINTERFACE(IDirectInputW);
 }

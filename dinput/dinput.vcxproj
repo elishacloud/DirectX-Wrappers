@@ -86,6 +86,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="IDirectInputA.cpp" />
     <ClCompile Include="IDirectInputDeviceA.cpp" />
+    <ClCompile Include="InterfaceQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dinput.def" />

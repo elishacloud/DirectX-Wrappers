@@ -1,12 +1,18 @@
 #pragma once
 
-class m_DirectInputDeviceA : public IDirectInputDeviceA
+class m_IDirectInputDeviceA : public IDirectInputDeviceA, public AddressLookupTableObject
 {
 private:
-	IDirectInputDeviceA* m_pDInputDevice;
+	IDirectInputDeviceA *ProxyInterface;
 
 public:
-	m_DirectInputDeviceA(IDirectInputDeviceA* original) { m_pDInputDevice = original; };
+	m_IDirectInputDeviceA(IDirectInputDeviceA *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	{
+		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+	}
+	~m_IDirectInputDeviceA() {}
+
+	IDirectInputDeviceA *GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);
