@@ -11,14 +11,7 @@ Wraps the following versions of DirectX:
 - DirectSound and DirectSound8 (dsound.dll)
 - DirectInput (dinput.dll)
 
-Currently this can wrap the following DLLs:
-- ddraw.dll (Complete)
-- d3d8.dll (Complete)
-- d3d9.dll (Complete)
-- dinput.dll
-- dsound.dll (Complete)
-
-However I plan to add these DLLs soon:
+I plan to add these DLLs soon:
 - d2d1.dll
 - d3d10.dll
 - d3d10core.dll
