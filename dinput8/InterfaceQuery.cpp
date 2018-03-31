@@ -14,12 +14,12 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "dinput.h"
+#include "dinput8.h"
 
 void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
 {
-	REFIID riid = (CalledID == CLSID_DirectInput) ? IID_IDirectInput :
-		(CalledID == CLSID_DirectInputDevice) ? IID_IDirectInputDevice :
+	REFIID riid = (CalledID == CLSID_DirectInput8) ? IID_IDirectInput8 :
+		(CalledID == CLSID_DirectInputDevice8) ? IID_IDirectInputDevice8 :
 		CalledID;
 
 #define QUERYINTERFACE(x) \
@@ -28,17 +28,9 @@ void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
 			*ppvObj = ProxyAddressLookupTable.FindAddress<m_ ## x>(*ppvObj); \
 		}
 
-	QUERYINTERFACE(IDirectInput2A);
-	QUERYINTERFACE(IDirectInput2W);
-	QUERYINTERFACE(IDirectInput7A);
-	QUERYINTERFACE(IDirectInput7W);
-	QUERYINTERFACE(IDirectInputA);
-	QUERYINTERFACE(IDirectInputDevice2A);
-	QUERYINTERFACE(IDirectInputDevice2W);
-	QUERYINTERFACE(IDirectInputDevice7A);
-	QUERYINTERFACE(IDirectInputDevice7W);
-	QUERYINTERFACE(IDirectInputDeviceA);
-	QUERYINTERFACE(IDirectInputDeviceW);
+	QUERYINTERFACE(IDirectInput8A);
+	QUERYINTERFACE(IDirectInput8W);
+	QUERYINTERFACE(IDirectInputDevice8A);
+	QUERYINTERFACE(IDirectInputDevice8W);
 	QUERYINTERFACE(IDirectInputEffect);
-	QUERYINTERFACE(IDirectInputW);
 }

@@ -112,9 +112,7 @@ HRESULT m_IDirectDrawSurface7::EnumAttachedSurfaces(LPVOID a, LPDDENUMSURFACESCA
 	CallbackContext.lpContext = a;
 	CallbackContext.lpCallback = b;
 
-	HRESULT hr = ProxyInterface->EnumAttachedSurfaces(&CallbackContext, m_IDirectDrawEnumSurface7::EnumSurface7Callback);
-
-	return hr;
+	return ProxyInterface->EnumAttachedSurfaces(&CallbackContext, m_IDirectDrawEnumSurface7::EnumSurface7Callback);
 }
 
 HRESULT m_IDirectDrawSurface7::EnumOverlayZOrders(DWORD a, LPVOID b, LPDDENUMSURFACESCALLBACK7 c)
@@ -123,9 +121,7 @@ HRESULT m_IDirectDrawSurface7::EnumOverlayZOrders(DWORD a, LPVOID b, LPDDENUMSUR
 	CallbackContext.lpContext = b;
 	CallbackContext.lpCallback = c;
 
-	HRESULT hr = ProxyInterface->EnumOverlayZOrders(a, &CallbackContext, m_IDirectDrawEnumSurface7::EnumSurface7Callback);
-
-	return hr;
+	return ProxyInterface->EnumOverlayZOrders(a, &CallbackContext, m_IDirectDrawEnumSurface7::EnumSurface7Callback);
 }
 
 HRESULT m_IDirectDrawSurface7::Flip(LPDIRECTDRAWSURFACE7 a, DWORD b)

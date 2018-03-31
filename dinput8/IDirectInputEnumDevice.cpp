@@ -14,31 +14,28 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "dinput.h"
+#include "dinput8.h"
 
-void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
+BOOL CALLBACK m_IDirectInputEnumDevice::EnumDeviceCallbackA(LPCDIDEVICEINSTANCEA lpddi, LPDIRECTINPUTDEVICE8A lpdid, DWORD dwFlags, DWORD dwRemaining, LPVOID pvRef)
 {
-	REFIID riid = (CalledID == CLSID_DirectInput) ? IID_IDirectInput :
-		(CalledID == CLSID_DirectInputDevice) ? IID_IDirectInputDevice :
-		CalledID;
+	ENUMDEVICEA *lpCallbackContext = (ENUMDEVICEA*)pvRef;
 
-#define QUERYINTERFACE(x) \
-	if (riid == IID_ ## x) \
-		{ \
-			*ppvObj = ProxyAddressLookupTable.FindAddress<m_ ## x>(*ppvObj); \
-		}
+	if (lpdid)
+	{
+		lpdid = ProxyAddressLookupTable.FindAddress<m_IDirectInputDevice8A>(lpdid);
+	}
 
-	QUERYINTERFACE(IDirectInput2A);
-	QUERYINTERFACE(IDirectInput2W);
-	QUERYINTERFACE(IDirectInput7A);
-	QUERYINTERFACE(IDirectInput7W);
-	QUERYINTERFACE(IDirectInputA);
-	QUERYINTERFACE(IDirectInputDevice2A);
-	QUERYINTERFACE(IDirectInputDevice2W);
-	QUERYINTERFACE(IDirectInputDevice7A);
-	QUERYINTERFACE(IDirectInputDevice7W);
-	QUERYINTERFACE(IDirectInputDeviceA);
-	QUERYINTERFACE(IDirectInputDeviceW);
-	QUERYINTERFACE(IDirectInputEffect);
-	QUERYINTERFACE(IDirectInputW);
+	return lpCallbackContext->lpCallback(lpddi, lpdid, dwFlags, dwRemaining, lpCallbackContext->pvRef);
+}
+
+BOOL CALLBACK m_IDirectInputEnumDevice::EnumDeviceCallbackW(LPCDIDEVICEINSTANCEW lpddi, LPDIRECTINPUTDEVICE8W lpdid, DWORD dwFlags, DWORD dwRemaining, LPVOID pvRef)
+{
+	ENUMDEVICEW *lpCallbackContext = (ENUMDEVICEW*)pvRef;
+
+	if (lpdid)
+	{
+		lpdid = ProxyAddressLookupTable.FindAddress<m_IDirectInputDevice8W>(lpdid);
+	}
+
+	return lpCallbackContext->lpCallback(lpddi, lpdid, dwFlags, dwRemaining, lpCallbackContext->pvRef);
 }

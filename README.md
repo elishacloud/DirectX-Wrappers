@@ -10,6 +10,7 @@ Wraps the following versions of DirectX:
 - DirectX 9, Direct3D (d3d9.dll)
 - DirectSound and DirectSound8 (dsound.dll)
 - DirectInput (dinput.dll)
+- DirectInput8 (dinput8.dll)
 
 I plan to add these DLLs soon:
 - d2d1.dll
@@ -18,7 +19,6 @@ I plan to add these DLLs soon:
 - d3d11.dll
 - d3d12.dll
 - dxgi.dll
-- dinput8.dll
 
 Note: It currently only works with 32bit games, but I may add 64bit support later.
 
@@ -46,5 +46,7 @@ Code in this project is taken from:
 - [XWA hooks](https://github.com/JeremyAnsel/xwa_hooks/tree/master/DInputLogger)
 
 ### Development
+
+Development was done in C++ using Microsoft Visual Studio Community 2015.
 
 You will need the [DirectX 8.1 SDK](https://www.microsoft.com/en-us/download/details.aspx?id=13287) as well as the standalone [DirectX SDK](https://www.microsoft.com/en-us/download/details.aspx?id=6812) to compile this.

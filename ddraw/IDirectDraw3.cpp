@@ -125,9 +125,7 @@ HRESULT m_IDirectDraw3::EnumSurfaces(DWORD a, LPDDSURFACEDESC b, LPVOID c, LPDDE
 	CallbackContext.lpContext = c;
 	CallbackContext.lpCallback = d;
 
-	HRESULT hr = ProxyInterface->EnumSurfaces(a, b, &CallbackContext, m_IDirectDrawEnumSurface::EnumSurfaceCallback);
-
-	return hr;
+	return ProxyInterface->EnumSurfaces(a, b, &CallbackContext, m_IDirectDrawEnumSurface::EnumSurfaceCallback);
 }
 
 HRESULT m_IDirectDraw3::FlipToGDISurface()

@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0C32F7D5-4261-4E29-BBCB-93364B10A7BC}</ProjectGuid>
+    <ProjectGuid>{C68F48DD-0B73-4C69-9CEB-D8F3E1369D97}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>dinput</RootNamespace>
+    <RootNamespace>dinput8</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -58,7 +58,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>dinput.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>dinput8.def</ModuleDefinitionFile>
       <AdditionalDependencies>dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -76,47 +76,33 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>dinput.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>dinput8.def</ModuleDefinitionFile>
       <AdditionalDependencies>dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IDirectInput2A.cpp" />
-    <ClCompile Include="IDirectInput2W.cpp" />
-    <ClCompile Include="IDirectInput7A.cpp" />
-    <ClCompile Include="IDirectInput7W.cpp" />
-    <ClCompile Include="IDirectInputDevice2A.cpp" />
-    <ClCompile Include="IDirectInputDevice2W.cpp" />
-    <ClCompile Include="IDirectInputDevice7A.cpp" />
-    <ClCompile Include="IDirectInputDevice7W.cpp" />
-    <ClCompile Include="IDirectInputDeviceW.cpp" />
+    <ClCompile Include="IDirectInput8A.cpp" />
+    <ClCompile Include="IDirectInput8W.cpp" />
+    <ClCompile Include="IDirectInputDevice8A.cpp" />
+    <ClCompile Include="IDirectInputDevice8W.cpp" />
     <ClCompile Include="IDirectInputEffect.cpp" />
-    <ClCompile Include="IDirectInputEnumEffect.cpp" />
-    <ClCompile Include="IDirectInputW.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="IDirectInputA.cpp" />
-    <ClCompile Include="IDirectInputDeviceA.cpp" />
+    <ClCompile Include="IDirectInputEnumDevice.cpp" />
+    <ClCompile Include="IDirectInputEnumEffect.cpp" />
     <ClCompile Include="InterfaceQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dinput.def" />
+    <None Include="dinput8.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dinput.h" />
-    <ClInclude Include="IDirectInput2A.h" />
-    <ClInclude Include="IDirectInput2W.h" />
-    <ClInclude Include="IDirectInput7A.h" />
-    <ClInclude Include="IDirectInput7W.h" />
-    <ClInclude Include="IDirectInputA.h" />
-    <ClInclude Include="IDirectInputDevice2A.h" />
-    <ClInclude Include="IDirectInputDevice2W.h" />
-    <ClInclude Include="IDirectInputDevice7A.h" />
-    <ClInclude Include="IDirectInputDevice7W.h" />
-    <ClInclude Include="IDirectInputDeviceA.h" />
-    <ClInclude Include="IDirectInputDeviceW.h" />
+    <ClInclude Include="dinput8.h" />
+    <ClInclude Include="IDirectInput8A.h" />
+    <ClInclude Include="IDirectInput8W.h" />
+    <ClInclude Include="IDirectInputDevice8A.h" />
+    <ClInclude Include="IDirectInputDevice8W.h" />
     <ClInclude Include="IDirectInputEffect.h" />
+    <ClInclude Include="IDirectInputEnumDevice.h" />
     <ClInclude Include="IDirectInputEnumEffect.h" />
-    <ClInclude Include="IDirectInputW.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

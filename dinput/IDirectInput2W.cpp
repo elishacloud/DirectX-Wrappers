@@ -16,9 +16,9 @@
 
 #include "dinput.h"
 
-HRESULT m_IDirectInputA::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT m_IDirectInput2W::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirectInputA || riid == CLSID_DirectInput || riid == IID_IUnknown) && ppvObj)
+	if ((riid == IID_IDirectInput2W || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 
@@ -37,12 +37,12 @@ HRESULT m_IDirectInputA::QueryInterface(REFIID riid, LPVOID * ppvObj)
 	return hr;
 }
 
-ULONG m_IDirectInputA::AddRef()
+ULONG m_IDirectInput2W::AddRef()
 {
 	return ProxyInterface->AddRef();
 }
 
-ULONG m_IDirectInputA::Release()
+ULONG m_IDirectInput2W::Release()
 {
 	ULONG x = ProxyInterface->Release();
 
@@ -56,34 +56,39 @@ ULONG m_IDirectInputA::Release()
 	return x;
 }
 
-HRESULT m_IDirectInputA::CreateDevice(REFGUID rguid, LPDIRECTINPUTDEVICEA *lplpDirectInputDevice, LPUNKNOWN pUnkOuter)
+HRESULT m_IDirectInput2W::CreateDevice(REFGUID rguid, LPDIRECTINPUTDEVICEW *lplpDirectInputDevice, LPUNKNOWN pUnkOuter)
 {
 	HRESULT hr = ProxyInterface->CreateDevice(rguid, lplpDirectInputDevice, pUnkOuter);
 
 	if (SUCCEEDED(hr))
 	{
-		*lplpDirectInputDevice = ProxyAddressLookupTable.FindAddress<m_IDirectInputDeviceA>(*lplpDirectInputDevice);
+		*lplpDirectInputDevice = ProxyAddressLookupTable.FindAddress<m_IDirectInputDeviceW>(*lplpDirectInputDevice);
 	}
 
 	return hr;
 }
 
-HRESULT m_IDirectInputA::EnumDevices(DWORD dwDevType, LPDIENUMDEVICESCALLBACKA lpCallback, LPVOID pvRef, DWORD dwFlags)
+HRESULT m_IDirectInput2W::EnumDevices(DWORD dwDevType, LPDIENUMDEVICESCALLBACKW lpCallback, LPVOID pvRef, DWORD dwFlags)
 {
 	return ProxyInterface->EnumDevices(dwDevType, lpCallback, pvRef, dwFlags);
 }
 
-HRESULT m_IDirectInputA::GetDeviceStatus(REFGUID rguidInstance)
+HRESULT m_IDirectInput2W::GetDeviceStatus(REFGUID rguidInstance)
 {
 	return ProxyInterface->GetDeviceStatus(rguidInstance);
 }
 
-HRESULT m_IDirectInputA::RunControlPanel(HWND hwndOwner, DWORD dwFlags)
+HRESULT m_IDirectInput2W::RunControlPanel(HWND hwndOwner, DWORD dwFlags)
 {
 	return ProxyInterface->RunControlPanel(hwndOwner, dwFlags);
 }
 
-HRESULT m_IDirectInputA::Initialize(HINSTANCE hinst, DWORD dwVersion)
+HRESULT m_IDirectInput2W::Initialize(HINSTANCE hinst, DWORD dwVersion)
 {
 	return ProxyInterface->Initialize(hinst, dwVersion);
+}
+
+HRESULT m_IDirectInput2W::FindDevice(REFGUID rguidClass, LPCWSTR ptszName, LPGUID pguidInstance)
+{
+	return ProxyInterface->FindDevice(rguidClass, ptszName, pguidInstance);
 }

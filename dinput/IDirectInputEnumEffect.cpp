@@ -16,29 +16,14 @@
 
 #include "dinput.h"
 
-void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
+BOOL CALLBACK m_IDirectInputEnumEffect::EnumEffectCallback(LPDIRECTINPUTEFFECT a, LPVOID pvRef)
 {
-	REFIID riid = (CalledID == CLSID_DirectInput) ? IID_IDirectInput :
-		(CalledID == CLSID_DirectInputDevice) ? IID_IDirectInputDevice :
-		CalledID;
+	ENUMEFFECT *lpCallbackContext = (ENUMEFFECT*)pvRef;
 
-#define QUERYINTERFACE(x) \
-	if (riid == IID_ ## x) \
-		{ \
-			*ppvObj = ProxyAddressLookupTable.FindAddress<m_ ## x>(*ppvObj); \
-		}
+	if (a)
+	{
+		a = ProxyAddressLookupTable.FindAddress<m_IDirectInputEffect>(a);
+	}
 
-	QUERYINTERFACE(IDirectInput2A);
-	QUERYINTERFACE(IDirectInput2W);
-	QUERYINTERFACE(IDirectInput7A);
-	QUERYINTERFACE(IDirectInput7W);
-	QUERYINTERFACE(IDirectInputA);
-	QUERYINTERFACE(IDirectInputDevice2A);
-	QUERYINTERFACE(IDirectInputDevice2W);
-	QUERYINTERFACE(IDirectInputDevice7A);
-	QUERYINTERFACE(IDirectInputDevice7W);
-	QUERYINTERFACE(IDirectInputDeviceA);
-	QUERYINTERFACE(IDirectInputDeviceW);
-	QUERYINTERFACE(IDirectInputEffect);
-	QUERYINTERFACE(IDirectInputW);
+	return lpCallbackContext->lpCallback(a, lpCallbackContext->pvRef);
 }

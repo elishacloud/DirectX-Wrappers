@@ -16,9 +16,9 @@
 
 #include "dinput.h"
 
-HRESULT m_IDirectInputA::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT m_IDirectInputEffect::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirectInputA || riid == CLSID_DirectInput || riid == IID_IUnknown) && ppvObj)
+	if ((riid == IID_IDirectInputEffect || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 
@@ -37,12 +37,12 @@ HRESULT m_IDirectInputA::QueryInterface(REFIID riid, LPVOID * ppvObj)
 	return hr;
 }
 
-ULONG m_IDirectInputA::AddRef()
+ULONG m_IDirectInputEffect::AddRef()
 {
 	return ProxyInterface->AddRef();
 }
 
-ULONG m_IDirectInputA::Release()
+ULONG m_IDirectInputEffect::Release()
 {
 	ULONG x = ProxyInterface->Release();
 
@@ -56,34 +56,52 @@ ULONG m_IDirectInputA::Release()
 	return x;
 }
 
-HRESULT m_IDirectInputA::CreateDevice(REFGUID rguid, LPDIRECTINPUTDEVICEA *lplpDirectInputDevice, LPUNKNOWN pUnkOuter)
+HRESULT m_IDirectInputEffect::Initialize(HINSTANCE hinst, DWORD dwVersion, REFGUID rguid)
 {
-	HRESULT hr = ProxyInterface->CreateDevice(rguid, lplpDirectInputDevice, pUnkOuter);
-
-	if (SUCCEEDED(hr))
-	{
-		*lplpDirectInputDevice = ProxyAddressLookupTable.FindAddress<m_IDirectInputDeviceA>(*lplpDirectInputDevice);
-	}
-
-	return hr;
+	return ProxyInterface->Initialize(hinst, dwVersion, rguid);
 }
 
-HRESULT m_IDirectInputA::EnumDevices(DWORD dwDevType, LPDIENUMDEVICESCALLBACKA lpCallback, LPVOID pvRef, DWORD dwFlags)
+HRESULT m_IDirectInputEffect::GetEffectGuid(LPGUID pguid)
 {
-	return ProxyInterface->EnumDevices(dwDevType, lpCallback, pvRef, dwFlags);
+	return ProxyInterface->GetEffectGuid(pguid);
 }
 
-HRESULT m_IDirectInputA::GetDeviceStatus(REFGUID rguidInstance)
+HRESULT m_IDirectInputEffect::GetParameters(LPDIEFFECT peff, DWORD dwFlags)
 {
-	return ProxyInterface->GetDeviceStatus(rguidInstance);
+	return ProxyInterface->GetParameters(peff, dwFlags);
 }
 
-HRESULT m_IDirectInputA::RunControlPanel(HWND hwndOwner, DWORD dwFlags)
+HRESULT m_IDirectInputEffect::SetParameters(LPCDIEFFECT peff, DWORD dwFlags)
 {
-	return ProxyInterface->RunControlPanel(hwndOwner, dwFlags);
+	return ProxyInterface->SetParameters(peff, dwFlags);
 }
 
-HRESULT m_IDirectInputA::Initialize(HINSTANCE hinst, DWORD dwVersion)
+HRESULT m_IDirectInputEffect::Start(DWORD dwIterations, DWORD dwFlags)
 {
-	return ProxyInterface->Initialize(hinst, dwVersion);
+	return ProxyInterface->Start(dwIterations, dwFlags);
+}
+
+HRESULT m_IDirectInputEffect::Stop()
+{
+	return ProxyInterface->Stop();
+}
+
+HRESULT m_IDirectInputEffect::GetEffectStatus(LPDWORD pdwFlags)
+{
+	return ProxyInterface->GetEffectStatus(pdwFlags);
+}
+
+HRESULT m_IDirectInputEffect::Download()
+{
+	return ProxyInterface->Download();
+}
+
+HRESULT m_IDirectInputEffect::Unload()
+{
+	return ProxyInterface->Unload();
+}
+
+HRESULT m_IDirectInputEffect::Escape(LPDIEFFESCAPE pesc)
+{
+	return ProxyInterface->Escape(pesc);
 }

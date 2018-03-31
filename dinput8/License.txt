@@ -13,32 +13,3 @@
 *      being the original software.
 *   3. This notice may not be removed or altered from any source distribution.
 */
-
-#include "dinput.h"
-
-void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
-{
-	REFIID riid = (CalledID == CLSID_DirectInput) ? IID_IDirectInput :
-		(CalledID == CLSID_DirectInputDevice) ? IID_IDirectInputDevice :
-		CalledID;
-
-#define QUERYINTERFACE(x) \
-	if (riid == IID_ ## x) \
-		{ \
-			*ppvObj = ProxyAddressLookupTable.FindAddress<m_ ## x>(*ppvObj); \
-		}
-
-	QUERYINTERFACE(IDirectInput2A);
-	QUERYINTERFACE(IDirectInput2W);
-	QUERYINTERFACE(IDirectInput7A);
-	QUERYINTERFACE(IDirectInput7W);
-	QUERYINTERFACE(IDirectInputA);
-	QUERYINTERFACE(IDirectInputDevice2A);
-	QUERYINTERFACE(IDirectInputDevice2W);
-	QUERYINTERFACE(IDirectInputDevice7A);
-	QUERYINTERFACE(IDirectInputDevice7W);
-	QUERYINTERFACE(IDirectInputDeviceA);
-	QUERYINTERFACE(IDirectInputDeviceW);
-	QUERYINTERFACE(IDirectInputEffect);
-	QUERYINTERFACE(IDirectInputW);
-}
