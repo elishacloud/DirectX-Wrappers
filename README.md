@@ -48,5 +48,3 @@ Code in this project is taken from:
 ### Development
 
 Development was done in C++ using Microsoft Visual Studio Community 2015.
-
-You will need the [DirectX 8.1 SDK](https://www.microsoft.com/en-us/download/details.aspx?id=13287) as well as the standalone [DirectX SDK](https://www.microsoft.com/en-us/download/details.aspx?id=6812) to compile this.
