@@ -10,13 +10,10 @@ public:
 	explicit AddressLookupTable(D *pDevice) : pDevice(pDevice) {}
 	~AddressLookupTable()
 	{
-		while (g_map.size())
+		ConstructorFlag = true;
+		for (const auto& entry : g_map)
 		{
-			auto it = g_map.begin();
-
-			it->second->DeleteMe();
-
-			it = g_map.erase(it);
+			entry.second->DeleteMe();
 		}
 	}
 
@@ -50,19 +47,20 @@ public:
 	template <typename T>
 	void DeleteAddress(T *Wrapper)
 	{
-		if (Wrapper != nullptr)
+		if (Wrapper != nullptr && !ConstructorFlag)
 		{
 			auto it = std::find_if(g_map.begin(), g_map.end(),
 				[Wrapper](std::pair<void*, class AddressLookupTableObject*> Map) -> bool { return Map.second == Wrapper; });
 
 			if (it != std::end(g_map))
 			{
-					it = g_map.erase(it);
+				it = g_map.erase(it);
 			}
 		}
 	}
 
 private:
+	bool ConstructorFlag = false;
 	D *const pDevice;
 	std::unordered_map<void*, class AddressLookupTableObject*> g_map;
 };

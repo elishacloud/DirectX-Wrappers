@@ -48,8 +48,6 @@ ULONG m_IDirectDrawSurface4::Release()
 
 	if (x == 0)
 	{
-		ProxyAddressLookupTable.DeleteAddress(this);
-
 		delete this;
 	}
 
@@ -78,11 +76,66 @@ HRESULT m_IDirectDrawSurface4::Blt(LPRECT a, LPDIRECTDRAWSURFACE4 b, LPRECT c, D
 		b = static_cast<m_IDirectDrawSurface4 *>(b)->GetProxyInterface();
 	}
 
+	if (e)
+	{
+		if (e->dwSize > 21 * 8 && e->lpDDSAlphaDest)
+		{
+			e->lpDDSAlphaDest = static_cast<m_IDirectDrawSurface *>(e->lpDDSAlphaDest)->GetProxyInterface();
+		}
+		if (e->dwSize > 24 * 8 && e->lpDDSAlphaSrc)
+		{
+			e->lpDDSAlphaSrc = static_cast<m_IDirectDrawSurface *>(e->lpDDSAlphaSrc)->GetProxyInterface();
+		}
+		if (e->dwSize > 28 * 8 && e->lpDDSPattern)
+		{
+			e->lpDDSPattern = static_cast<m_IDirectDrawSurface *>(e->lpDDSPattern)->GetProxyInterface();
+		}
+		if (e->dwSize > 12 * 8 && e->lpDDSZBufferDest)
+		{
+			e->lpDDSZBufferDest = static_cast<m_IDirectDrawSurface *>(e->lpDDSZBufferDest)->GetProxyInterface();
+		}
+		if (e->dwSize > 15 * 8 && e->lpDDSZBufferSrc)
+		{
+			e->lpDDSZBufferSrc = static_cast<m_IDirectDrawSurface *>(e->lpDDSZBufferSrc)->GetProxyInterface();
+		}
+	}
+
 	return ProxyInterface->Blt(a, b, c, d, e);
 }
 
 HRESULT m_IDirectDrawSurface4::BltBatch(LPDDBLTBATCH a, DWORD b, DWORD c)
 {
+	if (a)
+	{
+		if (a->lpDDSSrc)
+		{
+			a->lpDDSSrc = static_cast<m_IDirectDrawSurface *>(a->lpDDSSrc)->GetProxyInterface();
+		}
+		if (a->lpDDBltFx)
+		{
+			if (a->lpDDBltFx->dwSize > 21 * 8 && a->lpDDBltFx->lpDDSAlphaDest)
+			{
+				a->lpDDBltFx->lpDDSAlphaDest = static_cast<m_IDirectDrawSurface *>(a->lpDDBltFx->lpDDSAlphaDest)->GetProxyInterface();
+			}
+			if (a->lpDDBltFx->dwSize > 24 * 8 && a->lpDDBltFx->lpDDSAlphaSrc)
+			{
+				a->lpDDBltFx->lpDDSAlphaSrc = static_cast<m_IDirectDrawSurface *>(a->lpDDBltFx->lpDDSAlphaSrc)->GetProxyInterface();
+			}
+			if (a->lpDDBltFx->dwSize > 28 * 8 && a->lpDDBltFx->lpDDSPattern)
+			{
+				a->lpDDBltFx->lpDDSPattern = static_cast<m_IDirectDrawSurface *>(a->lpDDBltFx->lpDDSPattern)->GetProxyInterface();
+			}
+			if (a->lpDDBltFx->dwSize > 12 * 8 && a->lpDDBltFx->lpDDSZBufferDest)
+			{
+				a->lpDDBltFx->lpDDSZBufferDest = static_cast<m_IDirectDrawSurface *>(a->lpDDBltFx->lpDDSZBufferDest)->GetProxyInterface();
+			}
+			if (a->lpDDBltFx->dwSize > 15 * 8 && a->lpDDBltFx->lpDDSZBufferSrc)
+			{
+				a->lpDDBltFx->lpDDSZBufferSrc = static_cast<m_IDirectDrawSurface *>(a->lpDDBltFx->lpDDSZBufferSrc)->GetProxyInterface();
+			}
+		}
+	}
+
 	return ProxyInterface->BltBatch(a, b, c);
 }
 
@@ -284,11 +337,11 @@ HRESULT m_IDirectDrawSurface4::UpdateOverlay(LPRECT a, LPDIRECTDRAWSURFACE4 b, L
 
 	if (e)
 	{
-		if (e->lpDDSAlphaSrc)
+		if (e->dwSize > 7 * 8 && e->lpDDSAlphaSrc)
 		{
 			e->lpDDSAlphaSrc = static_cast<m_IDirectDrawSurface *>(e->lpDDSAlphaSrc)->GetProxyInterface();
 		}
-		if (e->lpDDSAlphaDest)
+		if (e->dwSize > 10 * 8 && e->lpDDSAlphaDest)
 		{
 			e->lpDDSAlphaDest = static_cast<m_IDirectDrawSurface *>(e->lpDDSAlphaDest)->GetProxyInterface();
 		}

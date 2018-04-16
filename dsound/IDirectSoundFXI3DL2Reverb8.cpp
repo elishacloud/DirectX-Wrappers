@@ -48,8 +48,6 @@ ULONG m_IDirectSoundFXI3DL2Reverb8::Release()
 
 	if (x == 0)
 	{
-		ProxyAddressLookupTable.DeleteAddress(this);
-
 		delete this;
 	}
 

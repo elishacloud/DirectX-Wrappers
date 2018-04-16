@@ -10,7 +10,10 @@ public:
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}
-	~m_IClassFactory() {}
+	~m_IClassFactory()
+	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+	}
 
 	LPCLASSFACTORY GetProxyInterface() { return ProxyInterface; }
 

@@ -48,8 +48,6 @@ ULONG m_IDirectInput2A::Release()
 
 	if (x == 0)
 	{
-		ProxyAddressLookupTable.DeleteAddress(this);
-
 		delete this;
 	}
 

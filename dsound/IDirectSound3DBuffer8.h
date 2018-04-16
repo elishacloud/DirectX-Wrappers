@@ -10,7 +10,10 @@ public:
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}
-	~m_IDirectSound3DBuffer8() {}
+	~m_IDirectSound3DBuffer8()
+	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+	}
 
 	LPDIRECTSOUND3DBUFFER8 GetProxyInterface() { return ProxyInterface; }
 

@@ -10,7 +10,10 @@ public:
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}
-	~m_IDirectSoundCapture8() {}
+	~m_IDirectSoundCapture8()
+	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+	}
 
 	LPDIRECTSOUNDCAPTURE8 GetProxyInterface() { return ProxyInterface; }
 

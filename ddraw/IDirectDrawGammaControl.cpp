@@ -48,8 +48,6 @@ ULONG m_IDirectDrawGammaControl::Release()
 
 	if (x == 0)
 	{
-		ProxyAddressLookupTable.DeleteAddress(this);
-
 		delete this;
 	}
 

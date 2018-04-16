@@ -10,7 +10,10 @@ public:
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}
-	~m_IKsPropertySet() {}
+	~m_IKsPropertySet()
+	{
+		ProxyAddressLookupTable.DeleteAddress(this);
+	}
 
 	IKsPropertySet *GetProxyInterface() { return ProxyInterface; }
 
