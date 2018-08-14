@@ -16,13 +16,61 @@
 
 #include "ddraw.h"
 
-void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
+REFIID GetIID(REFIID CalledID)
 {
-	REFIID riid = (CalledID == CLSID_DirectDraw) ? IID_IDirectDraw :
+	return (CalledID == CLSID_DirectDraw) ? IID_IDirectDraw :
 		(CalledID == CLSID_DirectDraw7) ? IID_IDirectDraw7 :
 		(CalledID == CLSID_DirectDrawClipper) ? IID_IDirectDrawClipper :
 		(CalledID == CLSID_DirectDrawFactory) ? IID_IDirectDrawFactory :
 		CalledID;
+}
+
+DWORD GetIIDVersion(REFIID CalledID)
+{
+	REFIID riid = GetIID(CalledID);
+
+	return (riid == IID_IDirectDraw || riid == IID_IDirectDrawSurface || riid == IID_IDirect3D || riid == IID_IDirect3DDevice ||
+		riid == IID_IDirect3DMaterial || riid == IID_IDirect3DTexture || riid == IID_IDirect3DVertexBuffer || riid == IID_IDirect3DViewport) ? 1 :
+		(riid == IID_IDirectDraw2 || riid == IID_IDirectDrawSurface2 || riid == IID_IDirect3D2 || riid == IID_IDirect3DDevice2 ||
+			riid == IID_IDirect3DMaterial2 || riid == IID_IDirect3DTexture2 || riid == IID_IDirect3DViewport2) ? 2 :
+		(riid == IID_IDirectDraw3 || riid == IID_IDirectDrawSurface3 || riid == IID_IDirect3D3 || riid == IID_IDirect3DDevice3 ||
+			riid == IID_IDirect3DMaterial3 || riid == IID_IDirect3DViewport3) ? 3 :
+		(riid == IID_IDirectDraw4 || riid == IID_IDirectDrawSurface4) ? 4 :
+		(riid == IID_IDirectDraw7 || riid == IID_IDirectDrawSurface7 || riid == IID_IDirect3D7 || riid == IID_IDirect3DDevice7 ||
+			riid == IID_IDirect3DVertexBuffer7) ? 7 : 7;
+}
+
+REFIID ConvertREFIID(REFIID CalledID)
+{
+	return GetIID(CalledID);
+}
+
+HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID CalledID, LPVOID * ppvObj, REFIID WrapperID, LPVOID WrapperInterface)
+{
+	REFIID riid = GetIID(CalledID);
+
+	if ((riid == WrapperID || riid == IID_IUnknown) && ppvObj)
+	{
+		((IUnknown*)ProxyInterface)->AddRef();
+
+		*ppvObj = WrapperInterface;
+
+		return S_OK;
+	}
+
+	HRESULT hr = ((IUnknown*)ProxyInterface)->QueryInterface(ConvertREFIID(riid), ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
+	return hr;
+}
+
+void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
+{
+	REFIID riid = GetIID(CalledID);
 
 #define QUERYINTERFACE(x) \
 	if (riid == IID_ ## x) \

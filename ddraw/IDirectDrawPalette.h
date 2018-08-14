@@ -1,12 +1,13 @@
 #pragma once
 
-class m_IDirectDrawPalette : public IDirectDrawPalette, public AddressLookupTableObject
+class m_IDirectDrawPalette : public IDirectDrawPalette, public AddressLookupTableDdrawObject
 {
 private:
 	IDirectDrawPalette *ProxyInterface;
+	REFIID WrapperID = IID_IDirectDrawPalette;
 
 public:
-	m_IDirectDrawPalette(IDirectDrawPalette *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	m_IDirectDrawPalette(IDirectDrawPalette *aOriginal) : ProxyInterface(aOriginal)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}
@@ -15,7 +16,13 @@ public:
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}
 
+	UINT32 *rgbPalette = nullptr;				// Rgb translated palette
+	LPPALETTEENTRY rawPalette = nullptr;		// Raw palette data
+
+	DWORD GetDirectXVersion() { return 1; }
+	REFIID GetWrapperType() { return WrapperID; }
 	IDirectDrawPalette *GetProxyInterface() { return ProxyInterface; }
+	m_IDirectDrawPalette *GetWrapperInterface() { return this; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);

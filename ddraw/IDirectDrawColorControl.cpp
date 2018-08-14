@@ -1,5 +1,5 @@
 /**
-* Copyright (C) 2017 Elisha Riedlinger
+* Copyright (C) 2018 Elisha Riedlinger
 *
 * This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 * authors be held liable for any damages arising from the use of this software.
@@ -18,23 +18,7 @@
 
 HRESULT m_IDirectDrawColorControl::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	if ((riid == IID_IDirectDrawColorControl || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyQueryInterface(ProxyInterface, riid, ppvObj, WrapperID, this);
 }
 
 ULONG m_IDirectDrawColorControl::AddRef()
@@ -44,22 +28,22 @@ ULONG m_IDirectDrawColorControl::AddRef()
 
 ULONG m_IDirectDrawColorControl::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return x;
+	return ref;
 }
 
-HRESULT m_IDirectDrawColorControl::GetColorControls(LPDDCOLORCONTROL a)
+HRESULT m_IDirectDrawColorControl::GetColorControls(LPDDCOLORCONTROL lpColorControl)
 {
-	return ProxyInterface->GetColorControls(a);
+	return ProxyInterface->GetColorControls(lpColorControl);
 }
 
-HRESULT m_IDirectDrawColorControl::SetColorControls(LPDDCOLORCONTROL a)
+HRESULT m_IDirectDrawColorControl::SetColorControls(LPDDCOLORCONTROL lpColorControl)
 {
-	return ProxyInterface->SetColorControls(a);
+	return ProxyInterface->SetColorControls(lpColorControl);
 }

@@ -1,5 +1,5 @@
 /**
-* Copyright (C) 2017 Elisha Riedlinger
+* Copyright (C) 2018 Elisha Riedlinger
 *
 * This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 * authors be held liable for any damages arising from the use of this software.
@@ -18,23 +18,7 @@
 
 HRESULT m_IDirectDrawFactory::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	if ((riid == IID_IDirectDrawFactory || riid == CLSID_DirectDrawFactory || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyQueryInterface(ProxyInterface, riid, ppvObj, WrapperID, this);
 }
 
 ULONG m_IDirectDrawFactory::AddRef()
@@ -58,7 +42,7 @@ HRESULT m_IDirectDrawFactory::CreateDirectDraw(GUID * pGUID, HWND hWnd, DWORD dw
 {
 	HRESULT hr = ProxyInterface->CreateDirectDraw(pGUID, hWnd, dwCoopLevelFlags, dwReserved, pUnkOuter, ppDirectDraw);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && ppDirectDraw)
 	{
 		*ppDirectDraw = ProxyAddressLookupTable.FindAddress<m_IDirectDraw>(*ppDirectDraw);
 	}
@@ -66,7 +50,12 @@ HRESULT m_IDirectDrawFactory::CreateDirectDraw(GUID * pGUID, HWND hWnd, DWORD dw
 	return hr;
 }
 
-HRESULT m_IDirectDrawFactory::DirectDrawEnumerate(LPDDENUMCALLBACK lpCallback, LPVOID lpContext)
+HRESULT m_IDirectDrawFactory::DirectDrawEnumerateA(LPDDENUMCALLBACKA lpCallback, LPVOID lpContext)
 {
-	return ProxyInterface->DirectDrawEnumerate(lpCallback, lpContext);
+	return ProxyInterface->DirectDrawEnumerateA(lpCallback, lpContext);
+}
+
+HRESULT m_IDirectDrawFactory::DirectDrawEnumerateW(LPDDENUMCALLBACKW lpCallback, LPVOID lpContext)
+{
+	return ProxyInterface->DirectDrawEnumerateW(lpCallback, lpContext);
 }

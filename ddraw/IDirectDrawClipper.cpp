@@ -1,5 +1,5 @@
 /**
-* Copyright (C) 2017 Elisha Riedlinger
+* Copyright (C) 2018 Elisha Riedlinger
 *
 * This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 * authors be held liable for any damages arising from the use of this software.
@@ -12,29 +12,15 @@
 *   2. Altered source versions must  be plainly  marked as such, and  must not be  misrepresented  as
 *      being the original software.
 *   3. This notice may not be removed or altered from any source distribution.
+*
+* Code taken from: https://github.com/strangebytes/diablo-ddrawwrapper
 */
 
 #include "ddraw.h"
 
 HRESULT m_IDirectDrawClipper::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	if ((riid == IID_IDirectDrawClipper || riid == CLSID_DirectDrawClipper || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyQueryInterface(ProxyInterface, riid, ppvObj, WrapperID, this);
 }
 
 ULONG m_IDirectDrawClipper::AddRef()
@@ -44,47 +30,57 @@ ULONG m_IDirectDrawClipper::AddRef()
 
 ULONG m_IDirectDrawClipper::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return x;
+	return ref;
 }
 
-HRESULT m_IDirectDrawClipper::GetClipList(LPRECT a, LPRGNDATA b, LPDWORD c)
+HRESULT m_IDirectDrawClipper::GetClipList(LPRECT lpRect, LPRGNDATA lpClipList, LPDWORD lpdwSize)
 {
-	return ProxyInterface->GetClipList(a, b, c);
+	return ProxyInterface->GetClipList(lpRect, lpClipList, lpdwSize);
 }
 
-HRESULT m_IDirectDrawClipper::GetHWnd(HWND FAR * a)
+HRESULT m_IDirectDrawClipper::GetHWnd(HWND FAR * lphWnd)
 {
-	return ProxyInterface->GetHWnd(a);
-}
-
-HRESULT m_IDirectDrawClipper::Initialize(LPDIRECTDRAW a, DWORD b)
-{
-	if (a)
+	if (!lphWnd)
 	{
-		a = static_cast<m_IDirectDraw *>(a)->GetProxyInterface();
+		return DDERR_INVALIDPARAMS;
 	}
 
-	return ProxyInterface->Initialize(a, b);
+	return ProxyInterface->GetHWnd(lphWnd);
 }
 
-HRESULT m_IDirectDrawClipper::IsClipListChanged(BOOL FAR * a)
+HRESULT m_IDirectDrawClipper::Initialize(LPDIRECTDRAW lpDD, DWORD dwFlags)
 {
-	return ProxyInterface->IsClipListChanged(a);
+	if (lpDD)
+	{
+		lpDD = static_cast<m_IDirectDraw *>(lpDD)->GetProxyInterface();
+	}
+
+	return ProxyInterface->Initialize(lpDD, dwFlags);
 }
 
-HRESULT m_IDirectDrawClipper::SetClipList(LPRGNDATA a, DWORD b)
+HRESULT m_IDirectDrawClipper::IsClipListChanged(BOOL FAR * lpbChanged)
 {
-	return ProxyInterface->SetClipList(a, b);
+	if (!lpbChanged)
+	{
+		return DDERR_INVALIDPARAMS;
+	}
+
+	return ProxyInterface->IsClipListChanged(lpbChanged);
 }
 
-HRESULT m_IDirectDrawClipper::SetHWnd(DWORD a, HWND b)
+HRESULT m_IDirectDrawClipper::SetClipList(LPRGNDATA lpClipList, DWORD dwFlags)
 {
-	return ProxyInterface->SetHWnd(a, b);
+	return ProxyInterface->SetClipList(lpClipList, dwFlags);
+}
+
+HRESULT m_IDirectDrawClipper::SetHWnd(DWORD dwFlags, HWND hWnd)
+{
+	return ProxyInterface->SetHWnd(dwFlags, hWnd);
 }

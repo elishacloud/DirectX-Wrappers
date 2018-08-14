@@ -17,7 +17,8 @@
 #include "ddraw.h"
 
 std::ofstream Log::LOG("ddraw.log");
-AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>(nullptr);
+AddressLookupTableDdraw<void> ProxyAddressLookupTable = AddressLookupTableDdraw<void>();
+IDirectDraw7 *CurrentDDInterface = nullptr;
 
 AcquireDDThreadLockProc m_pAcquireDDThreadLock;
 FARPROC m_pCompleteCreateSysmemSurface;
@@ -26,7 +27,7 @@ FARPROC m_pDDGetAttachedSurfaceLcl;
 FARPROC m_pDDInternalLock;
 FARPROC m_pDDInternalUnlock;
 FARPROC m_pDSoundHelp;
-DDrawCreateProc m_pDDrawCreate;
+DirectDrawCreateProc m_pDirectDrawCreate;
 DirectDrawCreateClipperProc m_pDirectDrawCreateClipper;
 DDrawCreateExProc m_pDDrawCreateEx;
 DDrawEnumerateAProc m_pDDrawEnumerateA;
@@ -63,7 +64,7 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 		m_pDDInternalLock = GetProcAddress(ddrawdll, "DDInternalLock");
 		m_pDDInternalUnlock = GetProcAddress(ddrawdll, "DDInternalUnlock");
 		m_pDSoundHelp = GetProcAddress(ddrawdll, "DSoundHelp");
-		m_pDDrawCreate = (DDrawCreateProc)GetProcAddress(ddrawdll, "DirectDrawCreate");
+		m_pDirectDrawCreate = (DirectDrawCreateProc)GetProcAddress(ddrawdll, "DirectDrawCreate");
 		m_pDirectDrawCreateClipper = (DirectDrawCreateClipperProc)GetProcAddress(ddrawdll, "DirectDrawCreateClipper");
 		m_pDDrawCreateEx = (DDrawCreateExProc)GetProcAddress(ddrawdll, "DirectDrawCreateEx");
 		m_pDDrawEnumerateA = (DDrawEnumerateAProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateA");
@@ -124,7 +125,7 @@ void __declspec(naked) DSoundHelp()
 
 HRESULT WINAPI DirectDrawCreate(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnknown FAR *pUnkOuter)
 {
-	HRESULT hr = m_pDDrawCreate(lpGUID, lplpDD, pUnkOuter);
+	HRESULT hr = m_pDirectDrawCreate(lpGUID, lplpDD, pUnkOuter);
 
 	if (SUCCEEDED(hr))
 	{

@@ -1,12 +1,13 @@
 #pragma once
 
-class m_IDirectDrawClipper : public IDirectDrawClipper, public AddressLookupTableObject
+class m_IDirectDrawClipper : public IDirectDrawClipper, public AddressLookupTableDdrawObject
 {
 private:
 	IDirectDrawClipper *ProxyInterface;
+	REFIID WrapperID = IID_IDirectDrawClipper;
 
 public:
-	m_IDirectDrawClipper(IDirectDrawClipper *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	m_IDirectDrawClipper(IDirectDrawClipper *aOriginal) : ProxyInterface(aOriginal)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}
@@ -15,7 +16,10 @@ public:
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}
 
+	DWORD GetDirectXVersion() { return 1; }
+	REFIID GetWrapperType() { return WrapperID; }
 	IDirectDrawClipper *GetProxyInterface() { return ProxyInterface; }
+	m_IDirectDrawClipper *GetWrapperInterface() { return this; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);

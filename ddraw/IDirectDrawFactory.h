@@ -1,12 +1,13 @@
 #pragma once
 
-class m_IDirectDrawFactory : public IDirectDrawFactory, public AddressLookupTableObject
+class m_IDirectDrawFactory : public IDirectDrawFactory, public AddressLookupTableDdrawObject
 {
 private:
 	IDirectDrawFactory *ProxyInterface;
+	REFIID WrapperID = IID_IDirectDrawFactory;
 
 public:
-	m_IDirectDrawFactory(IDirectDrawFactory *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	m_IDirectDrawFactory(IDirectDrawFactory *aOriginal) : ProxyInterface(aOriginal)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}
@@ -15,7 +16,10 @@ public:
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}
 
+	DWORD GetDirectXVersion() { return 1; }
+	REFIID GetWrapperType() { return WrapperID; }
 	IDirectDrawFactory *GetProxyInterface() { return ProxyInterface; }
+	m_IDirectDrawFactory *GetWrapperInterface() { return this; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
@@ -23,5 +27,6 @@ public:
 	STDMETHOD_(ULONG, Release) (THIS);
 	/*** IDirectDrawFactory methods ***/
 	STDMETHOD(CreateDirectDraw) (THIS_ GUID * pGUID, HWND hWnd, DWORD dwCoopLevelFlags, DWORD dwReserved, IUnknown *pUnkOuter, IDirectDraw **ppDirectDraw);
-	STDMETHOD(DirectDrawEnumerate) (THIS_ LPDDENUMCALLBACK lpCallback, LPVOID lpContext);
+	STDMETHOD(DirectDrawEnumerateA) (THIS_ LPDDENUMCALLBACKA lpCallback, LPVOID lpContext);
+	STDMETHOD(DirectDrawEnumerateW) (THIS_ LPDDENUMCALLBACKW lpCallback, LPVOID lpContext);
 };

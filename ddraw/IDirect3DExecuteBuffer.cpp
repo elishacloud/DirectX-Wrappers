@@ -1,5 +1,5 @@
 /**
-* Copyright (C) 2017 Elisha Riedlinger
+* Copyright (C) 2018 Elisha Riedlinger
 *
 * This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 * authors be held liable for any damages arising from the use of this software.
@@ -18,23 +18,7 @@
 
 HRESULT m_IDirect3DExecuteBuffer::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirect3DExecuteBuffer || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyQueryInterface(ProxyInterface, riid, ppvObj, WrapperID, this);
 }
 
 ULONG m_IDirect3DExecuteBuffer::AddRef()
@@ -54,19 +38,19 @@ ULONG m_IDirect3DExecuteBuffer::Release()
 	return x;
 }
 
-HRESULT m_IDirect3DExecuteBuffer::Initialize(LPDIRECT3DDEVICE a, LPD3DEXECUTEBUFFERDESC b)
+HRESULT m_IDirect3DExecuteBuffer::Initialize(LPDIRECT3DDEVICE lpDirect3DDevice, LPD3DEXECUTEBUFFERDESC lpDesc)
 {
-	if (a)
+	if (lpDirect3DDevice)
 	{
-		a = static_cast<m_IDirect3DDevice *>(a)->GetProxyInterface();
+		lpDirect3DDevice = static_cast<m_IDirect3DDevice *>(lpDirect3DDevice)->GetProxyInterface();
 	}
 
-	return ProxyInterface->Initialize(a, b);
+	return ProxyInterface->Initialize(lpDirect3DDevice, lpDesc);
 }
 
-HRESULT m_IDirect3DExecuteBuffer::Lock(LPD3DEXECUTEBUFFERDESC a)
+HRESULT m_IDirect3DExecuteBuffer::Lock(LPD3DEXECUTEBUFFERDESC lpDesc)
 {
-	return ProxyInterface->Lock(a);
+	return ProxyInterface->Lock(lpDesc);
 }
 
 HRESULT m_IDirect3DExecuteBuffer::Unlock()
@@ -74,22 +58,22 @@ HRESULT m_IDirect3DExecuteBuffer::Unlock()
 	return ProxyInterface->Unlock();
 }
 
-HRESULT m_IDirect3DExecuteBuffer::SetExecuteData(LPD3DEXECUTEDATA a)
+HRESULT m_IDirect3DExecuteBuffer::SetExecuteData(LPD3DEXECUTEDATA lpData)
 {
-	return ProxyInterface->SetExecuteData(a);
+	return ProxyInterface->SetExecuteData(lpData);
 }
 
-HRESULT m_IDirect3DExecuteBuffer::GetExecuteData(LPD3DEXECUTEDATA a)
+HRESULT m_IDirect3DExecuteBuffer::GetExecuteData(LPD3DEXECUTEDATA lpData)
 {
-	return ProxyInterface->GetExecuteData(a);
+	return ProxyInterface->GetExecuteData(lpData);
 }
 
-HRESULT m_IDirect3DExecuteBuffer::Validate(LPDWORD a, LPD3DVALIDATECALLBACK b, LPVOID c, DWORD d)
+HRESULT m_IDirect3DExecuteBuffer::Validate(LPDWORD lpdwOffset, LPD3DVALIDATECALLBACK lpFunc, LPVOID lpUserArg, DWORD dwReserved)
 {
-	return ProxyInterface->Validate(a, b, c, d);
+	return ProxyInterface->Validate(lpdwOffset, lpFunc, lpUserArg, dwReserved);
 }
 
-HRESULT m_IDirect3DExecuteBuffer::Optimize(DWORD a)
+HRESULT m_IDirect3DExecuteBuffer::Optimize(DWORD dwDummy)
 {
-	return ProxyInterface->Optimize(a);
+	return ProxyInterface->Optimize(dwDummy);
 }

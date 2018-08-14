@@ -1,5 +1,5 @@
 /**
-* Copyright (C) 2017 Elisha Riedlinger
+* Copyright (C) 2018 Elisha Riedlinger
 *
 * This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 * authors be held liable for any damages arising from the use of this software.
@@ -18,23 +18,7 @@
 
 HRESULT m_IDirectDrawGammaControl::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	if ((riid == IID_IDirectDrawGammaControl || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyQueryInterface(ProxyInterface, riid, ppvObj, WrapperID, this);
 }
 
 ULONG m_IDirectDrawGammaControl::AddRef()
@@ -54,12 +38,12 @@ ULONG m_IDirectDrawGammaControl::Release()
 	return x;
 }
 
-HRESULT m_IDirectDrawGammaControl::GetGammaRamp(DWORD a, LPDDGAMMARAMP b)
+HRESULT m_IDirectDrawGammaControl::GetGammaRamp(DWORD dwFlags, LPDDGAMMARAMP lpRampData)
 {
-	return ProxyInterface->GetGammaRamp(a, b);
+	return ProxyInterface->GetGammaRamp(dwFlags, lpRampData);
 }
 
-HRESULT m_IDirectDrawGammaControl::SetGammaRamp(DWORD a, LPDDGAMMARAMP b)
+HRESULT m_IDirectDrawGammaControl::SetGammaRamp(DWORD dwFlags, LPDDGAMMARAMP lpRampData)
 {
-	return ProxyInterface->SetGammaRamp(a, b);
+	return ProxyInterface->SetGammaRamp(dwFlags, lpRampData);
 }

@@ -1,5 +1,5 @@
 /**
-* Copyright (C) 2017 Elisha Riedlinger
+* Copyright (C) 2018 Elisha Riedlinger
 *
 * This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 * authors be held liable for any damages arising from the use of this software.
@@ -18,23 +18,7 @@
 
 HRESULT m_IDirect3DLight::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirect3DLight || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyQueryInterface(ProxyInterface, riid, ppvObj, WrapperID, this);
 }
 
 ULONG m_IDirect3DLight::AddRef()
@@ -54,22 +38,22 @@ ULONG m_IDirect3DLight::Release()
 	return x;
 }
 
-HRESULT m_IDirect3DLight::Initialize(LPDIRECT3D a)
+HRESULT m_IDirect3DLight::Initialize(LPDIRECT3D lpDirect3D)
 {
-	if (a)
+	if (lpDirect3D)
 	{
-		a = static_cast<m_IDirect3D *>(a)->GetProxyInterface();
+		lpDirect3D = static_cast<m_IDirect3D *>(lpDirect3D)->GetProxyInterface();
 	}
 
-	return ProxyInterface->Initialize(a);
+	return ProxyInterface->Initialize(lpDirect3D);
 }
 
-HRESULT m_IDirect3DLight::SetLight(LPD3DLIGHT a)
+HRESULT m_IDirect3DLight::SetLight(LPD3DLIGHT lpLight)
 {
-	return ProxyInterface->SetLight(a);
+	return ProxyInterface->SetLight(lpLight);
 }
 
-HRESULT m_IDirect3DLight::GetLight(LPD3DLIGHT a)
+HRESULT m_IDirect3DLight::GetLight(LPD3DLIGHT lpLight)
 {
-	return ProxyInterface->GetLight(a);
+	return ProxyInterface->GetLight(lpLight);
 }

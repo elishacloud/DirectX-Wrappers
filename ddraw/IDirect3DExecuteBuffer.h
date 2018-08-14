@@ -1,12 +1,13 @@
 #pragma once
 
-class m_IDirect3DExecuteBuffer : public IDirect3DExecuteBuffer, public AddressLookupTableObject
+class m_IDirect3DExecuteBuffer : public IDirect3DExecuteBuffer, public AddressLookupTableDdrawObject
 {
 private:
 	IDirect3DExecuteBuffer *ProxyInterface;
+	REFIID WrapperID = IID_IDirect3DExecuteBuffer;
 
 public:
-	m_IDirect3DExecuteBuffer(IDirect3DExecuteBuffer *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	m_IDirect3DExecuteBuffer(IDirect3DExecuteBuffer *aOriginal) : ProxyInterface(aOriginal)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}
@@ -15,7 +16,10 @@ public:
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}
 
+	DWORD GetDirectXVersion() { return 1; }
+	REFIID GetWrapperType() { return WrapperID; }
 	IDirect3DExecuteBuffer *GetProxyInterface() { return ProxyInterface; }
+	m_IDirect3DExecuteBuffer *GetWrapperInterface() { return this; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);

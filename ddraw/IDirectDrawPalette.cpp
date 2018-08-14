@@ -1,5 +1,5 @@
 /**
-* Copyright (C) 2017 Elisha Riedlinger
+* Copyright (C) 2018 Elisha Riedlinger
 *
 * This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 * authors be held liable for any damages arising from the use of this software.
@@ -12,29 +12,15 @@
 *   2. Altered source versions must  be plainly  marked as such, and  must not be  misrepresented  as
 *      being the original software.
 *   3. This notice may not be removed or altered from any source distribution.
+*
+* Code taken from: https://github.com/strangebytes/diablo-ddrawwrapper
 */
 
 #include "ddraw.h"
 
 HRESULT m_IDirectDrawPalette::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	if ((riid == IID_IDirectDrawPalette || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyQueryInterface(ProxyInterface, riid, ppvObj, WrapperID, this);
 }
 
 ULONG m_IDirectDrawPalette::AddRef()
@@ -44,37 +30,42 @@ ULONG m_IDirectDrawPalette::AddRef()
 
 ULONG m_IDirectDrawPalette::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return x;
+	return ref;
 }
 
-HRESULT m_IDirectDrawPalette::GetCaps(LPDWORD a)
+HRESULT m_IDirectDrawPalette::GetCaps(LPDWORD lpdwCaps)
 {
-	return ProxyInterface->GetCaps(a);
-}
-
-HRESULT m_IDirectDrawPalette::GetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENTRY d)
-{
-	return ProxyInterface->GetEntries(a, b, c, d);
-}
-
-HRESULT m_IDirectDrawPalette::Initialize(LPDIRECTDRAW a, DWORD b, LPPALETTEENTRY c)
-{
-	if (a)
+	if (!lpdwCaps)
 	{
-		a = static_cast<m_IDirectDraw *>(a)->GetProxyInterface();
+		return DDERR_INVALIDPARAMS;
 	}
 
-	return ProxyInterface->Initialize(a, b, c);
+	return ProxyInterface->GetCaps(lpdwCaps);
 }
 
-HRESULT m_IDirectDrawPalette::SetEntries(DWORD a, DWORD b, DWORD c, LPPALETTEENTRY d)
+HRESULT m_IDirectDrawPalette::GetEntries(DWORD dwFlags, DWORD dwBase, DWORD dwNumEntries, LPPALETTEENTRY lpEntries)
 {
-	return ProxyInterface->SetEntries(a, b, c, d);
+	return ProxyInterface->GetEntries(dwFlags, dwBase, dwNumEntries, lpEntries);
+}
+
+HRESULT m_IDirectDrawPalette::Initialize(LPDIRECTDRAW lpDD, DWORD dwFlags, LPPALETTEENTRY lpDDColorTable)
+{
+	if (lpDD)
+	{
+		lpDD = static_cast<m_IDirectDraw *>(lpDD)->GetProxyInterface();
+	}
+
+	return ProxyInterface->Initialize(lpDD, dwFlags, lpDDColorTable);
+}
+
+HRESULT m_IDirectDrawPalette::SetEntries(DWORD dwFlags, DWORD dwStartingEntry, DWORD dwCount, LPPALETTEENTRY lpEntries)
+{
+	return ProxyInterface->SetEntries(dwFlags, dwStartingEntry, dwCount, lpEntries);
 }
