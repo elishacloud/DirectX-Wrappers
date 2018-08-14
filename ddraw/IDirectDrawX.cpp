@@ -142,7 +142,26 @@ HRESULT m_IDirectDrawX::FlipToGDISurface()
 
 HRESULT m_IDirectDrawX::GetCaps(LPDDCAPS lpDDDriverCaps, LPDDCAPS lpDDHELCaps)
 {
-	return ProxyInterface->GetCaps(lpDDDriverCaps, lpDDHELCaps);
+	HRESULT hr = ProxyInterface->GetCaps(lpDDDriverCaps, lpDDHELCaps);
+
+	if (SUCCEEDED(hr))
+	{
+		// Set available memory, some games have issues if this is set to high
+		if (lpDDDriverCaps && lpDDDriverCaps->dwVidMemTotal > 0x8000000)
+		{
+			lpDDDriverCaps->dwVidMemFree = 0x8000000 - (lpDDDriverCaps->dwVidMemTotal - lpDDDriverCaps->dwVidMemFree);
+			lpDDDriverCaps->dwVidMemTotal = 0x8000000;
+		}
+
+		// Set available memory, some games have issues if this is set to high
+		if (lpDDHELCaps && lpDDHELCaps->dwVidMemTotal > 0x8000000)
+		{
+			lpDDHELCaps->dwVidMemFree = 0x8000000 - (lpDDHELCaps->dwVidMemTotal - lpDDHELCaps->dwVidMemFree);
+			lpDDHELCaps->dwVidMemTotal = 0x8000000;
+		}
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirectDrawX::GetDisplayMode(LPDDSURFACEDESC2 lpDDSurfaceDesc2)
