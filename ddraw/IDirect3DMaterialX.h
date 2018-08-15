@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DMaterialX : public IDirect3DMaterial3
+class m_IDirect3DMaterialX
 {
 private:
 	IDirect3DMaterial3 *ProxyInterface;

@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DViewportX : public IDirect3DViewport3
+class m_IDirect3DViewportX
 {
 private:
 	IDirect3DViewport3 *ProxyInterface;

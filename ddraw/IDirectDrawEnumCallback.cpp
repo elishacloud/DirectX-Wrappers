@@ -16,14 +16,18 @@
 
 #include "ddraw.h"
 
-HRESULT CALLBACK m_IDirectDrawEnumSurface::ConvertCallback(LPDIRECTDRAWSURFACE7 lpDDSurface, LPDDSURFACEDESC2 lpDDSurfaceDesc2, LPVOID lpContext)
+template HRESULT CALLBACK m_IDirectDrawEnumSurface::ConvertCallback<LPDIRECTDRAWSURFACE, LPDDSURFACEDESC>(LPDIRECTDRAWSURFACE, LPDDSURFACEDESC, LPVOID);
+template HRESULT CALLBACK m_IDirectDrawEnumSurface::ConvertCallback<LPDIRECTDRAWSURFACE4, LPDDSURFACEDESC2>(LPDIRECTDRAWSURFACE4, LPDDSURFACEDESC2, LPVOID);
+template HRESULT CALLBACK m_IDirectDrawEnumSurface::ConvertCallback<LPDIRECTDRAWSURFACE7, LPDDSURFACEDESC2>(LPDIRECTDRAWSURFACE7, LPDDSURFACEDESC2, LPVOID);
+template <typename T, typename D>
+HRESULT CALLBACK m_IDirectDrawEnumSurface::ConvertCallback(T lpDDSurface, D lpDDSurfaceDesc, LPVOID lpContext)
 {
 	ENUMSURFACE *lpCallbackContext = (ENUMSURFACE*)lpContext;
 
 	if (lpDDSurface)
 	{
-		lpDDSurface = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(lpDDSurface, lpCallbackContext->DirectXVersion);
+		lpDDSurface = (T)ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(lpDDSurface, lpCallbackContext->DirectXVersion);
 	}
 
-	return lpCallbackContext->lpCallback(lpDDSurface, lpDDSurfaceDesc2, lpCallbackContext->lpContext);
+	return lpCallbackContext->lpCallback((LPDIRECTDRAWSURFACE7)lpDDSurface, (LPDDSURFACEDESC2)lpDDSurfaceDesc, lpCallbackContext->lpContext);
 }

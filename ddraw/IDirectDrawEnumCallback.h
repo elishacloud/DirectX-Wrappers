@@ -13,5 +13,6 @@ public:
 	m_IDirectDrawEnumSurface() {}
 	~m_IDirectDrawEnumSurface() {}
 
-	static HRESULT CALLBACK ConvertCallback(LPDIRECTDRAWSURFACE7 lpDDSurface, LPDDSURFACEDESC2 lpDDSurfaceDesc2, LPVOID lpContext);
+	template <typename T, typename D>
+	static HRESULT CALLBACK ConvertCallback(T lpDDSurface, D lpDDSurfaceDesc, LPVOID lpContext);
 };

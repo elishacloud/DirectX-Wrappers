@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 
-class m_IDirectDrawSurfaceX : public IDirectDrawSurface7
+class m_IDirectDrawSurfaceX
 {
 private:
 	IDirectDrawSurface7 *ProxyInterface;
@@ -40,12 +40,16 @@ public:
 	STDMETHOD(BltBatch)(THIS_ LPDDBLTBATCH, DWORD, DWORD);
 	STDMETHOD(BltFast)(THIS_ DWORD, DWORD, LPDIRECTDRAWSURFACE7, LPRECT, DWORD);
 	STDMETHOD(DeleteAttachedSurface)(THIS_ DWORD, LPDIRECTDRAWSURFACE7);
-	STDMETHOD(EnumAttachedSurfaces)(THIS_ LPVOID, LPDDENUMSURFACESCALLBACK7);
-	STDMETHOD(EnumOverlayZOrders)(THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK7);
+	template <typename T>
+	HRESULT EnumAttachedSurfaces(LPVOID, T);
+	template <typename T>
+	HRESULT EnumOverlayZOrders(DWORD, LPVOID, T);
 	STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE7, DWORD);
-	STDMETHOD(GetAttachedSurface)(THIS_ LPDDSCAPS2, LPDIRECTDRAWSURFACE7 FAR *);
+	template <typename T>
+	HRESULT GetAttachedSurface(T, LPDIRECTDRAWSURFACE7 FAR *);
 	STDMETHOD(GetBltStatus)(THIS_ DWORD);
-	STDMETHOD(GetCaps)(THIS_ LPDDSCAPS2);
+	template <typename T>
+	HRESULT GetCaps(T);
 	STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR*);
 	STDMETHOD(GetColorKey)(THIS_ DWORD, LPDDCOLORKEY);
 	STDMETHOD(GetDC)(THIS_ HDC FAR *);
@@ -53,10 +57,13 @@ public:
 	STDMETHOD(GetOverlayPosition)(THIS_ LPLONG, LPLONG);
 	STDMETHOD(GetPalette)(THIS_ LPDIRECTDRAWPALETTE FAR*);
 	STDMETHOD(GetPixelFormat)(THIS_ LPDDPIXELFORMAT);
-	STDMETHOD(GetSurfaceDesc)(THIS_ LPDDSURFACEDESC2);
-	STDMETHOD(Initialize)(THIS_ LPDIRECTDRAW, LPDDSURFACEDESC2);
+	template <typename T>
+	HRESULT GetSurfaceDesc(T);
+	template <typename T>
+	HRESULT Initialize(LPDIRECTDRAW, T);
 	STDMETHOD(IsLost)(THIS);
-	STDMETHOD(Lock)(THIS_ LPRECT, LPDDSURFACEDESC2, DWORD, HANDLE);
+	template <typename T>
+	HRESULT Lock(LPRECT, T, DWORD, HANDLE);
 	STDMETHOD(ReleaseDC)(THIS_ HDC);
 	STDMETHOD(Restore)(THIS);
 	STDMETHOD(SetClipper)(THIS_ LPDIRECTDRAWCLIPPER);
@@ -74,7 +81,8 @@ public:
 	STDMETHOD(PageUnlock)(THIS_ DWORD);
 
 	/*** Added in the v3 interface ***/
-	STDMETHOD(SetSurfaceDesc)(THIS_ LPDDSURFACEDESC2, DWORD);
+	template <typename T>
+	HRESULT SetSurfaceDesc(T, DWORD);
 
 	/*** Added in the v4 interface ***/
 	STDMETHOD(SetPrivateData)(THIS_ REFGUID, LPVOID, DWORD, DWORD);

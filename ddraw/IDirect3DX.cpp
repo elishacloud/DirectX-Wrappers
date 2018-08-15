@@ -47,26 +47,19 @@ ULONG m_IDirect3DX::Release()
 
 HRESULT m_IDirect3DX::Initialize(REFCLSID rclsid)
 {
-	if (ProxyDirectXVersion != 1)
-	{
-		return D3D_OK;
-	}
-
 	return ((IDirect3D*)ProxyInterface)->Initialize(rclsid);
 }
 
-HRESULT m_IDirect3DX::EnumDevices(LPD3DENUMDEVICESCALLBACK7 lpEnumDevicesCallback7, LPVOID lpUserArg)
+template HRESULT m_IDirect3DX::EnumDevices<LPD3DENUMDEVICESCALLBACK>(LPD3DENUMDEVICESCALLBACK, LPVOID);
+template HRESULT m_IDirect3DX::EnumDevices<LPD3DENUMDEVICESCALLBACK7>(LPD3DENUMDEVICESCALLBACK7, LPVOID);
+template <typename T>
+HRESULT m_IDirect3DX::EnumDevices(T lpEnumDevicesCallback, LPVOID lpUserArg)
 {
-	return ProxyInterface->EnumDevices(lpEnumDevicesCallback7, lpUserArg);
+	return ProxyInterface->EnumDevices((LPD3DENUMDEVICESCALLBACK7)lpEnumDevicesCallback, lpUserArg);
 }
 
 HRESULT m_IDirect3DX::CreateLight(LPDIRECT3DLIGHT * lplpDirect3DLight, LPUNKNOWN pUnkOuter)
 {
-	if (ProxyDirectXVersion > 3)
-	{
-		return E_NOTIMPL;
-	}
-
 	HRESULT hr = ((IDirect3D3*)ProxyInterface)->CreateLight(lplpDirect3DLight, pUnkOuter);
 
 	if (SUCCEEDED(hr) && lplpDirect3DLight)
@@ -79,11 +72,6 @@ HRESULT m_IDirect3DX::CreateLight(LPDIRECT3DLIGHT * lplpDirect3DLight, LPUNKNOWN
 
 HRESULT m_IDirect3DX::CreateMaterial(LPDIRECT3DMATERIAL3 * lplpDirect3DMaterial, LPUNKNOWN pUnkOuter)
 {
-	if (ProxyDirectXVersion > 3)
-	{
-		return E_NOTIMPL;
-	}
-
 	HRESULT hr = ((IDirect3D3*)ProxyInterface)->CreateMaterial(lplpDirect3DMaterial, pUnkOuter);
 
 	if (SUCCEEDED(hr) && lplpDirect3DMaterial)
@@ -96,11 +84,6 @@ HRESULT m_IDirect3DX::CreateMaterial(LPDIRECT3DMATERIAL3 * lplpDirect3DMaterial,
 
 HRESULT m_IDirect3DX::CreateViewport(LPDIRECT3DVIEWPORT3 * lplpD3DViewport, LPUNKNOWN pUnkOuter)
 {
-	if (ProxyDirectXVersion > 3)
-	{
-		return E_NOTIMPL;
-	}
-
 	HRESULT hr = ((IDirect3D3*)ProxyInterface)->CreateViewport(lplpD3DViewport, pUnkOuter);
 
 	if (SUCCEEDED(hr) && lplpD3DViewport)
@@ -113,11 +96,6 @@ HRESULT m_IDirect3DX::CreateViewport(LPDIRECT3DVIEWPORT3 * lplpD3DViewport, LPUN
 
 HRESULT m_IDirect3DX::FindDevice(LPD3DFINDDEVICESEARCH lpD3DFDS, LPD3DFINDDEVICERESULT lpD3DFDR)
 {
-	if (ProxyDirectXVersion > 3)
-	{
-		return E_NOTIMPL;
-	}
-
 	return ((IDirect3D3*)ProxyInterface)->FindDevice(lpD3DFDS, lpD3DFDR);
 }
 

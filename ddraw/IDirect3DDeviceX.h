@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DDeviceX : public IDirect3DDevice7
+class m_IDirect3DDeviceX
 {
 private:
 	IDirect3DDevice7 *ProxyInterface;

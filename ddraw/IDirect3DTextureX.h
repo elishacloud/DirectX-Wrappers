@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DTextureX : public IDirect3DTexture2
+class m_IDirect3DTextureX
 {
 private:
 	IDirect3DTexture2 *ProxyInterface;

@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DVertexBufferX : public IDirect3DVertexBuffer7
+class m_IDirect3DVertexBufferX
 {
 private:
 	IDirect3DVertexBuffer7 *ProxyInterface;

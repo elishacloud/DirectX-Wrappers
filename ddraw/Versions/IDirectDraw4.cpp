@@ -63,7 +63,7 @@ HRESULT m_IDirectDraw4::EnumDisplayModes(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, 
 
 HRESULT m_IDirectDraw4::EnumSurfaces(DWORD a, LPDDSURFACEDESC2 b, LPVOID c, LPDDENUMSURFACESCALLBACK2 d)
 {
-	return ProxyInterface->EnumSurfaces(a, b, c, (LPDDENUMSURFACESCALLBACK7)d);
+	return ProxyInterface->EnumSurfaces(a, b, c, d);
 }
 
 HRESULT m_IDirectDraw4::FlipToGDISurface()
@@ -153,5 +153,5 @@ HRESULT m_IDirectDraw4::TestCooperativeLevel()
 
 HRESULT m_IDirectDraw4::GetDeviceIdentifier(LPDDDEVICEIDENTIFIER a, DWORD b)
 {
-	return ProxyInterface->GetDeviceIdentifier((LPDDDEVICEIDENTIFIER2)a, b);
+	return ProxyInterface->GetDeviceIdentifier(a, b);
 }

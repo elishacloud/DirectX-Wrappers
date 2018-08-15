@@ -47,11 +47,6 @@ ULONG m_IDirect3DMaterialX::Release()
 
 HRESULT m_IDirect3DMaterialX::Initialize(LPDIRECT3D lplpD3D)
 {
-	if (ProxyDirectXVersion != 1)
-	{
-		return D3D_OK;
-	}
-
 	if (lplpD3D)
 	{
 		lplpD3D = static_cast<m_IDirect3D *>(lplpD3D)->GetProxyInterface();
@@ -82,20 +77,10 @@ HRESULT m_IDirect3DMaterialX::GetHandle(LPDIRECT3DDEVICE3 lpDirect3DDevice, LPD3
 
 HRESULT m_IDirect3DMaterialX::Reserve()
 {
-	if (ProxyDirectXVersion != 1)
-	{
-		return E_NOTIMPL;
-	}
-
 	return ((IDirect3DMaterial*)ProxyInterface)->Reserve();
 }
 
 HRESULT m_IDirect3DMaterialX::Unreserve()
 {
-	if (ProxyDirectXVersion != 1)
-	{
-		return E_NOTIMPL;
-	}
-
 	return ((IDirect3DMaterial*)ProxyInterface)->Unreserve();
 }

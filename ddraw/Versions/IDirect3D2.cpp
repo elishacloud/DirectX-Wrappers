@@ -33,7 +33,7 @@ ULONG m_IDirect3D2::Release()
 
 HRESULT m_IDirect3D2::EnumDevices(LPD3DENUMDEVICESCALLBACK a, LPVOID b)
 {
-	return ProxyInterface->EnumDevices((LPD3DENUMDEVICESCALLBACK7)a, b);
+	return ProxyInterface->EnumDevices(a, b);
 }
 
 HRESULT m_IDirect3D2::CreateLight(LPDIRECT3DLIGHT * a, IUnknown * b)

@@ -63,12 +63,12 @@ HRESULT m_IDirectDrawSurface4::DeleteAttachedSurface(DWORD a, LPDIRECTDRAWSURFAC
 
 HRESULT m_IDirectDrawSurface4::EnumAttachedSurfaces(LPVOID a, LPDDENUMSURFACESCALLBACK2 b)
 {
-	return ProxyInterface->EnumAttachedSurfaces(a, (LPDDENUMSURFACESCALLBACK7)b);
+	return ProxyInterface->EnumAttachedSurfaces(a, b);
 }
 
 HRESULT m_IDirectDrawSurface4::EnumOverlayZOrders(DWORD a, LPVOID b, LPDDENUMSURFACESCALLBACK2 c)
 {
-	return ProxyInterface->EnumOverlayZOrders(a, b, (LPDDENUMSURFACESCALLBACK7)c);
+	return ProxyInterface->EnumOverlayZOrders(a, b, c);
 }
 
 HRESULT m_IDirectDrawSurface4::Flip(LPDIRECTDRAWSURFACE4 a, DWORD b)

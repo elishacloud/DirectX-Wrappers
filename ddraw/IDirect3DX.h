@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DX : public IDirect3D7
+class m_IDirect3DX
 {
 private:
 	IDirect3D7 *ProxyInterface;
@@ -34,7 +34,8 @@ public:
 
 	/*** IDirect3D methods ***/
 	STDMETHOD(Initialize)(THIS_ REFCLSID);
-	STDMETHOD(EnumDevices)(THIS_ LPD3DENUMDEVICESCALLBACK7, LPVOID);
+	template <typename T>
+	HRESULT EnumDevices(T, LPVOID);
 	STDMETHOD(CreateLight)(THIS_ LPDIRECT3DLIGHT*, LPUNKNOWN);
 	STDMETHOD(CreateMaterial)(THIS_ LPDIRECT3DMATERIAL3*, LPUNKNOWN);
 	STDMETHOD(CreateViewport)(THIS_ LPDIRECT3DVIEWPORT3*, LPUNKNOWN);

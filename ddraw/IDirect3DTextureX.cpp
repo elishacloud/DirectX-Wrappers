@@ -47,11 +47,6 @@ ULONG m_IDirect3DTextureX::Release()
 
 HRESULT m_IDirect3DTextureX::Initialize(LPDIRECT3DDEVICE lpDirect3DDevice, LPDIRECTDRAWSURFACE lplpDDSurface)
 {
-	if (ProxyDirectXVersion != 1)
-	{
-		return D3D_OK;
-	}
-
 	if (lpDirect3DDevice)
 	{
 		lpDirect3DDevice = static_cast<m_IDirect3DDevice *>(lpDirect3DDevice)->GetProxyInterface();
@@ -91,10 +86,5 @@ HRESULT m_IDirect3DTextureX::Load(LPDIRECT3DTEXTURE2 lpD3DTexture2)
 
 HRESULT m_IDirect3DTextureX::Unload()
 {
-	if (ProxyDirectXVersion != 1)
-	{
-		return E_NOTIMPL;
-	}
-
 	return ((IDirect3DTexture*)ProxyInterface)->Unload();
 }
