@@ -141,14 +141,21 @@ void WINAPI Direct3D9EnableMaximizedWindowedModeShim()
 
 IDirect3D9 *WINAPI Direct3DCreate9(UINT SDKVersion)
 {
-	return new m_IDirect3D9(m_pDirect3DCreate9(SDKVersion));
+	IDirect3D9 *pD3D9 = m_pDirect3DCreate9(SDKVersion);
+
+	if (pD3D9)
+	{
+		return new m_IDirect3D9(pD3D9);
+	}
+
+	return nullptr;
 }
 
 HRESULT WINAPI Direct3DCreate9Ex(UINT SDKVersion, IDirect3D9Ex **ppD3D)
 {
 	HRESULT hr = m_pDirect3DCreate9Ex(SDKVersion, ppD3D);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && ppD3D)
 	{
 		*ppD3D = new m_IDirect3D9Ex(*ppD3D);
 	}

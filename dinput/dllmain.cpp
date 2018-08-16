@@ -63,7 +63,7 @@ HRESULT WINAPI DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPU
 {
 	HRESULT hr = m_pDirectInputCreateA(hinst, dwVersion, lplpDirectInput, punkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && lplpDirectInput)
 	{
 		*lplpDirectInput = ProxyAddressLookupTable.FindAddress<m_IDirectInputA>(*lplpDirectInput);
 	}
@@ -87,7 +87,7 @@ HRESULT WINAPI DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPU
 {
 	HRESULT hr = m_pDirectInputCreateW(hinst, dwVersion, lplpDirectInput, punkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && lplpDirectInput)
 	{
 		*lplpDirectInput = ProxyAddressLookupTable.FindAddress<m_IDirectInputW>(*lplpDirectInput);
 	}

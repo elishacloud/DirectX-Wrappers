@@ -76,5 +76,12 @@ void WINAPI DebugSetMute()
 
 IDirect3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
 {
-	return new m_IDirect3D8(m_pDirect3DCreate8(SDKVersion));
+	IDirect3D8 *pD3D8 = m_pDirect3DCreate8(SDKVersion);
+
+	if (pD3D8)
+	{
+		return new m_IDirect3D8(pD3D8);
+	}
+
+	return nullptr;
 }

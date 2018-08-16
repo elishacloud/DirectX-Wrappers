@@ -58,7 +58,7 @@ HRESULT m_IDirectInput8W::CreateDevice(REFGUID rguid, LPDIRECTINPUTDEVICE8W *lpl
 {
 	HRESULT hr = ProxyInterface->CreateDevice(rguid, lplpDirectInputDevice, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && lplpDirectInputDevice)
 	{
 		*lplpDirectInputDevice = ProxyAddressLookupTable.FindAddress<m_IDirectInputDevice8W>(*lplpDirectInputDevice);
 	}

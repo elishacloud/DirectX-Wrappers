@@ -75,7 +75,7 @@ HRESULT WINAPI DirectSoundCreate(LPCGUID pcGuidDevice, LPDIRECTSOUND *ppDS, LPUN
 {
 	HRESULT hr = m_pDirectSoundCreate(pcGuidDevice, ppDS, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && ppDS)
 	{
 		*ppDS = ProxyAddressLookupTable.FindAddress<m_IDirectSound8>(*ppDS);
 	}
@@ -114,7 +114,7 @@ HRESULT WINAPI DirectSoundCaptureCreate(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTU
 {
 	HRESULT hr = m_pDirectSoundCaptureCreate(pcGuidDevice, ppDSC, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && ppDSC)
 	{
 		*ppDSC = ProxyAddressLookupTable.FindAddress<m_IDirectSoundCapture8>(*ppDSC);
 	}
@@ -144,9 +144,18 @@ HRESULT WINAPI DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUID 
 
 	if (SUCCEEDED(hr))
 	{
-		*ppDSFD = ProxyAddressLookupTable.FindAddress<m_IDirectSoundFullDuplex8>(*ppDSFD);
-		*ppDSCBuffer8 = ProxyAddressLookupTable.FindAddress<m_IDirectSoundCaptureBuffer8>(*ppDSCBuffer8);
-		*ppDSBuffer8 = ProxyAddressLookupTable.FindAddress<m_IDirectSoundBuffer8>(*ppDSBuffer8);
+		if (ppDSFD)
+		{
+			*ppDSFD = ProxyAddressLookupTable.FindAddress<m_IDirectSoundFullDuplex8>(*ppDSFD);
+		}
+		if (ppDSCBuffer8)
+		{
+			*ppDSCBuffer8 = ProxyAddressLookupTable.FindAddress<m_IDirectSoundCaptureBuffer8>(*ppDSCBuffer8);
+		}
+		if (ppDSBuffer8)
+		{
+			*ppDSBuffer8 = ProxyAddressLookupTable.FindAddress<m_IDirectSoundBuffer8>(*ppDSBuffer8);
+		}
 	}
 
 	return hr;
@@ -156,7 +165,7 @@ HRESULT WINAPI DirectSoundCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUND8 *ppDS8, L
 {
 	HRESULT hr = m_pDirectSoundCreate8(pcGuidDevice, ppDS8, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && ppDS8)
 	{
 		*ppDS8 = ProxyAddressLookupTable.FindAddress<m_IDirectSound8>(*ppDS8);
 	}
@@ -168,7 +177,7 @@ HRESULT WINAPI DirectSoundCaptureCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPT
 {
 	HRESULT hr = m_pDirectSoundCaptureCreate8(pcGuidDevice, ppDSC8, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && ppDSC8)
 	{
 		*ppDSC8 = ProxyAddressLookupTable.FindAddress<m_IDirectSoundCapture8>(*ppDSC8);
 	}

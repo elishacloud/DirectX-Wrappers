@@ -42,26 +42,25 @@ ULONG m_IDirect3DCubeTexture9::Release(THIS)
 
 HRESULT m_IDirect3DCubeTexture9::GetDevice(THIS_ IDirect3DDevice9** ppDevice)
 {
-	if (ppDevice)
+	if (!ppDevice)
 	{
-		if (m_pDevice)
-		{
-			m_pDevice->AddRef();
-
-			*ppDevice = m_pDevice;
-
-			return D3D_OK;
-		}
-		else if (m_pDeviceEx)
-		{
-			m_pDeviceEx->AddRef();
-
-			*ppDevice = m_pDeviceEx;
-
-			return D3D_OK;
-		}
+		return D3DERR_INVALIDCALL;
 	}
-	return D3DERR_INVALIDCALL;
+
+	if (m_pDevice)
+	{
+		m_pDevice->AddRef();
+
+		*ppDevice = m_pDevice;
+	}
+	else if (m_pDeviceEx)
+	{
+		m_pDeviceEx->AddRef();
+
+		*ppDevice = m_pDeviceEx;
+	}
+
+	return D3D_OK;
 }
 
 HRESULT m_IDirect3DCubeTexture9::SetPrivateData(THIS_ REFGUID refguid, CONST void* pData, DWORD SizeOfData, DWORD Flags)
@@ -138,7 +137,7 @@ HRESULT m_IDirect3DCubeTexture9::GetCubeMapSurface(THIS_ D3DCUBEMAP_FACES FaceTy
 {
 	HRESULT hr = ProxyInterface->GetCubeMapSurface(FaceType, Level, ppCubeMapSurface);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && ppCubeMapSurface)
 	{
 		if (m_pDevice)
 		{
