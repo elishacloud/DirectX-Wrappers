@@ -2,7 +2,7 @@ LIBRARY ddraw
 EXPORTS
 
 AcquireDDThreadLock				@1
-CompleteCreateSysmemSurface		@2
+CompleteCreateSystemSurface		@2
 D3DParseUnknownCommand			@3
 DDGetAttachedSurfaceLcl			@4
 DDInternalLock					@5

@@ -21,12 +21,12 @@ AddressLookupTableDdraw<void> ProxyAddressLookupTable = AddressLookupTableDdraw<
 IDirectDraw7 *CurrentDDInterface = nullptr;
 
 AcquireDDThreadLockProc m_pAcquireDDThreadLock;
-FARPROC m_pCompleteCreateSysmemSurface;
+CompleteCreateSystemSurfaceProc m_pCompleteCreateSystemSurface;
 D3DParseUnknownCommandProc m_pD3DParseUnknownCommand;
-FARPROC m_pDDGetAttachedSurfaceLcl;
-FARPROC m_pDDInternalLock;
-FARPROC m_pDDInternalUnlock;
-FARPROC m_pDSoundHelp;
+DDGetAttachedSurfaceLclProc m_pDDGetAttachedSurfaceLcl;
+DDInternalLockProc m_pDDInternalLock;
+DDInternalUnlockProc m_pDDInternalUnlock;
+DSoundHelpProc m_pDSoundHelp;
 DirectDrawCreateProc m_pDirectDrawCreate;
 DirectDrawCreateClipperProc m_pDirectDrawCreateClipper;
 DDrawCreateExProc m_pDDrawCreateEx;
@@ -36,10 +36,10 @@ DDrawEnumerateExWProc m_pDDrawEnumerateExW;
 DDrawEnumerateWProc m_pDDrawEnumerateW;
 DllCanUnloadNowProc m_pDllCanUnloadNow;
 DllGetClassObjectProc m_pDllGetClassObject;
-FARPROC m_pGetDDSurfaceLocal;
-FARPROC m_pGetOLEThunkData;
+GetDDSurfaceLocalProc m_pGetDDSurfaceLocal;
+GetOLEThunkDataProc m_pGetOLEThunkData;
 GetSurfaceFromDCProc m_pGetSurfaceFromDC;
-FARPROC m_pRegisterSpecialCase;
+RegisterSpecialCaseProc m_pRegisterSpecialCase;
 ReleaseDDThreadLockProc m_pReleaseDDThreadLock;
 SetAppCompatDataProc m_pSetAppCompatData;
 
@@ -58,12 +58,12 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 
 		// Get function addresses
 		m_pAcquireDDThreadLock = (AcquireDDThreadLockProc)GetProcAddress(ddrawdll, "AcquireDDThreadLock");
-		m_pCompleteCreateSysmemSurface = GetProcAddress(ddrawdll, "CompleteCreateSysmemSurface");
+		m_pCompleteCreateSystemSurface = (CompleteCreateSystemSurfaceProc)GetProcAddress(ddrawdll, "CompleteCreateSystemSurface");
 		m_pD3DParseUnknownCommand = (D3DParseUnknownCommandProc)GetProcAddress(ddrawdll, "D3DParseUnknownCommand");
-		m_pDDGetAttachedSurfaceLcl = GetProcAddress(ddrawdll, "DDGetAttachedSurfaceLcl");
-		m_pDDInternalLock = GetProcAddress(ddrawdll, "DDInternalLock");
-		m_pDDInternalUnlock = GetProcAddress(ddrawdll, "DDInternalUnlock");
-		m_pDSoundHelp = GetProcAddress(ddrawdll, "DSoundHelp");
+		m_pDDGetAttachedSurfaceLcl = (DDGetAttachedSurfaceLclProc)GetProcAddress(ddrawdll, "DDGetAttachedSurfaceLcl");
+		m_pDDInternalLock = (DDInternalLockProc)GetProcAddress(ddrawdll, "DDInternalLock");
+		m_pDDInternalUnlock = (DDInternalUnlockProc)GetProcAddress(ddrawdll, "DDInternalUnlock");
+		m_pDSoundHelp = (DSoundHelpProc)GetProcAddress(ddrawdll, "DSoundHelp");
 		m_pDirectDrawCreate = (DirectDrawCreateProc)GetProcAddress(ddrawdll, "DirectDrawCreate");
 		m_pDirectDrawCreateClipper = (DirectDrawCreateClipperProc)GetProcAddress(ddrawdll, "DirectDrawCreateClipper");
 		m_pDDrawCreateEx = (DDrawCreateExProc)GetProcAddress(ddrawdll, "DirectDrawCreateEx");
@@ -73,10 +73,10 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 		m_pDDrawEnumerateW = (DDrawEnumerateWProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateW");
 		m_pDllCanUnloadNow = (DllCanUnloadNowProc)GetProcAddress(ddrawdll, "DllCanUnloadNow");
 		m_pDllGetClassObject = (DllGetClassObjectProc)GetProcAddress(ddrawdll, "DllGetClassObject");
-		m_pGetDDSurfaceLocal = GetProcAddress(ddrawdll, "GetDDSurfaceLocal");
-		m_pGetOLEThunkData = GetProcAddress(ddrawdll, "GetOLEThunkData");
+		m_pGetDDSurfaceLocal = (GetDDSurfaceLocalProc)GetProcAddress(ddrawdll, "GetDDSurfaceLocal");
+		m_pGetOLEThunkData = (GetOLEThunkDataProc)GetProcAddress(ddrawdll, "GetOLEThunkData");
 		m_pGetSurfaceFromDC = (GetSurfaceFromDCProc)GetProcAddress(ddrawdll, "GetSurfaceFromDC");
-		m_pRegisterSpecialCase = GetProcAddress(ddrawdll, "RegisterSpecialCase");
+		m_pRegisterSpecialCase = (RegisterSpecialCaseProc)GetProcAddress(ddrawdll, "RegisterSpecialCase");
 		m_pReleaseDDThreadLock = (ReleaseDDThreadLockProc)GetProcAddress(ddrawdll, "ReleaseDDThreadLock");
 		m_pSetAppCompatData = (SetAppCompatDataProc)GetProcAddress(ddrawdll, "SetAppCompatData");
 		break;
@@ -93,9 +93,9 @@ void WINAPI AcquireDDThreadLock()
 	return m_pAcquireDDThreadLock();
 }
 
-void __declspec(naked) CompleteCreateSysmemSurface()
+void WINAPI CompleteCreateSystemSurface()
 {
-	_asm jmp m_pCompleteCreateSysmemSurface;
+	return m_pCompleteCreateSystemSurface();
 }
 
 HRESULT WINAPI D3DParseUnknownCommand(LPVOID lpCmd, LPVOID *lpRetCmd)
@@ -103,24 +103,24 @@ HRESULT WINAPI D3DParseUnknownCommand(LPVOID lpCmd, LPVOID *lpRetCmd)
 	return m_pD3DParseUnknownCommand(lpCmd, lpRetCmd);
 }
 
-void __declspec(naked) DDGetAttachedSurfaceLcl()
+void WINAPI DDGetAttachedSurfaceLcl()
 {
-	_asm jmp m_pDDGetAttachedSurfaceLcl;
+	return m_pDDGetAttachedSurfaceLcl();
 }
 
-void __declspec(naked) DDInternalLock()
+void WINAPI DDInternalLock()
 {
-	_asm jmp m_pDDInternalLock;
+	return m_pDDInternalLock();
 }
 
-void __declspec(naked) DDInternalUnlock()
+void WINAPI DDInternalUnlock()
 {
-	_asm jmp m_pDDInternalUnlock;
+	return m_pDDInternalUnlock();
 }
 
-void __declspec(naked) DSoundHelp()
+void WINAPI DSoundHelp()
 {
-	_asm jmp m_pDSoundHelp;
+	return m_pDSoundHelp();
 }
 
 HRESULT WINAPI DirectDrawCreate(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnknown FAR *pUnkOuter)
@@ -196,14 +196,14 @@ HRESULT WINAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppv)
 	return hr;
 }
 
-void __declspec(naked) GetDDSurfaceLocal()
+void WINAPI GetDDSurfaceLocal()
 {
-	_asm jmp m_pGetDDSurfaceLocal;
+	return m_pGetDDSurfaceLocal();
 }
 
-void __declspec(naked) GetOLEThunkData()
+HANDLE WINAPI GetOLEThunkData(int i1)
 {
-	_asm jmp m_pGetOLEThunkData;
+	return m_pGetOLEThunkData(i1);
 }
 
 extern "C" HRESULT WINAPI GetSurfaceFromDC(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS)
@@ -218,9 +218,9 @@ extern "C" HRESULT WINAPI GetSurfaceFromDC(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS)
 	return hr;
 }
 
-void __declspec(naked) RegisterSpecialCase()
+void WINAPI RegisterSpecialCase()
 {
-	_asm jmp m_pRegisterSpecialCase;
+	return m_pRegisterSpecialCase();
 }
 
 void WINAPI ReleaseDDThreadLock()
