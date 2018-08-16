@@ -18,7 +18,7 @@
 
 HRESULT m_IDirectSoundFullDuplex8::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirectSoundFullDuplex || riid == IID_IDirectSoundFullDuplex8 || riid == IID_IUnknown) && ppvObj)
+	if ((riid == IID_IDirectSoundFullDuplex || riid == IID_IDirectSoundFullDuplex8 || riid == CLSID_DirectSoundFullDuplex || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 
