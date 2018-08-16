@@ -12,7 +12,7 @@ Wraps the following versions of DirectX:
 - DirectInput (dinput.dll)
 - DirectInput8 (dinput8.dll)
 
-I plan to add these DLLs soon:
+I plan to add these DLLs later:
 - d2d1.dll
 - d3d10.dll
 - d3d10core.dll
@@ -20,11 +20,11 @@ I plan to add these DLLs soon:
 - d3d12.dll
 - dxgi.dll
 
-Note: It currently only works with 32bit games, but I may add 64bit support later.
+Note: It currently only works with 32bit games, but I might add 64bit support at some point.
 
 ### License
 
-Copyright (C) 2017 Elisha Riedlinger
+Copyright (C) 2018 Elisha Riedlinger
 
 This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 authors be held liable for any damages arising from the use of this software.
