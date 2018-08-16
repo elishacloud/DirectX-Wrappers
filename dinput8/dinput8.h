@@ -12,6 +12,7 @@ typedef HRESULT(WINAPI *DllCanUnloadNowProc)();
 typedef	HRESULT(WINAPI *DllGetClassObjectProc)(REFCLSID, REFIID, LPVOID *);
 typedef HRESULT(WINAPI *DllRegisterServerProc)();
 typedef HRESULT(WINAPI *DllUnregisterServerProc)();
+typedef	LPCDIDATAFORMAT(WINAPI *GetdfDIJoystickProc)();
 
 void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj);
 extern AddressLookupTable<void> ProxyAddressLookupTable;

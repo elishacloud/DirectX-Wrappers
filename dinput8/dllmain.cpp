@@ -24,7 +24,7 @@ DllCanUnloadNowProc m_pDllCanUnloadNow;
 DllGetClassObjectProc m_pDllGetClassObject;
 DllRegisterServerProc m_pDllRegisterServer;
 DllUnregisterServerProc m_pDllUnregisterServer;
-FARPROC m_pGetdfDIJoystick;
+GetdfDIJoystickProc m_pGetdfDIJoystick;
 
 bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
@@ -46,7 +46,7 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 		m_pDllGetClassObject = (DllGetClassObjectProc)GetProcAddress(dinput8dll, "DllGetClassObject");
 		m_pDllRegisterServer = (DllRegisterServerProc)GetProcAddress(dinput8dll, "DllRegisterServer");
 		m_pDllUnregisterServer = (DllUnregisterServerProc)GetProcAddress(dinput8dll, "DllUnregisterServer");
-		m_pGetdfDIJoystick = (FARPROC)GetProcAddress(dinput8dll, "GetdfDIJoystick");
+		m_pGetdfDIJoystick = (GetdfDIJoystickProc)GetProcAddress(dinput8dll, "GetdfDIJoystick");
 		break;
 
 	case DLL_PROCESS_DETACH:
@@ -96,7 +96,7 @@ HRESULT WINAPI DllUnregisterServer()
 	return m_pDllUnregisterServer();
 }
 
-void __declspec(naked) GetdfDIJoystick()
+LPCDIDATAFORMAT WINAPI GetdfDIJoystick()
 {
-	_asm jmp m_pGetdfDIJoystick;
+	return m_pGetdfDIJoystick();
 }
