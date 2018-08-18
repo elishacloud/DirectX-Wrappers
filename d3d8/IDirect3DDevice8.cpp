@@ -735,9 +735,7 @@ HRESULT m_IDirect3DDevice8::GetFrontBuffer(THIS_ IDirect3DSurface8* pDestSurface
 		pDestSurface = static_cast<m_IDirect3DSurface8 *>(pDestSurface)->GetProxyInterface();
 	}
 
-	HRESULT hr = ProxyInterface->GetFrontBuffer(pDestSurface);
-
-	return hr;
+	return ProxyInterface->GetFrontBuffer(pDestSurface);
 }
 
 HRESULT m_IDirect3DDevice8::GetInfo(THIS_ DWORD DevInfoID, void* pDevInfoStruct, DWORD DevInfoStructSize)
