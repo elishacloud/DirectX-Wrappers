@@ -76,61 +76,121 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 
 HRESULT WINAPI Direct3DShaderValidatorCreate9()
 {
+	if (!m_pDirect3DShaderValidatorCreate9)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDirect3DShaderValidatorCreate9();
 }
 
 HRESULT WINAPI PSGPError()
 {
+	if (!m_pPSGPError)
+	{
+		return E_FAIL;
+	}
+
 	return m_pPSGPError();
 }
 
 HRESULT WINAPI PSGPSampleTexture()
 {
+	if (!m_pPSGPSampleTexture)
+	{
+		return E_FAIL;
+	}
+
 	return m_pPSGPSampleTexture();
 }
 
 int WINAPI D3DPERF_BeginEvent(D3DCOLOR col, LPCWSTR wszName)
 {
+	if (!m_pD3DPERF_BeginEvent)
+	{
+		return NULL;
+	}
+
 	return m_pD3DPERF_BeginEvent(col, wszName);
 }
 
 int WINAPI D3DPERF_EndEvent()
 {
+	if (!m_pD3DPERF_EndEvent)
+	{
+		return NULL;
+	}
+
 	return m_pD3DPERF_EndEvent();
 }
 
 DWORD WINAPI D3DPERF_GetStatus()
 {
+	if (!m_pD3DPERF_GetStatus)
+	{
+		return NULL;
+	}
+
 	return m_pD3DPERF_GetStatus();
 }
 
 BOOL WINAPI D3DPERF_QueryRepeatFrame()
 {
+	if (!m_pD3DPERF_QueryRepeatFrame)
+	{
+		return FALSE;
+	}
+
 	return m_pD3DPERF_QueryRepeatFrame();
 }
 
 void WINAPI D3DPERF_SetMarker(D3DCOLOR col, LPCWSTR wszName)
 {
+	if (!m_pD3DPERF_SetMarker)
+	{
+		return;
+	}
+
 	return m_pD3DPERF_SetMarker(col, wszName);
 }
 
 void WINAPI D3DPERF_SetOptions(DWORD dwOptions)
 {
+	if (!m_pD3DPERF_SetOptions)
+	{
+		return;
+	}
+
 	return m_pD3DPERF_SetOptions(dwOptions);
 }
 
 void WINAPI D3DPERF_SetRegion(D3DCOLOR col, LPCWSTR wszName)
 {
+	if (!m_pD3DPERF_SetRegion)
+	{
+		return;
+	}
+
 	return m_pD3DPERF_SetRegion(col, wszName);
 }
 
 HRESULT WINAPI DebugSetLevel(DWORD dw1)
 {
+	if (!m_pDebugSetLevel)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDebugSetLevel(dw1);
 }
 
 void WINAPI DebugSetMute()
 {
+	if (!m_pDebugSetMute)
+	{
+		return;
+	}
+
 	return m_pDebugSetMute();
 }
 
@@ -141,6 +201,11 @@ void WINAPI Direct3D9EnableMaximizedWindowedModeShim()
 
 IDirect3D9 *WINAPI Direct3DCreate9(UINT SDKVersion)
 {
+	if (!m_pDirect3DCreate9)
+	{
+		return nullptr;
+	}
+
 	IDirect3D9 *pD3D9 = m_pDirect3DCreate9(SDKVersion);
 
 	if (pD3D9)
@@ -153,6 +218,11 @@ IDirect3D9 *WINAPI Direct3DCreate9(UINT SDKVersion)
 
 HRESULT WINAPI Direct3DCreate9Ex(UINT SDKVersion, IDirect3D9Ex **ppD3D)
 {
+	if (!m_pDirect3DCreate9Ex)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirect3DCreate9Ex(SDKVersion, ppD3D);
 
 	if (SUCCEEDED(hr) && ppD3D)

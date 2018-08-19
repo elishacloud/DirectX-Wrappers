@@ -56,26 +56,51 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 
 void WINAPI Direct3D8EnableMaximizedWindowedModeShim()
 {
+	if (!m_pDirect3D8EnableMaximizedWindowedModeShim)
+	{
+		return;
+	}
+
 	return m_pDirect3D8EnableMaximizedWindowedModeShim();
 }
 
 HRESULT WINAPI ValidatePixelShader(DWORD* pixelshader, DWORD* reserved1, BOOL flag, DWORD* toto)
 {
+	if (!m_pValidatePixelShader)
+	{
+		return E_FAIL;
+	}
+
 	return m_pValidatePixelShader(pixelshader, reserved1, flag, toto);
 }
 
 HRESULT WINAPI ValidateVertexShader(DWORD* vertexshader, DWORD* reserved1, DWORD* reserved2, BOOL flag, DWORD* toto)
 {
+	if (!m_pValidateVertexShader)
+	{
+		return E_FAIL;
+	}
+
 	return m_pValidateVertexShader(vertexshader, reserved1, reserved2, flag, toto);
 }
 
 void WINAPI DebugSetMute()
 {
+	if (!m_pDebugSetMute)
+	{
+		return;
+	}
+
 	return m_pDebugSetMute();
 }
 
 IDirect3D8 *WINAPI Direct3DCreate8(UINT SDKVersion)
 {
+	if (!m_pDirect3DCreate8)
+	{
+		return nullptr;
+	}
+
 	IDirect3D8 *pD3D8 = m_pDirect3DCreate8(SDKVersion);
 
 	if (pD3D8)

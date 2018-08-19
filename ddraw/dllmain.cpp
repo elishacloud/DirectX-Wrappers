@@ -29,11 +29,11 @@ DDInternalUnlockProc m_pDDInternalUnlock;
 DSoundHelpProc m_pDSoundHelp;
 DirectDrawCreateProc m_pDirectDrawCreate;
 DirectDrawCreateClipperProc m_pDirectDrawCreateClipper;
-DDrawCreateExProc m_pDDrawCreateEx;
-DDrawEnumerateAProc m_pDDrawEnumerateA;
-DDrawEnumerateExAProc m_pDDrawEnumerateExA;
-DDrawEnumerateExWProc m_pDDrawEnumerateExW;
-DDrawEnumerateWProc m_pDDrawEnumerateW;
+DirectDrawCreateExProc m_pDirectDrawCreateEx;
+DirectDrawEnumerateAProc m_pDirectDrawEnumerateA;
+DirectDrawEnumerateExAProc m_pDirectDrawEnumerateExA;
+DirectDrawEnumerateExWProc m_pDirectDrawEnumerateExW;
+DirectDrawEnumerateWProc m_pDirectDrawEnumerateW;
 DllCanUnloadNowProc m_pDllCanUnloadNow;
 DllGetClassObjectProc m_pDllGetClassObject;
 GetDDSurfaceLocalProc m_pGetDDSurfaceLocal;
@@ -66,11 +66,11 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 		m_pDSoundHelp = (DSoundHelpProc)GetProcAddress(ddrawdll, "DSoundHelp");
 		m_pDirectDrawCreate = (DirectDrawCreateProc)GetProcAddress(ddrawdll, "DirectDrawCreate");
 		m_pDirectDrawCreateClipper = (DirectDrawCreateClipperProc)GetProcAddress(ddrawdll, "DirectDrawCreateClipper");
-		m_pDDrawCreateEx = (DDrawCreateExProc)GetProcAddress(ddrawdll, "DirectDrawCreateEx");
-		m_pDDrawEnumerateA = (DDrawEnumerateAProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateA");
-		m_pDDrawEnumerateExA = (DDrawEnumerateExAProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateExA");
-		m_pDDrawEnumerateExW = (DDrawEnumerateExWProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateExW");
-		m_pDDrawEnumerateW = (DDrawEnumerateWProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateW");
+		m_pDirectDrawCreateEx = (DirectDrawCreateExProc)GetProcAddress(ddrawdll, "DirectDrawCreateEx");
+		m_pDirectDrawEnumerateA = (DirectDrawEnumerateAProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateA");
+		m_pDirectDrawEnumerateExA = (DirectDrawEnumerateExAProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateExA");
+		m_pDirectDrawEnumerateExW = (DirectDrawEnumerateExWProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateExW");
+		m_pDirectDrawEnumerateW = (DirectDrawEnumerateWProc)GetProcAddress(ddrawdll, "DirectDrawEnumerateW");
 		m_pDllCanUnloadNow = (DllCanUnloadNowProc)GetProcAddress(ddrawdll, "DllCanUnloadNow");
 		m_pDllGetClassObject = (DllGetClassObjectProc)GetProcAddress(ddrawdll, "DllGetClassObject");
 		m_pGetDDSurfaceLocal = (GetDDSurfaceLocalProc)GetProcAddress(ddrawdll, "GetDDSurfaceLocal");
@@ -90,41 +90,81 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 
 void WINAPI AcquireDDThreadLock()
 {
+	if (!m_pAcquireDDThreadLock)
+	{
+		return;
+	}
+
 	return m_pAcquireDDThreadLock();
 }
 
 void WINAPI CompleteCreateSystemSurface()
 {
+	if (!m_pCompleteCreateSystemSurface)
+	{
+		return;
+	}
+
 	return m_pCompleteCreateSystemSurface();
 }
 
 HRESULT WINAPI D3DParseUnknownCommand(LPVOID lpCmd, LPVOID *lpRetCmd)
 {
+	if (!m_pD3DParseUnknownCommand)
+	{
+		return E_FAIL;
+	}
+
 	return m_pD3DParseUnknownCommand(lpCmd, lpRetCmd);
 }
 
 void WINAPI DDGetAttachedSurfaceLcl()
 {
+	if (!m_pDDGetAttachedSurfaceLcl)
+	{
+		return;
+	}
+
 	return m_pDDGetAttachedSurfaceLcl();
 }
 
 void WINAPI DDInternalLock()
 {
+	if (!m_pDDInternalLock)
+	{
+		return;
+	}
+
 	return m_pDDInternalLock();
 }
 
 void WINAPI DDInternalUnlock()
 {
+	if (!m_pDDInternalUnlock)
+	{
+		return;
+	}
+
 	return m_pDDInternalUnlock();
 }
 
 void WINAPI DSoundHelp()
 {
+	if (!m_pDSoundHelp)
+	{
+		return;
+	}
+
 	return m_pDSoundHelp();
 }
 
 HRESULT WINAPI DirectDrawCreate(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnknown FAR *pUnkOuter)
 {
+	if (!m_pDirectDrawCreate)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectDrawCreate(lpGUID, lplpDD, pUnkOuter);
 
 	if (SUCCEEDED(hr))
@@ -137,6 +177,11 @@ HRESULT WINAPI DirectDrawCreate(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnk
 
 HRESULT WINAPI DirectDrawCreateClipper(DWORD dwFlags, LPDIRECTDRAWCLIPPER *lplpDDClipper, LPUNKNOWN pUnkOuter)
 {
+	if (!m_pDirectDrawCreateClipper)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectDrawCreateClipper(dwFlags, lplpDDClipper, pUnkOuter);
 
 	if (SUCCEEDED(hr) && lplpDDClipper)
@@ -149,7 +194,12 @@ HRESULT WINAPI DirectDrawCreateClipper(DWORD dwFlags, LPDIRECTDRAWCLIPPER *lplpD
 
 HRESULT WINAPI DirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID riid, IUnknown FAR *pUnkOuter)
 {
-	HRESULT hr = m_pDDrawCreateEx(lpGUID, lplpDD, riid, pUnkOuter);
+	if (!m_pDirectDrawCreateEx)
+	{
+		return E_FAIL;
+	}
+
+	HRESULT hr = m_pDirectDrawCreateEx(lpGUID, lplpDD, riid, pUnkOuter);
 
 	if (SUCCEEDED(hr))
 	{
@@ -161,31 +211,61 @@ HRESULT WINAPI DirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID riid,
 
 HRESULT WINAPI DirectDrawEnumerateA(LPDDENUMCALLBACKA lpCallback, LPVOID lpContext)
 {
-	return m_pDDrawEnumerateA(lpCallback, lpContext);
+	if (!m_pDirectDrawEnumerateA)
+	{
+		return E_FAIL;
+	}
+
+	return m_pDirectDrawEnumerateA(lpCallback, lpContext);
 }
 
 HRESULT WINAPI DirectDrawEnumerateExA(LPDDENUMCALLBACKEXA lpCallback, LPVOID lpContext, DWORD dwFlags)
 {
-	return m_pDDrawEnumerateExA(lpCallback, lpContext, dwFlags);
+	if (!m_pDirectDrawEnumerateExA)
+	{
+		return E_FAIL;
+	}
+
+	return m_pDirectDrawEnumerateExA(lpCallback, lpContext, dwFlags);
 }
 
 HRESULT WINAPI DirectDrawEnumerateExW(LPDDENUMCALLBACKEXW lpCallback, LPVOID lpContext, DWORD dwFlags)
 {
-	return m_pDDrawEnumerateExW(lpCallback, lpContext, dwFlags);
+	if (!m_pDirectDrawEnumerateExW)
+	{
+		return E_FAIL;
+	}
+
+	return m_pDirectDrawEnumerateExW(lpCallback, lpContext, dwFlags);
 }
 
 HRESULT WINAPI DirectDrawEnumerateW(LPDDENUMCALLBACKW lpCallback, LPVOID lpContext)
 {
-	return m_pDDrawEnumerateW(lpCallback, lpContext);
+	if (!m_pDirectDrawEnumerateW)
+	{
+		return E_FAIL;
+	}
+
+	return m_pDirectDrawEnumerateW(lpCallback, lpContext);
 }
 
 HRESULT WINAPI DllCanUnloadNow()
 {
+	if (!m_pDllCanUnloadNow)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDllCanUnloadNow();
 }
 
 HRESULT WINAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppv)
 {
+	if (!m_pDllGetClassObject)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDllGetClassObject(rclsid, riid, ppv);
 
 	if (SUCCEEDED(hr))
@@ -198,16 +278,31 @@ HRESULT WINAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppv)
 
 void WINAPI GetDDSurfaceLocal()
 {
+	if (!m_pGetDDSurfaceLocal)
+	{
+		return;
+	}
+
 	return m_pGetDDSurfaceLocal();
 }
 
 HANDLE WINAPI GetOLEThunkData(int i1)
 {
+	if (!m_pGetOLEThunkData)
+	{
+		return nullptr;
+	}
+
 	return m_pGetOLEThunkData(i1);
 }
 
 extern "C" HRESULT WINAPI GetSurfaceFromDC(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS)
 {
+	if (!m_pGetSurfaceFromDC)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pGetSurfaceFromDC(hdc, lpDDS);
 
 	if (SUCCEEDED(hr))
@@ -220,15 +315,30 @@ extern "C" HRESULT WINAPI GetSurfaceFromDC(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS)
 
 void WINAPI RegisterSpecialCase()
 {
+	if (!m_pRegisterSpecialCase)
+	{
+		return;
+	}
+
 	return m_pRegisterSpecialCase();
 }
 
 void WINAPI ReleaseDDThreadLock()
 {
+	if (!m_pReleaseDDThreadLock)
+	{
+		return;
+	}
+
 	return m_pReleaseDDThreadLock();
 }
 
 HRESULT WINAPI SetAppCompatData(DWORD Type, DWORD Value)
 {
+	if (!m_pSetAppCompatData)
+	{
+		return E_FAIL;
+	}
+
 	return m_pSetAppCompatData(Type, Value);
 }

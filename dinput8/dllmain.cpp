@@ -59,6 +59,11 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 
 HRESULT WINAPI DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID * ppvOut, LPUNKNOWN punkOuter)
 {
+	if (!m_pDirectInput8Create)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectInput8Create(hinst, dwVersion, riidltf, ppvOut, punkOuter);
 
 	if (SUCCEEDED(hr))
@@ -71,11 +76,21 @@ HRESULT WINAPI DirectInput8Create(HINSTANCE hinst, DWORD dwVersion, REFIID riidl
 
 HRESULT WINAPI DllCanUnloadNow()
 {
+	if (!m_pDllCanUnloadNow)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDllCanUnloadNow();
 }
 
 HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID FAR* ppv)
 {
+	if (!m_pDllGetClassObject)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDllGetClassObject(rclsid, riid, ppv);
 
 	if (SUCCEEDED(hr))
@@ -88,15 +103,30 @@ HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID 
 
 HRESULT WINAPI DllRegisterServer()
 {
+	if (!m_pDllRegisterServer)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDllRegisterServer();
 }
 
 HRESULT WINAPI DllUnregisterServer()
 {
+	if (!m_pDllUnregisterServer)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDllUnregisterServer();
 }
 
 LPCDIDATAFORMAT WINAPI GetdfDIJoystick()
 {
+	if (!m_pGetdfDIJoystick)
+	{
+		return nullptr;
+	}
+
 	return m_pGetdfDIJoystick();
 }

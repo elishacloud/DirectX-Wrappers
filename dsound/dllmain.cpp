@@ -73,6 +73,11 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 
 HRESULT WINAPI DirectSoundCreate(LPCGUID pcGuidDevice, LPDIRECTSOUND *ppDS, LPUNKNOWN pUnkOuter)
 {
+	if (!m_pDirectSoundCreate)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectSoundCreate(pcGuidDevice, ppDS, pUnkOuter);
 
 	if (SUCCEEDED(hr) && ppDS)
@@ -85,21 +90,41 @@ HRESULT WINAPI DirectSoundCreate(LPCGUID pcGuidDevice, LPDIRECTSOUND *ppDS, LPUN
 
 HRESULT WINAPI DirectSoundEnumerateA(LPDSENUMCALLBACKA pDSEnumCallback, LPVOID pContext)
 {
+	if (!m_pDirectSoundEnumerateA)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDirectSoundEnumerateA(pDSEnumCallback, pContext);
 }
 
 HRESULT WINAPI DirectSoundEnumerateW(LPDSENUMCALLBACKW pDSEnumCallback, LPVOID pContext)
 {
+	if (!m_pDirectSoundEnumerateW)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDirectSoundEnumerateW(pDSEnumCallback, pContext);
 }
 
 HRESULT WINAPI DllCanUnloadNow()
 {
+	if (!m_pDllCanUnloadNow)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDllCanUnloadNow();
 }
 
 HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID FAR* ppv)
 {
+	if (!m_pDllGetClassObject)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDllGetClassObject(rclsid, riid, ppv);
 
 	if (SUCCEEDED(hr))
@@ -112,6 +137,11 @@ HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID 
 
 HRESULT WINAPI DirectSoundCaptureCreate(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTURE *ppDSC, LPUNKNOWN pUnkOuter)
 {
+	if (!m_pDirectSoundCaptureCreate)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectSoundCaptureCreate(pcGuidDevice, ppDSC, pUnkOuter);
 
 	if (SUCCEEDED(hr) && ppDSC)
@@ -124,11 +154,21 @@ HRESULT WINAPI DirectSoundCaptureCreate(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTU
 
 HRESULT WINAPI DirectSoundCaptureEnumerateA(LPDSENUMCALLBACKA pDSEnumCallback, LPVOID pContext)
 {
+	if (!m_pDirectSoundCaptureEnumerateA)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDirectSoundCaptureEnumerateA(pDSEnumCallback, pContext);
 }
 
 HRESULT WINAPI DirectSoundCaptureEnumerateW(LPDSENUMCALLBACKW pDSEnumCallback, LPVOID pContext)
 {
+	if (!m_pDirectSoundCaptureEnumerateW)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDirectSoundCaptureEnumerateW(pDSEnumCallback, pContext);
 }
 
@@ -140,6 +180,11 @@ HRESULT WINAPI GetDeviceID(LPCGUID pGuidSrc, LPGUID pGuidDest)
 HRESULT WINAPI DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUID pcGuidRenderDevice, LPCDSCBUFFERDESC pcDSCBufferDesc, LPCDSBUFFERDESC pcDSBufferDesc, HWND hWnd,
 	DWORD dwLevel, LPDIRECTSOUNDFULLDUPLEX* ppDSFD, LPDIRECTSOUNDCAPTUREBUFFER8 *ppDSCBuffer8, LPDIRECTSOUNDBUFFER8 *ppDSBuffer8, LPUNKNOWN pUnkOuter)
 {
+	if (!m_pDirectSoundFullDuplexCreate)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectSoundFullDuplexCreate(pcGuidCaptureDevice, pcGuidRenderDevice, pcDSCBufferDesc, pcDSBufferDesc, hWnd, dwLevel, ppDSFD, ppDSCBuffer8, ppDSBuffer8, pUnkOuter);
 
 	if (SUCCEEDED(hr))
@@ -163,6 +208,11 @@ HRESULT WINAPI DirectSoundFullDuplexCreate(LPCGUID pcGuidCaptureDevice, LPCGUID 
 
 HRESULT WINAPI DirectSoundCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUND8 *ppDS8, LPUNKNOWN pUnkOuter)
 {
+	if (!m_pDirectSoundCreate8)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectSoundCreate8(pcGuidDevice, ppDS8, pUnkOuter);
 
 	if (SUCCEEDED(hr) && ppDS8)
@@ -175,6 +225,11 @@ HRESULT WINAPI DirectSoundCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUND8 *ppDS8, L
 
 HRESULT WINAPI DirectSoundCaptureCreate8(LPCGUID pcGuidDevice, LPDIRECTSOUNDCAPTURE8 *ppDSC8, LPUNKNOWN pUnkOuter)
 {
+	if (!m_pDirectSoundCaptureCreate8)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectSoundCaptureCreate8(pcGuidDevice, ppDSC8, pUnkOuter);
 
 	if (SUCCEEDED(hr) && ppDSC8)

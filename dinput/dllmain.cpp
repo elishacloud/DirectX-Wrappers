@@ -61,6 +61,11 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 
 HRESULT WINAPI DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTA* lplpDirectInput, LPUNKNOWN punkOuter)
 {
+	if (!m_pDirectInputCreateA)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectInputCreateA(hinst, dwVersion, lplpDirectInput, punkOuter);
 
 	if (SUCCEEDED(hr) && lplpDirectInput)
@@ -73,6 +78,11 @@ HRESULT WINAPI DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPU
 
 HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFIID riid, LPVOID * lplpDD, LPUNKNOWN punkOuter)
 {
+	if (!m_pDirectInputCreateEx)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectInputCreateEx(hinst, dwVersion, riid, lplpDD, punkOuter);
 
 	if (SUCCEEDED(hr))
@@ -85,6 +95,11 @@ HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFIID riid
 
 HRESULT WINAPI DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTW* lplpDirectInput, LPUNKNOWN punkOuter)
 {
+	if (!m_pDirectInputCreateW)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDirectInputCreateW(hinst, dwVersion, lplpDirectInput, punkOuter);
 
 	if (SUCCEEDED(hr) && lplpDirectInput)
@@ -97,11 +112,21 @@ HRESULT WINAPI DirectInputCreateW(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPU
 
 HRESULT WINAPI DllCanUnloadNow()
 {
+	if (!m_pDllCanUnloadNow)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDllCanUnloadNow();
 }
 
 HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID FAR* ppv)
 {
+	if (!m_pDllGetClassObject)
+	{
+		return E_FAIL;
+	}
+
 	HRESULT hr = m_pDllGetClassObject(rclsid, riid, ppv);
 
 	if (SUCCEEDED(hr))
@@ -114,10 +139,20 @@ HRESULT WINAPI DllGetClassObject(IN REFCLSID rclsid, IN REFIID riid, OUT LPVOID 
 
 HRESULT WINAPI DllRegisterServer()
 {
+	if (!m_pDllRegisterServer)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDllRegisterServer();
 }
 
 HRESULT WINAPI DllUnregisterServer()
 {
+	if (!m_pDllUnregisterServer)
+	{
+		return E_FAIL;
+	}
+
 	return m_pDllUnregisterServer();
 }
