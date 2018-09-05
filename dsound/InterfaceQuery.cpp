@@ -16,15 +16,8 @@
 
 #include "dsound.h"
 
-void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
+void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	REFIID riid = (CalledID == CLSID_DirectSound) ? IID_IDirectSound :
-		(CalledID == CLSID_DirectSound8) ? IID_IDirectSound8 :
-		(CalledID == CLSID_DirectSoundCapture) ? IID_IDirectSoundCapture :
-		(CalledID == CLSID_DirectSoundCapture8) ? IID_IDirectSoundCapture8 :
-		(CalledID == CLSID_DirectSoundFullDuplex) ? IID_IDirectSoundFullDuplex :
-		CalledID;
-
 #define QUERYINTERFACE(x) \
 	if (riid == IID_ ## x) \
 		{ \

@@ -19,7 +19,7 @@ public:
 			(DirectXVersion == 4) ? IID_IDirectDrawSurface4 :
 			(DirectXVersion == 7) ? IID_IDirectDrawSurface7 : IID_IDirectDrawSurface7;
 
-		ProxyDirectXVersion = GetIIDVersion(ConvertREFIID(WrapperID));
+		ProxyDirectXVersion = GetIIDVersion(WrapperID);
 	}
 	~m_IDirectDrawSurfaceX() {}
 

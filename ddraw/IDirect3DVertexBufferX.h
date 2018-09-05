@@ -15,7 +15,7 @@ public:
 		WrapperID = (DirectXVersion == 1) ? IID_IDirect3DVertexBuffer :
 			(DirectXVersion == 7) ? IID_IDirect3DVertexBuffer7 : IID_IDirect3DVertexBuffer7;
 
-		ProxyDirectXVersion = GetIIDVersion(ConvertREFIID(WrapperID));
+		ProxyDirectXVersion = GetIIDVersion(WrapperID);
 	}
 	~m_IDirect3DVertexBufferX() {}
 

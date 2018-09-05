@@ -16,19 +16,8 @@
 
 #include "ddraw.h"
 
-REFIID GetIID(REFIID CalledID)
+DWORD GetIIDVersion(REFIID riid)
 {
-	return (CalledID == CLSID_DirectDraw) ? IID_IDirectDraw :
-		(CalledID == CLSID_DirectDraw7) ? IID_IDirectDraw7 :
-		(CalledID == CLSID_DirectDrawClipper) ? IID_IDirectDrawClipper :
-		(CalledID == CLSID_DirectDrawFactory) ? IID_IDirectDrawFactory :
-		CalledID;
-}
-
-DWORD GetIIDVersion(REFIID CalledID)
-{
-	REFIID riid = GetIID(CalledID);
-
 	return (riid == IID_IDirectDraw || riid == IID_IDirectDrawSurface || riid == IID_IDirect3D || riid == IID_IDirect3DDevice ||
 		riid == IID_IDirect3DMaterial || riid == IID_IDirect3DTexture || riid == IID_IDirect3DVertexBuffer || riid == IID_IDirect3DViewport) ? 1 :
 		(riid == IID_IDirectDraw2 || riid == IID_IDirectDrawSurface2 || riid == IID_IDirect3D2 || riid == IID_IDirect3DDevice2 ||
@@ -40,15 +29,8 @@ DWORD GetIIDVersion(REFIID CalledID)
 			riid == IID_IDirect3DVertexBuffer7) ? 7 : 7;
 }
 
-REFIID ConvertREFIID(REFIID CalledID)
+HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID riid, LPVOID * ppvObj, REFIID WrapperID, LPVOID WrapperInterface)
 {
-	return GetIID(CalledID);
-}
-
-HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID CalledID, LPVOID * ppvObj, REFIID WrapperID, LPVOID WrapperInterface)
-{
-	REFIID riid = GetIID(CalledID);
-
 	if ((riid == WrapperID || riid == IID_IUnknown) && ppvObj)
 	{
 		((IUnknown*)ProxyInterface)->AddRef();
@@ -58,7 +40,7 @@ HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID CalledID, LPVOID * ppv
 		return S_OK;
 	}
 
-	HRESULT hr = ((IUnknown*)ProxyInterface)->QueryInterface(ConvertREFIID(riid), ppvObj);
+	HRESULT hr = ((IUnknown*)ProxyInterface)->QueryInterface(riid, ppvObj);
 
 	if (SUCCEEDED(hr))
 	{
@@ -68,10 +50,8 @@ HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID CalledID, LPVOID * ppv
 	return hr;
 }
 
-void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
+void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	REFIID riid = GetIID(CalledID);
-
 #define QUERYINTERFACE(x) \
 	if (riid == IID_ ## x) \
 		{ \

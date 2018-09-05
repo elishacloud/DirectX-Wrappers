@@ -22,7 +22,7 @@ public:
 			(DirectXVersion == 4) ? IID_IDirectDraw4 :
 			(DirectXVersion == 7) ? IID_IDirectDraw7 : IID_IDirectDraw7;
 
-		ProxyDirectXVersion = GetIIDVersion(ConvertREFIID(WrapperID));
+		ProxyDirectXVersion = GetIIDVersion(WrapperID);
 	}
 	~m_IDirectDrawX()
 	{

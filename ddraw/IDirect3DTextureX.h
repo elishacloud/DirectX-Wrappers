@@ -15,7 +15,7 @@ public:
 		WrapperID = (DirectXVersion == 1) ? IID_IDirect3DTexture :
 			(DirectXVersion == 2) ? IID_IDirect3DTexture2 : IID_IDirect3DTexture2;
 
-		ProxyDirectXVersion = GetIIDVersion(ConvertREFIID(WrapperID));
+		ProxyDirectXVersion = GetIIDVersion(WrapperID);
 	}
 	~m_IDirect3DTextureX() {}
 

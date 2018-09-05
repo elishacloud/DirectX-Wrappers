@@ -18,7 +18,7 @@
 
 HRESULT m_IDirectInput8A::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirectInput8A || riid == CLSID_DirectInput8 || riid == IID_IUnknown) && ppvObj)
+	if ((riid == IID_IDirectInput8A || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 

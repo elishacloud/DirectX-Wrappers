@@ -18,7 +18,7 @@
 
 HRESULT m_IDirectSoundCapture8::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirectSoundCapture || riid == IID_IDirectSoundCapture8 || riid == CLSID_DirectSoundCapture || riid == CLSID_DirectSoundCapture8 || riid == IID_IUnknown) && ppvObj)
+	if ((riid == IID_IDirectSoundCapture || riid == IID_IDirectSoundCapture8 || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 

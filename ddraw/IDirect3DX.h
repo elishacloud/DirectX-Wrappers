@@ -18,7 +18,7 @@ public:
 			(DirectXVersion == 3) ? IID_IDirect3D3 :
 			(DirectXVersion == 7) ? IID_IDirect3D7 : IID_IDirect3D7;
 
-		ProxyDirectXVersion = GetIIDVersion(ConvertREFIID(WrapperID));
+		ProxyDirectXVersion = GetIIDVersion(WrapperID);
 	}
 	~m_IDirect3DX() {}
 

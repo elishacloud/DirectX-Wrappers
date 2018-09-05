@@ -16,12 +16,8 @@
 
 #include "dinput8.h"
 
-void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj)
+void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	REFIID riid = (CalledID == CLSID_DirectInput8) ? IID_IDirectInput8 :
-		(CalledID == CLSID_DirectInputDevice8) ? IID_IDirectInputDevice8 :
-		CalledID;
-
 #define QUERYINTERFACE(x) \
 	if (riid == IID_ ## x) \
 		{ \
