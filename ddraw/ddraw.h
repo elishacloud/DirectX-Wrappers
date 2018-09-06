@@ -50,7 +50,7 @@ class m_IDirectDrawSurfaceX;
 #define DDWRAPPER_TYPEX 0x80
 
 typedef void(WINAPI *AcquireDDThreadLockProc)();
-typedef void(WINAPI *CompleteCreateSystemSurfaceProc)();
+typedef void(WINAPI *CompleteCreateSysmemSurfaceProc)();
 typedef HRESULT(WINAPI *D3DParseUnknownCommandProc)(LPVOID lpCmd, LPVOID *lpRetCmd);
 typedef void(WINAPI *DDGetAttachedSurfaceLclProc)();
 typedef void(WINAPI *DDInternalLockProc)();

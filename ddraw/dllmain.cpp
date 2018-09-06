@@ -21,7 +21,7 @@ AddressLookupTableDdraw<void> ProxyAddressLookupTable = AddressLookupTableDdraw<
 IDirectDraw7 *CurrentDDInterface = nullptr;
 
 AcquireDDThreadLockProc m_pAcquireDDThreadLock;
-CompleteCreateSystemSurfaceProc m_pCompleteCreateSystemSurface;
+CompleteCreateSysmemSurfaceProc m_pCompleteCreateSysmemSurface;
 D3DParseUnknownCommandProc m_pD3DParseUnknownCommand;
 DDGetAttachedSurfaceLclProc m_pDDGetAttachedSurfaceLcl;
 DDInternalLockProc m_pDDInternalLock;
@@ -58,7 +58,7 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 
 		// Get function addresses
 		m_pAcquireDDThreadLock = (AcquireDDThreadLockProc)GetProcAddress(ddrawdll, "AcquireDDThreadLock");
-		m_pCompleteCreateSystemSurface = (CompleteCreateSystemSurfaceProc)GetProcAddress(ddrawdll, "CompleteCreateSystemSurface");
+		m_pCompleteCreateSysmemSurface = (CompleteCreateSysmemSurfaceProc)GetProcAddress(ddrawdll, "CompleteCreateSysmemSurface");
 		m_pD3DParseUnknownCommand = (D3DParseUnknownCommandProc)GetProcAddress(ddrawdll, "D3DParseUnknownCommand");
 		m_pDDGetAttachedSurfaceLcl = (DDGetAttachedSurfaceLclProc)GetProcAddress(ddrawdll, "DDGetAttachedSurfaceLcl");
 		m_pDDInternalLock = (DDInternalLockProc)GetProcAddress(ddrawdll, "DDInternalLock");
@@ -98,14 +98,14 @@ void WINAPI AcquireDDThreadLock()
 	return m_pAcquireDDThreadLock();
 }
 
-void WINAPI CompleteCreateSystemSurface()
+void WINAPI CompleteCreateSysmemSurface()
 {
-	if (!m_pCompleteCreateSystemSurface)
+	if (!m_pCompleteCreateSysmemSurface)
 	{
 		return;
 	}
 
-	return m_pCompleteCreateSystemSurface();
+	return m_pCompleteCreateSysmemSurface();
 }
 
 HRESULT WINAPI D3DParseUnknownCommand(LPVOID lpCmd, LPVOID *lpRetCmd)
