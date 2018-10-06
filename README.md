@@ -47,4 +47,4 @@ Code in this project is taken from:
 
 ### Development
 
-Development was done in C++ using Microsoft Visual Studio Community 2015.
+Development was done in C++ using Microsoft Visual Studio Community 2017.
