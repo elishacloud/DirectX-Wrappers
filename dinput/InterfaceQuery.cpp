@@ -18,6 +18,11 @@
 
 void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 {
+	if (!ppvObj || !*ppvObj)
+	{
+		return;
+	}
+
 #define QUERYINTERFACE(x) \
 	if (riid == IID_ ## x) \
 		{ \
