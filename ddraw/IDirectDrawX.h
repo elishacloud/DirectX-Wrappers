@@ -9,10 +9,6 @@ private:
 	DWORD ProxyDirectXVersion;
 	IID WrapperID;
 
-	// Fix exclusive mode issue
-	HHOOK g_hook = nullptr;
-	HWND chWnd = nullptr;
-
 public:
 	m_IDirectDrawX(IDirectDraw7 *aOriginal, DWORD Version, m_IDirectDraw7 *Interface) : ProxyInterface(aOriginal), DirectXVersion(Version), WrapperInterface(Interface)
 	{
@@ -24,16 +20,7 @@ public:
 
 		ProxyDirectXVersion = GetIIDVersion(WrapperID);
 	}
-	~m_IDirectDrawX()
-	{
-		PVOID MyNull = nullptr;
-		InterlockedExchangePointer((PVOID*)&CurrentDDInterface, MyNull);
-
-		if (g_hook)
-		{
-			UnhookWindowsHookEx(g_hook);
-		}
-	}
+	~m_IDirectDrawX() {}
 
 	DWORD GetDirectXVersion() { return DDWRAPPER_TYPEX; }
 	REFIID GetWrapperType() { return WrapperID; }

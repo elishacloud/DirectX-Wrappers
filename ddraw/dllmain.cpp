@@ -18,7 +18,6 @@
 
 std::ofstream Log::LOG("ddraw.log");
 AddressLookupTableDdraw<void> ProxyAddressLookupTable = AddressLookupTableDdraw<void>();
-IDirectDraw7 *CurrentDDInterface = nullptr;
 
 AcquireDDThreadLockProc m_pAcquireDDThreadLock;
 CompleteCreateSysmemSurfaceProc m_pCompleteCreateSysmemSurface;

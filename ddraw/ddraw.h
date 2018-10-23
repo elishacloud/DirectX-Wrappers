@@ -76,7 +76,6 @@ DWORD GetIIDVersion(REFIID CalledID);
 HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID CalledID, LPVOID * ppvObj, REFIID CallerID, LPVOID WrapperInterface);
 void genericQueryInterface(REFIID riid, LPVOID * ppvObj);
 extern AddressLookupTableDdraw<void> ProxyAddressLookupTable;
-extern IDirectDraw7 *CurrentDDInterface;
 
 // Direct3D Version Wrappers
 #include "Versions\IDirect3D.h"

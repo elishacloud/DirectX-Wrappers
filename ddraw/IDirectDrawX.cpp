@@ -16,8 +16,6 @@
 
 #include "ddraw.h"
 
-std::unordered_map<HWND, IDirectDraw7*> g_hookmap;
-
 /************************/
 /*** IUnknown methods ***/
 /************************/
@@ -209,55 +207,8 @@ HRESULT m_IDirectDrawX::RestoreDisplayMode()
 	return ProxyInterface->RestoreDisplayMode();
 }
 
-// Fixes a bug in ddraw in Windows 8 and 10 where the exclusive flag remains even after the window (hWnd) closes
-LRESULT CALLBACK CBTProc(int nCode, WPARAM wParam, LPARAM lParam)
-{
-	UNREFERENCED_PARAMETER(lParam);
-
-	if (nCode == HCBT_DESTROYWND)
-	{
-		HWND hWnd = (HWND)wParam;
-		IDirectDraw7 *Interface = (IDirectDraw7*)InterlockedExchangePointer((PVOID*)&CurrentDDInterface, nullptr);
-		if (Interface && Interface == g_hookmap[hWnd])
-		{
-			Interface->SetCooperativeLevel(hWnd, DDSCL_NORMAL);
-		}
-		g_hookmap.erase(hWnd);
-	}
-
-	return CallNextHookEx(nullptr, nCode, wParam, lParam);
-}
-
 HRESULT m_IDirectDrawX::SetCooperativeLevel(HWND hWnd, DWORD dwFlags)
 {
-	// Release previouse Exclusive flag
-	// Hook window message to get notified when the window is about to exit to remove the exclusive flag
-	if ((dwFlags & DDSCL_EXCLUSIVE) && hWnd && hWnd != chWnd)
-	{
-		if (IsWindow(chWnd))
-		{
-			ProxyInterface->SetCooperativeLevel(chWnd, DDSCL_NORMAL);
-		}
-		else
-		{
-			if (g_hook)
-			{
-				UnhookWindowsHookEx(g_hook);
-				g_hook = nullptr;
-			}
-
-			g_hookmap[hWnd] = ProxyInterface;
-			g_hook = SetWindowsHookEx(WH_CBT, CBTProc, nullptr, GetWindowThreadProcessId(hWnd, nullptr));
-		}
-
-		if (chWnd)
-		{
-			g_hookmap.erase(chWnd);
-		}
-
-		chWnd = hWnd;
-	}
-
 	return ProxyInterface->SetCooperativeLevel(hWnd, dwFlags);
 }
 
