@@ -3,7 +3,19 @@
 #define INITGUID
 
 #include <d3d8.h>
-#include "..\Common\Wrapper.h"
+
+class m_IDirect3D8;
+class m_IDirect3DDevice8;
+class m_IDirect3DCubeTexture8;
+class m_IDirect3DIndexBuffer8;
+class m_IDirect3DSurface8;
+class m_IDirect3DSwapChain8;
+class m_IDirect3DTexture8;
+class m_IDirect3DVertexBuffer8;
+class m_IDirect3DVolume8;
+class m_IDirect3DVolumeTexture8;
+
+#include "AddressLookupTable.h"
 #include "..\Common\Logging.h"
 
 typedef void(WINAPI *Direct3D8EnableMaximizedWindowedModeShimProc)();

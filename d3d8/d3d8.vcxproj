@@ -91,6 +91,7 @@
     <ClCompile Include="IDirect3DVolumeTexture8.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddressLookupTable.h" />
     <ClInclude Include="d3d8.h" />
     <ClInclude Include="IDirect3D8.h" />
     <ClInclude Include="IDirect3DCubeTexture8.h" />
