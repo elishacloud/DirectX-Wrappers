@@ -17,7 +17,7 @@
 #include "ddraw.h"
 
 std::ofstream Log::LOG("ddraw.log");
-AddressLookupTableDdraw<void> ProxyAddressLookupTable = AddressLookupTableDdraw<void>();
+AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>();
 
 AcquireDDThreadLockProc m_pAcquireDDThreadLock;
 CompleteCreateSysmemSurfaceProc m_pCompleteCreateSysmemSurface;

@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirectDrawFactory : public IDirectDrawFactory, public AddressLookupTableDdrawObject
+class m_IDirectDrawFactory : public IDirectDrawFactory, public AddressLookupTableObject
 {
 private:
 	IDirectDrawFactory *ProxyInterface;

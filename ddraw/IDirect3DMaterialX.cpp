@@ -52,17 +52,37 @@ HRESULT m_IDirect3DMaterialX::Initialize(LPDIRECT3D lplpD3D)
 		lplpD3D = static_cast<m_IDirect3D *>(lplpD3D)->GetProxyInterface();
 	}
 
-	return ((IDirect3DMaterial*)ProxyInterface)->Initialize(lplpD3D);
+	return GetProxyInterfaceV1()->Initialize(lplpD3D);
 }
 
 HRESULT m_IDirect3DMaterialX::SetMaterial(LPD3DMATERIAL lpMat)
 {
-	return ProxyInterface->SetMaterial(lpMat);
+	switch (ProxyDirectXVersion)
+	{
+	case 1:
+		return GetProxyInterfaceV1()->SetMaterial(lpMat);
+	case 2:
+		return GetProxyInterfaceV2()->SetMaterial(lpMat);
+	case 3:
+		return GetProxyInterfaceV3()->SetMaterial(lpMat);
+	default:
+		return DDERR_GENERIC;
+	}
 }
 
 HRESULT m_IDirect3DMaterialX::GetMaterial(LPD3DMATERIAL lpMat)
 {
-	return ProxyInterface->GetMaterial(lpMat);
+	switch (ProxyDirectXVersion)
+	{
+	case 1:
+		return GetProxyInterfaceV1()->GetMaterial(lpMat);
+	case 2:
+		return GetProxyInterfaceV2()->GetMaterial(lpMat);
+	case 3:
+		return GetProxyInterfaceV3()->GetMaterial(lpMat);
+	default:
+		return DDERR_GENERIC;
+	}
 }
 
 HRESULT m_IDirect3DMaterialX::GetHandle(LPDIRECT3DDEVICE3 lpDirect3DDevice, LPD3DMATERIALHANDLE lpHandle)
@@ -72,15 +92,25 @@ HRESULT m_IDirect3DMaterialX::GetHandle(LPDIRECT3DDEVICE3 lpDirect3DDevice, LPD3
 		lpDirect3DDevice = static_cast<m_IDirect3DDevice3 *>(lpDirect3DDevice)->GetProxyInterface();
 	}
 
-	return ProxyInterface->GetHandle(lpDirect3DDevice, lpHandle);
+	switch (ProxyDirectXVersion)
+	{
+	case 1:
+		return GetProxyInterfaceV1()->GetHandle((LPDIRECT3DDEVICE)lpDirect3DDevice, lpHandle);
+	case 2:
+		return GetProxyInterfaceV2()->GetHandle((LPDIRECT3DDEVICE2)lpDirect3DDevice, lpHandle);
+	case 3:
+		return GetProxyInterfaceV3()->GetHandle(lpDirect3DDevice, lpHandle);
+	default:
+		return DDERR_GENERIC;
+	}
 }
 
 HRESULT m_IDirect3DMaterialX::Reserve()
 {
-	return ((IDirect3DMaterial*)ProxyInterface)->Reserve();
+	return GetProxyInterfaceV1()->Reserve();
 }
 
 HRESULT m_IDirect3DMaterialX::Unreserve()
 {
-	return ((IDirect3DMaterial*)ProxyInterface)->Unreserve();
+	return GetProxyInterfaceV1()->Unreserve();
 }

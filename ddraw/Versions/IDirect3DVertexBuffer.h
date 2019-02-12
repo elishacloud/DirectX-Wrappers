@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DVertexBuffer : public IDirect3DVertexBuffer, public AddressLookupTableDdrawObject
+class m_IDirect3DVertexBuffer : public IDirect3DVertexBuffer, public AddressLookupTableObject
 {
 private:
 	std::unique_ptr<m_IDirect3DVertexBufferX> ProxyInterface;

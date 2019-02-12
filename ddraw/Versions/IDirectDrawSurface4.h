@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirectDrawSurface4 : public IDirectDrawSurface4, public AddressLookupTableDdrawObject
+class m_IDirectDrawSurface4 : public IDirectDrawSurface4, public AddressLookupTableObject
 {
 private:
 	std::unique_ptr<m_IDirectDrawSurfaceX> ProxyInterface;

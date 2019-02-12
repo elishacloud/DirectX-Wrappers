@@ -112,4 +112,10 @@ public:
 	STDMETHOD(SetClipPlane)(THIS_ DWORD, D3DVALUE*);
 	STDMETHOD(GetClipPlane)(THIS_ DWORD, D3DVALUE*);
 	STDMETHOD(GetInfo)(THIS_ DWORD, LPVOID, DWORD);
+
+	// Helper functions
+	IDirect3DDevice *GetProxyInterfaceV1() { return (IDirect3DDevice *)ProxyInterface; }
+	IDirect3DDevice2 *GetProxyInterfaceV2() { return (IDirect3DDevice2 *)ProxyInterface; }
+	IDirect3DDevice3 *GetProxyInterfaceV3() { return (IDirect3DDevice3 *)ProxyInterface; }
+	IDirect3DDevice7 *GetProxyInterfaceV7() { return ProxyInterface; }
 };

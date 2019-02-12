@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DLight : public IDirect3DLight, public AddressLookupTableDdrawObject
+class m_IDirect3DLight : public IDirect3DLight, public AddressLookupTableObject
 {
 private:
 	IDirect3DLight *ProxyInterface;

@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirectDrawGammaControl : public IDirectDrawGammaControl, public AddressLookupTableDdrawObject
+class m_IDirectDrawGammaControl : public IDirectDrawGammaControl, public AddressLookupTableObject
 {
 private:
 	IDirectDrawGammaControl *ProxyInterface;

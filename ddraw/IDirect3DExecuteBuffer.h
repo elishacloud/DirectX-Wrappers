@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DExecuteBuffer : public IDirect3DExecuteBuffer, public AddressLookupTableDdrawObject
+class m_IDirect3DExecuteBuffer : public IDirect3DExecuteBuffer, public AddressLookupTableObject
 {
 private:
 	IDirect3DExecuteBuffer *ProxyInterface;

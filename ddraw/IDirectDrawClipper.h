@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirectDrawClipper : public IDirectDrawClipper, public AddressLookupTableDdrawObject
+class m_IDirectDrawClipper : public IDirectDrawClipper, public AddressLookupTableObject
 {
 private:
 	IDirectDrawClipper *ProxyInterface;

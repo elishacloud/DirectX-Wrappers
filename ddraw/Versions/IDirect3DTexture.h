@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DTexture : public IDirect3DTexture, public AddressLookupTableDdrawObject
+class m_IDirect3DTexture : public IDirect3DTexture, public AddressLookupTableObject
 {
 private:
 	std::unique_ptr<m_IDirect3DTextureX> ProxyInterface;

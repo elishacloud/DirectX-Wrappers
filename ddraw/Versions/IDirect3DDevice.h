@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirect3DDevice : public IDirect3DDevice, public AddressLookupTableDdrawObject
+class m_IDirect3DDevice : public IDirect3DDevice, public AddressLookupTableObject
 {
 private:
 	std::unique_ptr<m_IDirect3DDeviceX> ProxyInterface;

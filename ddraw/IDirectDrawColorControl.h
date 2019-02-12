@@ -1,6 +1,6 @@
 #pragma once
 
-class m_IDirectDrawColorControl : public IDirectDrawColorControl, public AddressLookupTableDdrawObject
+class m_IDirectDrawColorControl : public IDirectDrawColorControl, public AddressLookupTableObject
 {
 private:
 	IDirectDrawColorControl *ProxyInterface;

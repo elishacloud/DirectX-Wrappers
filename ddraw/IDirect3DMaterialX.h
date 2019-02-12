@@ -37,4 +37,9 @@ public:
 	STDMETHOD(GetHandle)(THIS_ LPDIRECT3DDEVICE3, LPD3DMATERIALHANDLE);
 	STDMETHOD(Reserve)(THIS);
 	STDMETHOD(Unreserve)(THIS);
+
+	// Helper functions
+	IDirect3DMaterial *GetProxyInterfaceV1() { return (IDirect3DMaterial *)ProxyInterface; }
+	IDirect3DMaterial2 *GetProxyInterfaceV2() { return (IDirect3DMaterial2 *)ProxyInterface; }
+	IDirect3DMaterial3 *GetProxyInterfaceV3() { return ProxyInterface; }
 };

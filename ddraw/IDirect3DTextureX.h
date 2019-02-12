@@ -35,4 +35,8 @@ public:
 	STDMETHOD(PaletteChanged)(THIS_ DWORD, DWORD);
 	STDMETHOD(Load)(THIS_ LPDIRECT3DTEXTURE2);
 	STDMETHOD(Unload)(THIS);
+
+	// Helper functions
+	IDirect3DTexture *GetProxyInterfaceV1() { return (IDirect3DTexture *)ProxyInterface; }
+	IDirect3DTexture2 *GetProxyInterfaceV2() { return ProxyInterface; }
 };

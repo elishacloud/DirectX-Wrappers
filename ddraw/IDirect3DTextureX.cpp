@@ -56,7 +56,7 @@ HRESULT m_IDirect3DTextureX::Initialize(LPDIRECT3DDEVICE lpDirect3DDevice, LPDIR
 		lplpDDSurface = static_cast<m_IDirectDrawSurface *>(lplpDDSurface)->GetProxyInterface();
 	}
 
-	return ((IDirect3DTexture*)ProxyInterface)->Initialize(lpDirect3DDevice, lplpDDSurface);
+	return GetProxyInterfaceV1()->Initialize(lpDirect3DDevice, lplpDDSurface);
 }
 
 HRESULT m_IDirect3DTextureX::GetHandle(LPDIRECT3DDEVICE2 lpDirect3DDevice2, LPD3DTEXTUREHANDLE lpHandle)
@@ -66,12 +66,28 @@ HRESULT m_IDirect3DTextureX::GetHandle(LPDIRECT3DDEVICE2 lpDirect3DDevice2, LPD3
 		lpDirect3DDevice2 = static_cast<m_IDirect3DDevice2 *>(lpDirect3DDevice2)->GetProxyInterface();
 	}
 
-	return ProxyInterface->GetHandle(lpDirect3DDevice2, lpHandle);
+	switch (ProxyDirectXVersion)
+	{
+	case 1:
+		return GetProxyInterfaceV1()->GetHandle((LPDIRECT3DDEVICE)lpDirect3DDevice2, lpHandle);
+	case 2:
+		return GetProxyInterfaceV2()->GetHandle(lpDirect3DDevice2, lpHandle);
+	default:
+		return DDERR_GENERIC;
+	}
 }
 
 HRESULT m_IDirect3DTextureX::PaletteChanged(DWORD dwStart, DWORD dwCount)
 {
-	return ProxyInterface->PaletteChanged(dwStart, dwCount);
+	switch (ProxyDirectXVersion)
+	{
+	case 1:
+		return GetProxyInterfaceV1()->PaletteChanged(dwStart, dwCount);
+	case 2:
+		return GetProxyInterfaceV2()->PaletteChanged(dwStart, dwCount);
+	default:
+		return DDERR_GENERIC;
+	}
 }
 
 HRESULT m_IDirect3DTextureX::Load(LPDIRECT3DTEXTURE2 lpD3DTexture2)
@@ -81,10 +97,18 @@ HRESULT m_IDirect3DTextureX::Load(LPDIRECT3DTEXTURE2 lpD3DTexture2)
 		lpD3DTexture2 = static_cast<m_IDirect3DTexture2 *>(lpD3DTexture2)->GetProxyInterface();
 	}
 
-	return ProxyInterface->Load(lpD3DTexture2);
+	switch (ProxyDirectXVersion)
+	{
+	case 1:
+		return GetProxyInterfaceV1()->Load((LPDIRECT3DTEXTURE)lpD3DTexture2);
+	case 2:
+		return GetProxyInterfaceV2()->Load(lpD3DTexture2);
+	default:
+		return DDERR_GENERIC;
+	}
 }
 
 HRESULT m_IDirect3DTextureX::Unload()
 {
-	return ((IDirect3DTexture*)ProxyInterface)->Unload();
+	return GetProxyInterfaceV1()->Unload();
 }
