@@ -6,7 +6,7 @@ private:
 	IDirectInputA *ProxyInterface;
 
 public:
-	m_IDirectInputA(IDirectInputA *aOriginal, void *temp) : ProxyInterface(aOriginal)
+	m_IDirectInputA(IDirectInputA *aOriginal) : ProxyInterface(aOriginal)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}

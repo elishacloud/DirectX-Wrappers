@@ -17,7 +17,7 @@
 #include "dsound.h"
 
 std::ofstream Log::LOG("dsound.log");
-AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>(nullptr);
+AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>();
 
 DirectSoundCreateProc m_pDirectSoundCreate;
 DirectSoundEnumerateAProc m_pDirectSoundEnumerateA;

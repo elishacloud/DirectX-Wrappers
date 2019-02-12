@@ -4,7 +4,22 @@
 
 #define DIRECTINPUT_VERSION 0x0700
 #include <dinput.h>
-#include "..\Common\Wrapper.h"
+
+class m_IDirectInputA;
+class m_IDirectInputW;
+class m_IDirectInput2A;
+class m_IDirectInput2W;
+class m_IDirectInput7A;
+class m_IDirectInput7W;
+class m_IDirectInputDeviceA;
+class m_IDirectInputDeviceW;
+class m_IDirectInputDevice2A;
+class m_IDirectInputDevice2W;
+class m_IDirectInputDevice7A;
+class m_IDirectInputDevice7W;
+class m_IDirectInputEffect;
+
+#include "AddressLookupTable.h"
 #include "..\Common\Logging.h"
 
 typedef HRESULT(WINAPI *DirectInputCreateAProc)(HINSTANCE, DWORD, LPDIRECTINPUTA*, LPUNKNOWN);

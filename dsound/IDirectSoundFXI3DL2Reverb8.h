@@ -6,7 +6,7 @@ private:
 	LPDIRECTSOUNDFXI3DL2REVERB8 ProxyInterface;
 
 public:
-	m_IDirectSoundFXI3DL2Reverb8(LPDIRECTSOUNDFXI3DL2REVERB8 pSound8, void *temp) : ProxyInterface(pSound8)
+	m_IDirectSoundFXI3DL2Reverb8(LPDIRECTSOUNDFXI3DL2REVERB8 pSound8) : ProxyInterface(pSound8)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}

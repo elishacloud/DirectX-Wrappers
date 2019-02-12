@@ -6,7 +6,7 @@ private:
 	IKsPropertySet *ProxyInterface;
 
 public:
-	m_IKsPropertySet(IKsPropertySet *pSound8, void *temp) : ProxyInterface(pSound8)
+	m_IKsPropertySet(IKsPropertySet *pSound8) : ProxyInterface(pSound8)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}

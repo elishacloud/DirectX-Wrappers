@@ -6,7 +6,7 @@ private:
 	LPCLASSFACTORY ProxyInterface;
 
 public:
-	m_IClassFactory(LPCLASSFACTORY pSound8, void *temp) : ProxyInterface(pSound8)
+	m_IClassFactory(LPCLASSFACTORY pSound8) : ProxyInterface(pSound8)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}

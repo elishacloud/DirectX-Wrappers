@@ -1,7 +1,29 @@
 #pragma once
 
 #include <dsound.h>
-#include "..\Common\Wrapper.h"
+
+class m_IDirectSound8;
+class m_IDirectSound3DBuffer8;
+class m_IDirectSound3DListener8;
+class m_IDirectSoundBuffer8;
+class m_IDirectSoundCapture8;
+class m_IDirectSoundCaptureBuffer8;
+class m_IDirectSoundCaptureFXAec8;
+class m_IDirectSoundCaptureFXNoiseSuppress8;
+class m_IDirectSoundFullDuplex8;
+class m_IDirectSoundFXChorus8;
+class m_IDirectSoundFXCompressor8;
+class m_IDirectSoundFXDistortion8;
+class m_IDirectSoundFXEcho8;
+class m_IDirectSoundFXFlanger8;
+class m_IDirectSoundFXGargle8;
+class m_IDirectSoundFXI3DL2Reverb8;
+class m_IDirectSoundFXParamEq8;
+class m_IDirectSoundFXWavesReverb8;
+class m_IDirectSoundNotify8;
+class m_IKsPropertySet;
+
+#include "AddressLookupTable.h"
 #include "..\Common\Logging.h"
 
 typedef HRESULT(WINAPI *DirectSoundCreateProc)(LPCGUID, LPDIRECTSOUND*, LPUNKNOWN);

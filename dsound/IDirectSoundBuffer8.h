@@ -6,7 +6,7 @@ private:
 	LPDIRECTSOUNDBUFFER8 ProxyInterface;
 
 public:
-	m_IDirectSoundBuffer8(LPDIRECTSOUNDBUFFER8 pSound8, void *temp) : ProxyInterface(pSound8)
+	m_IDirectSoundBuffer8(LPDIRECTSOUNDBUFFER8 pSound8) : ProxyInterface(pSound8)
 	{
 		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
 	}

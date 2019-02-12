@@ -17,7 +17,7 @@
 #include "dinput.h"
 
 std::ofstream Log::LOG("dinput.log");
-AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>(nullptr);
+AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>();
 
 DirectInputCreateAProc m_pDirectInputCreateA;
 DirectInputCreateExProc m_pDirectInputCreateEx;

@@ -17,7 +17,7 @@
 #include "dinput8.h"
 
 std::ofstream Log::LOG("dinput8.log");
-AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>(nullptr);
+AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>();
 
 DirectInput8CreateProc m_pDirectInput8Create;
 DllCanUnloadNowProc m_pDllCanUnloadNow;

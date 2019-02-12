@@ -4,7 +4,14 @@
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
-#include "..\Common\Wrapper.h"
+
+class m_IDirectInput8A;
+class m_IDirectInput8W;
+class m_IDirectInputDevice8A;
+class m_IDirectInputDevice8W;
+class m_IDirectInputEffect;
+
+#include "AddressLookupTable.h"
 #include "..\Common\Logging.h"
 
 typedef HRESULT(WINAPI *DirectInput8CreateProc)(HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOWN);

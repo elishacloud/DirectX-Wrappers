@@ -106,6 +106,7 @@
     <None Include="dsound.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddressLookupTable.h" />
     <ClInclude Include="dsound.h" />
     <ClInclude Include="IDirectSound3DBuffer8.h" />
     <ClInclude Include="IDirectSound3DListener8.h" />

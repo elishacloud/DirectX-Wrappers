@@ -93,6 +93,7 @@
     <None Include="dinput8.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddressLookupTable.h" />
     <ClInclude Include="dinput8.h" />
     <ClInclude Include="IDirectInput8A.h" />
     <ClInclude Include="IDirectInput8W.h" />
