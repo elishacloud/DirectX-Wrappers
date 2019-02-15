@@ -39,25 +39,6 @@ public:
 	struct AddressCacheIndex<m_IDirectInputEffect> { static constexpr UINT CacheIndex = 6; };
 
 	template <typename T>
-	void ClearAddress(void *Proxy)
-	{
-		if (!Proxy || ConstructorFlag)
-		{
-			return;
-		}
-
-		for (UINT CacheIndex = 0; CacheIndex < MaxIndex; CacheIndex++)
-		{
-			auto it = g_map[CacheIndex].find(Proxy);
-
-			if (it != std::end(g_map[CacheIndex]))
-			{
-				static_cast<T *>(it->second)->DeleteMe();
-			}
-		}
-	}
-
-	template <typename T>
 	T *FindAddress(void *Proxy)
 	{
 		if (!Proxy)
@@ -72,8 +53,6 @@ public:
 		{
 			return static_cast<T *>(it->second);
 		}
-
-		ClearAddress<T>(Proxy);
 
 		return new T(static_cast<T *>(Proxy));
 	}

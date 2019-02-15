@@ -24,7 +24,7 @@ Note: It currently only works with 32bit games, but I might add 64bit support at
 
 ### License
 
-Copyright (C) 2018 Elisha Riedlinger
+Copyright (C) 2019 Elisha Riedlinger
 
 This software is  provided 'as-is', without any express  or implied  warranty. In no event will the
 authors be held liable for any damages arising from the use of this software.
