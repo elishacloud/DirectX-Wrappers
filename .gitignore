@@ -23,6 +23,5 @@ Debug/
 */Release/
 */Debug/
 ipch/
-*.filters
 *.opensdf
 *.sdf
