@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <algorithm>
 
-constexpr UINT MaxIndex = 15;
+constexpr UINT MaxIndex = 14;
 
 template <typename D>
 class AddressLookupTable
@@ -26,33 +26,31 @@ public:
 	template <typename T>
 	struct AddressCacheIndex { static constexpr UINT CacheIndex = 0; };
 	template <>
-	struct AddressCacheIndex<IClassFactory> { static constexpr UINT CacheIndex = 1; };
+	struct AddressCacheIndex<m_IDirectInputA> { static constexpr UINT CacheIndex = 1; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInputA> { static constexpr UINT CacheIndex = 2; };
+	struct AddressCacheIndex<m_IDirectInputW> { static constexpr UINT CacheIndex = 2; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInputW> { static constexpr UINT CacheIndex = 3; };
+	struct AddressCacheIndex<m_IDirectInput2A> { static constexpr UINT CacheIndex = 3; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInput2A> { static constexpr UINT CacheIndex = 4; };
+	struct AddressCacheIndex<m_IDirectInput2W> { static constexpr UINT CacheIndex = 4; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInput2W> { static constexpr UINT CacheIndex = 5; };
+	struct AddressCacheIndex<m_IDirectInput7A> { static constexpr UINT CacheIndex = 5; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInput7A> { static constexpr UINT CacheIndex = 6; };
+	struct AddressCacheIndex<m_IDirectInput7W> { static constexpr UINT CacheIndex = 6; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInput7W> { static constexpr UINT CacheIndex = 7; };
+	struct AddressCacheIndex<m_IDirectInputDeviceA> { static constexpr UINT CacheIndex = 7; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInputDeviceA> { static constexpr UINT CacheIndex = 8; };
+	struct AddressCacheIndex<m_IDirectInputDeviceW> { static constexpr UINT CacheIndex = 8; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInputDeviceW> { static constexpr UINT CacheIndex = 9; };
+	struct AddressCacheIndex<m_IDirectInputDevice2A> { static constexpr UINT CacheIndex = 9; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInputDevice2A> { static constexpr UINT CacheIndex = 10; };
+	struct AddressCacheIndex<m_IDirectInputDevice2W> { static constexpr UINT CacheIndex = 10; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInputDevice2W> { static constexpr UINT CacheIndex = 11; };
+	struct AddressCacheIndex<m_IDirectInputDevice7A> { static constexpr UINT CacheIndex = 11; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInputDevice7A> { static constexpr UINT CacheIndex = 12; };
+	struct AddressCacheIndex<m_IDirectInputDevice7W> { static constexpr UINT CacheIndex = 12; };
 	template <>
-	struct AddressCacheIndex<m_IDirectInputDevice7W> { static constexpr UINT CacheIndex = 13; };
-	template <>
-	struct AddressCacheIndex<m_IDirectInputEffect> { static constexpr UINT CacheIndex = 14; };
+	struct AddressCacheIndex<m_IDirectInputEffect> { static constexpr UINT CacheIndex = 13; };
 
 	template <typename T>
 	T *FindAddress(void *Proxy)
