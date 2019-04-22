@@ -37,14 +37,14 @@ ULONG m_IDirect3DDevice8::AddRef()
 
 ULONG m_IDirect3DDevice8::Release()
 {
-	ULONG count = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (count == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return count;
+	return ref;
 }
 
 HRESULT m_IDirect3DDevice8::Reset(D3DPRESENT_PARAMETERS *pPresentationParameters)
