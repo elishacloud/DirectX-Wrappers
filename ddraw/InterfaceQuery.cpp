@@ -63,6 +63,12 @@ void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 			*ppvObj = ProxyAddressLookupTable.FindAddress<m_ ## x>(*ppvObj); \
 		}
 
+#define CREATEINTERFACE(x) \
+	if (riid == IID_ ## x) \
+		{ \
+			*ppvObj = new m_ ## x((x*)*ppvObj); \
+		}
+
 	QUERYINTERFACE(IDirect3D);
 	QUERYINTERFACE(IDirect3D2);
 	QUERYINTERFACE(IDirect3D3);
@@ -90,7 +96,6 @@ void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 	QUERYINTERFACE(IDirectDraw7);
 	QUERYINTERFACE(IDirectDrawClipper);
 	QUERYINTERFACE(IDirectDrawColorControl);
-	QUERYINTERFACE(IDirectDrawFactory);
 	QUERYINTERFACE(IDirectDrawGammaControl);
 	QUERYINTERFACE(IDirectDrawPalette);
 	QUERYINTERFACE(IDirectDrawSurface);
@@ -98,4 +103,7 @@ void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 	QUERYINTERFACE(IDirectDrawSurface3);
 	QUERYINTERFACE(IDirectDrawSurface4);
 	QUERYINTERFACE(IDirectDrawSurface7);
+
+	CREATEINTERFACE(IDirectDrawFactory);
+	CREATEINTERFACE(IClassFactory);
 }

@@ -28,18 +28,11 @@ ULONG m_IDirect3DViewportX::AddRef()
 
 ULONG m_IDirect3DViewportX::Release()
 {
-	LONG ref = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
 	if (ref == 0)
 	{
-		if (WrapperInterface)
-		{
-			WrapperInterface->DeleteMe();
-		}
-		else
-		{
-			delete this;
-		}
+		WrapperInterface->DeleteMe();
 	}
 
 	return ref;

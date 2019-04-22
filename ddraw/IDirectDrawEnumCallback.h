@@ -3,6 +3,13 @@
 struct ENUMSURFACE
 {
 	LPVOID lpContext;
+	LPDDENUMSURFACESCALLBACK lpCallback;
+	DWORD DirectXVersion;
+};
+
+struct ENUMSURFACE2
+{
+	LPVOID lpContext;
 	LPDDENUMSURFACESCALLBACK7 lpCallback;
 	DWORD DirectXVersion;
 };
@@ -13,6 +20,6 @@ public:
 	m_IDirectDrawEnumSurface() {}
 	~m_IDirectDrawEnumSurface() {}
 
-	template <typename T, typename D>
-	static HRESULT CALLBACK ConvertCallback(T lpDDSurface, D lpDDSurfaceDesc, LPVOID lpContext);
+	static HRESULT CALLBACK ConvertCallback(LPDIRECTDRAWSURFACE lpDDSurface, LPDDSURFACEDESC lpDDSurfaceDesc, LPVOID lpContext);
+	static HRESULT CALLBACK ConvertCallback2(LPDIRECTDRAWSURFACE7 lpDDSurface, LPDDSURFACEDESC2 lpDDSurfaceDesc2, LPVOID lpContext);
 };

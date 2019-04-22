@@ -28,18 +28,11 @@ ULONG m_IDirect3DTextureX::AddRef()
 
 ULONG m_IDirect3DTextureX::Release()
 {
-	LONG ref = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
 	if (ref == 0)
 	{
-		if (WrapperInterface)
-		{
-			WrapperInterface->DeleteMe();
-		}
-		else
-		{
-			delete this;
-		}
+		WrapperInterface->DeleteMe();
 	}
 
 	return ref;

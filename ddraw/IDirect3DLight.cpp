@@ -28,14 +28,14 @@ ULONG m_IDirect3DLight::AddRef()
 
 ULONG m_IDirect3DLight::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return x;
+	return ref;
 }
 
 HRESULT m_IDirect3DLight::Initialize(LPDIRECT3D lpDirect3D)

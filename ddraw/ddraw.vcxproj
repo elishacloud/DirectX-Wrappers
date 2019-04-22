@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="IClassFactory.cpp" />
     <ClCompile Include="IDirect3DDeviceX.cpp" />
     <ClCompile Include="IDirect3DExecuteBuffer.cpp" />
     <ClCompile Include="IDirect3DLight.cpp" />
@@ -129,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="AddressLookupTable.h" />
     <ClInclude Include="ddraw.h" />
+    <ClInclude Include="IClassFactory.h" />
     <ClInclude Include="IDirect3DDeviceX.h" />
     <ClInclude Include="IDirect3DExecuteBuffer.h" />
     <ClInclude Include="IDirect3DLight.h" />

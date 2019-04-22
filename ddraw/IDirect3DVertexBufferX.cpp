@@ -28,21 +28,14 @@ ULONG m_IDirect3DVertexBufferX::AddRef()
 
 ULONG m_IDirect3DVertexBufferX::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
-		if (WrapperInterface)
-		{
-			WrapperInterface->DeleteMe();
-		}
-		else
-		{
-			delete this;
-		}
+		WrapperInterface->DeleteMe();
 	}
 
-	return x;
+	return ref;
 }
 
 HRESULT m_IDirect3DVertexBufferX::Lock(DWORD dwFlags, LPVOID * lplpData, LPDWORD lpdwSize)

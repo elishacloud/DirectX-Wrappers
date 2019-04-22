@@ -40,16 +40,16 @@ public:
 	STDMETHOD(BltBatch)(THIS_ LPDDBLTBATCH, DWORD, DWORD);
 	STDMETHOD(BltFast)(THIS_ DWORD, DWORD, LPDIRECTDRAWSURFACE7, LPRECT, DWORD);
 	STDMETHOD(DeleteAttachedSurface)(THIS_ DWORD, LPDIRECTDRAWSURFACE7);
-	template <typename T>
-	HRESULT EnumAttachedSurfaces(LPVOID, T);
-	template <typename T>
-	HRESULT EnumOverlayZOrders(DWORD, LPVOID, T);
+	STDMETHOD(EnumAttachedSurfaces)(THIS_ LPVOID, LPDDENUMSURFACESCALLBACK);
+	STDMETHOD(EnumAttachedSurfaces2)(THIS_ LPVOID, LPDDENUMSURFACESCALLBACK7);
+	STDMETHOD(EnumOverlayZOrders)(THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK);
+	STDMETHOD(EnumOverlayZOrders2)(THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK7);
 	STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE7, DWORD);
-	template <typename T>
-	HRESULT GetAttachedSurface(T, LPDIRECTDRAWSURFACE7 FAR *);
+	STDMETHOD(GetAttachedSurface)(THIS_ LPDDSCAPS, LPDIRECTDRAWSURFACE7 FAR *);
+	STDMETHOD(GetAttachedSurface2)(THIS_ LPDDSCAPS2, LPDIRECTDRAWSURFACE7 FAR *);
 	STDMETHOD(GetBltStatus)(THIS_ DWORD);
-	template <typename T>
-	HRESULT GetCaps(T);
+	STDMETHOD(GetCaps)(THIS_ LPDDSCAPS);
+	STDMETHOD(GetCaps2)(THIS_ LPDDSCAPS2);
 	STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR*);
 	STDMETHOD(GetColorKey)(THIS_ DWORD, LPDDCOLORKEY);
 	STDMETHOD(GetDC)(THIS_ HDC FAR *);
@@ -57,13 +57,13 @@ public:
 	STDMETHOD(GetOverlayPosition)(THIS_ LPLONG, LPLONG);
 	STDMETHOD(GetPalette)(THIS_ LPDIRECTDRAWPALETTE FAR*);
 	STDMETHOD(GetPixelFormat)(THIS_ LPDDPIXELFORMAT);
-	template <typename T>
-	HRESULT GetSurfaceDesc(T);
-	template <typename T>
-	HRESULT Initialize(LPDIRECTDRAW, T);
+	STDMETHOD(GetSurfaceDesc)(THIS_ LPDDSURFACEDESC);
+	STDMETHOD(GetSurfaceDesc2)(THIS_ LPDDSURFACEDESC2);
+	STDMETHOD(Initialize)(THIS_ LPDIRECTDRAW, LPDDSURFACEDESC);
+	STDMETHOD(Initialize2)(THIS_ LPDIRECTDRAW, LPDDSURFACEDESC2);
 	STDMETHOD(IsLost)(THIS);
-	template <typename T>
-	HRESULT Lock(LPRECT, T, DWORD, HANDLE);
+	STDMETHOD(Lock)(THIS_ LPRECT, LPDDSURFACEDESC, DWORD, HANDLE);
+	STDMETHOD(Lock2)(THIS_ LPRECT, LPDDSURFACEDESC2, DWORD, HANDLE);
 	STDMETHOD(ReleaseDC)(THIS_ HDC);
 	STDMETHOD(Restore)(THIS);
 	STDMETHOD(SetClipper)(THIS_ LPDIRECTDRAWCLIPPER);
@@ -81,8 +81,8 @@ public:
 	STDMETHOD(PageUnlock)(THIS_ DWORD);
 
 	/*** Added in the v3 interface ***/
-	template <typename T>
-	HRESULT SetSurfaceDesc(T, DWORD);
+	STDMETHOD(SetSurfaceDesc)(THIS_ LPDDSURFACEDESC, DWORD);
+	STDMETHOD(SetSurfaceDesc2)(THIS_ LPDDSURFACEDESC2, DWORD);
 
 	/*** Added in the v4 interface ***/
 	STDMETHOD(SetPrivateData)(THIS_ REFGUID, LPVOID, DWORD, DWORD);
@@ -96,4 +96,11 @@ public:
 	STDMETHOD(GetPriority)(THIS_ LPDWORD);
 	STDMETHOD(SetLOD)(THIS_ DWORD);
 	STDMETHOD(GetLOD)(THIS_ LPDWORD);
+
+	// Helper functions
+	IDirectDrawSurface *GetProxyInterfaceV1() { return (IDirectDrawSurface *)ProxyInterface; }
+	IDirectDrawSurface2 *GetProxyInterfaceV2() { return (IDirectDrawSurface2 *)ProxyInterface; }
+	IDirectDrawSurface3 *GetProxyInterfaceV3() { return (IDirectDrawSurface3 *)ProxyInterface; }
+	IDirectDrawSurface4 *GetProxyInterfaceV4() { return (IDirectDrawSurface4 *)ProxyInterface; }
+	IDirectDrawSurface7 *GetProxyInterfaceV7() { return (IDirectDrawSurface7 *)ProxyInterface; }
 };

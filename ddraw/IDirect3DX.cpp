@@ -32,14 +32,7 @@ ULONG m_IDirect3DX::Release()
 
 	if (ref == 0)
 	{
-		if (WrapperInterface)
-		{
-			WrapperInterface->DeleteMe();
-		}
-		else
-		{
-			delete this;
-		}
+		WrapperInterface->DeleteMe();
 	}
 
 	return ref;
@@ -47,27 +40,27 @@ ULONG m_IDirect3DX::Release()
 
 HRESULT m_IDirect3DX::Initialize(REFCLSID rclsid)
 {
-	return ((IDirect3D*)ProxyInterface)->Initialize(rclsid);
+	return GetProxyInterfaceV1()->Initialize(rclsid);
 }
 
-template HRESULT m_IDirect3DX::EnumDevices<LPD3DENUMDEVICESCALLBACK>(LPD3DENUMDEVICESCALLBACK, LPVOID);
-template HRESULT m_IDirect3DX::EnumDevices<LPD3DENUMDEVICESCALLBACK7>(LPD3DENUMDEVICESCALLBACK7, LPVOID);
-template <typename T>
-HRESULT m_IDirect3DX::EnumDevices(T lpEnumDevicesCallback, LPVOID lpUserArg)
+HRESULT m_IDirect3DX::EnumDevices(LPD3DENUMDEVICESCALLBACK lpEnumDevicesCallback, LPVOID lpUserArg)
 {
 	switch (ProxyDirectXVersion)
 	{
 	case 1:
-		return GetProxyInterfaceV1()->EnumDevices((LPD3DENUMDEVICESCALLBACK)lpEnumDevicesCallback, lpUserArg);
+		return GetProxyInterfaceV1()->EnumDevices(lpEnumDevicesCallback, lpUserArg);
 	case 2:
-		return GetProxyInterfaceV2()->EnumDevices((LPD3DENUMDEVICESCALLBACK)lpEnumDevicesCallback, lpUserArg);
+		return GetProxyInterfaceV2()->EnumDevices(lpEnumDevicesCallback, lpUserArg);
 	case 3:
-		return GetProxyInterfaceV3()->EnumDevices((LPD3DENUMDEVICESCALLBACK)lpEnumDevicesCallback, lpUserArg);
-	case 7:
-		return GetProxyInterfaceV7()->EnumDevices((LPD3DENUMDEVICESCALLBACK7)lpEnumDevicesCallback, lpUserArg);
+		return GetProxyInterfaceV3()->EnumDevices(lpEnumDevicesCallback, lpUserArg);
 	default:
 		return DDERR_GENERIC;
 	}
+}
+
+HRESULT m_IDirect3DX::EnumDevices7(LPD3DENUMDEVICESCALLBACK7 lpEnumDevicesCallback, LPVOID lpUserArg)
+{
+	return GetProxyInterfaceV7()->EnumDevices(lpEnumDevicesCallback, lpUserArg);
 }
 
 HRESULT m_IDirect3DX::CreateLight(LPDIRECT3DLIGHT * lplpDirect3DLight, LPUNKNOWN pUnkOuter)

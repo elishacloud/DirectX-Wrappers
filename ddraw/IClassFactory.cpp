@@ -16,17 +16,42 @@
 
 #include "ddraw.h"
 
-HRESULT m_IDirectDrawGammaControl::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
+/************************/
+/*** IUnknown methods ***/
+/************************/
+
+HRESULT m_IClassFactory::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	return ProxyQueryInterface(ProxyInterface, riid, ppvObj, WrapperID, this);
+	if (!ppvObj)
+	{
+		return E_FAIL;
+	}
+
+	if ((riid == IID_IClassFactory || riid == IID_IUnknown) && ppvObj)
+	{
+		AddRef();
+
+		*ppvObj = this;
+
+		return S_OK;
+	}
+
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
+	return hr;
 }
 
-ULONG m_IDirectDrawGammaControl::AddRef()
+ULONG m_IClassFactory::AddRef()
 {
 	return ProxyInterface->AddRef();
 }
 
-ULONG m_IDirectDrawGammaControl::Release()
+ULONG m_IClassFactory::Release()
 {
 	ULONG ref = ProxyInterface->Release();
 
@@ -38,12 +63,23 @@ ULONG m_IDirectDrawGammaControl::Release()
 	return ref;
 }
 
-HRESULT m_IDirectDrawGammaControl::GetGammaRamp(DWORD dwFlags, LPDDGAMMARAMP lpRampData)
+/*****************************/
+/*** IClassFactory methods ***/
+/*****************************/
+
+HRESULT m_IClassFactory::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject)
 {
-	return ProxyInterface->GetGammaRamp(dwFlags, lpRampData);
+	HRESULT hr = ProxyInterface->CreateInstance(pUnkOuter, riid, ppvObject);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObject);
+	}
+
+	return hr;
 }
 
-HRESULT m_IDirectDrawGammaControl::SetGammaRamp(DWORD dwFlags, LPDDGAMMARAMP lpRampData)
+HRESULT m_IClassFactory::LockServer(BOOL fLock)
 {
-	return ProxyInterface->SetGammaRamp(dwFlags, lpRampData);
+	return ProxyInterface->LockServer(fLock);
 }
