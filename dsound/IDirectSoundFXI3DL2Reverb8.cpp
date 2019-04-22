@@ -44,14 +44,14 @@ ULONG m_IDirectSoundFXI3DL2Reverb8::AddRef()
 
 ULONG m_IDirectSoundFXI3DL2Reverb8::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return x;
+	return ref;
 }
 
 // IDirectSoundFXI3DL2Reverb methods

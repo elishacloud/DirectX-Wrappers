@@ -1,28 +1,26 @@
 #pragma once
 
-class m_IClassFactory : public IClassFactory, public AddressLookupTableObject
+#define WIN32_LEAN_AND_MEAN
+#include <Unknwnbase.h>
+
+typedef void(WINAPI *IQueryInterfaceProc)(REFIID, LPVOID *);
+
+class m_IClassFactory : public IClassFactory
 {
 private:
-	LPCLASSFACTORY ProxyInterface;
+	IClassFactory *ProxyInterface;
+	REFIID WrapperID = IID_IClassFactory;
 
 public:
-	m_IClassFactory(LPCLASSFACTORY pSound8) : ProxyInterface(pSound8)
-	{
-		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
-	}
-	~m_IClassFactory()
-	{
-		ProxyAddressLookupTable.DeleteAddress(this);
-	}
+	m_IClassFactory(IClassFactory *aOriginal) : ProxyInterface(aOriginal) {}
+	~m_IClassFactory() {}
 
-	LPCLASSFACTORY GetProxyInterface() { return ProxyInterface; }
+	/*** IUnknown methods ***/
+	STDMETHOD(QueryInterface) (THIS_ REFIID riid, LPVOID FAR * ppvObj);
+	STDMETHOD_(ULONG, AddRef) (THIS);
+	STDMETHOD_(ULONG, Release) (THIS);
 
-	// IUnknown methods
-	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, LPVOID *);
-	virtual ULONG STDMETHODCALLTYPE AddRef();
-	virtual ULONG STDMETHODCALLTYPE Release();
-
-	// IClassFactory methods
-	virtual HRESULT STDMETHODCALLTYPE CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject);
-	virtual HRESULT STDMETHODCALLTYPE LockServer(BOOL fLock);
+	/*** IClassFactory methods ***/
+	STDMETHOD(CreateInstance)(IUnknown *pUnkOuter, REFIID riid, void **ppvObject);
+	STDMETHOD(LockServer)(BOOL fLock);
 };

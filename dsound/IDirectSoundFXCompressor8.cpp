@@ -44,14 +44,14 @@ ULONG m_IDirectSoundFXCompressor8::AddRef()
 
 ULONG m_IDirectSoundFXCompressor8::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return x;
+	return ref;
 }
 
 // IDirectSoundFXCompressor methods

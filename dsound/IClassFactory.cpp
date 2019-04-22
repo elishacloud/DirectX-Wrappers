@@ -16,8 +16,17 @@
 
 #include "dsound.h"
 
-HRESULT m_IClassFactory::QueryInterface(REFIID riid, LPVOID * ppvObj)
+/************************/
+/*** IUnknown methods ***/
+/************************/
+
+HRESULT m_IClassFactory::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
+	if (!ppvObj)
+	{
+		return E_FAIL;
+	}
+
 	if ((riid == IID_IClassFactory || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
@@ -44,24 +53,27 @@ ULONG m_IClassFactory::AddRef()
 
 ULONG m_IClassFactory::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return x;
+	return ref;
 }
 
-// IClassFactory methods
-HRESULT m_IClassFactory::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObj)
+/*****************************/
+/*** IClassFactory methods ***/
+/*****************************/
+
+HRESULT m_IClassFactory::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject)
 {
-	HRESULT hr = ProxyInterface->CreateInstance(pUnkOuter, riid, ppvObj);
+	HRESULT hr = ProxyInterface->CreateInstance(pUnkOuter, riid, ppvObject);
 
 	if (SUCCEEDED(hr))
 	{
-		genericQueryInterface(riid, ppvObj);
+		genericQueryInterface(riid, ppvObject);
 	}
 
 	return hr;

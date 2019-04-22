@@ -35,7 +35,12 @@ void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 			*ppvObj = ProxyAddressLookupTable.FindAddress<m_ ## x ## 8>(*ppvObj); \
 		}
 
-	QUERYINTERFACE(IClassFactory);
+#define CREATEINTERFACE(x) \
+	if (riid == IID_ ## x) \
+		{ \
+			*ppvObj = new m_ ## x((x*)*ppvObj); \
+		}
+
 	QUERYINTERFACE8(IDirectSound3DBuffer);
 	QUERYINTERFACE8(IDirectSound3DListener);
 	QUERYINTERFACE8(IDirectSound);
@@ -56,4 +61,6 @@ void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 	QUERYINTERFACE8(IDirectSoundFXWavesReverb);
 	QUERYINTERFACE8(IDirectSoundNotify);
 	QUERYINTERFACE(IKsPropertySet);
+
+	CREATEINTERFACE(IClassFactory);
 }
