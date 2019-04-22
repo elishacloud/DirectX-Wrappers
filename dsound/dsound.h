@@ -42,7 +42,6 @@ typedef HRESULT(WINAPI *DirectSoundCaptureCreate8Proc)(LPCGUID, LPDIRECTSOUNDCAP
 void genericQueryInterface(REFIID riid, LPVOID * ppvObj);
 extern AddressLookupTable<void> ProxyAddressLookupTable;
 
-#include "IClassFactory.h"
 #include "IDirectSound8.h"
 #include "IDirectSound3DBuffer8.h"
 #include "IDirectSound3DListener8.h"
@@ -63,3 +62,4 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 #include "IDirectSoundFXWavesReverb8.h"
 #include "IDirectSoundNotify8.h"
 #include "IKsPropertySet.h"
+#include "IClassFactory.h"

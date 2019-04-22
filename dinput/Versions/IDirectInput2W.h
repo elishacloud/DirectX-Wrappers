@@ -34,7 +34,6 @@ public:
 	STDMETHOD(GetDeviceStatus)(THIS_ REFGUID);
 	STDMETHOD(RunControlPanel)(THIS_ HWND, DWORD);
 	STDMETHOD(Initialize)(THIS_ HINSTANCE, DWORD);
-
 	/*** IDirectInput2W methods ***/
 	STDMETHOD(FindDevice)(THIS_ REFGUID, LPCWSTR, LPGUID);
 };
