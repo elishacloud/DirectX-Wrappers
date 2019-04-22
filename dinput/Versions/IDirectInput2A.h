@@ -3,19 +3,25 @@
 class m_IDirectInput2A : public IDirectInput2A, public AddressLookupTableObject
 {
 private:
-	IDirectInput2A *ProxyInterface;
+	std::unique_ptr<m_IDirectInputX> ProxyInterface;
+	IDirectInput2A *RealInterface;
+	REFIID WrapperID = IID_IDirectInput2A;
 
 public:
-	m_IDirectInput2A(IDirectInput2A *aOriginal) : ProxyInterface(aOriginal)
+	m_IDirectInput2A(IDirectInput2A *aOriginal) : RealInterface(aOriginal)
 	{
-		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+		ProxyInterface = std::make_unique<m_IDirectInputX>((IDirectInput7W*)RealInterface, 2, WrapperID, (m_IDirectInput7W*)this);
+		ProxyAddressLookupTable.SaveAddress(this, RealInterface);
 	}
 	~m_IDirectInput2A()
 	{
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}
 
-	IDirectInput2A *GetProxyInterface() { return ProxyInterface; }
+	DWORD GetDirectXVersion() { return 2; }
+	REFIID GetWrapperType() { return WrapperID; }
+	IDirectInput2A *GetProxyInterface() { return RealInterface; }
+	m_IDirectInputX *GetWrapperInterface() { return ProxyInterface.get(); }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);

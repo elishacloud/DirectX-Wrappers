@@ -14,27 +14,11 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "dinput.h"
+#include "..\dinput.h"
 
 HRESULT m_IDirectInputDeviceW::QueryInterface(REFIID riid, LPVOID* ppvObj)
 {
-	if ((riid == IID_IDirectInputDeviceW || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
 ULONG m_IDirectInputDeviceW::AddRef()
@@ -44,14 +28,7 @@ ULONG m_IDirectInputDeviceW::AddRef()
 
 ULONG m_IDirectInputDeviceW::Release()
 {
-	ULONG x = ProxyInterface->Release();
-
-	if (x == 0)
-	{
-		delete this;
-	}
-
-	return x;
+	return ProxyInterface->Release();
 }
 
 HRESULT m_IDirectInputDeviceW::GetCapabilities(LPDIDEVCAPS lpDIDevCaps)
@@ -61,7 +38,7 @@ HRESULT m_IDirectInputDeviceW::GetCapabilities(LPDIDEVCAPS lpDIDevCaps)
 
 HRESULT m_IDirectInputDeviceW::EnumObjects(LPDIENUMDEVICEOBJECTSCALLBACKW lpCallback, LPVOID pvRef, DWORD dwFlags)
 {
-	return ProxyInterface->EnumObjects(lpCallback, pvRef, dwFlags);
+	return ProxyInterface->EnumObjectsW(lpCallback, pvRef, dwFlags);
 }
 
 HRESULT m_IDirectInputDeviceW::GetProperty(REFGUID rguidProp, LPDIPROPHEADER pdiph)
@@ -111,12 +88,12 @@ HRESULT m_IDirectInputDeviceW::SetCooperativeLevel(HWND hwnd, DWORD dwFlags)
 
 HRESULT m_IDirectInputDeviceW::GetObjectInfo(LPDIDEVICEOBJECTINSTANCEW pdidoi, DWORD dwObj, DWORD dwHow)
 {
-	return ProxyInterface->GetObjectInfo(pdidoi, dwObj, dwHow);
+	return ProxyInterface->GetObjectInfoW(pdidoi, dwObj, dwHow);
 }
 
 HRESULT m_IDirectInputDeviceW::GetDeviceInfo(LPDIDEVICEINSTANCEW pdidi)
 {
-	return ProxyInterface->GetDeviceInfo(pdidi);
+	return ProxyInterface->GetDeviceInfoW(pdidi);
 }
 
 HRESULT m_IDirectInputDeviceW::RunControlPanel(HWND hwndOwner, DWORD dwFlags)

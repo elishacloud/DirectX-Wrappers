@@ -14,27 +14,11 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "dinput.h"
+#include "..\dinput.h"
 
 HRESULT m_IDirectInput2A::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirectInput2A || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
 ULONG m_IDirectInput2A::AddRef()
@@ -44,31 +28,17 @@ ULONG m_IDirectInput2A::AddRef()
 
 ULONG m_IDirectInput2A::Release()
 {
-	ULONG x = ProxyInterface->Release();
-
-	if (x == 0)
-	{
-		delete this;
-	}
-
-	return x;
+	return ProxyInterface->Release();
 }
 
 HRESULT m_IDirectInput2A::CreateDevice(REFGUID rguid, LPDIRECTINPUTDEVICEA *lplpDirectInputDevice, LPUNKNOWN pUnkOuter)
 {
-	HRESULT hr = ProxyInterface->CreateDevice(rguid, lplpDirectInputDevice, pUnkOuter);
-
-	if (SUCCEEDED(hr) && lplpDirectInputDevice)
-	{
-		*lplpDirectInputDevice = ProxyAddressLookupTable.FindAddress<m_IDirectInputDeviceA>(*lplpDirectInputDevice);
-	}
-
-	return hr;
+	return ProxyInterface->CreateDeviceA(rguid, lplpDirectInputDevice, pUnkOuter);
 }
 
 HRESULT m_IDirectInput2A::EnumDevices(DWORD dwDevType, LPDIENUMDEVICESCALLBACKA lpCallback, LPVOID pvRef, DWORD dwFlags)
 {
-	return ProxyInterface->EnumDevices(dwDevType, lpCallback, pvRef, dwFlags);
+	return ProxyInterface->EnumDevicesA(dwDevType, lpCallback, pvRef, dwFlags);
 }
 
 HRESULT m_IDirectInput2A::GetDeviceStatus(REFGUID rguidInstance)
@@ -88,5 +58,5 @@ HRESULT m_IDirectInput2A::Initialize(HINSTANCE hinst, DWORD dwVersion)
 
 HRESULT m_IDirectInput2A::FindDevice(REFGUID rguidClass, LPCSTR ptszName, LPGUID pguidInstance)
 {
-	return ProxyInterface->FindDevice(rguidClass, ptszName, pguidInstance);
+	return ProxyInterface->FindDeviceA(rguidClass, ptszName, pguidInstance);
 }

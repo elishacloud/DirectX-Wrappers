@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="IDirectInputEffect.cpp" />
+    <ClCompile Include="IDirectInputEnumEffect.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="InterfaceQuery.cpp" />
+    <ClCompile Include="Versions\IDirectInput2A.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInput2W.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInput7A.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInput7W.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInputA.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInputDevice2A.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInputDevice2W.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInputDevice7A.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInputDevice7W.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInputDeviceA.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInputDeviceW.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="Versions\IDirectInputW.cpp">
+      <Filter>Versions</Filter>
+    </ClCompile>
+    <ClCompile Include="IDirectInputDeviceX.cpp" />
+    <ClCompile Include="IDirectInputX.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AddressLookupTable.h" />
+    <ClInclude Include="dinput.h" />
+    <ClInclude Include="IDirectInputEffect.h" />
+    <ClInclude Include="IDirectInputEnumEffect.h" />
+    <ClInclude Include="Versions\IDirectInput2A.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInput2W.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInput7A.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInput7W.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInputA.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInputDevice2A.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInputDevice2W.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInputDevice7A.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInputDevice7W.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInputDeviceA.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInputDeviceW.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="Versions\IDirectInputW.h">
+      <Filter>Versions</Filter>
+    </ClInclude>
+    <ClInclude Include="IDirectInputDeviceX.h" />
+    <ClInclude Include="IDirectInputX.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dinput.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Versions">
+      <UniqueIdentifier>{93adb077-5d9c-4ec9-b097-8bb67d19c378}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

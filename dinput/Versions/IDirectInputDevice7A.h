@@ -1,21 +1,27 @@
 #pragma once
 
-class m_IDirectInputDevice2A : public IDirectInputDevice2A, public AddressLookupTableObject
+class m_IDirectInputDevice7A : public IDirectInputDevice7A, public AddressLookupTableObject
 {
 private:
-	IDirectInputDevice2A *ProxyInterface;
+	std::unique_ptr<m_IDirectInputDeviceX> ProxyInterface;
+	IDirectInputDevice7A *RealInterface;
+	REFIID WrapperID = IID_IDirectInputDevice7A;
 
 public:
-	m_IDirectInputDevice2A(IDirectInputDevice2A *aOriginal) : ProxyInterface(aOriginal)
+	m_IDirectInputDevice7A(IDirectInputDevice7A *aOriginal) : RealInterface(aOriginal)
 	{
-		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+		ProxyInterface = std::make_unique<m_IDirectInputDeviceX>((IDirectInputDevice7W*)RealInterface, 7, WrapperID, (m_IDirectInputDevice7W*)this);
+		ProxyAddressLookupTable.SaveAddress(this, RealInterface);
 	}
-	~m_IDirectInputDevice2A()
+	~m_IDirectInputDevice7A()
 	{
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}
 
-	IDirectInputDevice2A *GetProxyInterface() { return ProxyInterface; }
+	DWORD GetDirectXVersion() { return 7; }
+	REFIID GetWrapperType() { return WrapperID; }
+	IDirectInputDevice7A *GetProxyInterface() { return RealInterface; }
+	m_IDirectInputDeviceX *GetWrapperInterface() { return ProxyInterface.get(); }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);
@@ -49,4 +55,8 @@ public:
 	STDMETHOD(Escape)(THIS_ LPDIEFFESCAPE);
 	STDMETHOD(Poll)(THIS);
 	STDMETHOD(SendDeviceData)(THIS_ DWORD, LPCDIDEVICEOBJECTDATA, LPDWORD, DWORD);
+
+	/*** IDirectInputDevice7A methods ***/
+	STDMETHOD(EnumEffectsInFile)(THIS_ LPCSTR, LPDIENUMEFFECTSINFILECALLBACK, LPVOID, DWORD);
+	STDMETHOD(WriteEffectToFile)(THIS_ LPCSTR, DWORD, LPDIFILEEFFECT, DWORD);
 };

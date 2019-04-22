@@ -3,26 +3,32 @@
 class m_IDirectInputDevice7W : public IDirectInputDevice7W, public AddressLookupTableObject
 {
 private:
-	IDirectInputDevice7W *ProxyInterface;
+	std::unique_ptr<m_IDirectInputDeviceX> ProxyInterface;
+	IDirectInputDevice7W *RealInterface;
+	REFIID WrapperID = IID_IDirectInputDevice7W;
 
 public:
-	m_IDirectInputDevice7W(IDirectInputDevice7W *aOriginal) : ProxyInterface(aOriginal)
+	m_IDirectInputDevice7W(IDirectInputDevice7W *aOriginal) : RealInterface(aOriginal)
 	{
-		ProxyAddressLookupTable.SaveAddress(this, ProxyInterface);
+		ProxyInterface = std::make_unique<m_IDirectInputDeviceX>((IDirectInputDevice7W*)RealInterface, 7, WrapperID, (m_IDirectInputDevice7W*)this);
+		ProxyAddressLookupTable.SaveAddress(this, RealInterface);
 	}
 	~m_IDirectInputDevice7W()
 	{
 		ProxyAddressLookupTable.DeleteAddress(this);
 	}
 
-	IDirectInputDevice7W *GetProxyInterface() { return ProxyInterface; }
+	DWORD GetDirectXVersion() { return 7; }
+	REFIID GetWrapperType() { return WrapperID; }
+	IDirectInputDevice7W *GetProxyInterface() { return RealInterface; }
+	m_IDirectInputDeviceX *GetWrapperInterface() { return ProxyInterface.get(); }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, LPVOID * ppvObj);
 	STDMETHOD_(ULONG, AddRef)(THIS);
 	STDMETHOD_(ULONG, Release)(THIS);
 
-	/*** IDirectInputDevice2W methods ***/
+	/*** IDirectInputDeviceW methods ***/
 	STDMETHOD(GetCapabilities)(THIS_ LPDIDEVCAPS);
 	STDMETHOD(EnumObjects)(THIS_ LPDIENUMDEVICEOBJECTSCALLBACKW, LPVOID, DWORD);
 	STDMETHOD(GetProperty)(THIS_ REFGUID, LPDIPROPHEADER);
@@ -38,6 +44,8 @@ public:
 	STDMETHOD(GetDeviceInfo)(THIS_ LPDIDEVICEINSTANCEW);
 	STDMETHOD(RunControlPanel)(THIS_ HWND, DWORD);
 	STDMETHOD(Initialize)(THIS_ HINSTANCE, DWORD, REFGUID);
+
+	/*** IDirectInputDevice2W methods ***/
 	STDMETHOD(CreateEffect)(THIS_ REFGUID, LPCDIEFFECT, LPDIRECTINPUTEFFECT *, LPUNKNOWN);
 	STDMETHOD(EnumEffects)(THIS_ LPDIENUMEFFECTSCALLBACKW, LPVOID, DWORD);
 	STDMETHOD(GetEffectInfo)(THIS_ LPDIEFFECTINFOW, REFGUID);

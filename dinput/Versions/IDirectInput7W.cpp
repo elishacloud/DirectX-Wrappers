@@ -14,27 +14,11 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "dinput.h"
+#include "..\dinput.h"
 
 HRESULT m_IDirectInput7W::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if ((riid == IID_IDirectInput7W || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
 ULONG m_IDirectInput7W::AddRef()
@@ -44,31 +28,17 @@ ULONG m_IDirectInput7W::AddRef()
 
 ULONG m_IDirectInput7W::Release()
 {
-	ULONG x = ProxyInterface->Release();
-
-	if (x == 0)
-	{
-		delete this;
-	}
-
-	return x;
+	return ProxyInterface->Release();
 }
 
 HRESULT m_IDirectInput7W::CreateDevice(REFGUID rguid, LPDIRECTINPUTDEVICEW *lplpDirectInputDevice, LPUNKNOWN pUnkOuter)
 {
-	HRESULT hr = ProxyInterface->CreateDevice(rguid, lplpDirectInputDevice, pUnkOuter);
-
-	if (SUCCEEDED(hr) && lplpDirectInputDevice)
-	{
-		*lplpDirectInputDevice = ProxyAddressLookupTable.FindAddress<m_IDirectInputDeviceW>(*lplpDirectInputDevice);
-	}
-
-	return hr;
+	return ProxyInterface->CreateDeviceW(rguid, lplpDirectInputDevice, pUnkOuter);
 }
 
 HRESULT m_IDirectInput7W::EnumDevices(DWORD dwDevType, LPDIENUMDEVICESCALLBACKW lpCallback, LPVOID pvRef, DWORD dwFlags)
 {
-	return ProxyInterface->EnumDevices(dwDevType, lpCallback, pvRef, dwFlags);
+	return ProxyInterface->EnumDevicesW(dwDevType, lpCallback, pvRef, dwFlags);
 }
 
 HRESULT m_IDirectInput7W::GetDeviceStatus(REFGUID rguidInstance)
@@ -88,17 +58,10 @@ HRESULT m_IDirectInput7W::Initialize(HINSTANCE hinst, DWORD dwVersion)
 
 HRESULT m_IDirectInput7W::FindDevice(REFGUID rguidClass, LPCWSTR ptszName, LPGUID pguidInstance)
 {
-	return ProxyInterface->FindDevice(rguidClass, ptszName, pguidInstance);
+	return ProxyInterface->FindDeviceW(rguidClass, ptszName, pguidInstance);
 }
 
 HRESULT m_IDirectInput7W::CreateDeviceEx(REFGUID rguid, REFIID riid, LPVOID * ppvObj, LPUNKNOWN pUnkOuter)
 {
-	HRESULT hr = ProxyInterface->CreateDeviceEx(rguid, riid, ppvObj, pUnkOuter);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyInterface->CreateDeviceEx(rguid, riid, ppvObj, pUnkOuter);
 }

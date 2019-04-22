@@ -16,9 +16,18 @@
 
 #include "dinput.h"
 
-HRESULT m_IDirectInputW::QueryInterface(REFIID riid, LPVOID * ppvObj)
+/************************/
+/*** IUnknown methods ***/
+/************************/
+
+HRESULT m_IClassFactory::QueryInterface(REFIID riid, LPVOID FAR * ppvObj)
 {
-	if ((riid == IID_IDirectInputW || riid == IID_IUnknown) && ppvObj)
+	if (!ppvObj)
+	{
+		return E_FAIL;
+	}
+
+	if ((riid == IID_IClassFactory || riid == IID_IUnknown) && ppvObj)
 	{
 		AddRef();
 
@@ -37,51 +46,40 @@ HRESULT m_IDirectInputW::QueryInterface(REFIID riid, LPVOID * ppvObj)
 	return hr;
 }
 
-ULONG m_IDirectInputW::AddRef()
+ULONG m_IClassFactory::AddRef()
 {
 	return ProxyInterface->AddRef();
 }
 
-ULONG m_IDirectInputW::Release()
+ULONG m_IClassFactory::Release()
 {
-	ULONG x = ProxyInterface->Release();
+	ULONG ref = ProxyInterface->Release();
 
-	if (x == 0)
+	if (ref == 0)
 	{
 		delete this;
 	}
 
-	return x;
+	return ref;
 }
 
-HRESULT m_IDirectInputW::CreateDevice(REFGUID rguid, LPDIRECTINPUTDEVICEW *lplpDirectInputDevice, LPUNKNOWN pUnkOuter)
-{
-	HRESULT hr = ProxyInterface->CreateDevice(rguid, lplpDirectInputDevice, pUnkOuter);
+/*****************************/
+/*** IClassFactory methods ***/
+/*****************************/
 
-	if (SUCCEEDED(hr) && lplpDirectInputDevice)
+HRESULT m_IClassFactory::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject)
+{
+	HRESULT hr = ProxyInterface->CreateInstance(pUnkOuter, riid, ppvObject);
+
+	if (SUCCEEDED(hr))
 	{
-		*lplpDirectInputDevice = ProxyAddressLookupTable.FindAddress<m_IDirectInputDeviceW>(*lplpDirectInputDevice);
+		genericQueryInterface(riid, ppvObject);
 	}
 
 	return hr;
 }
 
-HRESULT m_IDirectInputW::EnumDevices(DWORD dwDevType, LPDIENUMDEVICESCALLBACKW lpCallback, LPVOID pvRef, DWORD dwFlags)
+HRESULT m_IClassFactory::LockServer(BOOL fLock)
 {
-	return ProxyInterface->EnumDevices(dwDevType, lpCallback, pvRef, dwFlags);
-}
-
-HRESULT m_IDirectInputW::GetDeviceStatus(REFGUID rguidInstance)
-{
-	return ProxyInterface->GetDeviceStatus(rguidInstance);
-}
-
-HRESULT m_IDirectInputW::RunControlPanel(HWND hwndOwner, DWORD dwFlags)
-{
-	return ProxyInterface->RunControlPanel(hwndOwner, dwFlags);
-}
-
-HRESULT m_IDirectInputW::Initialize(HINSTANCE hinst, DWORD dwVersion)
-{
-	return ProxyInterface->Initialize(hinst, dwVersion);
+	return ProxyInterface->LockServer(fLock);
 }

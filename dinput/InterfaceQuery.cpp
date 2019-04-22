@@ -16,6 +16,32 @@
 
 #include "dinput.h"
 
+HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID riid, LPVOID * ppvObj, REFIID WrapperID, LPVOID WrapperInterface)
+{
+	if (!ppvObj)
+	{
+		return E_FAIL;
+	}
+
+	if (riid == WrapperID || riid == IID_IUnknown)
+	{
+		((IUnknown*)ProxyInterface)->AddRef();
+
+		*ppvObj = WrapperInterface;
+
+		return S_OK;
+	}
+
+	HRESULT hr = ((IUnknown*)ProxyInterface)->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj);
+	}
+
+	return hr;
+}
+
 void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 {
 	if (!ppvObj || !*ppvObj)

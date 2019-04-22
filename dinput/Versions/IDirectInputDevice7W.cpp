@@ -14,27 +14,11 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "dinput.h"
+#include "..\dinput.h"
 
 HRESULT m_IDirectInputDevice7W::QueryInterface(REFIID riid, LPVOID* ppvObj)
 {
-	if ((riid == IID_IDirectInputDevice7W || riid == IID_IUnknown) && ppvObj)
-	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
-	}
-
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
-	{
-		genericQueryInterface(riid, ppvObj);
-	}
-
-	return hr;
+	return ProxyInterface->QueryInterface(riid, ppvObj);
 }
 
 ULONG m_IDirectInputDevice7W::AddRef()
@@ -44,14 +28,7 @@ ULONG m_IDirectInputDevice7W::AddRef()
 
 ULONG m_IDirectInputDevice7W::Release()
 {
-	ULONG x = ProxyInterface->Release();
-
-	if (x == 0)
-	{
-		delete this;
-	}
-
-	return x;
+	return ProxyInterface->Release();
 }
 
 HRESULT m_IDirectInputDevice7W::GetCapabilities(LPDIDEVCAPS lpDIDevCaps)
@@ -61,7 +38,7 @@ HRESULT m_IDirectInputDevice7W::GetCapabilities(LPDIDEVCAPS lpDIDevCaps)
 
 HRESULT m_IDirectInputDevice7W::EnumObjects(LPDIENUMDEVICEOBJECTSCALLBACKW lpCallback, LPVOID pvRef, DWORD dwFlags)
 {
-	return ProxyInterface->EnumObjects(lpCallback, pvRef, dwFlags);
+	return ProxyInterface->EnumObjectsW(lpCallback, pvRef, dwFlags);
 }
 
 HRESULT m_IDirectInputDevice7W::GetProperty(REFGUID rguidProp, LPDIPROPHEADER pdiph)
@@ -111,12 +88,12 @@ HRESULT m_IDirectInputDevice7W::SetCooperativeLevel(HWND hwnd, DWORD dwFlags)
 
 HRESULT m_IDirectInputDevice7W::GetObjectInfo(LPDIDEVICEOBJECTINSTANCEW pdidoi, DWORD dwObj, DWORD dwHow)
 {
-	return ProxyInterface->GetObjectInfo(pdidoi, dwObj, dwHow);
+	return ProxyInterface->GetObjectInfoW(pdidoi, dwObj, dwHow);
 }
 
 HRESULT m_IDirectInputDevice7W::GetDeviceInfo(LPDIDEVICEINSTANCEW pdidi)
 {
-	return ProxyInterface->GetDeviceInfo(pdidi);
+	return ProxyInterface->GetDeviceInfoW(pdidi);
 }
 
 HRESULT m_IDirectInputDevice7W::RunControlPanel(HWND hwndOwner, DWORD dwFlags)
@@ -131,24 +108,17 @@ HRESULT m_IDirectInputDevice7W::Initialize(HINSTANCE hinst, DWORD dwVersion, REF
 
 HRESULT m_IDirectInputDevice7W::CreateEffect(REFGUID rguid, LPCDIEFFECT lpeff, LPDIRECTINPUTEFFECT * ppdeff, LPUNKNOWN punkOuter)
 {
-	HRESULT hr = ProxyInterface->CreateEffect(rguid, lpeff, ppdeff, punkOuter);
-
-	if (SUCCEEDED(hr) && ppdeff)
-	{
-		*ppdeff = ProxyAddressLookupTable.FindAddress<m_IDirectInputEffect>(*ppdeff);
-	}
-
-	return hr;
+	return ProxyInterface->CreateEffect(rguid, lpeff, ppdeff, punkOuter);
 }
 
 HRESULT m_IDirectInputDevice7W::EnumEffects(LPDIENUMEFFECTSCALLBACKW lpCallback, LPVOID pvRef, DWORD dwEffType)
 {
-	return ProxyInterface->EnumEffects(lpCallback, pvRef, dwEffType);
+	return ProxyInterface->EnumEffectsW(lpCallback, pvRef, dwEffType);
 }
 
 HRESULT m_IDirectInputDevice7W::GetEffectInfo(LPDIEFFECTINFOW pdei, REFGUID rguid)
 {
-	return ProxyInterface->GetEffectInfo(pdei, rguid);
+	return ProxyInterface->GetEffectInfoW(pdei, rguid);
 }
 
 HRESULT m_IDirectInputDevice7W::GetForceFeedbackState(LPDWORD pdwOut)
@@ -163,11 +133,9 @@ HRESULT m_IDirectInputDevice7W::SendForceFeedbackCommand(DWORD dwFlags)
 
 HRESULT m_IDirectInputDevice7W::EnumCreatedEffectObjects(LPDIENUMCREATEDEFFECTOBJECTSCALLBACK lpCallback, LPVOID pvRef, DWORD fl)
 {
-	ENUMEFFECT CallbackContext;
-	CallbackContext.pvRef = pvRef;
-	CallbackContext.lpCallback = lpCallback;
+	UNREFERENCED_PARAMETER(pvRef);
 
-	return ProxyInterface->EnumCreatedEffectObjects(m_IDirectInputEnumEffect::EnumEffectCallback, &CallbackContext, fl);
+	return ProxyInterface->EnumCreatedEffectObjects(lpCallback, lpCallback, fl);
 }
 
 HRESULT m_IDirectInputDevice7W::Escape(LPDIEFFESCAPE pesc)
@@ -187,10 +155,10 @@ HRESULT m_IDirectInputDevice7W::SendDeviceData(DWORD cbObjectData, LPCDIDEVICEOB
 
 HRESULT m_IDirectInputDevice7W::EnumEffectsInFile(LPCWSTR lpszFileName, LPDIENUMEFFECTSINFILECALLBACK pec, LPVOID pvRef, DWORD dwFlags)
 {
-	return ProxyInterface->EnumEffectsInFile(lpszFileName, pec, pvRef, dwFlags);
+	return ProxyInterface->EnumEffectsInFileW(lpszFileName, pec, pvRef, dwFlags);
 }
 
 HRESULT m_IDirectInputDevice7W::WriteEffectToFile(LPCWSTR lpszFileName, DWORD dwEntries, LPDIFILEEFFECT rgDiFileEft, DWORD dwFlags)
 {
-	return ProxyInterface->WriteEffectToFile(lpszFileName, dwEntries, rgDiFileEft, dwFlags);
+	return ProxyInterface->WriteEffectToFileW(lpszFileName, dwEntries, rgDiFileEft, dwFlags);
 }

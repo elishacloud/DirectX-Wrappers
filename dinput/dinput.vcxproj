@@ -79,22 +79,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IDirectInput2A.cpp" />
-    <ClCompile Include="IDirectInput2W.cpp" />
-    <ClCompile Include="IDirectInput7A.cpp" />
-    <ClCompile Include="IDirectInput7W.cpp" />
-    <ClCompile Include="IDirectInputDevice2A.cpp" />
-    <ClCompile Include="IDirectInputDevice2W.cpp" />
-    <ClCompile Include="IDirectInputDevice7A.cpp" />
-    <ClCompile Include="IDirectInputDevice7W.cpp" />
-    <ClCompile Include="IDirectInputDeviceW.cpp" />
+    <ClCompile Include="IClassFactory.cpp" />
+    <ClCompile Include="IDirectInputDeviceX.cpp" />
     <ClCompile Include="IDirectInputEffect.cpp" />
     <ClCompile Include="IDirectInputEnumEffect.cpp" />
-    <ClCompile Include="IDirectInputW.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="IDirectInputA.cpp" />
-    <ClCompile Include="IDirectInputDeviceA.cpp" />
+    <ClCompile Include="IDirectInputX.cpp" />
     <ClCompile Include="InterfaceQuery.cpp" />
+    <ClCompile Include="Versions\IDirectInput2A.cpp" />
+    <ClCompile Include="Versions\IDirectInput2W.cpp" />
+    <ClCompile Include="Versions\IDirectInput7A.cpp" />
+    <ClCompile Include="Versions\IDirectInput7W.cpp" />
+    <ClCompile Include="Versions\IDirectInputA.cpp" />
+    <ClCompile Include="Versions\IDirectInputDevice2A.cpp" />
+    <ClCompile Include="Versions\IDirectInputDevice2W.cpp" />
+    <ClCompile Include="Versions\IDirectInputDevice7A.cpp" />
+    <ClCompile Include="Versions\IDirectInputDevice7W.cpp" />
+    <ClCompile Include="Versions\IDirectInputDeviceA.cpp" />
+    <ClCompile Include="Versions\IDirectInputDeviceW.cpp" />
+    <ClCompile Include="Versions\IDirectInputW.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dinput.def" />
@@ -102,20 +105,23 @@
   <ItemGroup>
     <ClInclude Include="AddressLookupTable.h" />
     <ClInclude Include="dinput.h" />
-    <ClInclude Include="IDirectInput2A.h" />
-    <ClInclude Include="IDirectInput2W.h" />
-    <ClInclude Include="IDirectInput7A.h" />
-    <ClInclude Include="IDirectInput7W.h" />
-    <ClInclude Include="IDirectInputA.h" />
-    <ClInclude Include="IDirectInputDevice2A.h" />
-    <ClInclude Include="IDirectInputDevice2W.h" />
-    <ClInclude Include="IDirectInputDevice7A.h" />
-    <ClInclude Include="IDirectInputDevice7W.h" />
-    <ClInclude Include="IDirectInputDeviceA.h" />
-    <ClInclude Include="IDirectInputDeviceW.h" />
+    <ClInclude Include="IClassFactory.h" />
+    <ClInclude Include="IDirectInputDeviceX.h" />
     <ClInclude Include="IDirectInputEffect.h" />
     <ClInclude Include="IDirectInputEnumEffect.h" />
-    <ClInclude Include="IDirectInputW.h" />
+    <ClInclude Include="IDirectInputX.h" />
+    <ClInclude Include="Versions\IDirectInput2A.h" />
+    <ClInclude Include="Versions\IDirectInput2W.h" />
+    <ClInclude Include="Versions\IDirectInput7A.h" />
+    <ClInclude Include="Versions\IDirectInput7W.h" />
+    <ClInclude Include="Versions\IDirectInputA.h" />
+    <ClInclude Include="Versions\IDirectInputDevice2A.h" />
+    <ClInclude Include="Versions\IDirectInputDevice2W.h" />
+    <ClInclude Include="Versions\IDirectInputDevice7A.h" />
+    <ClInclude Include="Versions\IDirectInputDevice7W.h" />
+    <ClInclude Include="Versions\IDirectInputDeviceA.h" />
+    <ClInclude Include="Versions\IDirectInputDeviceW.h" />
+    <ClInclude Include="Versions\IDirectInputW.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

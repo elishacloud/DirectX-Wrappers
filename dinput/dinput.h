@@ -18,9 +18,14 @@ class m_IDirectInputDevice2W;
 class m_IDirectInputDevice7A;
 class m_IDirectInputDevice7W;
 class m_IDirectInputEffect;
+class m_IDirectInputEnumEffect;
+class m_IDirectInputX;
+class m_IDirectInputDeviceX;
 
 #include "AddressLookupTable.h"
 #include "..\Common\Logging.h"
+
+#define DDWRAPPER_TYPEX 0x80
 
 typedef HRESULT(WINAPI *DirectInputCreateAProc)(HINSTANCE, DWORD, LPDIRECTINPUTA*, LPUNKNOWN);
 typedef HRESULT(WINAPI *DirectInputCreateExProc)(HINSTANCE, DWORD, REFIID, LPVOID*, LPUNKNOWN);
@@ -30,20 +35,24 @@ typedef	HRESULT(WINAPI *DllGetClassObjectProc)(REFCLSID, REFIID, LPVOID *);
 typedef HRESULT(WINAPI *DllRegisterServerProc)();
 typedef HRESULT(WINAPI *DllUnregisterServerProc)();
 
+HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID riid, LPVOID * ppvObj, REFIID WrapperID, LPVOID WrapperInterface);
 void genericQueryInterface(REFIID CalledID, LPVOID * ppvObj);
 extern AddressLookupTable<void> ProxyAddressLookupTable;
 
-#include "IDirectInput2A.h"
-#include "IDirectInput2W.h"
-#include "IDirectInput7A.h"
-#include "IDirectInput7W.h"
-#include "IDirectInputA.h"
-#include "IDirectInputDevice2A.h"
-#include "IDirectInputDevice2W.h"
-#include "IDirectInputDevice7A.h"
-#include "IDirectInputDevice7W.h"
-#include "IDirectInputDeviceA.h"
-#include "IDirectInputDeviceW.h"
+#include "Versions\IDirectInputA.h"
+#include "Versions\IDirectInputW.h"
+#include "Versions\IDirectInput2A.h"
+#include "Versions\IDirectInput2W.h"
+#include "Versions\IDirectInput7A.h"
+#include "Versions\IDirectInput7W.h"
+#include "Versions\IDirectInputDeviceA.h"
+#include "Versions\IDirectInputDeviceW.h"
+#include "Versions\IDirectInputDevice2A.h"
+#include "Versions\IDirectInputDevice2W.h"
+#include "Versions\IDirectInputDevice7A.h"
+#include "Versions\IDirectInputDevice7W.h"
 #include "IDirectInputEffect.h"
 #include "IDirectInputEnumEffect.h"
-#include "IDirectInputW.h"
+#include "IDirectInputX.h"
+#include "IDirectInputDeviceX.h"
+#include "IClassFactory.h"
