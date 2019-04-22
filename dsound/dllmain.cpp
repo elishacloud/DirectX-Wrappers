@@ -16,6 +16,8 @@
 
 #include "dsound.h"
 
+#pragma comment (lib, "dxguid.lib")
+
 std::ofstream Log::LOG("dsound.log");
 AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>();
 

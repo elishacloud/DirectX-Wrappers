@@ -43,6 +43,7 @@
     </ClCompile>
     <ClCompile Include="IDirectInputDeviceX.cpp" />
     <ClCompile Include="IDirectInputX.cpp" />
+    <ClCompile Include="IClassFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressLookupTable.h" />
@@ -87,6 +88,7 @@
     </ClInclude>
     <ClInclude Include="IDirectInputDeviceX.h" />
     <ClInclude Include="IDirectInputX.h" />
+    <ClInclude Include="IClassFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dinput.def" />
