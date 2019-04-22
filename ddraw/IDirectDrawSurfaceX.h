@@ -1,5 +1,4 @@
 #pragma once
-#include <map>
 
 class m_IDirectDrawSurfaceX
 {
