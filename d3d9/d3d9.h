@@ -4,9 +4,7 @@
 
 #include <d3d9.h>
 
-class m_IDirect3D9;
 class m_IDirect3D9Ex;
-class m_IDirect3DDevice9;
 class m_IDirect3DDevice9Ex;
 class m_IDirect3DCubeTexture9;
 class m_IDirect3DIndexBuffer9;
@@ -41,9 +39,7 @@ typedef void(WINAPI *Direct3D9EnableMaximizedWindowedModeShimProc)();
 typedef IDirect3D9 *(WINAPI *Direct3DCreate9Proc)(UINT);
 typedef HRESULT(WINAPI *Direct3DCreate9ExProc)(UINT, IDirect3D9Ex **);
 
-#include "IDirect3D9.h"
 #include "IDirect3D9Ex.h"
-#include "IDirect3DDevice9.h"
 #include "IDirect3DDevice9Ex.h"
 #include "IDirect3DCubeTexture9.h"
 #include "IDirect3DIndexBuffer9.h"

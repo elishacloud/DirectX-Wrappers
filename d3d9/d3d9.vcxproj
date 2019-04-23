@@ -63,11 +63,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IDirect3D9.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="IDirect3D9Ex.cpp" />
     <ClCompile Include="IDirect3DCubeTexture9.cpp" />
-    <ClCompile Include="IDirect3DDevice9.cpp" />
     <ClCompile Include="IDirect3DDevice9Ex.cpp" />
     <ClCompile Include="IDirect3DIndexBuffer9.cpp" />
     <ClCompile Include="IDirect3DPixelShader9.cpp" />
@@ -85,10 +83,8 @@
   <ItemGroup>
     <ClInclude Include="AddressLookupTable.h" />
     <ClInclude Include="d3d9.h" />
-    <ClInclude Include="IDirect3D9.h" />
     <ClInclude Include="IDirect3D9Ex.h" />
     <ClInclude Include="IDirect3DCubeTexture9.h" />
-    <ClInclude Include="IDirect3DDevice9.h" />
     <ClInclude Include="IDirect3DDevice9Ex.h" />
     <ClInclude Include="IDirect3DIndexBuffer9.h" />
     <ClInclude Include="IDirect3DPixelShader9.h" />
