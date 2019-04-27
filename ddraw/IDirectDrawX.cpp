@@ -77,14 +77,9 @@ HRESULT m_IDirectDrawX::CreatePalette(DWORD dwFlags, LPPALETTEENTRY lpDDColorArr
 
 HRESULT m_IDirectDrawX::CreateSurface(LPDDSURFACEDESC lpDDSurfaceDesc, LPDIRECTDRAWSURFACE7 FAR * lplpDDSurface, IUnknown FAR * pUnkOuter)
 {
-	if (!lplpDDSurface || !lpDDSurfaceDesc)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	HRESULT hr = GetProxyInterfaceV1()->CreateSurface(lpDDSurfaceDesc, (LPDIRECTDRAWSURFACE*)lplpDDSurface, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && lplpDDSurface)
 	{
 		*lplpDDSurface = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(*lplpDDSurface, DirectXVersion);
 	}
@@ -94,14 +89,9 @@ HRESULT m_IDirectDrawX::CreateSurface(LPDDSURFACEDESC lpDDSurfaceDesc, LPDIRECTD
 
 HRESULT m_IDirectDrawX::CreateSurface2(LPDDSURFACEDESC2 lpDDSurfaceDesc2, LPDIRECTDRAWSURFACE7 FAR * lplpDDSurface, IUnknown FAR * pUnkOuter)
 {
-	if (!lplpDDSurface || !lpDDSurfaceDesc2)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	HRESULT hr = ProxyInterface->CreateSurface(lpDDSurfaceDesc2, lplpDDSurface, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && lplpDDSurface)
 	{
 		*lplpDDSurface = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(*lplpDDSurface, DirectXVersion);
 	}
@@ -138,6 +128,11 @@ HRESULT m_IDirectDrawX::EnumDisplayModes2(DWORD dwFlags, LPDDSURFACEDESC2 lpDDSu
 
 HRESULT m_IDirectDrawX::EnumSurfaces(DWORD dwFlags, LPDDSURFACEDESC lpDDSD, LPVOID lpContext, LPDDENUMSURFACESCALLBACK lpEnumSurfacesCallback)
 {
+	if (!lpEnumSurfacesCallback)
+	{
+		return E_INVALIDARG;
+	}
+
 	ENUMSURFACE CallbackContext;
 	CallbackContext.lpContext = lpContext;
 	CallbackContext.lpCallback = lpEnumSurfacesCallback;
@@ -149,6 +144,11 @@ HRESULT m_IDirectDrawX::EnumSurfaces(DWORD dwFlags, LPDDSURFACEDESC lpDDSD, LPVO
 
 HRESULT m_IDirectDrawX::EnumSurfaces2(DWORD dwFlags, LPDDSURFACEDESC2 lpDDSD2, LPVOID lpContext, LPDDENUMSURFACESCALLBACK7 lpEnumSurfacesCallback7)
 {
+	if (!lpEnumSurfacesCallback7)
+	{
+		return E_INVALIDARG;
+	}
+
 	ENUMSURFACE2 CallbackContext;
 	CallbackContext.lpContext = lpContext;
 	CallbackContext.lpCallback = lpEnumSurfacesCallback7;
@@ -170,21 +170,11 @@ HRESULT m_IDirectDrawX::GetCaps(LPDDCAPS lpDDDriverCaps, LPDDCAPS lpDDHELCaps)
 
 HRESULT m_IDirectDrawX::GetDisplayMode(LPDDSURFACEDESC lpDDSurfaceDesc)
 {
-	if (!lpDDSurfaceDesc)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	return GetProxyInterfaceV1()->GetDisplayMode(lpDDSurfaceDesc);
 }
 
 HRESULT m_IDirectDrawX::GetDisplayMode2(LPDDSURFACEDESC2 lpDDSurfaceDesc2)
 {
-	if (!lpDDSurfaceDesc2)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	return ProxyInterface->GetDisplayMode(lpDDSurfaceDesc2);
 }
 
@@ -292,21 +282,11 @@ HRESULT m_IDirectDrawX::TestCooperativeLevel()
 
 HRESULT m_IDirectDrawX::GetDeviceIdentifier(LPDDDEVICEIDENTIFIER lpdddi, DWORD dwFlags)
 {
-	if (!lpdddi)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	return GetProxyInterfaceV4()->GetDeviceIdentifier(lpdddi, dwFlags);
 }
 
 HRESULT m_IDirectDrawX::GetDeviceIdentifier2(LPDDDEVICEIDENTIFIER2 lpdddi2, DWORD dwFlags)
 {
-	if (!lpdddi2)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	return ProxyInterface->GetDeviceIdentifier(lpdddi2, dwFlags);
 }
 

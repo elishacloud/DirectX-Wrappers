@@ -128,7 +128,7 @@ HRESULT m_IDirect3DCubeTexture9::GetCubeMapSurface(THIS_ D3DCUBEMAP_FACES FaceTy
 {
 	HRESULT hr = ProxyInterface->GetCubeMapSurface(FaceType, Level, ppCubeMapSurface);
 
-	if (SUCCEEDED(hr) && ppCubeMapSurface && m_pDeviceEx)
+	if (SUCCEEDED(hr) && ppCubeMapSurface)
 	{
 		*ppCubeMapSurface = m_pDeviceEx->ProxyAddressLookupTable->FindAddress<m_IDirect3DSurface9>(*ppCubeMapSurface);
 	}

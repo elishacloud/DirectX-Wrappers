@@ -16,14 +16,14 @@
 
 #include "dinput8.h"
 
-BOOL CALLBACK m_IDirectInputEnumEffect::EnumEffectCallback(LPDIRECTINPUTEFFECT a, LPVOID pvRef)
+BOOL CALLBACK m_IDirectInputEnumEffect::EnumEffectCallback(LPDIRECTINPUTEFFECT pdeff, LPVOID pvRef)
 {
 	ENUMEFFECT *lpCallbackContext = (ENUMEFFECT*)pvRef;
 
-	if (a)
+	if (pdeff)
 	{
-		a = ProxyAddressLookupTable.FindAddress<m_IDirectInputEffect>(a);
+		pdeff = ProxyAddressLookupTable.FindAddress<m_IDirectInputEffect>(pdeff);
 	}
 
-	return lpCallbackContext->lpCallback(a, lpCallbackContext->pvRef);
+	return lpCallbackContext->lpCallback(pdeff, lpCallbackContext->pvRef);
 }

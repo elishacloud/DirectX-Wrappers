@@ -93,6 +93,11 @@ HRESULT m_IDirectInput8A::FindDevice(REFGUID rguidClass, LPCSTR ptszName, LPGUID
 
 HRESULT m_IDirectInput8A::EnumDevicesBySemantics(LPCSTR ptszUserName, LPDIACTIONFORMATA lpdiActionFormat, LPDIENUMDEVICESBYSEMANTICSCBA lpCallback, LPVOID pvRef, DWORD dwFlags)
 {
+	if (!lpCallback)
+	{
+		return E_INVALIDARG;
+	}
+
 	ENUMDEVICEA CallbackContext;
 	CallbackContext.pvRef = pvRef;
 	CallbackContext.lpCallback = lpCallback;

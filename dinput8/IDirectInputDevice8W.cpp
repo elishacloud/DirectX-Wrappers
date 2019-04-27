@@ -163,6 +163,11 @@ HRESULT m_IDirectInputDevice8W::SendForceFeedbackCommand(DWORD dwFlags)
 
 HRESULT m_IDirectInputDevice8W::EnumCreatedEffectObjects(LPDIENUMCREATEDEFFECTOBJECTSCALLBACK lpCallback, LPVOID pvRef, DWORD fl)
 {
+	if (!lpCallback)
+	{
+		return E_INVALIDARG;
+	}
+
 	ENUMEFFECT CallbackContext;
 	CallbackContext.pvRef = pvRef;
 	CallbackContext.lpCallback = lpCallback;

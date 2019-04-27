@@ -40,11 +40,6 @@ ULONG m_IDirectDrawPalette::Release()
 
 HRESULT m_IDirectDrawPalette::GetCaps(LPDWORD lpdwCaps)
 {
-	if (!lpdwCaps)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	return ProxyInterface->GetCaps(lpdwCaps);
 }
 

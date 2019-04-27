@@ -166,7 +166,7 @@ HRESULT WINAPI DirectDrawCreate(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnk
 
 	HRESULT hr = m_pDirectDrawCreate(lpGUID, lplpDD, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && lplpDD)
 	{
 		*lplpDD = ProxyAddressLookupTable.FindAddress<m_IDirectDraw>(*lplpDD);
 	}
@@ -304,7 +304,7 @@ extern "C" HRESULT WINAPI GetSurfaceFromDC(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS)
 
 	HRESULT hr = m_pGetSurfaceFromDC(hdc, lpDDS);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && lpDDS)
 	{
 		*lpDDS = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(*lpDDS);
 	}

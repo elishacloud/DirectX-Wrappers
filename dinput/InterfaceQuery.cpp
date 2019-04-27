@@ -18,12 +18,7 @@
 
 HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID riid, LPVOID * ppvObj, REFIID WrapperID, LPVOID WrapperInterface)
 {
-	if (!ppvObj)
-	{
-		return E_FAIL;
-	}
-
-	if (riid == WrapperID || riid == IID_IUnknown)
+	if ((riid == WrapperID || riid == IID_IUnknown) && ppvObj)
 	{
 		((IUnknown*)ProxyInterface)->AddRef();
 

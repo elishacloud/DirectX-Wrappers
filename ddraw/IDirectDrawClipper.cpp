@@ -45,11 +45,6 @@ HRESULT m_IDirectDrawClipper::GetClipList(LPRECT lpRect, LPRGNDATA lpClipList, L
 
 HRESULT m_IDirectDrawClipper::GetHWnd(HWND FAR * lphWnd)
 {
-	if (!lphWnd)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	return ProxyInterface->GetHWnd(lphWnd);
 }
 
@@ -65,11 +60,6 @@ HRESULT m_IDirectDrawClipper::Initialize(LPDIRECTDRAW lpDD, DWORD dwFlags)
 
 HRESULT m_IDirectDrawClipper::IsClipListChanged(BOOL FAR * lpbChanged)
 {
-	if (!lpbChanged)
-	{
-		return DDERR_INVALIDPARAMS;
-	}
-
 	return ProxyInterface->IsClipListChanged(lpbChanged);
 }
 
