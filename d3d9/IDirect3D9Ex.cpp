@@ -18,13 +18,28 @@
 
 HRESULT m_IDirect3D9Ex::QueryInterface(REFIID riid, void** ppvObj)
 {
-	if ((riid == IID_IDirect3D9Ex || riid == IID_IDirect3D9 || riid == IID_IUnknown) && ppvObj)
+	if (riid == IID_IUnknown && ppvObj)
 	{
 		AddRef();
 
 		*ppvObj = this;
 
 		return S_OK;
+	}
+	else if ((riid == IID_IDirect3D9 || riid == IID_IDirect3D9Ex) && ppvObj)
+	{
+		HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+		if (SUCCEEDED(hr) && *ppvObj != ProxyInterface)
+		{
+			*ppvObj = new m_IDirect3D9Ex((LPDIRECT3D9EX)*ppvObj);
+		}
+		else if (SUCCEEDED(hr))
+		{
+			*ppvObj = this;
+		}
+
+		return hr;
 	}
 
 	return ProxyInterface->QueryInterface(riid, ppvObj);
