@@ -106,17 +106,17 @@ DWORD m_IDirect3DTexture9::GetLevelCount(THIS)
 
 HRESULT m_IDirect3DTexture9::SetAutoGenFilterType(THIS_ D3DTEXTUREFILTERTYPE FilterType)
 {
-	return SetAutoGenFilterType(FilterType);
+	return ProxyInterface->SetAutoGenFilterType(FilterType);
 }
 
 D3DTEXTUREFILTERTYPE m_IDirect3DTexture9::GetAutoGenFilterType(THIS)
 {
-	return GetAutoGenFilterType();
+	return ProxyInterface->GetAutoGenFilterType();
 }
 
 void m_IDirect3DTexture9::GenerateMipSubLevels(THIS)
 {
-	return GenerateMipSubLevels();
+	return ProxyInterface->GenerateMipSubLevels();
 }
 
 HRESULT m_IDirect3DTexture9::GetLevelDesc(THIS_ UINT Level, D3DSURFACE_DESC *pDesc)

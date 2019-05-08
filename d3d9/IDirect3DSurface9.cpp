@@ -71,22 +71,22 @@ HRESULT m_IDirect3DSurface9::FreePrivateData(THIS_ REFGUID refguid)
 
 DWORD m_IDirect3DSurface9::SetPriority(THIS_ DWORD PriorityNew)
 {
-	return SetPriority(PriorityNew);
+	return ProxyInterface->SetPriority(PriorityNew);
 }
 
 DWORD m_IDirect3DSurface9::GetPriority(THIS)
 {
-	return GetPriority();
+	return ProxyInterface->GetPriority();
 }
 
 void m_IDirect3DSurface9::PreLoad(THIS)
 {
-	return PreLoad();
+	return ProxyInterface->PreLoad();
 }
 
 D3DRESOURCETYPE m_IDirect3DSurface9::GetType(THIS)
 {
-	return GetType();
+	return ProxyInterface->GetType();
 }
 
 HRESULT m_IDirect3DSurface9::GetContainer(THIS_ REFIID riid, void** ppContainer)
@@ -111,10 +111,10 @@ HRESULT m_IDirect3DSurface9::UnlockRect(THIS)
 
 HRESULT m_IDirect3DSurface9::GetDC(THIS_ HDC *phdc)
 {
-	return GetDC(phdc);
+	return ProxyInterface->GetDC(phdc);
 }
 
 HRESULT m_IDirect3DSurface9::ReleaseDC(THIS_ HDC hdc)
 {
-	return ReleaseDC(hdc);
+	return ProxyInterface->ReleaseDC(hdc);
 }

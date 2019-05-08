@@ -69,12 +69,12 @@ HRESULT m_IDirect3DSwapChain9::GetBackBuffer(THIS_ UINT BackBuffer, D3DBACKBUFFE
 
 HRESULT m_IDirect3DSwapChain9::GetRasterStatus(THIS_ D3DRASTER_STATUS* pRasterStatus)
 {
-	return GetRasterStatus(pRasterStatus);
+	return ProxyInterface->GetRasterStatus(pRasterStatus);
 }
 
 HRESULT m_IDirect3DSwapChain9::GetDisplayMode(THIS_ D3DDISPLAYMODE* pMode)
 {
-	return GetDisplayMode(pMode);
+	return ProxyInterface->GetDisplayMode(pMode);
 }
 
 HRESULT m_IDirect3DSwapChain9::GetDevice(THIS_ IDirect3DDevice9** ppDevice)
@@ -93,5 +93,5 @@ HRESULT m_IDirect3DSwapChain9::GetDevice(THIS_ IDirect3DDevice9** ppDevice)
 
 HRESULT m_IDirect3DSwapChain9::GetPresentParameters(THIS_ D3DPRESENT_PARAMETERS* pPresentationParameters)
 {
-	return GetPresentParameters(pPresentationParameters);
+	return ProxyInterface->GetPresentParameters(pPresentationParameters);
 }
