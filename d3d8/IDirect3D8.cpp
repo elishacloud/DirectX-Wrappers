@@ -16,6 +16,8 @@
 
 #include "d3d8.h"
 
+m_IDirect3DDevice8 *pD3DDeviceInterface = nullptr;
+
 HRESULT m_IDirect3D8::QueryInterface(REFIID riid, LPVOID *ppvObj)
 {
 	if ((riid == IID_IDirect3D8 || riid == IID_IUnknown) && ppvObj)
@@ -27,7 +29,14 @@ HRESULT m_IDirect3D8::QueryInterface(REFIID riid, LPVOID *ppvObj)
 		return S_OK;
 	}
 
-	return ProxyInterface->QueryInterface(riid, ppvObj);
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj, pD3DDeviceInterface);
+	}
+
+	return hr;
 }
 
 ULONG m_IDirect3D8::AddRef()
@@ -114,6 +123,8 @@ HRESULT m_IDirect3D8::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFo
 	if (SUCCEEDED(hr) && ppReturnedDeviceInterface)
 	{
 		*ppReturnedDeviceInterface = new m_IDirect3DDevice8(*ppReturnedDeviceInterface, this);
+
+		InterlockedExchangePointer((PVOID*)&pD3DDeviceInterface, *ppReturnedDeviceInterface);
 	}
 	return hr;
 }

@@ -79,6 +79,7 @@
     <ClCompile Include="IDirect3DVertexShader9.cpp" />
     <ClCompile Include="IDirect3DVolume9.cpp" />
     <ClCompile Include="IDirect3DVolumeTexture9.cpp" />
+    <ClCompile Include="InterfaceQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressLookupTable.h" />

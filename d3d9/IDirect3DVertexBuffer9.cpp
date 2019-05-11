@@ -27,7 +27,14 @@ HRESULT m_IDirect3DVertexBuffer9::QueryInterface(THIS_ REFIID riid, void** ppvOb
 		return S_OK;
 	}
 
-	return ProxyInterface->QueryInterface(riid, ppvObj);
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj, m_pDeviceEx);
+	}
+
+	return hr;
 }
 
 ULONG m_IDirect3DVertexBuffer9::AddRef(THIS)

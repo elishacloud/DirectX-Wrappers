@@ -27,7 +27,14 @@ HRESULT m_IDirect3DSurface9::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 		return S_OK;
 	}
 
-	return ProxyInterface->QueryInterface(riid, ppvObj);
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj, m_pDeviceEx);
+	}
+
+	return hr;
 }
 
 ULONG m_IDirect3DSurface9::AddRef(THIS)
@@ -91,7 +98,14 @@ D3DRESOURCETYPE m_IDirect3DSurface9::GetType(THIS)
 
 HRESULT m_IDirect3DSurface9::GetContainer(THIS_ REFIID riid, void** ppContainer)
 {
-	return ProxyInterface->GetContainer(riid, ppContainer);
+	HRESULT hr = ProxyInterface->GetContainer(riid, ppContainer);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppContainer, m_pDeviceEx);
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirect3DSurface9::GetDesc(THIS_ D3DSURFACE_DESC *pDesc)

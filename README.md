@@ -18,7 +18,6 @@ I plan to add these DLLs later:
 - d3d10core.dll
 - d3d11.dll
 - d3d12.dll
-- dxgi.dll
 
 Note: It currently only works with 32bit games, but I might add 64bit support at some point.
 

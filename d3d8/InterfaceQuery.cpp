@@ -14,54 +14,45 @@
 *   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "d3d9.h"
+#include "d3d8.h"
 
-HRESULT m_IDirect3DVertexShader9::QueryInterface(THIS_ REFIID riid, void** ppvObj)
+void genericQueryInterface(REFIID riid, LPVOID *ppvObj, m_IDirect3DDevice8* m_pDevice)
 {
-	if ((riid == IID_IDirect3DVertexShader9 || riid == IID_IUnknown) && ppvObj)
+	if (!ppvObj || !*ppvObj || !m_pDevice)
 	{
-		AddRef();
-
-		*ppvObj = this;
-
-		return S_OK;
+		return;
 	}
 
-	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-	if (SUCCEEDED(hr))
+	if (riid == IID_IDirect3D8)
 	{
-		genericQueryInterface(riid, ppvObj, m_pDeviceEx);
+		IDirect3D8 *pD3D8 = nullptr;
+		if (SUCCEEDED(m_pDevice->GetDirect3D(&pD3D8)) && pD3D8)
+		{
+			*ppvObj = pD3D8;
+			pD3D8->Release();
+			return;
+		}
 	}
 
-	return hr;
-}
-
-ULONG m_IDirect3DVertexShader9::AddRef(THIS)
-{
-	return ProxyInterface->AddRef();
-}
-
-ULONG m_IDirect3DVertexShader9::Release(THIS)
-{
-	return ProxyInterface->Release();
-}
-
-HRESULT m_IDirect3DVertexShader9::GetDevice(THIS_ IDirect3DDevice9** ppDevice)
-{
-	if (!ppDevice)
+	if (riid == IID_IDirect3DDevice8)
 	{
-		return D3DERR_INVALIDCALL;
+		*ppvObj = m_pDevice;
+		return;
 	}
 
-	m_pDeviceEx->AddRef();
+#define QUERYINTERFACE(x) \
+	if (riid == IID_ ## x) \
+		{ \
+			*ppvObj = m_pDevice->ProxyAddressLookupTable->FindAddress<m_ ## x>(*ppvObj); \
+			return; \
+		}
 
-	*ppDevice = m_pDeviceEx;
-
-	return D3D_OK;
-}
-
-HRESULT m_IDirect3DVertexShader9::GetFunction(THIS_ void* pData, UINT* pSizeOfData)
-{
-	return ProxyInterface->GetFunction(pData, pSizeOfData);
+	QUERYINTERFACE(IDirect3DTexture8);
+	QUERYINTERFACE(IDirect3DCubeTexture8);
+	QUERYINTERFACE(IDirect3DVolumeTexture8);
+	QUERYINTERFACE(IDirect3DVertexBuffer8);
+	QUERYINTERFACE(IDirect3DIndexBuffer8);
+	QUERYINTERFACE(IDirect3DSurface8);
+	QUERYINTERFACE(IDirect3DVolume8);
+	QUERYINTERFACE(IDirect3DSwapChain8);
 }

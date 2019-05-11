@@ -27,7 +27,14 @@ HRESULT m_IDirect3DVolume8::QueryInterface(THIS_ REFIID riid, void** ppvObj)
 		return S_OK;
 	}
 
-	return ProxyInterface->QueryInterface(riid, ppvObj);
+	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppvObj, m_pDevice);
+	}
+
+	return hr;
 }
 
 ULONG m_IDirect3DVolume8::AddRef(THIS)
@@ -71,7 +78,14 @@ HRESULT m_IDirect3DVolume8::FreePrivateData(THIS_ REFGUID refguid)
 
 HRESULT m_IDirect3DVolume8::GetContainer(THIS_ REFIID riid, void** ppContainer)
 {
-	return ProxyInterface->GetContainer(riid, ppContainer);
+	HRESULT hr = ProxyInterface->GetContainer(riid, ppContainer);
+
+	if (SUCCEEDED(hr))
+	{
+		genericQueryInterface(riid, ppContainer, m_pDevice);
+	}
+
+	return hr;
 }
 
 HRESULT m_IDirect3DVolume8::GetDesc(THIS_ D3DVOLUME_DESC *pDesc)
