@@ -13,9 +13,6 @@ public:
 	}
 	~m_IDirect3DDevice9Ex()
 	{
-		PVOID NullValue = nullptr;
-		InterlockedCompareExchangePointer((PVOID*)&pD3DDeviceInterface, NullValue, this);
-
 		delete ProxyAddressLookupTable;
 	}
 
