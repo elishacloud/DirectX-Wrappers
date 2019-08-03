@@ -18,28 +18,13 @@
 
 HRESULT m_IDirect3D9Ex::QueryInterface(REFIID riid, void** ppvObj)
 {
-	if (riid == IID_IUnknown && ppvObj)
+	if ((riid == IID_IUnknown || riid == WrapperID) && ppvObj)
 	{
 		AddRef();
 
 		*ppvObj = this;
 
 		return S_OK;
-	}
-	else if ((riid == IID_IDirect3D9 || riid == IID_IDirect3D9Ex) && ppvObj)
-	{
-		HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-		if (SUCCEEDED(hr) && *ppvObj != ProxyInterface)
-		{
-			*ppvObj = new m_IDirect3D9Ex((LPDIRECT3D9EX)*ppvObj);
-		}
-		else if (SUCCEEDED(hr))
-		{
-			*ppvObj = this;
-		}
-
-		return hr;
 	}
 
 	return ProxyInterface->QueryInterface(riid, ppvObj);
@@ -133,7 +118,7 @@ HRESULT m_IDirect3D9Ex::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND h
 
 	if (SUCCEEDED(hr) && ppReturnedDeviceInterface)
 	{
-		*ppReturnedDeviceInterface = new m_IDirect3DDevice9Ex((IDirect3DDevice9Ex*)*ppReturnedDeviceInterface, this);
+		*ppReturnedDeviceInterface = new m_IDirect3DDevice9Ex((IDirect3DDevice9Ex*)*ppReturnedDeviceInterface, this, IID_IDirect3DDevice9);
 	}
 
 	return hr;
@@ -160,7 +145,7 @@ HRESULT m_IDirect3D9Ex::CreateDeviceEx(THIS_ UINT Adapter, D3DDEVTYPE DeviceType
 
 	if (SUCCEEDED(hr) && ppReturnedDeviceInterface)
 	{
-		*ppReturnedDeviceInterface = new m_IDirect3DDevice9Ex(*ppReturnedDeviceInterface, this);
+		*ppReturnedDeviceInterface = new m_IDirect3DDevice9Ex(*ppReturnedDeviceInterface, this, IID_IDirect3DDevice9Ex);
 	}
 
 	return hr;

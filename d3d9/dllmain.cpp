@@ -210,7 +210,7 @@ IDirect3D9 *WINAPI Direct3DCreate9(UINT SDKVersion)
 
 	if (pD3D9)
 	{
-		return new m_IDirect3D9Ex((IDirect3D9Ex*)pD3D9);
+		return new m_IDirect3D9Ex((IDirect3D9Ex*)pD3D9, IID_IDirect3D9);
 	}
 
 	return nullptr;
@@ -227,7 +227,7 @@ HRESULT WINAPI Direct3DCreate9Ex(UINT SDKVersion, IDirect3D9Ex **ppD3D)
 
 	if (SUCCEEDED(hr) && ppD3D)
 	{
-		*ppD3D = new m_IDirect3D9Ex(*ppD3D);
+		*ppD3D = new m_IDirect3D9Ex(*ppD3D, IID_IDirect3D9Ex);
 	}
 
 	return hr;

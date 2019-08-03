@@ -18,28 +18,13 @@
 
 HRESULT m_IDirect3DDevice9Ex::QueryInterface(REFIID riid, void** ppvObj)
 {
-	if (riid == IID_IUnknown && ppvObj)
+	if ((riid == IID_IUnknown || riid == WrapperID) && ppvObj)
 	{
 		AddRef();
 
 		*ppvObj = this;
 
 		return S_OK;
-	}
-	else if ((riid == IID_IDirect3DDevice9 || riid == IID_IDirect3DDevice9Ex) && ppvObj)
-	{
-		HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
-
-		if (SUCCEEDED(hr) && *ppvObj != ProxyInterface)
-		{
-			*ppvObj = new m_IDirect3DDevice9Ex((LPDIRECT3DDEVICE9EX)*ppvObj, m_pD3DEx);
-		}
-		else if (SUCCEEDED(hr))
-		{
-			*ppvObj = this;
-		}
-
-		return hr;
 	}
 
 	HRESULT hr = ProxyInterface->QueryInterface(riid, ppvObj);
