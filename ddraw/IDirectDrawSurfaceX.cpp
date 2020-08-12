@@ -73,12 +73,25 @@ HRESULT m_IDirectDrawSurfaceX::Blt(LPRECT lpDestRect, LPDIRECTDRAWSURFACE7 lpDDS
 
 HRESULT m_IDirectDrawSurfaceX::BltBatch(LPDDBLTBATCH lpDDBltBatch, DWORD dwCount, DWORD dwFlags)
 {
-	if (lpDDBltBatch && lpDDBltBatch->lpDDSSrc)
+	UNREFERENCED_PARAMETER(dwFlags);
+
+	if (!lpDDBltBatch)
 	{
-		lpDDBltBatch->lpDDSSrc = static_cast<m_IDirectDrawSurface *>(lpDDBltBatch->lpDDSSrc)->GetProxyInterface();
+		return DDERR_INVALIDPARAMS;
 	}
 
-	return ProxyInterface->BltBatch(lpDDBltBatch, dwCount, dwFlags);
+	HRESULT hr;
+
+	for (DWORD x = 0; x < dwCount; x++)
+	{
+		hr = Blt(lpDDBltBatch[x].lprDest, (LPDIRECTDRAWSURFACE7)lpDDBltBatch[x].lpDDSSrc, lpDDBltBatch[x].lprSrc, lpDDBltBatch[x].dwFlags, lpDDBltBatch[x].lpDDBltFx);
+		if (FAILED(hr))
+		{
+			return hr;
+		}
+	}
+
+	return DD_OK;
 }
 
 HRESULT m_IDirectDrawSurfaceX::BltFast(DWORD dwX, DWORD dwY, LPDIRECTDRAWSURFACE7 lpDDSrcSurface, LPRECT lpSrcRect, DWORD dwFlags)
