@@ -194,9 +194,9 @@ void WINAPI DebugSetMute()
 	return m_pDebugSetMute();
 }
 
-void WINAPI Direct3D9EnableMaximizedWindowedModeShim()
+int WINAPI Direct3D9EnableMaximizedWindowedModeShim(BOOL mEnable)
 {
-	return m_pDirect3D9EnableMaximizedWindowedModeShim();
+	return m_pDirect3D9EnableMaximizedWindowedModeShim(mEnable);
 }
 
 IDirect3D9 *WINAPI Direct3DCreate9(UINT SDKVersion)
