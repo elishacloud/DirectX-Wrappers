@@ -72,7 +72,7 @@
     <ClCompile Include="IDirect3DQuery9.cpp" />
     <ClCompile Include="IDirect3DStateBlock9.cpp" />
     <ClCompile Include="IDirect3DSurface9.cpp" />
-    <ClCompile Include="IDirect3DSwapChain9.cpp" />
+    <ClCompile Include="IDirect3DSwapChain9Ex.cpp" />
     <ClCompile Include="IDirect3DTexture9.cpp" />
     <ClCompile Include="IDirect3DVertexBuffer9.cpp" />
     <ClCompile Include="IDirect3DVertexDeclaration9.cpp" />
@@ -92,7 +92,7 @@
     <ClInclude Include="IDirect3DQuery9.h" />
     <ClInclude Include="IDirect3DStateBlock9.h" />
     <ClInclude Include="IDirect3DSurface9.h" />
-    <ClInclude Include="IDirect3DSwapChain9.h" />
+    <ClInclude Include="IDirect3DSwapChain9Ex.h" />
     <ClInclude Include="IDirect3DTexture9.h" />
     <ClInclude Include="IDirect3DVertexBuffer9.h" />
     <ClInclude Include="IDirect3DVertexDeclaration9.h" />

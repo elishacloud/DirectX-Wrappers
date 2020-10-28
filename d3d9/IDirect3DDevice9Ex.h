@@ -5,14 +5,10 @@ class m_IDirect3DDevice9Ex : public IDirect3DDevice9Ex
 private:
 	LPDIRECT3DDEVICE9EX ProxyInterface;
 	m_IDirect3D9Ex* m_pD3DEx;
-	GUID WrapperID = IID_IUnknown;
+	REFIID WrapperID;
 
 public:
-	m_IDirect3DDevice9Ex(LPDIRECT3DDEVICE9EX pDevice, m_IDirect3D9Ex* pD3D) : ProxyInterface(pDevice), m_pD3DEx(pD3D)
-	{
-		InitDirect3DDevice();
-	}
-	m_IDirect3DDevice9Ex(LPDIRECT3DDEVICE9EX pDevice, m_IDirect3D9Ex* pD3D, GUID DeviceID) : ProxyInterface(pDevice), m_pD3DEx(pD3D), WrapperID(DeviceID)
+	m_IDirect3DDevice9Ex(LPDIRECT3DDEVICE9EX pDevice, m_IDirect3D9Ex* pD3D, REFIID DeviceID = IID_IUnknown) : ProxyInterface(pDevice), m_pD3DEx(pD3D), WrapperID(DeviceID)
 	{
 		InitDirect3DDevice();
 	}

@@ -1,19 +1,20 @@
 #pragma once
 
-class m_IDirect3DSwapChain9 : public IDirect3DSwapChain9, public AddressLookupTableObject
+class m_IDirect3DSwapChain9Ex : public IDirect3DSwapChain9Ex, public AddressLookupTableObject
 {
 private:
-	LPDIRECT3DSWAPCHAIN9 ProxyInterface;
+	LPDIRECT3DSWAPCHAIN9EX ProxyInterface;
 	m_IDirect3DDevice9Ex* m_pDeviceEx = nullptr;
+	REFIID WrapperID;
 
 public:
-	m_IDirect3DSwapChain9(LPDIRECT3DSWAPCHAIN9 pSwapChain9, m_IDirect3DDevice9Ex* pDevice) : ProxyInterface(pSwapChain9), m_pDeviceEx(pDevice)
+	m_IDirect3DSwapChain9Ex(LPDIRECT3DSWAPCHAIN9EX pSwapChain9, m_IDirect3DDevice9Ex* pDevice, REFIID DeviceID = IID_IDirect3DSwapChain9) : ProxyInterface(pSwapChain9), m_pDeviceEx(pDevice), WrapperID(DeviceID)
 	{
 		pDevice->ProxyAddressLookupTable->SaveAddress(this, ProxyInterface);
 	}
-	~m_IDirect3DSwapChain9() {}
+	~m_IDirect3DSwapChain9Ex() {}
 
-	LPDIRECT3DSWAPCHAIN9 GetProxyInterface() { return ProxyInterface; }
+	LPDIRECT3DSWAPCHAIN9EX GetProxyInterface() { return ProxyInterface; }
 
 	/*** IUnknown methods ***/
 	STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj);
@@ -28,4 +29,7 @@ public:
 	STDMETHOD(GetDisplayMode)(THIS_ D3DDISPLAYMODE* pMode);
 	STDMETHOD(GetDevice)(THIS_ IDirect3DDevice9** ppDevice);
 	STDMETHOD(GetPresentParameters)(THIS_ D3DPRESENT_PARAMETERS* pPresentationParameters);
+	STDMETHOD(GetLastPresentCount)(THIS_ UINT* pLastPresentCount);
+	STDMETHOD(GetPresentStats)(THIS_ D3DPRESENTSTATS* pPresentationStatistics);
+	STDMETHOD(GetDisplayModeEx)(THIS_ D3DDISPLAYMODEEX* pMode, D3DDISPLAYROTATION* pRotation);
 };
