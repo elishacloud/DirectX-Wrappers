@@ -79,7 +79,6 @@
     <ClCompile Include="IDirect3DX.cpp" />
     <ClCompile Include="IDirectDrawClipper.cpp" />
     <ClCompile Include="IDirectDrawColorControl.cpp" />
-    <ClCompile Include="IDirectDrawEnumCallback.cpp" />
     <ClCompile Include="IDirectDrawFactory.cpp" />
     <ClCompile Include="IDirectDrawGammaControl.cpp" />
     <ClCompile Include="IDirectDrawPalette.cpp" />
@@ -129,7 +128,6 @@
     <ClInclude Include="IDirect3DX.h" />
     <ClInclude Include="IDirectDrawClipper.h" />
     <ClInclude Include="IDirectDrawColorControl.h" />
-    <ClInclude Include="IDirectDrawEnumCallback.h" />
     <ClInclude Include="IDirectDrawFactory.h" />
     <ClInclude Include="IDirectDrawGammaControl.h" />
     <ClInclude Include="IDirectDrawPalette.h" />

@@ -121,13 +121,29 @@ HRESULT m_IDirectDrawSurfaceX::EnumAttachedSurfaces(LPVOID lpContext, LPDDENUMSU
 		return E_INVALIDARG;
 	}
 
-	ENUMSURFACE CallbackContext;
+	struct EnumSurface
+	{
+		LPVOID lpContext;
+		LPDDENUMSURFACESCALLBACK lpCallback;
+		DWORD DirectXVersion;
+
+		static HRESULT CALLBACK ConvertCallback(LPDIRECTDRAWSURFACE lpDDSurface, LPDDSURFACEDESC lpDDSurfaceDesc, LPVOID lpContext)
+		{
+			EnumSurface *self = (EnumSurface*)lpContext;
+
+			if (lpDDSurface)
+			{
+				lpDDSurface = (LPDIRECTDRAWSURFACE)ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(lpDDSurface, self->DirectXVersion);
+			}
+
+			return self->lpCallback(lpDDSurface, lpDDSurfaceDesc, self->lpContext);
+		}
+	} CallbackContext;
 	CallbackContext.lpContext = lpContext;
 	CallbackContext.lpCallback = lpEnumSurfacesCallback;
 	CallbackContext.DirectXVersion = DirectXVersion;
-	LPDDENUMSURFACESCALLBACK lpCallback = m_IDirectDrawEnumSurface::ConvertCallback;
 
-	return GetProxyInterfaceV1()->EnumAttachedSurfaces(&CallbackContext, lpCallback);
+	return GetProxyInterfaceV1()->EnumAttachedSurfaces(&CallbackContext, EnumSurface::ConvertCallback);
 }
 
 HRESULT m_IDirectDrawSurfaceX::EnumAttachedSurfaces2(LPVOID lpContext, LPDDENUMSURFACESCALLBACK7 lpEnumSurfacesCallback7)
@@ -137,13 +153,29 @@ HRESULT m_IDirectDrawSurfaceX::EnumAttachedSurfaces2(LPVOID lpContext, LPDDENUMS
 		return E_INVALIDARG;
 	}
 
-	ENUMSURFACE2 CallbackContext;
+	struct EnumSurface
+	{
+		LPVOID lpContext;
+		LPDDENUMSURFACESCALLBACK7 lpCallback;
+		DWORD DirectXVersion;
+
+		static HRESULT CALLBACK ConvertCallback(LPDIRECTDRAWSURFACE7 lpDDSurface, LPDDSURFACEDESC2 lpDDSurfaceDesc2, LPVOID lpContext)
+		{
+			EnumSurface *self = (EnumSurface*)lpContext;
+
+			if (lpDDSurface)
+			{
+				lpDDSurface = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(lpDDSurface, self->DirectXVersion);
+			}
+
+			return self->lpCallback(lpDDSurface, lpDDSurfaceDesc2, self->lpContext);
+		}
+	} CallbackContext;
 	CallbackContext.lpContext = lpContext;
 	CallbackContext.lpCallback = lpEnumSurfacesCallback7;
 	CallbackContext.DirectXVersion = DirectXVersion;
-	LPDDENUMSURFACESCALLBACK7 lpCallback7 = m_IDirectDrawEnumSurface::ConvertCallback2;
 
-	return ProxyInterface->EnumAttachedSurfaces(&CallbackContext, lpCallback7);
+	return ProxyInterface->EnumAttachedSurfaces(&CallbackContext, EnumSurface::ConvertCallback);
 }
 
 HRESULT m_IDirectDrawSurfaceX::EnumOverlayZOrders(DWORD dwFlags, LPVOID lpContext, LPDDENUMSURFACESCALLBACK lpfnCallback)
@@ -153,13 +185,29 @@ HRESULT m_IDirectDrawSurfaceX::EnumOverlayZOrders(DWORD dwFlags, LPVOID lpContex
 		return E_INVALIDARG;
 	}
 
-	ENUMSURFACE CallbackContext;
+	struct EnumSurface
+	{
+		LPVOID lpContext;
+		LPDDENUMSURFACESCALLBACK lpCallback;
+		DWORD DirectXVersion;
+
+		static HRESULT CALLBACK ConvertCallback(LPDIRECTDRAWSURFACE lpDDSurface, LPDDSURFACEDESC lpDDSurfaceDesc, LPVOID lpContext)
+		{
+			EnumSurface *self = (EnumSurface*)lpContext;
+
+			if (lpDDSurface)
+			{
+				lpDDSurface = (LPDIRECTDRAWSURFACE)ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(lpDDSurface, self->DirectXVersion);
+			}
+
+			return self->lpCallback(lpDDSurface, lpDDSurfaceDesc, self->lpContext);
+		}
+	} CallbackContext;
 	CallbackContext.lpContext = lpContext;
 	CallbackContext.lpCallback = lpfnCallback;
 	CallbackContext.DirectXVersion = DirectXVersion;
-	LPDDENUMSURFACESCALLBACK lpCallback = m_IDirectDrawEnumSurface::ConvertCallback;
 
-	return GetProxyInterfaceV1()->EnumOverlayZOrders(dwFlags, &CallbackContext, lpCallback);
+	return GetProxyInterfaceV1()->EnumOverlayZOrders(dwFlags, &CallbackContext, EnumSurface::ConvertCallback);
 }
 
 HRESULT m_IDirectDrawSurfaceX::EnumOverlayZOrders2(DWORD dwFlags, LPVOID lpContext, LPDDENUMSURFACESCALLBACK7 lpfnCallback7)
@@ -169,13 +217,29 @@ HRESULT m_IDirectDrawSurfaceX::EnumOverlayZOrders2(DWORD dwFlags, LPVOID lpConte
 		return E_INVALIDARG;
 	}
 
-	ENUMSURFACE2 CallbackContext;
+	struct EnumSurface
+	{
+		LPVOID lpContext;
+		LPDDENUMSURFACESCALLBACK7 lpCallback;
+		DWORD DirectXVersion;
+
+		static HRESULT CALLBACK ConvertCallback(LPDIRECTDRAWSURFACE7 lpDDSurface, LPDDSURFACEDESC2 lpDDSurfaceDesc2, LPVOID lpContext)
+		{
+			EnumSurface *self = (EnumSurface*)lpContext;
+
+			if (lpDDSurface)
+			{
+				lpDDSurface = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(lpDDSurface, self->DirectXVersion);
+			}
+
+			return self->lpCallback(lpDDSurface, lpDDSurfaceDesc2, self->lpContext);
+		}
+	} CallbackContext;
 	CallbackContext.lpContext = lpContext;
 	CallbackContext.lpCallback = lpfnCallback7;
 	CallbackContext.DirectXVersion = DirectXVersion;
-	LPDDENUMSURFACESCALLBACK7 lpCallback7 = m_IDirectDrawEnumSurface::ConvertCallback2;
 
-	return ProxyInterface->EnumOverlayZOrders(dwFlags, &CallbackContext, lpCallback7);
+	return ProxyInterface->EnumOverlayZOrders(dwFlags, &CallbackContext, EnumSurface::ConvertCallback);
 }
 
 HRESULT m_IDirectDrawSurfaceX::Flip(LPDIRECTDRAWSURFACE7 lpDDSurfaceTargetOverride, DWORD dwFlags)

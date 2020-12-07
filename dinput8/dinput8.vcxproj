@@ -70,8 +70,6 @@
     <ClCompile Include="IDirectInputDevice8W.cpp" />
     <ClCompile Include="IDirectInputEffect.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="IDirectInputEnumDevice.cpp" />
-    <ClCompile Include="IDirectInputEnumEffect.cpp" />
     <ClCompile Include="InterfaceQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -86,8 +84,6 @@
     <ClInclude Include="IDirectInputDevice8A.h" />
     <ClInclude Include="IDirectInputDevice8W.h" />
     <ClInclude Include="IDirectInputEffect.h" />
-    <ClInclude Include="IDirectInputEnumDevice.h" />
-    <ClInclude Include="IDirectInputEnumEffect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

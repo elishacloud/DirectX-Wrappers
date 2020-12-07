@@ -115,8 +115,6 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 #include "Versions\IDirectDrawSurface3.h"
 #include "Versions\IDirectDrawSurface4.h"
 #include "Versions\IDirectDrawSurface7.h"
-// DirectDraw Helpers
-#include "IDirectDrawEnumCallback.h"
 // DirectDraw Interfaces
 #include "IDirectDrawX.h"
 #include "IDirectDrawClipper.h"

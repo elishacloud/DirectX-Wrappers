@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="IDirectInputEffect.cpp" />
-    <ClCompile Include="IDirectInputEnumEffect.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="InterfaceQuery.cpp" />
     <ClCompile Include="Versions\IDirectInput2A.cpp">
@@ -49,7 +48,6 @@
     <ClInclude Include="AddressLookupTable.h" />
     <ClInclude Include="dinput.h" />
     <ClInclude Include="IDirectInputEffect.h" />
-    <ClInclude Include="IDirectInputEnumEffect.h" />
     <ClInclude Include="Versions\IDirectInput2A.h">
       <Filter>Versions</Filter>
     </ClInclude>
