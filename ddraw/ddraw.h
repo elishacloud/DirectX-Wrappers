@@ -123,5 +123,3 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 #include "IDirectDrawGammaControl.h"
 #include "IDirectDrawPalette.h"
 #include "IDirectDrawSurfaceX.h"
-// COM Interfaces
-#include "IClassFactory.h"

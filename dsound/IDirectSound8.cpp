@@ -61,7 +61,7 @@ HRESULT m_IDirectSound8::CreateSoundBuffer(LPCDSBUFFERDESC pcDSBufferDesc, LPDIR
 
 	if (SUCCEEDED(hr) && ppDSBuffer)
 	{
-		*ppDSBuffer = ProxyAddressLookupTable.FindAddress<m_IDirectSoundBuffer8>(*ppDSBuffer);
+		*ppDSBuffer = new m_IDirectSoundBuffer8((IDirectSoundBuffer8*)*ppDSBuffer);
 	}
 
 	return hr;
@@ -83,7 +83,7 @@ HRESULT m_IDirectSound8::DuplicateSoundBuffer(LPDIRECTSOUNDBUFFER pDSBufferOrigi
 
 	if (SUCCEEDED(hr) && ppDSBufferDuplicate)
 	{
-		*ppDSBufferDuplicate = ProxyAddressLookupTable.FindAddress<m_IDirectSoundBuffer8>(*ppDSBufferDuplicate);
+		*ppDSBufferDuplicate = new m_IDirectSoundBuffer8((IDirectSoundBuffer8*)*ppDSBufferDuplicate);
 	}
 
 	return hr;

@@ -61,7 +61,7 @@ HRESULT m_IDirectSoundCapture8::CreateCaptureBuffer(LPCDSCBUFFERDESC pcDSCBuffer
 
 	if (SUCCEEDED(hr) && ppDSCBuffer)
 	{
-		*ppDSCBuffer = ProxyAddressLookupTable.FindAddress<m_IDirectSoundCaptureBuffer8>(*ppDSCBuffer);
+		*ppDSCBuffer = new m_IDirectSoundCaptureBuffer8((IDirectSoundCaptureBuffer8*)*ppDSCBuffer);
 	}
 
 	return hr;

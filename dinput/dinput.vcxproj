@@ -63,7 +63,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="IClassFactory.cpp" />
     <ClCompile Include="IDirectInputDeviceX.cpp" />
     <ClCompile Include="IDirectInputEffect.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -88,7 +87,6 @@
   <ItemGroup>
     <ClInclude Include="AddressLookupTable.h" />
     <ClInclude Include="dinput.h" />
-    <ClInclude Include="IClassFactory.h" />
     <ClInclude Include="IDirectInputDeviceX.h" />
     <ClInclude Include="IDirectInputEffect.h" />
     <ClInclude Include="IDirectInputX.h" />

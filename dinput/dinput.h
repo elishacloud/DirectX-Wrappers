@@ -53,4 +53,3 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 #include "IDirectInputEffect.h"
 #include "IDirectInputX.h"
 #include "IDirectInputDeviceX.h"
-#include "IClassFactory.h"

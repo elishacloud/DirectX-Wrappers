@@ -67,7 +67,6 @@
     <ClCompile Include="IDirectSound3DBuffer8.cpp" />
     <ClCompile Include="IDirectSound3DListener8.cpp" />
     <ClCompile Include="IDirectSoundBuffer8.cpp" />
-    <ClCompile Include="IClassFactory.cpp" />
     <ClCompile Include="IDirectSound8.cpp" />
     <ClCompile Include="IDirectSoundCapture8.cpp" />
     <ClCompile Include="IDirectSoundCaptureBuffer8.cpp" />
@@ -96,7 +95,6 @@
     <ClInclude Include="IDirectSound3DBuffer8.h" />
     <ClInclude Include="IDirectSound3DListener8.h" />
     <ClInclude Include="IDirectSoundBuffer8.h" />
-    <ClInclude Include="IClassFactory.h" />
     <ClInclude Include="IDirectSound8.h" />
     <ClInclude Include="IDirectSoundCapture8.h" />
     <ClInclude Include="IDirectSoundCaptureBuffer8.h" />

@@ -105,5 +105,4 @@ void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 	QUERYINTERFACE(IDirectDrawSurface7);
 
 	CREATEINTERFACE(IDirectDrawFactory);
-	CREATEINTERFACE(IClassFactory);
 }

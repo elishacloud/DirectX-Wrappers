@@ -57,7 +57,7 @@ HRESULT m_IDirectDrawX::CreateClipper(DWORD dwFlags, LPDIRECTDRAWCLIPPER FAR * l
 
 	if (SUCCEEDED(hr) && lplpDDClipper)
 	{
-		*lplpDDClipper = ProxyAddressLookupTable.FindAddress<m_IDirectDrawClipper>(*lplpDDClipper);
+		*lplpDDClipper = new m_IDirectDrawClipper(*lplpDDClipper);
 	}
 
 	return hr;
@@ -69,7 +69,7 @@ HRESULT m_IDirectDrawX::CreatePalette(DWORD dwFlags, LPPALETTEENTRY lpDDColorArr
 
 	if (SUCCEEDED(hr) && lplpDDPalette)
 	{
-		*lplpDDPalette = ProxyAddressLookupTable.FindAddress<m_IDirectDrawPalette>(*lplpDDPalette);
+		*lplpDDPalette = new m_IDirectDrawPalette(*lplpDDPalette);
 	}
 
 	return hr;

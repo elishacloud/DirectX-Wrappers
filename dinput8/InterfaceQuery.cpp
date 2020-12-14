@@ -29,17 +29,9 @@ void genericQueryInterface(REFIID riid, LPVOID * ppvObj)
 			*ppvObj = ProxyAddressLookupTable.FindAddress<m_ ## x>(*ppvObj); \
 		}
 
-#define CREATEINTERFACE(x) \
-	if (riid == IID_ ## x) \
-		{ \
-			*ppvObj = new m_ ## x((x*)*ppvObj); \
-		}
-
 	QUERYINTERFACE(IDirectInput8A);
 	QUERYINTERFACE(IDirectInput8W);
 	QUERYINTERFACE(IDirectInputDevice8A);
 	QUERYINTERFACE(IDirectInputDevice8W);
 	QUERYINTERFACE(IDirectInputEffect);
-
-	CREATEINTERFACE(IClassFactory);
 }

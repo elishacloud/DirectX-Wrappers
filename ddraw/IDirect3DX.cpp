@@ -84,7 +84,7 @@ HRESULT m_IDirect3DX::CreateLight(LPDIRECT3DLIGHT * lplpDirect3DLight, LPUNKNOWN
 
 	if (SUCCEEDED(hr) && lplpDirect3DLight)
 	{
-		*lplpDirect3DLight = ProxyAddressLookupTable.FindAddress<m_IDirect3DLight>(*lplpDirect3DLight);
+		*lplpDirect3DLight = new m_IDirect3DLight(*lplpDirect3DLight);
 	}
 
 	return hr;

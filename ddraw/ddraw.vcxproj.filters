@@ -102,7 +102,6 @@
     <ClCompile Include="Versions\IDirectDrawSurface7.cpp">
       <Filter>Versions</Filter>
     </ClCompile>
-    <ClCompile Include="IClassFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddressLookupTable.h" />
@@ -206,7 +205,6 @@
     <ClInclude Include="Versions\IDirectDrawSurface7.h">
       <Filter>Versions</Filter>
     </ClInclude>
-    <ClInclude Include="IClassFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ddraw.def" />

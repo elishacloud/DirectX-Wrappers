@@ -168,7 +168,7 @@ HRESULT WINAPI DirectDrawCreate(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnk
 
 	if (SUCCEEDED(hr) && lplpDD)
 	{
-		*lplpDD = ProxyAddressLookupTable.FindAddress<m_IDirectDraw>(*lplpDD);
+		*lplpDD = new m_IDirectDraw(*lplpDD);
 	}
 
 	return hr;
@@ -185,7 +185,7 @@ HRESULT WINAPI DirectDrawCreateClipper(DWORD dwFlags, LPDIRECTDRAWCLIPPER *lplpD
 
 	if (SUCCEEDED(hr) && lplpDDClipper)
 	{
-		*lplpDDClipper = ProxyAddressLookupTable.FindAddress<m_IDirectDrawClipper>(*lplpDDClipper);
+		*lplpDDClipper = new m_IDirectDrawClipper(*lplpDDClipper);
 	}
 
 	return hr;
@@ -200,7 +200,7 @@ HRESULT WINAPI DirectDrawCreateEx(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID riid,
 
 	HRESULT hr = m_pDirectDrawCreateEx(lpGUID, lplpDD, riid, pUnkOuter);
 
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(hr) && lplpDD)
 	{
 		genericQueryInterface(riid, lplpDD);
 	}

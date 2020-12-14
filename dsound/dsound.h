@@ -62,4 +62,3 @@ extern AddressLookupTable<void> ProxyAddressLookupTable;
 #include "IDirectSoundFXWavesReverb8.h"
 #include "IDirectSoundNotify8.h"
 #include "IKsPropertySet.h"
-#include "IClassFactory.h"
