@@ -16,6 +16,8 @@
 
 #include "ddraw.h"
 
+#define D3DERR_COMMAND_UNPARSED              MAKE_DDHRESULT(3000)
+
 std::ofstream Log::LOG("ddraw.log");
 AddressLookupTable<void> ProxyAddressLookupTable = AddressLookupTable<void>();
 
@@ -87,74 +89,74 @@ bool _stdcall DllMain(HANDLE, DWORD dwReason, LPVOID)
 	return true;
 }
 
-void WINAPI AcquireDDThreadLock()
+HRESULT WINAPI AcquireDDThreadLock()
 {
 	if (!m_pAcquireDDThreadLock)
 	{
-		return;
+		return DDERR_UNSUPPORTED;
 	}
 
 	return m_pAcquireDDThreadLock();
 }
 
-void WINAPI CompleteCreateSysmemSurface()
+DWORD WINAPI CompleteCreateSysmemSurface(DWORD arg)
 {
 	if (!m_pCompleteCreateSysmemSurface)
 	{
-		return;
+		return NULL;
 	}
 
-	return m_pCompleteCreateSysmemSurface();
+	return m_pCompleteCreateSysmemSurface(arg);
 }
 
 HRESULT WINAPI D3DParseUnknownCommand(LPVOID lpCmd, LPVOID *lpRetCmd)
 {
 	if (!m_pD3DParseUnknownCommand)
 	{
-		return E_FAIL;
+		return D3DERR_COMMAND_UNPARSED;
 	}
 
 	return m_pD3DParseUnknownCommand(lpCmd, lpRetCmd);
 }
 
-void WINAPI DDGetAttachedSurfaceLcl()
+HRESULT WINAPI DDGetAttachedSurfaceLcl(DWORD arg1, DWORD arg2, DWORD arg3)
 {
 	if (!m_pDDGetAttachedSurfaceLcl)
 	{
-		return;
+		return DDERR_UNSUPPORTED;
 	}
 
-	return m_pDDGetAttachedSurfaceLcl();
+	return m_pDDGetAttachedSurfaceLcl(arg1, arg2, arg3);
 }
 
-void WINAPI DDInternalLock()
+DWORD WINAPI DDInternalLock(DWORD arg1, DWORD arg2)
 {
 	if (!m_pDDInternalLock)
 	{
-		return;
+		return 0xFFFFFFFF;
 	}
 
-	return m_pDDInternalLock();
+	return m_pDDInternalLock(arg1, arg2);
 }
 
-void WINAPI DDInternalUnlock()
+DWORD WINAPI DDInternalUnlock(DWORD arg)
 {
 	if (!m_pDDInternalUnlock)
 	{
-		return;
+		return 0xFFFFFFFF;
 	}
 
-	return m_pDDInternalUnlock();
+	return m_pDDInternalUnlock(arg);
 }
 
-void WINAPI DSoundHelp()
+HRESULT WINAPI DSoundHelp(DWORD arg1, DWORD arg2, DWORD arg3)
 {
 	if (!m_pDSoundHelp)
 	{
-		return;
+		return DDERR_UNSUPPORTED;
 	}
 
-	return m_pDSoundHelp();
+	return m_pDSoundHelp(arg1, arg2, arg3);
 }
 
 HRESULT WINAPI DirectDrawCreate(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnknown FAR *pUnkOuter)
@@ -275,58 +277,51 @@ HRESULT WINAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID *ppv)
 	return hr;
 }
 
-void WINAPI GetDDSurfaceLocal()
+HRESULT WINAPI GetDDSurfaceLocal(DWORD arg1, DWORD arg2, DWORD arg3)
 {
 	if (!m_pGetDDSurfaceLocal)
 	{
-		return;
+		return DDERR_UNSUPPORTED;
 	}
 
-	return m_pGetDDSurfaceLocal();
+	return m_pGetDDSurfaceLocal(arg1, arg2, arg3);
 }
 
-HANDLE WINAPI GetOLEThunkData(int i1)
+DWORD WINAPI GetOLEThunkData(DWORD index)
 {
 	if (!m_pGetOLEThunkData)
 	{
-		return nullptr;
+		return NULL;
 	}
 
-	return m_pGetOLEThunkData(i1);
+	return m_pGetOLEThunkData(index);
 }
 
-extern "C" HRESULT WINAPI GetSurfaceFromDC(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS)
+extern "C" HRESULT WINAPI GetSurfaceFromDC(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS, DWORD arg)
 {
 	if (!m_pGetSurfaceFromDC)
 	{
-		return E_FAIL;
+		return DDERR_UNSUPPORTED;
 	}
 
-	HRESULT hr = m_pGetSurfaceFromDC(hdc, lpDDS);
-
-	if (SUCCEEDED(hr) && lpDDS)
-	{
-		*lpDDS = ProxyAddressLookupTable.FindAddress<m_IDirectDrawSurface7>(*lpDDS);
-	}
-
-	return hr;
+	return m_pGetSurfaceFromDC(hdc, lpDDS, arg);
 }
 
-void WINAPI RegisterSpecialCase()
+HRESULT WINAPI RegisterSpecialCase(DWORD arg1, DWORD arg2, DWORD arg3, DWORD arg4)
 {
 	if (!m_pRegisterSpecialCase)
 	{
-		return;
+		return DDERR_UNSUPPORTED;
 	}
 
-	return m_pRegisterSpecialCase();
+	return m_pRegisterSpecialCase(arg1, arg2, arg3, arg4);
 }
 
-void WINAPI ReleaseDDThreadLock()
+HRESULT WINAPI ReleaseDDThreadLock()
 {
 	if (!m_pReleaseDDThreadLock)
 	{
-		return;
+		return DDERR_UNSUPPORTED;
 	}
 
 	return m_pReleaseDDThreadLock();

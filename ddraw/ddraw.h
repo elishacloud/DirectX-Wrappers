@@ -48,13 +48,13 @@ class m_IDirectDrawSurfaceX;
 
 #define DDWRAPPER_TYPEX 0x80
 
-typedef void(WINAPI *AcquireDDThreadLockProc)();
-typedef void(WINAPI *CompleteCreateSysmemSurfaceProc)();
+typedef HRESULT(WINAPI *AcquireDDThreadLockProc)();
+typedef DWORD(WINAPI *CompleteCreateSysmemSurfaceProc)(DWORD);
 typedef HRESULT(WINAPI *D3DParseUnknownCommandProc)(LPVOID lpCmd, LPVOID *lpRetCmd);
-typedef void(WINAPI *DDGetAttachedSurfaceLclProc)();
-typedef void(WINAPI *DDInternalLockProc)();
-typedef void(WINAPI *DDInternalUnlockProc)();
-typedef void(WINAPI *DSoundHelpProc)();
+typedef HRESULT(WINAPI *DDGetAttachedSurfaceLclProc)(DWORD, DWORD, DWORD);
+typedef DWORD(WINAPI *DDInternalLockProc)(DWORD, DWORD);
+typedef DWORD(WINAPI *DDInternalUnlockProc)(DWORD);
+typedef HRESULT(WINAPI *DSoundHelpProc)(DWORD, DWORD, DWORD);
 typedef HRESULT(WINAPI *DirectDrawCreateProc)(GUID FAR *lpGUID, LPDIRECTDRAW FAR *lplpDD, IUnknown FAR *pUnkOuter);
 typedef HRESULT(WINAPI *DirectDrawCreateClipperProc)(DWORD dwFlags, LPDIRECTDRAWCLIPPER *lplpDDClipper, LPUNKNOWN pUnkOuter);
 typedef HRESULT(WINAPI *DirectDrawEnumerateAProc)(LPDDENUMCALLBACKA lpCallback, LPVOID lpContext);
@@ -64,12 +64,12 @@ typedef HRESULT(WINAPI *DirectDrawEnumerateWProc)(LPDDENUMCALLBACKW lpCallback, 
 typedef HRESULT(WINAPI *DirectDrawCreateExProc)(GUID FAR *lpGUID, LPVOID *lplpDD, REFIID riid, IUnknown FAR *pUnkOuter);
 typedef HRESULT(WINAPI *DllCanUnloadNowProc)();
 typedef HRESULT(WINAPI *DllGetClassObjectProc)(REFCLSID rclsid, REFIID riid, LPVOID *ppv);
-typedef void(WINAPI *GetDDSurfaceLocalProc)();
-typedef HANDLE(WINAPI *GetOLEThunkDataProc)(int i1);
-typedef HRESULT(WINAPI *GetSurfaceFromDCProc)(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS);
-typedef void(WINAPI *RegisterSpecialCaseProc)();
-typedef void(WINAPI *ReleaseDDThreadLockProc)();
-typedef HRESULT(WINAPI *SetAppCompatDataProc)(DWORD, DWORD);
+typedef HRESULT(WINAPI *GetDDSurfaceLocalProc)(DWORD, DWORD, DWORD);
+typedef DWORD(WINAPI *GetOLEThunkDataProc)(DWORD index);
+typedef HRESULT(WINAPI *GetSurfaceFromDCProc)(HDC hdc, LPDIRECTDRAWSURFACE7 *lpDDS, DWORD);
+typedef HRESULT(WINAPI *RegisterSpecialCaseProc)(DWORD, DWORD, DWORD, DWORD);
+typedef HRESULT(WINAPI *ReleaseDDThreadLockProc)();
+typedef HRESULT(WINAPI *SetAppCompatDataProc)(DWORD Type, DWORD Value);
 
 DWORD GetIIDVersion(REFIID CalledID);
 HRESULT ProxyQueryInterface(LPVOID ProxyInterface, REFIID CalledID, LPVOID * ppvObj, REFIID CallerID, LPVOID WrapperInterface);
