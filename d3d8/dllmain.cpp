@@ -54,14 +54,14 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 	return true;
 }
 
-void WINAPI Direct3D8EnableMaximizedWindowedModeShim()
+int WINAPI Direct3D8EnableMaximizedWindowedModeShim(BOOL mEnable)
 {
 	if (!m_pDirect3D8EnableMaximizedWindowedModeShim)
 	{
-		return;
+		return E_FAIL;
 	}
 
-	return m_pDirect3D8EnableMaximizedWindowedModeShim();
+	return m_pDirect3D8EnableMaximizedWindowedModeShim(mEnable);
 }
 
 HRESULT WINAPI ValidatePixelShader(DWORD* pixelshader, DWORD* reserved1, BOOL flag, DWORD* toto)

@@ -18,7 +18,7 @@ class m_IDirect3DVolumeTexture8;
 #include "AddressLookupTable.h"
 #include "..\Common\Logging.h"
 
-typedef void(WINAPI *Direct3D8EnableMaximizedWindowedModeShimProc)();
+typedef int(WINAPI *Direct3D8EnableMaximizedWindowedModeShimProc)(BOOL);
 typedef HRESULT(WINAPI *ValidatePixelShaderProc)(DWORD*, DWORD*, BOOL, DWORD*);
 typedef HRESULT(WINAPI *ValidateVertexShaderProc)(DWORD*, DWORD*, DWORD*, BOOL, DWORD*);
 typedef void(WINAPI *DebugSetMuteProc)();
